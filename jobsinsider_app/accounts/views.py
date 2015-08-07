@@ -8,8 +8,14 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 from forms import UserForm, UserProfileForm, LoginForm, ForgotPassword
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMultiAlternatives
 
+
+STATUS_SUCCESS = 'Your account has been created successfully'
+STATUS_EXIST = 'Account with that email address already exists.'
+STATUS_WRONG = 'Invalid Username or Password'
+STATUS_SENT = 'Please check your email address and follow the instructions on it.'
+STATUS_NONE = 'Invalid Username or Password'
 
 def index(request):
     """
@@ -31,7 +37,10 @@ def register(request):
             result = User.objects.filter(email=request.POST['email']).exists()
             print result
             if result is True:
-                error = "Account with that email address already exists"
+                error = {'status': STATUS_EXIST}
+                return HttpResponse(json.dumps(error),
+                                    content_type="application/json")
+
             else:
                 user = user_form.save(commit=False)
                 user.set_password(request.POST['password'])
@@ -40,6 +49,10 @@ def register(request):
                 profile.user = user
                 profile.save()
                 registered = True
+
+                status = {'status': STATUS_SUCCESS}
+                return HttpResponse(json.dumps(status),
+                                    content_type="application/json")
 
     else:
         user_form = UserForm()
@@ -62,7 +75,11 @@ def login(request):
         password = request.POST['password']
 
         user = authenticate(username=username, password=password)
-        print user
+        if user is None:
+            return HttpResponse(
+                json.dumps({'status':STATUS_NONE}),
+                content_type="application/json"
+            )
         if user:
             if user.is_active:
                 return HttpResponseRedirect('http://google.com')
@@ -82,8 +99,13 @@ def forgot_password(request):
         print getuser
         if getuser is True:
             token = (''.join(random.choice(string.ascii_uppercase) for i in range(60)))
-            send_mail('Subject here', 'Here is the message.{0}'.format(token), 'waqar@techpointmedia.com',
-             ['azhar@d4int.com'], fail_silently=False)
+
+
+            try:
+                send_mail('For', 'Here is the message.{0}'.format(token), 'waqar@techpointmedia.com',
+                ['azhar@d4int.com'], fail_silently=False) # Later on i will be convertnig this for html template.
+            except:
+                pass
 
         else:
             error = {'status': 'User email not found'}
@@ -93,3 +115,13 @@ def forgot_password(request):
     else:
         forgot = ForgotPassword()
         return render(request, 'forgot_password.html', {'forgotpassword': forgot})
+
+
+def set_token_forgot(tokenvalue, uservalue):
+
+    """
+
+    :param tokenvalue:
+    :param uservalue:
+    :return:
+    """

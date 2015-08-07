@@ -140,7 +140,7 @@ STATIC_URL = '/assets/'
 
 # Email Configuration
 
-EMAIL_HOST = 'smtp.critsend.com"'
+EMAIL_HOST = 'smtp.critsend.com'
 EMAIL_HOST_USER = 'waqar@techpointmedia.com'
 EMAIL_HOST_PASSWORD = 'nC5pDMz6cC8W2'
 EMAIL_PORT = 587

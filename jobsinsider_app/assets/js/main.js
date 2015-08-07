@@ -1,29 +1,25 @@
 $(document).ready(function()
 {
+
+        $('#login_user').on('submit', function()
+        {
+            event.preventDefault();
+            login_account();
+            return false;
+        });
+
         $('#forgot_form').on('submit', function()
         {
             event.preventDefault();
             forgot_password();
             return false;
         });
-});
 
-function forgot_password()
-{
-    $.ajax(
+         $('#register_form').on('submit', function()
         {
-            url : "/accounts/forgot/", // the endpoint
-            type : "POST", // http method
-            data: $('#forgot_form').serialize(),
-            success: function(json)
-            {
-                console.log(GetObjectKeyIndex(json, 'status'));
-            },
-            error: function(json)
-            {
-                console.log(GetObjectKeyIndex(json, 'status'));
-            }
+            event.preventDefault();
+            register_account();
+            return false;
+        });
 
-        }
-    );
-}
+});

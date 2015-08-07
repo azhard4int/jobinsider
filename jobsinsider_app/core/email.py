@@ -3,27 +3,13 @@ from django.core.mail import send_mail, EmailMultiAlternatives
 from django.template.loader import get_template
 from django.template import Context
 
-class Templates:
+class EmailFunc():
 
-    def email_activation(self):
-        """
+    def __init__(self, template, **kwargs):
+        '''
 
-        """
-
-
-
-    def forgot_password(self, username):
-        """
-        :param username:
-
+        :param template:
+        :param kwargs:
         :return:
-        """
-
-    def welcome_email(self, username, password):
-        """
-
-        :param username:
-        :param password:
-        :return:
-        """
+        '''
 
