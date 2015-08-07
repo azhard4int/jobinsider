@@ -1,0 +1,23 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>{% block title %} {% endblock %}</title>
+    {% block style_block %}
+        <link rel="stylesheet" href="{% static "/assets/css/main.css" %}"/>
+    {% endblock %}
+
+</head>
+<body>
+
+{% block body_content %} {% endblock %}
+
+{% block scripts_block %}
+    <script src='{% static "/assets/js/jquery-1.11.3.min.js" %}'></script>
+    <script src='{% static "/assets/js/main.js" %}'></script>
+{% endblock %}
+</body>
+
+</html>
