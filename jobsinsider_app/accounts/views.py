@@ -82,7 +82,8 @@ def forgot_password(request):
         print getuser
         if getuser is True:
             token = (''.join(random.choice(string.ascii_uppercase) for i in range(60)))
-
+            send_mail('Subject here', 'Here is the message.{0}'.format(token), 'waqar@techpointmedia.com',
+             ['azhar@d4int.com'], fail_silently=False)
 
         else:
             error = {'status': 'User email not found'}
