@@ -1,12 +1,15 @@
 import smtplib
+import random
+import string
+import json
 
 from django.shortcuts import render, HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 from forms import UserForm, UserProfileForm, LoginForm, ForgotPassword
+from django.core.mail import send_mail
 
-# Create your views here.
 
 def index(request):
     """
@@ -77,6 +80,15 @@ def forgot_password(request):
         userdetail = request.POST['email']
         getuser = User.objects.filter(email=userdetail).exists()
         print getuser
+        if getuser is True:
+            token = (''.join(random.choice(string.ascii_uppercase) for i in range(60)))
+
+
+        else:
+            error = {'status': 'User email not found'}
+            return HttpResponse(
+                json.dumps(error),
+                content_type="application/json")
     else:
         forgot = ForgotPassword()
         return render(request, 'forgot_password.html', {'forgotpassword': forgot})
