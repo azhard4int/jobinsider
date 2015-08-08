@@ -1,14 +1,17 @@
-import smtplib
+from __future__ import absolute_import
 import random
 import string
 import json
+
 
 from django.shortcuts import render, HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
-from forms import UserForm, UserProfileForm, LoginForm, ForgotPassword
+from .forms import UserForm, UserProfileForm, LoginForm, ForgotPassword
 from django.core.mail import send_mail, EmailMultiAlternatives
+from core import email
+
 
 
 STATUS_SUCCESS = 'Your account has been created successfully'
@@ -34,12 +37,14 @@ def register(request):
         userprofile_form = UserProfileForm(data=request.POST)
 
         if user_form.is_valid() and userprofile_form.is_valid():
+            print 'inside'
             result = User.objects.filter(email=request.POST['email']).exists()
-            print result
             if result is True:
                 error = {'status': STATUS_EXIST}
-                return HttpResponse(json.dumps(error),
-                                    content_type="application/json")
+
+                return HttpResponse(
+                    json.dumps(error),
+                    content_type="application/json")
 
             else:
                 user = user_form.save(commit=False)
@@ -50,9 +55,17 @@ def register(request):
                 profile.save()
                 registered = True
 
+                listvalue = {
+                    'tosend': request.POST['email'],
+                    'username': request.POST['username'],
+                }
+
+                sendemail_ = email.EmailFunc('activateaccount', **listvalue)
+                sendemail_.generic_email()
                 status = {'status': STATUS_SUCCESS}
-                return HttpResponse(json.dumps(status),
-                                    content_type="application/json")
+                return HttpResponse(
+                    json.dumps(status),
+                    content_type="application/json")
 
     else:
         user_form = UserForm()
@@ -98,12 +111,15 @@ def forgot_password(request):
         getuser = User.objects.filter(email=userdetail).exists()
         print getuser
         if getuser is True:
-            token = (''.join(random.choice(string.ascii_uppercase) for i in range(60)))
-
-
+            token = token_gen()
             try:
-                send_mail('For', 'Here is the message.{0}'.format(token), 'waqar@techpointmedia.com',
-                ['azhar@d4int.com'], fail_silently=False) # Later on i will be convertnig this for html template.
+                listvalue = {
+                    'tosend': request.POST['email'],
+                    'username': request.POST['username'],
+                    'token': token
+                }
+                sendemail_ = email.EmailFunc('forgotpassword', **listvalue)
+                sendemail_.generic_email()
             except:
                 pass
 
@@ -116,6 +132,9 @@ def forgot_password(request):
         forgot = ForgotPassword()
         return render(request, 'forgot_password.html', {'forgotpassword': forgot})
 
+
+def token_gen():
+    return (''.join(random.choice(string.ascii_uppercase) for i in range(60)))
 
 def set_token_forgot(tokenvalue, uservalue):
 

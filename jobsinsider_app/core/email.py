@@ -26,6 +26,10 @@ class EmailFunc():
             self.username = kwargs['username']
         if 'first_name' in kwargs:
             self.first_name = kwargs['first_name']
+        if 'token' in kwargs:
+            self.token = kwargs['token']
+        else:
+            self.token = None
 
     def generic_email(self):
         """
@@ -39,6 +43,8 @@ class EmailFunc():
             c = Context({'username': self.username})
         elif self.first_name is not None:
             c = Context({'first_name': self.first_name})
+        elif self.token is not None:
+            c = Context({'token': self.token})
 
         text_content = plaintext.render(c)
         html_content = htmlonly.render(c)
@@ -46,11 +52,11 @@ class EmailFunc():
 
         if str(self.template).__contains__('forgotpassword'):
 
-            subject = self.subject['forgot_password']
+            subject = self.username + ", " + self.subject['forgot_password']
 
         elif str(self.template).__contains__('activateaccount'):
 
-            subject = self.subject['forgot_password']
+            subject = self.username + ", " + self.subject['activiation']
 
         elif str(self.template).__contains__('welcome'):
 
