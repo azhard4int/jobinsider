@@ -9,6 +9,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 from .forms import UserForm, UserProfileForm, LoginForm, ForgotPassword
+from .models import UserForgot
+from django.utils import timezone
 from django.core.mail import send_mail, EmailMultiAlternatives
 from core import email
 
@@ -17,7 +19,7 @@ from core import email
 STATUS_SUCCESS = 'Your account has been created successfully'
 STATUS_EXIST = 'Account with that email address already exists.'
 STATUS_WRONG = 'Invalid Username or Password'
-STATUS_SENT = 'Please check your email address and follow the instructions on it.'
+STATUS_SENT = 'Please check your email address to reset password and follow the instructions on it.'
 STATUS_NONE = 'Invalid Username or Password'
 
 def index(request):
@@ -109,20 +111,31 @@ def forgot_password(request):
     if request.method == 'POST':
         userdetail = request.POST['email']
         getuser = User.objects.filter(email=userdetail).exists()
-        print getuser
         if getuser is True:
+            username = User.objects.get(email=userdetail)
             token = token_gen()
-            try:
-                listvalue = {
-                    'tosend': request.POST['email'],
-                    'username': request.POST['username'],
-                    'token': token
-                }
-                sendemail_ = email.EmailFunc('forgotpassword', **listvalue)
-                sendemail_.generic_email()
-            except:
-                pass
+            userforgot = UserForgot(
+                token_key=token,
+                timestamp=timezone.now(),
+                token_status=0,
+                user_id=1 #int(username.id)
+            )
+            userforgot.save()
 
+            listvalue = {
+                'tosend': request.POST['email'],
+                'username': username,
+                'token': token
+                }
+
+            sendemail_ = email.EmailFunc('forgotpassword', **listvalue)
+            sendemail_.generic_email()
+            success = {'status': STATUS_SENT}
+
+            return HttpResponse(
+                json.dumps(success),
+                content_type="application/json"
+            )
         else:
             error = {'status': 'User email not found'}
             return HttpResponse(
