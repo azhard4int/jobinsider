@@ -41,14 +41,9 @@ class ForgotPassword(forms.ModelForm):
 
 
 class SetNewPassword(forms.ModelForm):
-    password = forms.PasswordInput(widget=forms.PasswordInput(attrs={
-        'placeholder': 'Password',
-        'required':'true'
-    }))
-    confirm_password = forms.PasswordInput(widget=forms.PasswordInput(attrs={
-        'placeholder': 'Confirm Password',
-        'required':'true'
-    }))
+    password = forms.PasswordInput()
+    email = forms.TextInput()
+
     class Meta:
         model = User
-        fields = {'password'}
+        fields = {'password', 'email'}

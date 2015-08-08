@@ -2,20 +2,21 @@ from __future__ import absolute_import
 import random
 import string
 import json
+from datetime import timedelta
 
 
 from django.shortcuts import render, HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
-from .forms import UserForm, UserProfileForm, LoginForm, ForgotPassword
-from .models import UserForgot
+from .forms import *
+from .models import *
 from django.utils import timezone
 from django.core.mail import send_mail, EmailMultiAlternatives
 from core import email
 
 
-
+BASE_URL = 'http://127.0.0.1:8000'
 STATUS_SUCCESS = 'Your account has been created successfully'
 STATUS_EXIST = 'Account with that email address already exists.'
 STATUS_WRONG = 'Invalid Username or Password'
@@ -85,6 +86,10 @@ def login(request):
     login = True
     error =None
 
+    if request.GET.get('error', ''):
+        if request.GET.get('error') == 1:
+            error = 'Your token time expired, please reset password once again.'
+
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
@@ -102,7 +107,7 @@ def login(request):
                 return HttpResponseRedirect('http://facebook.com')
     else:
         login_form = LoginForm()
-        return render(request, 'login_account.html', {'login_form':login_form})
+        return render(request, 'login_account.html', {'login_form':login_form, 'error': error})
 
 
 def forgot_password(request):
@@ -151,4 +156,37 @@ def token_gen():
     return (''.join(random.choice(string.ascii_uppercase) for i in range(60)))
 
 
-def set_new_password():
+def set_new_password(request):
+    tokenvalue = request.GET.get('pauthid', '')
+
+    #first level of check.
+    if tokenvalue is None or tokenvalue is '':
+        return HttpResponseRedirect(BASE_URL + '/accounts/login/')
+
+    # second level of check
+
+    if tokenvalue is not None:
+        usercheck = UserForgot.objects.filter(token_key=tokenvalue).prefetch_related('user')
+        timestamp_created = usercheck[0].timestamp
+        timestamp_now = timezone.now() - timedelta(minutes=-30)
+
+        # if the user token is valid proceed.
+        if usercheck is not None:
+
+            # 30 minutes timestamp chcecker.
+
+            if timestamp_created > timestamp_now:
+                print 'this is awesome'
+            else:
+                return HttpResponseRedirect(BASE_URL + '/accounts/login/?error=1')
+
+
+        if usercheck is True:
+            print 'inside usercheck'
+        else:
+            return HttpResponseRedirect(BASE_URL + '/accounts/login/')
+    if request.method == 'POST':
+        print 'awesome'
+    else:
+        setform = SetNewPassword()
+        return render(request, 'set_password.html', {'setpassword':setform})

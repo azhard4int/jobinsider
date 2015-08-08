@@ -27,7 +27,7 @@ class UserForgot(models.Model):
     token_status = models.BooleanField(default=0)
 
     def __unicode__(self):
-        return self.user
+        return unicode(self.user)
 
 class UserActivation(models.Model):
 
