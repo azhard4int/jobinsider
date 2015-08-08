@@ -104,6 +104,7 @@ def login(request):
         login_form = LoginForm()
         return render(request, 'login_account.html', {'login_form':login_form})
 
+
 def forgot_password(request):
     login = True
     error = None
@@ -149,11 +150,5 @@ def forgot_password(request):
 def token_gen():
     return (''.join(random.choice(string.ascii_uppercase) for i in range(60)))
 
-def set_token_forgot(tokenvalue, uservalue):
 
-    """
-
-    :param tokenvalue:
-    :param uservalue:
-    :return:
-    """
+def set_new_password():
