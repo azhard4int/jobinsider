@@ -40,7 +40,6 @@ def register(request):
         userprofile_form = UserProfileForm(data=request.POST)
 
         if user_form.is_valid() and userprofile_form.is_valid():
-            print 'inside'
             result = User.objects.filter(email=request.POST['email']).exists()
             if result is True:
                 error = {'status': STATUS_EXIST}
@@ -117,14 +116,19 @@ def forgot_password(request):
     if request.method == 'POST':
         userdetail = request.POST['email']
         getuser = User.objects.filter(email=userdetail).exists()
+        user_info = User.objects.filter(email=userdetail)
         if getuser is True:
+
+            userdata = token_check(user_id=user_info[0].id)
+            if userdata['usercheck'] is not None:
+                exist = UserForgot.objects.filter(user_id=userdata['usercheck'][0].user_id).delete()
             username = User.objects.get(email=userdetail)
             token = token_gen()
             userforgot = UserForgot(
                 token_key=token,
                 timestamp=timezone.now(),
                 token_status=0,
-                user_id=1 #int(username.id)
+                user_id=int(username.id)
             )
             userforgot.save()
 
@@ -159,34 +163,48 @@ def token_gen():
 def set_new_password(request):
     tokenvalue = request.GET.get('pauthid', '')
 
-    #first level of check.
-    if tokenvalue is None or tokenvalue is '':
+
+    if tokenvalue is None or tokenvalue is '':  # first level - Token None.
         return HttpResponseRedirect(BASE_URL + '/accounts/login/')
 
-    # second level of check
-
-    if tokenvalue is not None:
-        usercheck = UserForgot.objects.filter(token_key=tokenvalue).prefetch_related('user')
-        timestamp_created = usercheck[0].timestamp
-        timestamp_now = timezone.now() - timedelta(minutes=-30)
-
-        # if the user token is valid proceed.
-        if usercheck is not None:
-
-            # 30 minutes timestamp chcecker.
-
-            if timestamp_created > timestamp_now:
-                print 'this is awesome'
+    if tokenvalue is not None:  # second level Timestmap Checker
+        userdetails = token_check(tokenvalue)
+        print userdetails
+        if userdetails['usercheck'] is not None:   # if the user token is valid proceed.
+            if userdetails['timestamp_now'] > userdetails['timestamp_created']:   # 30 minutes timestamp.
+                """
+                """
             else:
                 return HttpResponseRedirect(BASE_URL + '/accounts/login/?error=1')
-
-
-        if usercheck is True:
-            print 'inside usercheck'
         else:
             return HttpResponseRedirect(BASE_URL + '/accounts/login/')
     if request.method == 'POST':
-        print 'awesome'
+        """
+        """
     else:
         setform = SetNewPassword()
         return render(request, 'set_password.html', {'setpassword':setform})
+
+
+
+def token_check(tokenvalue=None, user_id=None):     # bring the token.
+
+    if tokenvalue is not None:
+        usercheck = UserForgot.objects.filter(token_key=tokenvalue).prefetch_related('user')
+    elif user_id is not None:
+        usercheck = UserForgot.objects.filter(user_id=user_id).prefetch_related('user')
+    try:
+        timestamp_created = usercheck[0].timestamp
+        timestamp_now = timezone.now() - timedelta(minutes=-30)
+    except IndexError:
+        usercheck = None
+        timestamp_created = 0
+        timestamp_now = 0
+        pass
+    details ={
+        'usercheck': usercheck,
+        'timestamp_created': timestamp_created,
+        'timestamp_now': timestamp_now
+    }
+    return details
+
