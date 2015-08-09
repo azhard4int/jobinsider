@@ -11,6 +11,7 @@ class Categories(models.Model):
     )
     category_status = models.IntegerField(
         blank=True,
+        default=1   # set active by default
     )   # For Active/Inactive option from the backend panel
 
     def __unicode__(self):
@@ -23,7 +24,8 @@ class Skills(models.Model):
         max_length=255
     )
     skill_status = models.IntegerField(
-        blank=True
+        blank=True,
+        default=1   # set active by default
     )   # For active/inactive status from the backend
 
     def __unicode__(self):
