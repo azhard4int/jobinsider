@@ -46,4 +46,4 @@ class SetNewPassword(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = {'password', 'email'}
+        fields = {'email', 'password' }
