@@ -29,6 +29,9 @@ class UserProfileForm(forms.ModelForm):
         fields = {'user_status'}
 
 class LoginForm(forms.ModelForm):
+    username = forms.TextInput()
+    password = PasswordField(help_text='', label='')
+
     class Meta:
         model = User
         fields = {'username', 'password'}
@@ -41,7 +44,9 @@ class ForgotPassword(forms.ModelForm):
 
 
 class SetNewPassword(forms.ModelForm):
-    password = forms.PasswordInput()
+    password = PasswordField(widget=forms.PasswordInput(
+        attrs={'placeholder': 'Enter Your New Password'}
+    ))
     email = forms.TextInput()
 
     class Meta:

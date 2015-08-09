@@ -71,3 +71,25 @@ function register_account()
         }
     );
 }
+
+// Currently not using this funciton..
+
+function forgot_set()
+{
+    $.ajax(
+        {
+            url : "/accounts/forgot/newpassword", // the endpoint
+            type : "POST", // http method
+            data: $('#forgot_set').serialize(),
+            success: function(json)
+            {
+                console.log(json);
+            },
+            error: function(json)
+            {
+                console.log(json);
+            }
+
+        }
+    );
+}

@@ -22,4 +22,14 @@ $(document).ready(function()
             return false;
         });
 
+        //currently not using this function
+         $('#forgot_set').on('submit', function()
+        {
+            event.preventDefault();
+            forgot_set();
+            return false;
+        });
+
+
+
 });
