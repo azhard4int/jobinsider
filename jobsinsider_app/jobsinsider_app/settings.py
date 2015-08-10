@@ -46,7 +46,9 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'twitter_bootstrap',
     'accounts',
-    'core'
+    'core',
+    'users',
+    'private'
     )
 
 MIDDLEWARE_CLASSES = (

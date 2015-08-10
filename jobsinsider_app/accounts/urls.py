@@ -6,8 +6,9 @@ from views import *
 urlpatterns = patterns(
     url('', index),
     url(r'^register/$', register),
-    url(r'^login/$', login),
+    url(r'^login/$', login_view),
     url(r'^forgot/$', forgot_password),
     url(r'^forgot/newpassword$', set_new_password), # for setting up password on token
     url(r'^signup/verify-email/$', confirm_email),  # for verifying token
+    url(r'^logout/$', logout_view),  # for verifying token
     )

@@ -7,7 +7,8 @@ from datetime import timedelta
 
 from django.shortcuts import render, HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login as login_ses, logout
+
 from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 from .forms import *
 from .models import *
@@ -21,7 +22,7 @@ STATUS_SUCCESS = 'Your account has been created successfully'
 STATUS_EXIST = 'Account with that email address already exists.'
 STATUS_WRONG = 'Invalid Username or Password'
 STATUS_SENT = 'Please check your email address to reset password and follow the instructions on it.'
-STATUS_NONE = 'Invalid Username or Password'
+STATUS_NONE = 'There is no username exist with your entered username.'
 
 def index(request):
     """
@@ -92,7 +93,7 @@ def register(request):
         'error': error
     })
 
-def login(request):
+def login_view(request):
 
     login = True
     error =None
@@ -111,8 +112,15 @@ def login(request):
                 json.dumps({'status':STATUS_NONE}),
                 content_type="application/json"
             )
+
+        # if user:
+        #     if user.is_superuser:   # For administrator privilleged user
+        #         login_ses(request, user)
+        #         return HttpResponseRedirect('/private/')
         if user:
             if user.is_active:
+
+                login_ses(request, user)
                 return HttpResponseRedirect('/user/create-basic-profile/?step=0')
             else:
                 return HttpResponseRedirect('/accounts/confirm-email/')
@@ -122,7 +130,7 @@ def login(request):
 
 
 def forgot_password(request):
-    login = True
+    # login = True
     error = None
 
     if request.method == 'POST':
@@ -231,7 +239,9 @@ def confirm_email(request):
             main_user = User.objects.get(id=user.user_id)
             main_user.is_active = 1
             main_user.save()
-            return HttpResponseRedirect('/user/create-basic-profile/?step=0')
+
+
+            return HttpResponseRedirect('/dashboard/')
     else:
         return HttpResponseRedirect('/accounts/confirm-email/')
 
@@ -256,3 +266,8 @@ def token_check(tokenvalue=None, user_id=None):     # bring the token.
         'timestamp_now': timestamp_now
     }
     return details
+
+
+def logout_view(request):
+    logout(request)
+    return HttpResponseRedirect('http://127.0.0.1:8000/accounts/login/')

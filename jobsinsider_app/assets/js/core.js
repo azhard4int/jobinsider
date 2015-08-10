@@ -13,7 +13,7 @@ function login_account()
             data: $('#login_user').serialize(),
             success: function(json)
             {
-                console.log(json);
+                window.location.href = 'http://127.0.0.1:8000/dashboard/';
             },
             error: function(json)
             {

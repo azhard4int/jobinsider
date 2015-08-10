@@ -18,10 +18,13 @@ BASE_PROJECT = sys.path[0]
 
 from django.conf.urls import include, url
 from django.contrib import admin
-from views import homepage
+from views import *
 
 urlpatterns = [
     # url(r'', homepage),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/', include('accounts.urls')),
+    url(r'^user/', include('users.urls')),
+    url(r'^dashboard/', dashboard),
+    url(r'^dashboard/', include('private.urls')),
 ]
