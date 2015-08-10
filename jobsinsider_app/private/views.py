@@ -12,11 +12,27 @@ def login_admin_view(request):
     """
     Only for the administrator privilleged users.
     """
-    admin = Adminlogin()
-    return render(request, 'admin_login.html', {'admin_form': admin})
+
+    if request.method == 'POST':
+        user = authenticate(
+            username=request.POST['username'],
+            password=request.POST['password']
+        )
+
+        if user.is_superuser:
+            login(request, user)
+            return HttpResponseRedirect('/private/members/')
+        else:
+            return HttpResponseRedirect('/private/')
+
+    else:
+        admin = Adminlogin()
+        return render(request, 'admin_login.html', {'admin_form': admin})
 
 
 def members_view(request):
     """
     For administrator based users to show them the data
     """
+
+    return HttpResponse('Admin View')

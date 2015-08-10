@@ -24,6 +24,7 @@ STATUS_WRONG = 'Invalid Username or Password'
 STATUS_SENT = 'Please check your email address to reset password and follow the instructions on it.'
 STATUS_NONE = 'There is no username exist with your entered username.'
 
+
 def index(request):
     """
 
@@ -93,10 +94,11 @@ def register(request):
         'error': error
     })
 
+
 def login_view(request):
 
     login = True
-    error =None
+    error = None
 
     if request.GET.get('error', ''):
         if request.GET.get('error') == 1:
@@ -109,7 +111,7 @@ def login_view(request):
         user = authenticate(username=username, password=password)
         if user is None:
             return HttpResponse(
-                json.dumps({'status':STATUS_NONE}),
+                json.dumps({'status': STATUS_NONE}),
                 content_type="application/json"
             )
 
@@ -177,9 +179,8 @@ def forgot_password(request):
         forgot = ForgotPassword()
         return render(request, 'forgot_password.html', {'forgotpassword': forgot})
 
-
 def token_gen():
-    return (''.join(random.choice(string.ascii_uppercase) for i in range(60)))
+    return ''.join(random.choice(string.ascii_uppercase) for i in range(60))
 
 
 def set_new_password(request):
@@ -207,8 +208,8 @@ def set_new_password(request):
                 else:
 
                     user_email = User.objects.filter(id=userdetails['usercheck'][0].user_id)[0].email
-                    setform = SetNewPassword(initial={'email':user_email})
-                    return render(request, 'set_password.html', {'setpassword':setform})
+                    setform = SetNewPassword(initial={'email': user_email})
+                    return render(request, 'set_password.html', {'setpassword': setform})
 
             else:
                 return HttpResponseRedirect(BASE_URL + '/accounts/login/?error=1')
@@ -262,7 +263,7 @@ def token_check(tokenvalue=None, user_id=None):     # bring the token.
         timestamp_created = 0
         timestamp_now = 0
         pass
-    details ={
+    details = {
         'usercheck': usercheck,
         'timestamp_created': timestamp_created,
         'timestamp_now': timestamp_now
