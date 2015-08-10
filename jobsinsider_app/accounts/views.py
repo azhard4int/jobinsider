@@ -220,6 +220,11 @@ def confirm_email(request):
         except ObjectDoesNotExist:
             response = HttpResponse(json.dumps({'status': 'Invalid Activation Key'}))
             return response
+
+        if user:    # If the user is already verified.
+            if user.activation_status == 1:
+                return HttpResponseRedirect('/user/create-basic-profile/?step=0')
+
         if user:
             user.activation_status = 1
             user.save()
