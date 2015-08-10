@@ -36,3 +36,17 @@ def members_view(request):
     """
 
     return HttpResponse('Admin View')
+
+def categories_view(request):
+    """
+
+    :param request:
+    :return:
+    """
+
+def skills_view(request):
+    """
+
+    :param request:
+    :return:
+    """
