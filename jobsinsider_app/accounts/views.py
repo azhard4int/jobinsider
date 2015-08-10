@@ -113,20 +113,22 @@ def login_view(request):
                 content_type="application/json"
             )
 
-        # if user:
-        #     if user.is_superuser:   # For administrator privilleged user
-        #         login_ses(request, user)
-        #         return HttpResponseRedirect('/private/')
         if user:
-            if user.is_active:
-
+            if user.is_superuser:   # For administrator privilleged user
                 login_ses(request, user)
-                return HttpResponseRedirect('/user/create-basic-profile/?step=0')
-            else:
-                return HttpResponseRedirect('/accounts/confirm-email/')
+                print user.is_superuser
+                return HttpResponseRedirect('/private/dash/')
+        else:
+            if user:
+                if user.is_active:
+
+                    login_ses(request, user)
+                    return HttpResponseRedirect('/user/create-basic-profile/?step=0')
+                else:
+                    return HttpResponseRedirect('/accounts/confirm-email/')
     else:
         login_form = LoginForm()
-        return render(request, 'login_account.html', {'login_form':login_form, 'error': error})
+        return render(request, 'login_account.html', {'login_form': login_form, 'error': error})
 
 
 def forgot_password(request):

@@ -26,5 +26,5 @@ urlpatterns = [
     url(r'^accounts/', include('accounts.urls')),
     url(r'^user/', include('users.urls')),
     url(r'^dashboard/', dashboard),
-    url(r'^dashboard/', include('private.urls')),
+    url(r'^private/', include('private.urls')),
 ]

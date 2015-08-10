@@ -48,7 +48,7 @@ INSTALLED_APPS = (
     'accounts',
     'core',
     'users',
-    'private'
+    'private',
     )
 
 MIDDLEWARE_CLASSES = (
@@ -70,6 +70,11 @@ TEMP_DIRECTORY_REGISTER = [
     'templates/accounts/registration',
 ]
 
+# Admindirectory
+TEMP_DIRECTORY_ADMIN = [
+    'templates/accounts/admin',
+]
+
 # Email Templates for Accounts
 TEMP_DIRECTORY_EMAILS = [
     'templates/accounts/emails',
@@ -84,6 +89,7 @@ TEMPLATES = [
             BASE_DIR.child('templates'),
             BASE_DIR.join(TEMP_DIRECTORY_REGISTER),
             BASE_DIR.join(TEMP_DIRECTORY_EMAILS),
+            BASE_DIR.join(TEMP_DIRECTORY_ADMIN),
 
 
         ),
