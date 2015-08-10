@@ -7,7 +7,7 @@ class EmailFunc():
 
 
     subject = {
-        'activiation': 'Activate Your Account',
+        'activiation': 'Please verify your email address',
         'forgot_password': 'Recover Your Password',
         'welcome_email': 'Welcome to JobsInsider, Enjoy Your Stay Here',
     }
@@ -45,13 +45,15 @@ class EmailFunc():
         plaintext = get_template(self.template + ".txt")
         htmlonly = get_template(self.template + ".html")
 
-        if self.username is not None:
-            c = Context({'username': self.username})
-        if self.first_name is not None:
-            c = Context({'first_name': self.first_name})
-        if self.token is not None:
-            c = Context({'token': self.token})
 
+        c = Context(
+            {
+                'username': self.username if self.username is not None else None,
+                'first_name': self.first_name if self.first_name is not None else None,
+                'token': self.token if self.token is not None else None,
+
+            }
+        )
         text_content = plaintext.render(c)
         html_content = htmlonly.render(c)
         from_, send_to = 'info@jobsinsider.com', self.tosend
@@ -62,7 +64,7 @@ class EmailFunc():
 
         elif str(self.template).__contains__('activateaccount'):
 
-            subject = self.username + ", " + self.subject['activiation']
+            subject = self.subject['activiation']
 
         elif str(self.template).__contains__('welcome'):
 

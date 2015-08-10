@@ -8,5 +8,6 @@ urlpatterns = patterns(
     url(r'^register/$', register),
     url(r'^login/$', login),
     url(r'^forgot/$', forgot_password),
-    url(r'^forgot/newpassword$', set_new_password),
+    url(r'^forgot/newpassword$', set_new_password), # for setting up password on token
+    url(r'^signup/verify-email/$', confirm_email),  # for verifying token
     )

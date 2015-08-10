@@ -4,19 +4,50 @@ from django import forms
 from passwords.fields import PasswordField
 
 class UserForm(forms.ModelForm):
-    username = forms.CharField(help_text='', label='')
+    first_name = forms.CharField(
+        help_text='',
+        label='',
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'First Name'
+            }
+        )
+    )
+    last_name = forms.CharField(
+        help_text='',
+        label='',
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Last Name'
+            }
+        )
+    )
+
+    username = forms.CharField(
+        help_text='',
+        label='')
     email = forms.CharField(
         help_text='',
         label='',
-        widget=forms.TextInput(attrs={'placeholder': 'Enter Email'}))
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Enter Email'
+            }
+        )
+    )
     password = PasswordField(
         help_text='',
         label='',
-        widget=forms.PasswordInput(attrs={'placeholder': 'Enter Password'}))
+        widget=forms.PasswordInput(
+            attrs={
+                'placeholder': 'Enter Password'
+            }
+        )
+    )
 
     class Meta:
         model = User
-        fields = {'email', 'username', 'password'}
+        fields = {'first_name', 'last_name', 'email', 'username', 'password'}
 
 class UserProfileForm(forms.ModelForm):
     user_status = forms.ChoiceField(choices=(
@@ -30,7 +61,9 @@ class UserProfileForm(forms.ModelForm):
 
 class LoginForm(forms.ModelForm):
     username = forms.TextInput()
-    password = PasswordField(help_text='', label='')
+    password = PasswordField(
+        help_text='',
+        label='')
 
     class Meta:
         model = User
@@ -44,9 +77,12 @@ class ForgotPassword(forms.ModelForm):
 
 
 class SetNewPassword(forms.ModelForm):
-    password = PasswordField(widget=forms.PasswordInput(
-        attrs={'placeholder': 'Enter Your New Password'}
-    ))
+    password = PasswordField(
+        widget=forms.PasswordInput(
+        attrs={
+            'placeholder': 'Enter Your New Password'
+        })
+    )
     email = forms.TextInput()
 
     class Meta:

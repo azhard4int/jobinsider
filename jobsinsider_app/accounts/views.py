@@ -51,6 +51,7 @@ def register(request):
             else:
                 user = user_form.save(commit=False)
                 user.set_password(request.POST['password'])
+                user.is_active = 0
                 user.save()
                 profile = userprofile_form.save(commit=False)
                 profile.user = user
@@ -60,14 +61,25 @@ def register(request):
                 listvalue = {
                     'tosend': request.POST['email'],
                     'username': request.POST['username'],
+                    'first_name': request.POST['first_name'],
+                    'token': token_gen()
                 }
+
+                user_activation = UserActivation(
+                    activation_key=listvalue['token'],
+                    timestamp=timezone.now(),
+                    user=user
+                )
+                user_activation.save()
 
                 sendemail_ = email.EmailFunc('activateaccount', **listvalue)
                 sendemail_.generic_email()
                 status = {'status': STATUS_SUCCESS}
-                return HttpResponse(
-                    json.dumps(status),
-                    content_type="application/json")
+                return HttpResponseRedirect('/accounts/confirm-email/')
+                # return HttpResponse(
+                #     json.dumps(status),
+                #     content_type="application/json")
+
 
     else:
         user_form = UserForm()
@@ -101,9 +113,9 @@ def login(request):
             )
         if user:
             if user.is_active:
-                return HttpResponseRedirect('http://google.com')
+                return HttpResponseRedirect('/user/create-basic-profile/?step=0')
             else:
-                return HttpResponseRedirect('http://facebook.com')
+                return HttpResponseRedirect('/accounts/confirm-email/')
     else:
         login_form = LoginForm()
         return render(request, 'login_account.html', {'login_form':login_form, 'error': error})
@@ -176,7 +188,6 @@ def set_new_password(request):
                 Inside here all the main functionality
                 """
                 if request.method == 'POST':
-                    print 'sick shit'
                     user = User.objects.get(email=request.POST['email'])
                     user.set_password(request.POST['password'])
                     user.save()
@@ -195,6 +206,29 @@ def set_new_password(request):
             return HttpResponseRedirect(BASE_URL + '/accounts/login/')
 
 
+
+
+def confirm_email(request):
+    """
+    To verify token and confirm the account.
+    """
+
+    token_value = request.GET.get('token', '')
+    if len(token_value) > 10:
+        try:
+            user = UserActivation.objects.get(activation_key=token_value)
+        except ObjectDoesNotExist:
+            response = HttpResponse(json.dumps({'status': 'Invalid Activation Key'}))
+            return response
+        if user:
+            user.activation_status = 1
+            user.save()
+            main_user = User.objects.get(id=user.user_id)
+            main_user.is_active = 1
+            main_user.save()
+            return HttpResponseRedirect('/user/create-basic-profile/?step=0')
+    else:
+        return HttpResponseRedirect('/accounts/confirm-email/')
 
 
 def token_check(tokenvalue=None, user_id=None):     # bring the token.
@@ -217,4 +251,3 @@ def token_check(tokenvalue=None, user_id=None):     # bring the token.
         'timestamp_now': timestamp_now
     }
     return details
-
