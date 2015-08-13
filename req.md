@@ -1,28 +1,22 @@
-#Hey Ya
-django-passwords
-For snding email as template: http://stackoverflow.com/questions/2809547/creating-email-templates-with-django
-
 Things achived so far.
 
-Login
-Register
-Forgot Password
-Email Activation
+
+libs - django-passwords
+
+Omer Work
 
 --
 
-Next to Do
-
----
-
-Profile submission - CV Builder tomorrow.
-
-Example token:
-
-http://127.0.0.1:8000/accounts/forgot/newpassword?pauthid=BXRVXGQGRVTUQPEXXRZXHTBPWFUKIVFEVPSCPXSKXSFYNHXXYUKXPWMFNJKK
+List All created accounts
+Add option of editing account
+disable account
+activate account
 
 
-https://www.upwork.com/find-work/create-basic-profile/?step=0
+
+--
+
+
 
 Web Mobile & software Dev.
 IT & Network
