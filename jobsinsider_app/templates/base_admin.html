@@ -1,0 +1,38 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>{% block title %} {% endblock %}</title>
+    {% block style_block %}
+        <link rel="stylesheet" href="{% static "/assets/css/main.css" %}"/>
+        <link rel="stylesheet" href="{% static "/assets/css/admin.css" %}"/>
+    {% endblock %}
+
+</head>
+<body>
+
+{% block admin_nav %}
+
+<ul>
+    <li><a href="#">Users</a></li>
+    <li><a href="#">Categories</a></li>
+    <li><a href="#">Advertisements</a></li>
+    <li><a href="#">Evaluation Tests</a></li>
+</ul>
+
+
+{% endblock %}
+
+
+{% block body_content %} {% endblock %}
+
+{% block scripts_block %}
+    <script src='{% static "/assets/js/jquery-1.11.3.min.js" %}'></script>
+    <script src='{% static "/assets/js/main.js" %}'></script>
+    <script src='{% static "/assets/js/core.js" %}'></script>
+{% endblock %}
+</body>
+
+</html>

@@ -81,6 +81,11 @@ TEMP_DIRECTORY_EMAILS = [
 ]
 
 
+# Private Zone
+TEMP_DIRECTORY_PRIVATE = [
+    'templates/private',
+]
+
 
 TEMPLATES = [
     {
@@ -90,8 +95,7 @@ TEMPLATES = [
             BASE_DIR.join(TEMP_DIRECTORY_REGISTER),
             BASE_DIR.join(TEMP_DIRECTORY_EMAILS),
             BASE_DIR.join(TEMP_DIRECTORY_ADMIN),
-
-
+            BASE_DIR.join(TEMP_DIRECTORY_PRIVATE),
         ),
         'APP_DIRS': True,
         'OPTIONS': {

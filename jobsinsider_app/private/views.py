@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth import authenticate, logout, login
 from .forms import Adminlogin
+from .models import UsersAccounts
+
 
 # Create your views here.
 def index(request):
@@ -34,8 +36,9 @@ def members_view(request):
     """
     For administrator based users to show them the data
     """
-
-    return HttpResponse('Admin View')
+    user = UsersAccounts()
+    user_accounts = user.list_all()
+    return render(request, 'list.html', {'listusers': user_accounts})
 
 def categories_view(request):
     """
