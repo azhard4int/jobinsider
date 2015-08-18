@@ -6,14 +6,19 @@
 
 function login_account()
 {
+
     $.ajax(
         {
             url : "/accounts/login/", // the endpoint
             type : "POST", // http method
             data: $('#login_user').serialize(),
-            success: function(json)
+            success: function(response)
             {
-                window.location.href = 'http://127.0.0.1:8000/dashboard/';
+                response = JSON.parse(response);
+                if (response.status==1){
+                    window.location.href = 'http://127.0.0.1:8000/private/members/';
+                }
+                //window.location.href = 'http://127.0.0.1:8000/dashboard/';
             },
             error: function(json)
             {

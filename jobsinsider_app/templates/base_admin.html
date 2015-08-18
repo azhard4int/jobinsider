@@ -13,20 +13,24 @@
 </head>
 <body>
 
-{% block admin_nav %}
+<div class="container">
+    {% block admin_nav %}
+    <nav class="">
+        <ul class="admin_nav">
+            <li><a href="#">Users</a></li>
+            <li><a href="#">Categories</a></li>
+            <li><a href="#">Advertisements</a></li>
+            <li><a href="#">Evaluation Tests</a></li>
+        </ul>
 
-<ul>
-    <li><a href="#">Users</a></li>
-    <li><a href="#">Categories</a></li>
-    <li><a href="#">Advertisements</a></li>
-    <li><a href="#">Evaluation Tests</a></li>
-</ul>
+    </nav>
 
+    {% endblock %}
+</div>
+
+{% block body_content %}
 
 {% endblock %}
-
-
-{% block body_content %} {% endblock %}
 
 {% block scripts_block %}
     <script src='{% static "/assets/js/jquery-1.11.3.min.js" %}'></script>

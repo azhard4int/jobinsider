@@ -104,6 +104,7 @@ def login_view(request):
         if request.GET.get('error') == 1:
             error = 'Your token time expired, please reset password once again.'
 
+
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
@@ -118,16 +119,13 @@ def login_view(request):
         if user:
             if user.is_superuser:   # For administrator privilleged user
                 login_ses(request, user)
-                print user.is_superuser
-                return HttpResponseRedirect('/private/dash/')
-        else:
-            if user:
-                if user.is_active:
+                return HttpResponse(json.dumps({'status': '1'}))
 
-                    login_ses(request, user)
-                    return HttpResponseRedirect('/user/create-basic-profile/?step=0')
-                else:
-                    return HttpResponseRedirect('/accounts/confirm-email/')
+            if user.is_active:
+                login_ses(request, user)
+                return HttpResponseRedirect('/user/create-basic-profile/?step=0')
+            else:
+                return HttpResponseRedirect('/accounts/confirm-email/')
     else:
         login_form = LoginForm()
         return render(request, 'login_account.html', {'login_form': login_form, 'error': error})
