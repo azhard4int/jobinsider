@@ -16,9 +16,11 @@ function login_account()
             {
                 response = JSON.parse(response);
                 if (response.status==1){
-                    window.location.href = 'http://127.0.0.1:8000/private/members/';
+                    window.location.href = '/private/members/';
                 }
-                //window.location.href = 'http://127.0.0.1:8000/dashboard/';
+                else if(response.status==2){
+                window.location.href = '/user/create-basic-profile/?step=0/';
+                }
             },
             error: function(json)
             {

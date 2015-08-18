@@ -123,7 +123,8 @@ def login_view(request):
 
             if user.is_active:
                 login_ses(request, user)
-                return HttpResponseRedirect('/user/create-basic-profile/?step=0')
+                return HttpResponse(json.dumps({
+                    'status': 2}))
             else:
                 return HttpResponseRedirect('/accounts/confirm-email/')
     else:
