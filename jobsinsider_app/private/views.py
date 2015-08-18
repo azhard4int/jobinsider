@@ -58,3 +58,7 @@ def skills_view(request):
     :param request:
     :return:
     """
+
+def logout_view(request):
+    logout(request)
+    return HttpResponseRedirect('http://127.0.0.1:8000/accounts/login/')
