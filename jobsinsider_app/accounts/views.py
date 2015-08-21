@@ -126,7 +126,8 @@ def login_view(request):
                 return HttpResponse(json.dumps({
                     'status': 2}))
             else:
-                return HttpResponseRedirect('/accounts/confirm-email/')
+                return HttpResponse(json.dumps({
+                    'status': 3}))
     else:
         login_form = LoginForm()
         return render(request, 'login_account.html', {'login_form': login_form, 'error': error})

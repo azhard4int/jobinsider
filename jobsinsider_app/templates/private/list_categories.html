@@ -1,0 +1,78 @@
+{% extends "base_admin.html" %}
+<title>{% block title %}Admin Dashboard{% endblock %}</title>
+
+
+
+{% block body_content %}
+<div class="container">
+
+    {% if count_category < 20 %}
+        <form method="post" id="add_category_admin" action="">
+            {%csrf_token%}
+            {{add_category}}
+            <input type="submit">
+        </form>
+    {% endif %}
+    <div class="display_message"></div>
+    <table>
+        <thead class="categories_head">
+        <tr>
+            <td>Category Name</td>
+            <td>Category Status</td>
+            <td>Edit</td>
+            <td>Enable/Disable</td>
+            <td>Delete</td>
+            <td>Details</td>
+
+        </tr>
+        </thead>
+        <tbody class="categories_table">
+        {% csrf_token %}
+
+        {% for catvalue in catlist %}
+
+            <tr>
+                <td>
+                    {{catvalue.category_name}}
+                </td>
+                <td>
+                    {{catvalue.category_status}}
+                </td>
+                <td>
+                    <a class="edit_cat_btn" href="{% url 'cat_view' %}edit/{{catvalue.id}}" value="{{catvalue.id}}">Edit</a>
+                </td>
+
+                {% if catvalue.category_status == 0 %}
+                <td>
+                    <a class="enable_cat_btn" href="javascript:;" value="{{catvalue.id}}">Enable</a>
+                </td>
+                {% else %}
+                <td>
+                    <a class="disable_cat_btn" href="javascript:;" value="{{catvalue.id}}">Disable</a>
+                </td>
+                {% endif %}
+
+                <td>
+                    <a class="delete_cat_btn" href="javascript:;" value="{{catvalue.id}}">Delete</a>
+                </td>
+                <td>
+                    <a class="details_cat_btn" href="javascript:;" value="{{catvalue.id}}">Details</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+    <!--{% if count_category %}-->
+        <!--this is aesome-->
+    <!--{% endif %}-->
+
+</div>
+
+
+
+{% endblock %}
+
+</body>
+</html>

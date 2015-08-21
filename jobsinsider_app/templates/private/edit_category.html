@@ -1,0 +1,47 @@
+{% extends "base_admin.html" %}
+<title>{% block title %}Admin Dashboard{% endblock %}</title>
+
+
+
+{% block body_content %}
+<div class="display_message">
+
+</div>
+
+<div class="container">
+    <form action="" id="edit_category_form">
+        {% csrf_token %}
+        {{editform}}
+        <input type="submit">
+    </form>
+
+</div>
+<table>
+    <thead>
+    <td>Name</td>
+    <td>Edit</td>
+    <td>Status</td>
+    <td>Action</td>
+    </thead>
+{% for skill in list_skills %}
+    <tr>
+        <td>{{skill.skill_name}}</td>
+        <td ><a href="javascript:;" class="edit_skill_btn" value="{{skill.id}}">Edit</a></td>
+        {% if skill.skill_status == 0 %}
+        <td><a href="javascript:;" class="enable_skill_btn" value="{{skill.id}}">Enable</a></td>
+
+        {% else %}
+        <td ><a href="javascript:;" class="disable_skill_btn" value="{{skill.id}}">disable</a></td>
+
+        {% endif %}
+        <td><a href="javascript:;" class="delete_skill_btn" value="{{skill.id}}">Delete</a></td>
+</tr>
+{% endfor %}
+
+</table>
+
+{% endblock %}
+
+
+</body>
+</html>

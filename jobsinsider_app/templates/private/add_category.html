@@ -1,0 +1,21 @@
+{% extends "base_admin.html" %}
+<title>{% block title %}Admin Dashboard{% endblock %}</title>
+
+
+
+{% block body_content %}
+<div class="container">
+    <form action="" id="add_category_form">
+        {% csrf_token %}
+        {{editform}}
+    </form>
+
+</div>
+
+
+
+{% endblock %}
+
+
+</body>
+</html>
