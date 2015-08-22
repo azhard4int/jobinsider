@@ -19,4 +19,5 @@ urlpatterns = patterns(
     url(r'^members/categories/skill_enable/$', skill_view_enable),
     url(r'^members/categories/skill_disable/$', skill_view_disable),
     url(r'^members/categories/skill_delete/$', skill_view_delete),
+    url(r'^members/categories/skill/edit/(?P<edit>[0-9]+)/$', skills_view),
 )

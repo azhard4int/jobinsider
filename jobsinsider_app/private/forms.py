@@ -37,3 +37,12 @@ class AddSkill(forms.ModelForm):
     class Meta:
         model = modelf.Skills
         fields = {'skill_name', 'category_id'}
+
+class EditSkill(forms.ModelForm):
+    skill_name = forms.CharField()
+    skill_status = forms.IntegerField()
+    id = forms.IntegerField(widget=forms.HiddenInput())
+
+    class Meta:
+        model = modelf.Skills
+        fields = {'skill_name', 'id'}

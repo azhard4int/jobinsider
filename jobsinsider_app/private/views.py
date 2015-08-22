@@ -167,12 +167,18 @@ def process_category_edit(request):
             return HttpResponse(json.dumps({'status': 'False'}))
 
 @login_required()
-def skills_view(request):
-    """
+def skills_view(request, edit):
 
-    :param request:
-    :return:
-    """
+    data = modeinsert.Skills.objects.getinfo(edit)
+    if data:
+        # print data
+        editForm = EditSkill(initial={
+                    'skill_status': data[0].skill_status,
+                    'skill_name': data[0].skill_name,
+                    'id': data[0].id
+                })
+
+        return render(request, 'edit_skill.html', {'editform': editForm})
 
 
 def skill_view_enable(request):
@@ -196,13 +202,6 @@ def skill_view_delete(request):
         return HttpResponse(json.dumps({'status': 'True'}))
     else:
         return HttpResponse(json.dumps({'status': 'False'}))
-
-def skill_view_delete(request):
-    '''
-
-    :param request:
-    :return:
-    '''
 
 def logout_view(request):
     logout(request)

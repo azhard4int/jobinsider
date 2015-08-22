@@ -365,7 +365,7 @@ $('a.delete_skill_btn').on('click', function(event)
 });
 
 
-$('#edit_skill_btn').on('submit', function(event)
+$('#edit_skill_form').on('submit', function(event)
 {
     alert('up here');
     valuedata = ($(this).attr('value'));

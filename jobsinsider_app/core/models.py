@@ -80,6 +80,13 @@ class SkillsManager(models.Manager):
         except ObjectDoesNotExist:
             return False
 
+    def getinfo(self, skill_id):
+        detailsObj = self.filter(id=skill_id)
+        if detailsObj:
+            return detailsObj
+        else:
+            return False
+
 
 class Skills(models.Model):
     category = models.ForeignKey(Categories)
