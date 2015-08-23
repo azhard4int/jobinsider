@@ -15,6 +15,7 @@ from .models import *
 from django.utils import timezone
 from django.core.mail import send_mail, EmailMultiAlternatives
 from core import email
+from users import models as usermodels
 
 
 BASE_URL = 'http://127.0.0.1:8000'
@@ -100,37 +101,40 @@ def login_view(request):
     login = True
     error = None
 
-    if request.GET.get('error', ''):
-        if request.GET.get('error') == 1:
-            error = 'Your token time expired, please reset password once again.'
-
-
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-
-        user = authenticate(username=username, password=password)
-        if user is None:
-            return HttpResponse(
-                json.dumps({'status': STATUS_NONE}),
-                content_type="application/json"
-            )
-
-        if user:
-            if user.is_superuser:   # For administrator privilleged user
-                login_ses(request, user)
-                return HttpResponse(json.dumps({'status': '1'}))
-
-            if user.is_active:
-                login_ses(request, user)
-                return HttpResponse(json.dumps({
-                    'status': 2}))
-            else:
-                return HttpResponse(json.dumps({
-                    'status': 3}))
+    if request.user.is_active:
+        return HttpResponseRedirect('/user/create-basic-profile/?step=0')
     else:
-        login_form = LoginForm()
-        return render(request, 'login_account.html', {'login_form': login_form, 'error': error})
+        if request.GET.get('error', ''):
+            if request.GET.get('error') == 1:
+                error = 'Your token time expired, please reset password once again.'
+
+
+        if request.method == 'POST':
+            username = request.POST['username']
+            password = request.POST['password']
+
+            user = authenticate(username=username, password=password)
+            if user is None:
+                return HttpResponse(
+                    json.dumps({'status': STATUS_NONE}),
+                    content_type="application/json"
+                )
+
+            if user:
+                if user.is_superuser:   # For administrator privilleged user
+                    login_ses(request, user)
+                    return HttpResponse(json.dumps({'status': '1'}))
+
+                if user.is_active:
+                    login_ses(request, user)
+                    return HttpResponse(json.dumps({
+                        'status': 2}))
+                else:
+                    return HttpResponse(json.dumps({
+                        'status': 3}))
+        else:
+            login_form = LoginForm()
+            return render(request, 'login_account.html', {'login_form': login_form, 'error': error})
 
 
 def forgot_password(request):
@@ -224,29 +228,31 @@ def confirm_email(request):
     To verify token and confirm the account.
     """
 
-    token_value = request.GET.get('token', '')
-    if len(token_value) > 10:
-        try:
-            user = UserActivation.objects.get(activation_key=token_value)
-        except ObjectDoesNotExist:
-            response = HttpResponse(json.dumps({'status': 'Invalid Activation Key'}))
-            return response
+    user = request.user
+    if user.is_active:
+        token_value = request.GET.get('token', '')
+        if len(token_value) > 10:
+            try:
+                user = UserActivation.objects.get(activation_key=token_value)
+            except ObjectDoesNotExist:
+                response = HttpResponse(json.dumps({'status': 'Invalid Activation Key'}))
+                return response
 
-        if user:    # If the user is already verified.
-            if user.activation_status == 1:
-                return HttpResponseRedirect('/user/create-basic-profile/?step=0')
+            if user:    # If the user is already verified.
+                if user.activation_status == 1:
+                    return HttpResponseRedirect('/user/create-basic-profile/?step=0')
 
-        if user:
-            user.activation_status = 1
-            user.save()
-            main_user = User.objects.get(id=user.user_id)
-            main_user.is_active = 1
-            main_user.save()
+            if user:
+                user.activation_status = 1
+                user.save()
+                main_user = User.objects.get(id=user.user_id)
+                main_user.is_active = 1
+                main_user.save()
 
 
-            return HttpResponseRedirect('/dashboard/')
-    else:
-        return HttpResponseRedirect('/accounts/confirm-email/')
+                return HttpResponseRedirect('/dashboard/')
+        else:
+            return HttpResponseRedirect('/accounts/confirm-email/')
 
 
 def token_check(tokenvalue=None, user_id=None):     # bring the token.

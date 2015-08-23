@@ -1,3 +1,31 @@
-body{
-    margin:0 auto;
+@import url('fonts.css');
+@import "buttons.css";
+.transition {
+  transition: all ease-in-out 0.2s;
+  -webkit-transition: all ease-in-out 0.2s;
+  -o-transition: all ease-in-out 0.2s;
+  -ms-transition: all ease-in-out 0.2s;
+}
+body {
+  font-family: 'proxima_nova_regular', arial, sans-serif !important;
+  margin: 0 auto;
+}
+header {
+  padding: 10px 0;
+}
+.header_nav {
+  float: right;
+}
+.header_nav ul {
+  list-style: none;
+}
+.header_nav ul li {
+  color: #fff;
+}
+.header_nav ul li a {
+  text-decoration: none;
+  color: #000;
+}
+.header_nav ul li a:hover {
+  color: #242424;
 }

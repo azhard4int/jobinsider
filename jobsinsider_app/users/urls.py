@@ -6,7 +6,7 @@ from views import *
 urlpatterns = patterns(
 
     url(r'', index),
-    url(r'^create-basic-profile/$', index)
-
-
+    url(r'^create-basic-profile/$', index),
+    url(r'^skills_list/$', skills_list),
+    url(r'^skills/$', skills)
 )

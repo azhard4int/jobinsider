@@ -24,10 +24,16 @@ function login_account()
                 else if(response.status==3){
                     window.location.href = '/accounts/confirm-email/';
                 }
+                else{
+                    //console.log(response.status);
+                    //$('.error_message').html(response.status);
+                }
             },
-            error: function(json)
+            error: function(response)
             {
-                console.log(json);
+                console.log(response);
+                //response = JSON.parse(response);
+                console.log(response.status);
                 console.log('dsadas');
             }
 
@@ -390,6 +396,115 @@ $('#edit_skill_form').on('submit', function(event)
 
     });
 
+
+
+
+
 });
 
 
+    //User dashboard javascript
+
+    $('a.c0_cat_main').on('click', function()
+    {
+        $(this).addClass('activated');
+        //event.preventDefault();
+        valuedata = ($(this).attr('value'));
+        $.ajax({
+            'url': '/user/skills_list/',
+            'type': 'POST',
+            'data': {
+                'cat_id': valuedata,
+                'csrfmiddlewaretoken': document.getElementsByName('csrfmiddlewaretoken')[0].value},
+            success:function(response){
+                    var data_response = (JSON.parse(response));
+                    console.log(data_response);
+                    var data_insert = "";
+                    var skill_cat_id = '';
+                    for (var i=0; i<data_response.length; i++){
+                        console.log(data_response[i].fields['skill_name']);
+                        console.log(data_response[i].pk);
+                        skill_cat_id = data_response[i].fields['category'];
+                        data_insert += "<div class='skill_btn'><label><input class='skillvalues' type='checkbox' value='"+data_response[i].pk+"' name='skillcheck'><span>" + data_response[i].fields['skill_name'] + "</span></div>";
+                    }
+
+                    $('.s0_skill'+ skill_cat_id).html(data_insert);
+            },
+            error:function(response)
+            {
+                console.log(response);
+            }
+
+        });
+        return false;
+    });
+
+
+// Passing the skills value to user skills view
+
+$('#skills_form').on('submit', function(event)
+{
+    event.preventDefault();
+    var inputElements = document.getElementsByClassName('skillvalues');
+    var checkboxes = '';
+    //console.log(inputElements);
+    //console.log(checkboxes);
+    for (var i=0; i<inputElements.length; i++)
+    {
+        if(inputElements[i].checked)
+        {
+            if(i==0)
+            {
+                checkboxes += inputElements[i].value;
+            }
+            else{
+                checkboxes += ',' + inputElements[i].value;
+            }
+
+
+        }
+
+    }
+
+    var category_id = $('a.c0_cat_main.activated').attr('value');
+    console.log(category_id);
+    $.ajax({
+        'url':'/user/skills/',
+        'type':'POST',
+        'data':{
+            'skills_value': checkboxes,
+            'csrfmiddlewaretoken':document.getElementsByName('csrfmiddlewaretoken')[0].value,
+            'category_id':category_id,
+        },
+        success:function(response)
+        {
+            response = JSON.parse(response);
+            console.log(response.status);
+            if((response.status=true) || (response.status='True')){
+                window.location.href  = '?step=1'
+            }
+
+        },
+        error:function(response)
+        {
+            response = JSON.parse(response);
+        }
+    });
+
+
+    return false;
+});
+
+//cv upload option up here...
+
+$('a.cv_option').on('click', function(event){
+    var attrvalue = $(this).attr('value');
+    if(attrvalue==0)
+    {
+        $('a.cv_decision').html('Upload CV');
+    }
+    else if(attrvalue==1){
+        $('a.cv_decision').html('Contine to CV Builder');
+    }
+
+});

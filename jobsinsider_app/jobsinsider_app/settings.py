@@ -49,6 +49,7 @@ INSTALLED_APPS = (
     'core',
     'users',
     'private',
+    'bootstrap3',
     )
 
 MIDDLEWARE_CLASSES = (
@@ -80,6 +81,10 @@ TEMP_DIRECTORY_EMAILS = [
     'templates/accounts/emails',
 ]
 
+# Inner Dashboard
+TEMP_DIRECTORY_Dashboard = [
+    'templates/accounts/dashboard',
+]
 
 # Private Zone
 TEMP_DIRECTORY_PRIVATE = [
@@ -96,6 +101,7 @@ TEMPLATES = [
             BASE_DIR.join(TEMP_DIRECTORY_EMAILS),
             BASE_DIR.join(TEMP_DIRECTORY_ADMIN),
             BASE_DIR.join(TEMP_DIRECTORY_PRIVATE),
+            BASE_DIR.join(TEMP_DIRECTORY_Dashboard),
         ),
         'APP_DIRS': True,
         'OPTIONS': {
@@ -149,6 +155,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
 STATIC_URL = '/assets/'
 
 # Email Configuration

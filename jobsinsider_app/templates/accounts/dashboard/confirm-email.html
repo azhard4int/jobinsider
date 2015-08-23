@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+    <title>{% block title %}Confirm Your Email{% endblock %}</title>
+{% block body_content %}
+
+{% if user.is_authenticated %}
+    <a href="">This is awsomdsadase</a>
+{% endif %}
+
+
+
+This is awesome man {{user.first_name}}
+
+<a href="/accounts/logout">Log out</a>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+    <title>{% block title %}Select Your Profession{% endblock %}</title>
+{% block body_content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+
+
+            {% if user.is_authenticated %}
+                <div class="selection_box">
+                    <div class="col-md-6"><a value="0" class="cv_option" href="javascript:;">UPLOAD YOUR CV</a></div>
+                    <div class="col-md-6"><a value="1" class="cv_option" href="javascript:;">CV BUILDER</a></div>
+                </div>
+            {% endif %}
+            <div class="clearfix"></div>
+            <a style="text-align: center;" class="cv_decision" href="javascript:;">Continue to next page</a>
+        </div>
+    </div>
+</div>
+
+
+<a href="/accounts/logout">Log out</a>
+{% endblock %}

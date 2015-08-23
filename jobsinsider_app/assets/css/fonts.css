@@ -1,0 +1,42 @@
+@font-face {
+    font-family: 'proxima_nova_ththin';
+    src: url('../fonts/mark_simonson_-_proxima_nova_thin-webfont.eot');
+    src: url('../fonts/mark_simonson_-_proxima_nova_thin-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/mark_simonson_-_proxima_nova_thin-webfont.woff2') format('woff2'),
+         url('../fonts/mark_simonson_-_proxima_nova_thin-webfont.woff') format('woff'),
+         url('../fonts/mark_simonson_-_proxima_nova_thin-webfont.ttf') format('truetype'),
+         url('../fonts/mark_simonson_-_proxima_nova_thin-webfont.svg#proxima_nova_ththin') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'proxima_nova_scosf_condensSBd';
+    src: url('../fonts/mark_simonson_-_proxima_nova_scosf_condensed_semibold-webfont.eot');
+    src: url('../fonts/mark_simonson_-_proxima_nova_scosf_condensed_semibold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/mark_simonson_-_proxima_nova_scosf_condensed_semibold-webfont.woff2') format('woff2'),
+         url('../fonts/mark_simonson_-_proxima_nova_scosf_condensed_semibold-webfont.woff') format('woff'),
+         url('../fonts/mark_simonson_-_proxima_nova_scosf_condensed_semibold-webfont.ttf') format('truetype'),
+         url('../fonts/mark_simonson_-_proxima_nova_scosf_condensed_semibold-webfont.svg#proxima_nova_scosf_condensSBd') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+@font-face {
+    font-family: 'proxima_nova_regular';
+    src: url('../fonts/mark_simonson_-_proxima_nova_regular-webfont.eot');
+    src: url('../fonts/mark_simonson_-_proxima_nova_regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/mark_simonson_-_proxima_nova_regular-webfont.woff2') format('woff2'),
+         url('../fonts/mark_simonson_-_proxima_nova_regular-webfont.woff') format('woff'),
+         url('../fonts/mark_simonson_-_proxima_nova_regular-webfont.ttf') format('truetype'),
+         url('../fonts/mark_simonson_-_proxima_nova_regular-webfont.svg.svg#proxima_nova_regular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}

@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load bootstrap3 %}
 
 <!DOCTYPE html>
 <html>
@@ -7,10 +8,46 @@
     <title>{% block title %} {% endblock %}</title>
     {% block style_block %}
         <link rel="stylesheet" href="{% static "/assets/css/main.css" %}"/>
+        {% bootstrap_css %}
+
     {% endblock %}
 
 </head>
 <body>
+
+{% block nav_content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <header>
+                <div class="col-md-4">
+                    LOGO here
+                </div>
+                <div class="col-md-8">
+                    <nav class="header_nav">
+                        <ul>
+                            {% if user.is_authenticated %}
+                            <li>
+                                <a href="">Create Advertisement</a>
+                            </li>
+                            {% else %}
+                            <li>
+                                <a href="{% url 'register_account' %}">Sign up</a>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                </div>
+            </header>
+
+        </div>
+    </div>
+
+</div>
+
+
+{% endblock %}
 
 {% block body_content %} {% endblock %}
 
@@ -18,6 +55,8 @@
     <script src='{% static "/assets/js/jquery-1.11.3.min.js" %}'></script>
     <script src='{% static "/assets/js/main.js" %}'></script>
     <script src='{% static "/assets/js/core.js" %}'></script>
+    {% bootstrap_javascript %}
+
 {% endblock %}
 </body>
 

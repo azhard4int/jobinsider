@@ -5,7 +5,7 @@ from views import *
 
 urlpatterns = patterns(
     url(r'', index),
-    url(r'^register/$', register),
+    url(r'^register/$', register, name='register_account'),
     url(r'^login/$', login_view),
     url(r'^forgot/$', forgot_password),
     url(r'^forgot/newpassword$', set_new_password), # for setting up password on token

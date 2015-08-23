@@ -25,7 +25,12 @@ class UserForm(forms.ModelForm):
 
     username = forms.CharField(
         help_text='',
-        label='')
+        label='',
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Enter Username'
+            }
+        ))
     email = forms.CharField(
         help_text='',
         label='',
