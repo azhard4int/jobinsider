@@ -18,7 +18,7 @@ BASE_DIR = Path(__file__).ancestor(2)
 # STATIC_ROOT = BASE_DIR.child('assets')
 MEDIA_ROOT = BASE_DIR.child('media')
 STATICFILES_DIRS = (
-    BASE_DIR.child("assets"),
+    # BASE_DIR.child("assets"),
     # BASE_DIR.child("static"),
 )
 
