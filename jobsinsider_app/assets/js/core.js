@@ -19,7 +19,7 @@ function login_account()
                     window.location.href = '/private/members/';
                 }
                 else if(response.status==2){
-                    window.location.href = '/user/create-basic-profile/?step=0/';
+                    window.location.href = '/user/create-basic-profile/?step=0';
                 }
                 else if(response.status==3){
                     window.location.href = '/accounts/confirm-email/';
@@ -447,8 +447,6 @@ $('#skills_form').on('submit', function(event)
     event.preventDefault();
     var inputElements = document.getElementsByClassName('skillvalues');
     var checkboxes = '';
-    //console.log(inputElements);
-    //console.log(checkboxes);
     for (var i=0; i<inputElements.length; i++)
     {
         if(inputElements[i].checked)
@@ -502,9 +500,157 @@ $('a.cv_option').on('click', function(event){
     if(attrvalue==0)
     {
         $('a.cv_decision').html('Upload CV');
+        $('.cv_decision').attr('value', 'Upload Your CV');
+        $('.cv_decision').attr('data-toggle', 'modal');
+        $('.cv_decision').attr('data-target', '#myModal');
+        $('.decision_wise').attr('value', 1)
     }
     else if(attrvalue==1){
         $('a.cv_decision').html('Contine to CV Builder');
+        $('.cv_decision').attr('value', 'Contine to CV Builder');
+        $('.decision_wise').attr('value', 2)
     }
 
+});
+
+
+//Basic profile event triggered!
+
+$('#bio_form').on('submit', function(event)
+{
+    event.preventDefault();
+    var data = new FormData($('#bio_form').get(0));
+    console.log(data);
+    $.ajax({
+        url: '/user/profile_bio/',
+        type: 'POST',
+        data: data,
+        cache: false,
+        processData: false,
+        contentType: false,
+        success:function(response)
+        {
+            response = JSON.parse(response);
+            if(response.status==true)
+            {
+                window.location.href="?step=2"  // CV selection region
+            }
+        }
+    });
+    return false;
+
+
+});
+
+
+//cv upload file event triggered!
+
+$('#user_decision').on('submit', function(event)
+{
+    event.preventDefault();
+    var value_check = $('.decision_wise').attr('value');
+    //if(value_check==1)
+    //{
+    //    //cv upload dialog box
+    //    console.log('dasdas');
+    //}
+    //else
+    //
+    if (value_check==2)
+    {
+        //move to the cv builder page
+    }
+    else if(value_check==0){
+        alert('please select the value first')
+    }
+
+    return false;
+
+});
+
+//cv uploaded file handler.
+
+
+$('#user_cv').on('submit', function(event)
+{
+    event.preventDefault();
+    var data = new FormData($('#user_cv').get(0));
+    console.log(data);
+    $.ajax({
+        url: '/user/profile_cv/',
+        type: 'POST',
+        data: data,
+        cache: false,
+        processData: false,
+        contentType: false,
+        success:function(response)
+        {
+            response = JSON.parse(response);
+            if(response.status==true)
+            {
+                window.location.href="?step=2"  // CV selection region
+            }
+        }
+    });
+    return false;
+
+
+});
+
+// add more employemnts history
+
+$('.add_employment').on('click', function(event)
+{
+    event.preventDefault();
+    var getCount = $('.company_count').attr('value');
+    $.ajax(
+    {
+        url: '/user/add_user_employment/',
+        type: 'POST',
+        data: {'csrfmiddlewaretoken': document.getElementsByName('csrfmiddlewaretoken')[0].value},
+        success:function(response)
+        {
+            getCount++;
+            $('.company_count').attr('value', getCount);
+            $('.more_form').append(response)
+            console.log(response);
+        },
+        error: function(resposne){
+
+        }
+
+    });
+    return false;
+});
+
+$('#add_bio_employment').on('submit', function(event)
+{
+    //var getCount = $('.company_count').attr('value');
+    event.preventDefault();
+    formdata = new FormData('#add_bio_employment');
+    $.ajax(
+    {
+        url: '/user/add_employment/',
+        type: 'POST',
+        data: $('#add_bio_employment').serialize(),
+        success:function(response)
+        {
+            resp = JSON.parse(response);
+            if (resp.status==true){
+                window.location.href="?step=4"
+            }
+            else if(resp.status==false)
+            {
+                window.location.href="?step=3"
+            }
+            //getCount++;
+            //$('.company_count').attr('value', getCount);
+            //$('#user_employemnt').append(response)
+            //console.log(response);
+        },
+        error: function(resposne){
+        }
+
+    });
+    return false;
 });

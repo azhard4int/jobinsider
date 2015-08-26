@@ -1,21 +1,9 @@
-Things achived so far.
-
-
-libs - django-passwords
-
-Omer Work
-
---
-
-List All created accounts
-Add option of editing account
-disable account
-activate account
-
-
-
---
-
+libs
+django-passwords
+simplejson
+django-ajax-upload-widget => pip install django-ajax-upload-widget
+https://media.readthedocs.org/pdf/django-easy-pdf/latest/django-easy-pdf.pdf
+http://nanvel.com/b/1374019200
 
 
 Web Mobile & software Dev.

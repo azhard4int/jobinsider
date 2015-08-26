@@ -229,30 +229,32 @@ def confirm_email(request):
     """
 
     user = request.user
-    if user.is_active:
-        token_value = request.GET.get('token', '')
-        if len(token_value) > 10:
-            try:
-                user = UserActivation.objects.get(activation_key=token_value)
-            except ObjectDoesNotExist:
-                response = HttpResponse(json.dumps({'status': 'Invalid Activation Key'}))
-                return response
+    # print user
+    # if user.is_active:
+    token_value = request.GET.get('token', '')
+    print token_value
+    if len(token_value) > 10:
+        try:
+            user = UserActivation.objects.get(activation_key=token_value)
+        except ObjectDoesNotExist:
+            response = HttpResponse(json.dumps({'status': 'Invalid Activation Key'}))
+            return response
 
-            if user:    # If the user is already verified.
-                if user.activation_status == 1:
-                    return HttpResponseRedirect('/user/create-basic-profile/?step=0')
+        if user:    # If the user is already verified.
+            if user.activation_status == 1:
+                return HttpResponseRedirect('/user/create-basic-profile/?step=0')
 
-            if user:
-                user.activation_status = 1
-                user.save()
-                main_user = User.objects.get(id=user.user_id)
-                main_user.is_active = 1
-                main_user.save()
+        if user:
+            user.activation_status = 1
+            user.save()
+            main_user = User.objects.get(id=user.user_id)
+            main_user.is_active = 1
+            main_user.save()
 
 
-                return HttpResponseRedirect('/dashboard/')
-        else:
-            return HttpResponseRedirect('/accounts/confirm-email/')
+            return HttpResponseRedirect('/dashboard/')
+    else:
+        return HttpResponseRedirect('/accounts/confirm-email/')
 
 
 def token_check(tokenvalue=None, user_id=None):     # bring the token.

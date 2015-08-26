@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+    <title>{% block title %}Select Your Profession{% endblock %}</title>
+{% block body_content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+
+
+            {% if user.is_authenticated %}
+            <div class="add_form">
+                <!--{% csrf_token %}-->
+                <a href="javascript:;" class="add_employment">add more</a>
+            </div>
+            <form  action="" id="add_bio_employment">
+                {% csrf_token %}
+                <div class="col-md-6">
+                    {{cv_employ.company_name}}
+                </div>
+                <div class="col-md-6">
+                    {{cv_employ.company_location}}
+                </div><br><br>
+                <div class="col-md-6">
+                    {{cv_employ.company_worktitle}}
+                </div>
+                <div class="col-md-6">
+                    {{cv_employ.company_role}}
+                </div><br><br>
+                <div class="col-md-6">
+                    {{cv_employ.company_from}}
+                </div>
+                <div class="col-md-6">
+                    {{cv_employ.company_to}}
+                </div>
+                <!--{{cv_employ.company_description}}-->
+                {{cv_employ.company_count}}
+                <div class="more_form">
+
+                </div>
+
+                <input type="submit" id="submit-bio" value="Enter Information"/>
+            </form>
+
+
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+
+
+<a href="/accounts/logout">Log out</a>
+{% endblock %}
+
+{% block custom_scripts %}
+{% endblock %}

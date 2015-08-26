@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+    <title>{% block title %}Select Your Profession{% endblock %}</title>
+{% block body_content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+
+
+            {% if user.is_authenticated %}
+            <form  action="" id="bio_form" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{userbio.user_title}}
+                {{userbio.user_overview}}
+                {{userbio.user_language_pre}}
+                {{userbio.user_portrait}}
+
+                <input type="submit" id="submit-bio" value="Enter Information"/>
+            </form>
+                
+
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+
+
+<a href="/accounts/logout">Log out</a>
+{% endblock %}
+
+{% block custom_scripts %}
+
+
+{% endblock %}

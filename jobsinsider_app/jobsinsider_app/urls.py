@@ -16,6 +16,8 @@ Including another URLconf
 import sys
 BASE_PROJECT = sys.path[0]
 
+
+# from django.conf.urls.defaults import *
 from django.conf.urls import include, url
 from django.contrib import admin
 from views import *
@@ -27,4 +29,6 @@ urlpatterns = [
     url(r'^user/', include('users.urls')),
     url(r'^dashboard/', dashboard),
     url(r'^private/', include('private.urls')),
+    # url(r'^ajax-upload/', include('ajax_upload.urls')),
+
 ]
