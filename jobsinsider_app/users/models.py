@@ -120,5 +120,5 @@ class UserEmployment(models.Model):
 #     """
 #     User previous education field.
 #     """
-    user = models.ForeignKey(User)
+#     user = models.ForeignKey(User)
 
