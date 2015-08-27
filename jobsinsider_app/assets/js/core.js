@@ -107,14 +107,31 @@ function register_account()
 
 function forgot_set()
 {
+    console.log('here now');
+    formdata = new FormData('#set_password');
+    console.log(formdata);
+    var email_details  = document.getElementsByName('email')[0].value;
+    var password =  document.getElementsByName('email')[0].value;
+    var csrfmdi = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+    console.log(email_details);
     $.ajax(
         {
-            url : "/accounts/forgot/newpassword", // the endpoint
-            type : "POST", // http method
-            data: $('#forgot_set').serialize(),
+            url : "/accounts/forgot/newpassword/", // the endpoint
+            type : 'POST', // http method
+            data: {'email':email_details,
+                'password': password,
+                'csrfmiddlewaretoken': csrfmdi
+            },
             success: function(json)
             {
-                console.log(json);
+                json_data = JSON.parse(json);
+                if(json_data.status==1)
+                {
+                     $('label.l0_form .error_message').hide();
+                    $('label.l0_form .success').html('New Password has been set');
+                    $('label.l0_form .success').show();
+                }
+
             },
             error: function(json)
             {
@@ -123,6 +140,7 @@ function forgot_set()
 
         }
     );
+    return false;
 }
 
 

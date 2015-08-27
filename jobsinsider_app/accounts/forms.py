@@ -141,7 +141,16 @@ class SetNewPassword(forms.ModelForm):
 
         })
     )
-    email = forms.TextInput()
+    email = forms.CharField(
+        help_text='',
+        label='',
+        widget=forms.EmailInput(
+        attrs={
+            'placeholder': 'Enter Your Email',
+            'class': 'form-control'
+
+        }
+    ))
 
     class Meta:
         model = User

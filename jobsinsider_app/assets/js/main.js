@@ -11,6 +11,26 @@ $(document).ready(function()
 
         }
 
+        function passwordCheck(password_value)
+        {
+            if(password_value==''){
+                $('.error_message').html('Please enter password');
+                $('.error_message').show();
+                $('input[type=text][name=password]').focus();
+                $('input[type=text][name=password]:focus').attr('background-color','red');
+                return false;
+
+            }
+            if(password_value.length<=5)
+            {
+                $('.error_message').html('Password should be greater than 5 characters.');
+                $('.error_message').show();
+                $('input[type=text][name=password]').focus();
+                $('input[type=text][name=password]:focus').attr('background-color','red');
+                return false;
+            }
+
+        }
         $('#login_user').on('submit', function()
         {
             event.preventDefault();
@@ -21,6 +41,7 @@ $(document).ready(function()
         $('#forgot_form').on('submit', function()
         {
             event.preventDefault();
+
             forgot_password();
             return false;
         });
@@ -58,21 +79,7 @@ $(document).ready(function()
                 return false;
 
             }
-            if(password==''){
-                $('.error_message').html('Please enter password');
-                $('.error_message').show();
-                $('input[type=text][name=password]').focus();
-                $('input[type=text][name=password]:focus').attr('background-color','red');
-                return false;
-
-            }
-            if(password.length<=5)
-            {
-                $('.error_message').html('Password should be greater than 5 characters.');
-                $('.error_message').show();
-                $('input[type=text][name=password]').focus();
-                $('input[type=text][name=password]:focus').attr('background-color','red');
-            }
+            password_detect = passwordCheck(password);
             if(email==''){
                 $('.error_message').html('Please enter email');
                 $('.error_message').show();
@@ -87,9 +94,11 @@ $(document).ready(function()
         });
 
         //currently not using this function
-         $('#forgot_set').on('submit', function()
+         $('#set_password').on('submit', function()
         {
-            event.preventDefault();
+            var password = document.getElementsByName('password')[0].value;
+            password_detect = passwordCheck(password);
+
             forgot_set();
             return false;
         });

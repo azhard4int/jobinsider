@@ -186,8 +186,28 @@ def token_gen():
 
 
 def set_new_password(request):
-    tokenvalue = request.GET.get('pauthid', '')
 
+
+
+    if request.method == 'POST':
+        """
+            If the request is of post data
+        """
+        user = User.objects.get(email=request.POST['email'])
+        user.set_password(request.POST['password'])
+        user.save()
+        return HttpResponse(
+            json.dumps(
+                {
+                    'status': 1
+                }
+            )
+        )
+
+    """
+    To validate that the user token is valid or not!
+    """
+    tokenvalue = request.GET.get('pauthid', '')
 
     if tokenvalue is None or tokenvalue is '':  # first level - Token None.
         return HttpResponseRedirect(BASE_URL + '/accounts/login/')
@@ -195,26 +215,13 @@ def set_new_password(request):
     if tokenvalue is not None:  # second level Timestmap Checker
         userdetails = token_check(tokenvalue)
         if userdetails['usercheck'] is not None:   # if the user token is valid proceed.
-            if userdetails['timestamp_now'] > userdetails['timestamp_created']:   # 30 minutes timestamp.
+            # if userdetails['timestamp_now'] > userdetails['timestamp_created']:   # 30 minutes timestamp.
+                user_email = User.objects.filter(id=userdetails['usercheck'][0].user_id)[0].email
+                setform = SetNewPassword(initial={'email': user_email})
+                return render(request, 'set_password.html', {'setpassword': setform})
 
-                """
-                Inside here all the main functionality
-                """
-                if request.method == 'POST':
-                    user = User.objects.get(email=request.POST['email'])
-                    user.set_password(request.POST['password'])
-                    user.save()
-                    return HttpResponse(json.dumps(
-                        {'status': 'New Password has been set'}))
-
-                else:
-
-                    user_email = User.objects.filter(id=userdetails['usercheck'][0].user_id)[0].email
-                    setform = SetNewPassword(initial={'email': user_email})
-                    return render(request, 'set_password.html', {'setpassword': setform})
-
-            else:
-                return HttpResponseRedirect(BASE_URL + '/accounts/login/?error=1')
+            # else:
+            #     return HttpResponseRedirect(BASE_URL + '/accounts/login/?error=1')
         else:
             return HttpResponseRedirect(BASE_URL + '/accounts/login/')
 
