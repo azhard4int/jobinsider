@@ -1,0 +1,173 @@
+.transition{
+  transition: all ease-in-out 0.2s;
+  -webkit-transition: all ease-in-out 0.2s;
+  -o-transition: all ease-in-out 0.2s;
+  -ms-transition: all ease-in-out 0.2s;
+}
+
+
+
+body{
+  margin:0 auto;
+    font-family: 'proxima_nova_regular', arial, sans-serif !important;
+
+}
+header
+{
+  //background: linear-gradient(45deg,#2a1647,#2f255f);
+  background: linear-gradient(45deg, #7B6898, #584F84);
+  height:220px;
+  .logo{
+    padding-top:20px;
+    font-family: 'proxima_nova_scosf_condensSBd', arial, sans-serif !important;
+    color:#fff;
+    }
+}
+.top_border{
+    height: 2px;
+    background-color: #5584ff;
+    background-image: linear-gradient(to right,#7EA2FF,#a15beb,#e22fff,#ffd49b,#ffd49b);
+    background-image: -webkit-linear-gradient(to right,#7EA2FF,#a15beb,#e22fff,#ffd49b,#ffd49b);
+
+}
+
+.header_nav{
+    padding-top:10px;
+    float:right;
+
+    ul{
+      list-style:none;
+
+      li{
+        display: inline-block;
+        padding:10px 20px;
+        color:#fff;
+        a{
+          text-decoration: none;
+          color:#fff;
+          .transition;
+        }
+        a:hover{
+          color:#fafafa;
+
+        }
+      }
+      .register, .login
+      {
+
+
+        border-radius:2px;
+        padding:10px 20px;
+      }
+      .register:hover{
+        background: #7588c5;
+
+      }
+      .register{
+         background:#7f94d6;
+        border:1px solid #7b8ecf;
+      }
+      .login{
+        border:1px solid #e5e5e5 !important;
+      }
+      .login:hover{
+         background:#7f94d6;
+         border:1px solid #7b8ecf !important;
+      }
+    }
+  }
+
+.nav_intro{
+  h2{
+    margin-top: 0px;
+    padding-top:5px;
+    font-size:38px;
+    color:#fff;
+    text-align: center;
+  }
+  h5{
+    font-size:20px;
+    color:#fff;
+    text-align: center;
+  }
+}
+
+
+//User registration form
+
+.register_form, .login_f0{
+  margin-top:-30px;
+  background: #fbfbfb;
+  border-top:6px solid #7f94d6;
+  label{
+    margin-top:10px;
+    padding:10px 0;
+    font-family: 'proxima_nova_regular', arial, sans-serif !important;
+
+  }
+  .success, .error_message{
+    text-align: center;
+    padding:5px 10px;
+    color:#fff;
+    font-weight:normal;
+    border-radius:8px;
+  }
+  .success{
+        background: #67c565;
+  }
+  .error_message{
+    background-color: #ff4d66;
+  }
+  input{
+        background: #fdfdfd;
+          font-family: 'proxima_nova_regular', arial, sans-serif !important;
+          border-radius:0 !important;
+    margin:7px 0;
+  }
+  input:focus{
+    border-color:#7f94d6;
+  }
+  .select_user_profile select{
+    width:100%;
+    background: #fdfdfd;
+    padding:5px 5px;
+    margin-top: 5px;
+  }
+  .select_user_profile select:focus{
+        border-color:#7f94d6;
+  }
+  .r0_acct input
+  {
+    .transition;
+    width:100%;
+    background:#7f94d6;
+    color:#fff;
+    border-radius:2px;
+    margin-top:10px;
+    //margin-bottom: 20px;
+  }
+  .r0_acct input:hover{
+     background:#7588c5;
+     border:1px solid #7b8ecf !important;
+  }
+}
+.inner_links{
+
+  font-weight:normal;
+  font-size:14px;
+  .transition;
+  margin-top: 0px;
+}
+
+.inner_links.right{
+  float:right;
+}
+.inner_a{
+    text-decoration: none !important;
+    .transition;
+
+}
+.error_message, .success
+{
+  display: none;
+}

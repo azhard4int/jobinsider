@@ -1,16 +1,40 @@
 {% extends "base.html" %}
 <title>{% block title %}Login to Account{% endblock %}</title>
-
+ {% block headline_title %}
+        Login To Your Account
+    {% endblock %}
 {% block body_content %}
+
 <div class="error_message">
 
 </div>
-<form id="login_user" method="post" class="form">
 
-    {% csrf_token %}
-    {{login_form}}
-    <input type="submit" name="submit" value="Login" />
-</form>
+   <div class="col-md-4 col-sm-12 col-md-offset-4  login_f0">
+
+        <form id="login_user" method="post" class="form">
+
+            {% csrf_token %}
+              <div class="col-md-12">
+                    <label class="l0_form" ><span class="error_message"></span></label>
+                    <label ><span class="success"></span></label>
+              </div>
+             <div class="col-md-12">
+                {{login_form.username}}
+            </div>
+            <div class="col-md-12">
+                {{login_form.password}}
+            </div>
+            <div class="col-md-12 r0_acct">
+                <input type="submit" class="btn r0_acct_btn" name="submit" value="Login" />
+            </div>
+
+        </form>
+
+   <div class="clearfix"></div>
+    <div class="col-md-7"><label class="inner_links left" for="">Don't have an account? <a class="inner_a" href="{% url 'login_account' %}">Sign up</a></label></div>
+    <div class="col-md-5"><label class="inner_links right" for=""><a  class="inner_a" href="{% url 'forgot_password' %}">Forgot Password?</a></label></div>
+
+    </div>
 
 
 

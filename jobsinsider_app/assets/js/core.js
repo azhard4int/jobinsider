@@ -9,6 +9,7 @@ function login_account()
 
     $.ajax(
         {
+
             url : "/accounts/login/", // the endpoint
             type : "POST", // http method
             data: $('#login_user').serialize(),
@@ -24,17 +25,17 @@ function login_account()
                 else if(response.status==3){
                     window.location.href = '/accounts/confirm-email/';
                 }
-                else{
+                else if(response.status==-1){
+
+                    $('label.l0_form .error_message').html('There is no username exist with your entered username.');
+                    $('label.l0_form .error_message').show();
                     //console.log(response.status);
                     //$('.error_message').html(response.status);
                 }
             },
             error: function(response)
             {
-                console.log(response);
-                //response = JSON.parse(response);
-                console.log(response.status);
-                console.log('dsadas');
+                //console.log(response);
             }
 
         }
@@ -53,9 +54,22 @@ function forgot_password()
             url : "/accounts/forgot/", // the endpoint
             type : "POST", // http method
             data: $('#forgot_form').serialize(),
-            success: function(json)
+            success: function(response)
             {
+                json = JSON.parse(response);
                 console.log(json);
+                if(json.status=='-1')
+                {
+                     $('label.l0_form .error_message').html('There is no email exist which you have entered');
+                    $('label.l0_form .error_message').show();
+                }
+                else if (json.status==1)
+                {
+
+                    $('label.l0_form .error_message').hide();
+                    $('label.l0_form .success').html('Please check your email address to reset password and follow the instructions on it');
+                    $('label.l0_form .success').show();
+                }
             },
             error: function(json)
             {

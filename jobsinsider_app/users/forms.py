@@ -32,6 +32,36 @@ class UserCVForm(forms.ModelForm):
         fields = {'user_cv_file'}
 
 
+class UserLocationForm(forms.ModelForm):
+    choices = ((1,'Low',), (2,'Medium',), (3,'High',))
+    user_city = forms.ChoiceField(
+        choices=choices
+        )
+    user_country = forms.ChoiceField(
+        choices=choices
+    )
+    user_address = forms.Textarea()
+    user_zipcode  = forms.CharField(widget=forms.TextInput(
+        attrs={
+            'placeholder': 'Zip Code'
+        }
+    ))
+    user_phone_no = forms.CharField(widget=forms.TextInput(
+        attrs={
+            'placeholder': 'Phone No'
+        }
+    ))
+
+    class Meta:
+        model = UserLocation
+        fields = {
+            'user_city',
+            'user_country',
+            'user_address',
+            'user_zipcode',
+            'user_phone_no'
+        }
+
 class UserEmploymentForm(forms.ModelForm):
     # listofyears = [print ab for ab in range(1950, 2015)]
     company_name = forms.CharField(widget=forms.TextInput(attrs={

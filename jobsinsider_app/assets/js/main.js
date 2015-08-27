@@ -1,6 +1,16 @@
 $(document).ready(function()
 {
 
+        //form validations through javascript for frontend
+
+        function changeFocus()
+        {
+            $('input:text').blur(function () {
+                $(this).css('border-color', 'red');
+            });
+
+        }
+
         $('#login_user').on('submit', function()
         {
             event.preventDefault();
@@ -18,6 +28,60 @@ $(document).ready(function()
          $('#register_form').on('submit', function()
         {
             event.preventDefault();
+            var username = document.getElementsByName('username')[0].value;
+            var first_name = document.getElementsByName('first_name')[0].value;
+            var last_name = document.getElementsByName('last_name')[0].value;
+            var password = document.getElementsByName('password')[0].value;
+            var email = document.getElementsByName('email')[0].value;
+
+            if(username==''){
+                $('.error_message').html('Please enter username');
+                $('.error_message').show();
+                $('input[type=text][name=username]').focus();
+                $('input[type=text][name=username]:focus').attr('background-color','red');
+                return false;
+
+            }
+            if(first_name==''){
+                $('.error_message').html('Please enter username');
+                $('.error_message').show();
+                $('input[type=text][name=first_name]').focus();
+                $('input[type=text][name=first_name]:focus').attr('background-color','red');
+                return false;
+
+            }
+            if(last_name==''){
+                $('.error_message').html('Please enter last name');
+                $('.error_message').show();
+                $('input[type=text][name=last_name]').focus();
+                $('input[type=text][name=last_name]:focus').attr('background-color','red');
+                return false;
+
+            }
+            if(password==''){
+                $('.error_message').html('Please enter password');
+                $('.error_message').show();
+                $('input[type=text][name=password]').focus();
+                $('input[type=text][name=password]:focus').attr('background-color','red');
+                return false;
+
+            }
+            if(password.length<=5)
+            {
+                $('.error_message').html('Password should be greater than 5 characters.');
+                $('.error_message').show();
+                $('input[type=text][name=password]').focus();
+                $('input[type=text][name=password]:focus').attr('background-color','red');
+            }
+            if(email==''){
+                $('.error_message').html('Please enter email');
+                $('.error_message').show();
+                $('input[type=text][name=email]').focus();
+                $('input[type=text][name=email]:focus').attr('background-color','red');
+                return false;
+
+            }
+
             register_account();
             return false;
         });

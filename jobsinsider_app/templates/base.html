@@ -1,6 +1,8 @@
 {% load staticfiles %}
 {% load bootstrap3 %}
 
+
+
 <!DOCTYPE html>
 <html>
 <head lang="en">
@@ -16,36 +18,68 @@
 </head>
 <body>
 
+<div class="top_border"></div>
 {% block nav_content %}
+    <header class="top_layout">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <header>
-                <div class="col-md-4">
-                    LOGO here
-                </div>
-                <div class="col-md-8">
-                    <nav class="header_nav">
-                        <ul>
-                            {% if user.is_authenticated %}
-                            <li>
-                                <a href="">Create Advertisement</a>
-                            </li>
-                            {% else %}
-                            <li>
-                                <a href="{% url 'register_account' %}">Sign up</a>
-                            </li>
-                            {% endif %}
-                        </ul>
-                    </nav>
-                </div>
-            </header>
+                    <div class="col-md-4">
+                        <div class="logo">
+                            JobInsider
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <nav class="header_nav">
+                            <ul>
+                                {% if user.is_authenticated %}
+                                <li>
+                                    <a href="">Create Advertisement</a>
+                                </li>
+                                {% else %}
 
+                                    <li>
+                                      <a href="{% url 'register_account' %}">Search Jobs</a>
+                                   </li>
+                                    <li>
+                                     <a href="{% url 'register_account' %}">View Profiles</a>
+                                    </li>
+                                    <li>
+                                      <a class="btn register" href="{% url 'register_account' %}">Sign up</a>
+                                    </li>
+                                    <li>
+                                     <a class="btn login" href="{% url 'login_account' %}">Log in</a>
+                                     </li>
+
+                                {% endif %}
+                            </ul>
+                        </nav>
+                    </div>
+
+
+            </div>
         </div>
-    </div>
 
-</div>
+        <div class="clearfix"></div>
+        <div class="nav_intro">
+            <h2>
+                {% block headline_title %}
+                Enter Title Here
+                {% endblock %}
+
+            </h2>
+            <h5>
+                {% block sub_head_title %}
+
+                {% endblock %}
+            </h5>
+        </div>
+
+    </div>
+</header>
+    <div class="clearfix">
+    </div>
 
 
 {% endblock %}

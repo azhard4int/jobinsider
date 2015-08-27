@@ -1,15 +1,52 @@
 {% extends "base.html" %}
 <title>{% block title %}Register account{% endblock %}</title>
 
+ {% block headline_title %}
+        Register Your Account
+    {% endblock %}
+
+{%  block sub_head_title %}
+    Fill in your details below to get started
+{% endblock %}
+
 {% block body_content %}
 
-<form id="register_form" method="post">
+<div class="col-md-4 col-sm-12 col-md-offset-4  register_form">
+    <form id="register_form" method="post">
 
-    {% csrf_token %}
-    {{user_form}}
-    {{user_profile_form}}
-    <input type="submit" name="submit" value="Register" />
-</form>
+        {% csrf_token %}
+        <div class="col-md-12">
+            <label ><span class="error_message"></span></label>
+            <label ><span class="success"></span></label>
+        </div>
+        <div class="clearfix"></div>
+        <div class="col-md-6">
+            {{user_form.first_name}}
+        </div>
+        <div class="col-md-6">
+            {{user_form.last_name}}
+        </div>
+        <div class="col-md-12">
+                {{user_form.username}}
+        </div>
+        <div class="col-md-12">
+            {{user_form.email}}
+        </div>
+        <div class="col-md-12">
+            {{user_form.password}}
+        </div>
+        <div class="col-md-12 select_user_profile">
+            {{user_profile_form}}
+        </div>
+        <div class="col-md-12 r0_acct">
+            <input type="submit" class="btn r0_acct_btn" name="submit" value="Register" />
+        </div>
+    </form>
+    <div class="clearfix"></div>
+    <div class="col-md-7"><label class="inner_links left" for="">Have an account? <a class="inner_a" href="{% url 'login_account' %}">Login Now</a></label></div>
+    <div class="col-md-5"><label class="inner_links right" for=""><a  class="inner_a" href="{% url 'forgot_password' %}">Forgot Password?</a></label></div>
+
+</div>
 
 
 

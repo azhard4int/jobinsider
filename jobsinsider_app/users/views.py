@@ -32,10 +32,11 @@ def index(request):
 
         if step_value == '1':
             userProfile = UserBioInfo()
+            userLocation = UserLocationForm()
             detect_user = UserBio.objects.filter(user_id=request.user.id)
             if detect_user:
                 return HttpResponseRedirect('/user/create-basic-profile/?step=2')
-            return render(request, 'user_biography.html', {'userbio': userProfile})
+            return render(request, 'user_biography.html', {'userbio': userProfile, 'userloc': userLocation})
 
         if step_value == '2':
             user_status = accountsmodels.UserProfile.objects.filter(

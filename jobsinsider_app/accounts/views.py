@@ -23,7 +23,7 @@ STATUS_SUCCESS = 'Your account has been created successfully'
 STATUS_EXIST = 'Account with that email address already exists.'
 STATUS_WRONG = 'Invalid Username or Password'
 STATUS_SENT = 'Please check your email address to reset password and follow the instructions on it.'
-STATUS_NONE = 'There is no username exist with your entered username.'
+STATUS_NONE = 4 # 'There is no username exist with your entered username.'
 
 
 def index(request):
@@ -116,8 +116,7 @@ def login_view(request):
             user = authenticate(username=username, password=password)
             if user is None:
                 return HttpResponse(
-                    json.dumps({'status': STATUS_NONE}),
-                    content_type="application/json"
+                    json.dumps({'status': -1}),
                 )
 
             if user:
@@ -168,17 +167,16 @@ def forgot_password(request):
 
             sendemail_ = email.EmailFunc('forgotpassword', **listvalue)
             sendemail_.generic_email()
-            success = {'status': STATUS_SENT}
+            success = {'status': 1}
 
             return HttpResponse(
                 json.dumps(success),
-                content_type="application/json"
             )
         else:
-            error = {'status': 'User email not found'}
+            error = {'status': -1}  #'User email not found'
             return HttpResponse(
-                json.dumps(error),
-                content_type="application/json")
+                json.dumps(error)
+            )
     else:
         forgot = ForgotPassword()
         return render(request, 'forgot_password.html', {'forgotpassword': forgot})
