@@ -84,14 +84,19 @@ def categories_add(request):
 @login_required()
 def process_catadd(request):
 
+    print request.FILES
     if request.method=='POST':
         category_status = request.POST['category_status']
         category_name = request.POST['category_name']
+        category_image = request.FILES['category_image']
         catInstance = modeinsert.Categories(
             category_status=category_status,
-            category_name=category_name
+            category_name=category_name,
+            category_image=category_image,
         )
         catInstance.save()
+        return HttpResponse(json.dumps({'status': 1}))
+
 
 def process_enable_status(request):
     """

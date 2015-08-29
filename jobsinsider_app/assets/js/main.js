@@ -31,9 +31,36 @@ $(document).ready(function()
             }
 
         }
+
+        function usernameCheck(username_value)
+        {
+            if(username_value==''){
+                $('.error_message').html('Please enter username');
+                $('.error_message').show();
+                $('input[type=text][name=username]').focus();
+                $('input[type=text][name=username]:focus').attr('background-color','red');
+                return false;
+            }
+        }
+
+        function emailCheck(email_value)
+        {
+            if(email_value==''){
+                $('.error_message').html('Please enter username');
+                $('.error_message').show();
+                $('input[type=text][name=username]').focus();
+                $('input[type=text][name=username]:focus').attr('background-color','red');
+                return false;
+            }
+        }
+
         $('#login_user').on('submit', function()
         {
             event.preventDefault();
+            var username = document.getElementsByName('username')[0].value;
+            var password = document.getElementsByName('password')[0].value;
+            username_detect = usernameCheck(username);
+            password_detect = passwordCheck(password);
             login_account();
             return false;
         });
@@ -41,7 +68,8 @@ $(document).ready(function()
         $('#forgot_form').on('submit', function()
         {
             event.preventDefault();
-
+            var email = document.getElementsByName('username')[0].value;
+            emaildetect = emailCheck(email);
             forgot_password();
             return false;
         });
@@ -55,14 +83,7 @@ $(document).ready(function()
             var password = document.getElementsByName('password')[0].value;
             var email = document.getElementsByName('email')[0].value;
 
-            if(username==''){
-                $('.error_message').html('Please enter username');
-                $('.error_message').show();
-                $('input[type=text][name=username]').focus();
-                $('input[type=text][name=username]:focus').attr('background-color','red');
-                return false;
-
-            }
+            username_detect = usernameCheck(username);
             if(first_name==''){
                 $('.error_message').html('Please enter username');
                 $('.error_message').show();

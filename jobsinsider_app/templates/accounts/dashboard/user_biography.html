@@ -1,6 +1,32 @@
-{% extends "base.html" %}
+{% extends "base_dasboard.html" %}
     <title>{% block title %}Select Your Profession{% endblock %}</title>
+{% if user.is_authenticated %}
+
+        {% block authenticate_user %}
+
+            Hi {{ user.first_name }}  {{ user.last_name }},
+
+        {% endblock %}
+    {% endif %}
 {% block body_content %}
+{% include 'base_dashboard_core.html' %}
+
+    <section class="steps">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <ul>
+
+                        <li><a href="">Your Personal Information</a></li>
+                        <li><a href="">Step 2</a></li>
+                        <li><a href="">Step 3</a></li>
+                        <li><a href="">Step </a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
 
 <div class="container">
     <div class="row">

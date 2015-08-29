@@ -8,7 +8,7 @@
     <div class="row">
     <div class="col-md-12">
     {% if count_category < 20 %}
-        <form method="post" id="add_category_admin" action="">
+        <form method="post" id="add_category_admin" action="" enctype="multipart/form-data">
             {%csrf_token%}
             {{add_category}}
             <input type="submit">

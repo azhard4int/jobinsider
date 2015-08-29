@@ -12,7 +12,7 @@ body{
     font-family: 'proxima_nova_regular', arial, sans-serif !important;
 
 }
-header
+.top_layout
 {
   //background: linear-gradient(45deg,#2a1647,#2f255f);
   background: linear-gradient(45deg, #7B6898, #584F84);
@@ -96,6 +96,7 @@ header
 //User registration form
 
 .register_form, .login_f0{
+  margin-bottom: 100px;
   margin-top:-30px;
   background: #fbfbfb;
   border-top:6px solid #7f94d6;
@@ -169,5 +170,183 @@ header
 }
 .error_message, .success
 {
+  display: none;
+}
+
+
+//Dashboard section up here
+
+
+.dashboard_s0{
+  height: 70px;
+  background: #553771;
+  .logo{
+    color:#fff;
+  }
+}
+
+.dashboard_s0_nav{
+  float:right;
+  ul{
+    list-style:none;
+    margin-left:-40px;
+    li{
+      display: inline-block;
+      a{
+        text-decoration: none;
+        color:#fff;
+      }
+    }
+  }
+
+}
+
+.user_profile_detail{
+  .transition;
+  color:#fff;
+  background: #553771;
+  min-height: 70px;
+
+  display: block;
+  float:right;
+  a{
+    .transition;
+    //float:right;
+    display: block;
+    color:#fff;
+    min-height: 60px;
+    text-decoration: none !important;
+    padding-top:20px;
+    font-size: 15px;
+    padding-left:12px;
+    i{
+      padding-right:20px;
+    }
+
+  }
+  a:hover{
+    color:#fafafa;
+  }
+}
+.user_profile_detail:hover, .active_dashboard{
+  background: #342449;
+}
+
+.right_sec
+{
+  float:right !important;
+}
+
+.user_profile_icon{
+  height:60px;
+  width:60px;
+  border-radius:60px;
+  background:url('../img/profile.png') no-repeat;
+}
+
+.dashboard_s0_nav_main{
+  list-style: none;
+  margin-left:-40px;
+}
+
+
+.dashboard_s0_nav_child{
+  margin-top:10px;
+  //display: none;
+  position:absolute;
+  width:100%;
+  background: #2f2244;
+  list-style: none;
+    //margin-left:-20px;
+        margin-left:-50px;
+
+  ul{
+      margin-left:-40px;
+
+    list-style: none;
+  }
+  a{
+    display: block;
+    width: 100%;
+  }
+}
+
+
+//Confirm Email page stylign
+
+section.c_email{
+
+  background: #7859af;
+  min-height: 150px;
+  //border-bottom: 1px solid #e6e6e6;
+}
+
+section.core_content{
+  .email_box{
+    margin-top:-110px;
+    padding:20px;
+
+    background:#fff;
+    border-radius:2px;
+    border:1px solid #6c4c97;
+  }
+  h3{
+    //padding:15px 0;
+  }
+  padding:10px 0 ;
+}
+
+.c0_email_btn
+{
+  .transition;
+    width:100%;
+    background:#7f94d6;
+    color:#fff;
+    border-radius:2px;
+    padding:7px 10px;
+    //margin-top:10px;
+}
+.status_msg{
+  padding:6px 10px;
+  border-radius: 2px;
+  border:1px solid #54a854;
+  color:#fff;
+  background: #69d169;
+}
+
+
+//User profile creation dahsboard
+.header_top_menu{
+  background:#fafafa;
+  border-bottom:1px solid #f8f4ff;
+}
+
+.nav_head_top{
+  padding-bottom: 0;
+  margin-bottom: 0;
+  list-style: none;
+  margin-left: -40px;
+  li{
+    display: inline-block;
+    //width:20%;
+    a{
+      .transition;
+      text-decoration: none;
+      color:#000;
+      display: inline-block;
+      padding:20px 30px;
+
+
+    }
+    a:hover
+    {
+      background: #f4f4f4;
+      color:#555;
+    }
+  }
+}
+
+
+.status_msg{
   display: none;
 }

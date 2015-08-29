@@ -11,3 +11,27 @@ body {
   font-family: 'proxima_nova_regular', arial, sans-serif !important;
   margin: 0 auto;
 }
+footer {
+  background: #f8f4ff;
+  padding: 25px 0;
+  border-top: 2px solid #242424;
+}
+footer h4 {
+  color: #7f94d6;
+}
+footer .footer_nav {
+  list-style: none;
+  margin-left: -40px;
+}
+footer .footer_nav li a {
+  line-height: 24px;
+  transition: all ease-in-out 0.2s;
+  -webkit-transition: all ease-in-out 0.2s;
+  -o-transition: all ease-in-out 0.2s;
+  -ms-transition: all ease-in-out 0.2s;
+  color: #242424;
+  text-decoration: none;
+}
+footer .footer_nav li a:hover {
+  color: #959595;
+}

@@ -4,6 +4,12 @@
 
 // for login account for the user
 
+function getcsrf()
+{
+    csrfmiddlewaretoken = document.getElementsByName('csrfmiddlewaretoken')[0].value
+    return csrfmiddlewaretoken
+}
+
 function login_account()
 {
 
@@ -111,7 +117,7 @@ function forgot_set()
     formdata = new FormData('#set_password');
     console.log(formdata);
     var email_details  = document.getElementsByName('email')[0].value;
-    var password =  document.getElementsByName('email')[0].value;
+    var password =  document.getElementsByName('password')[0].value;
     var csrfmdi = document.getElementsByName('csrfmiddlewaretoken')[0].value;
     console.log(email_details);
     $.ajax(
@@ -144,18 +150,55 @@ function forgot_set()
 }
 
 
+// resend the confrimation email to the user
+
+
+$('.c0_email_btn').on('click', function(event)
+{
+    event.preventDefault();
+    csrf = getcsrf();
+    $.ajax(
+        {
+            type: "POST",
+            url: '/accounts/resend-confirmation/',
+            data: {csrfmiddlewaretoken: csrf},
+            success:function(data)
+            {
+                resp = JSON.parse(data);
+                if(resp.status==1)
+                {
+                    $('.status_msg').html('A resend confirmation email has been sent to your email address');
+                    $('.status_msg').show();
+                }
+            }
+        }
+    );
+
+
+    return false;
+});
+
+
 //admin pannel side.
 
 $('#add_category_admin').on('submit', function(event)
 {
-   event.preventDefault();
+    event.preventDefault();
+    var data = new FormData($('#add_category_admin').get(0));
     $.ajax({
         url: '/private/members/categories/add_category',
         type: 'POST',
-        data: $('form#add_category_admin').serialize(),
+        data: data,
+        cache: false,
+        processData: false,
+        contentType: false,
         success: function(response)
         {
-            console.log('here now');
+            resp = JSON.parse(response);
+            if(resp.status==1)
+            {
+                window.location.href =  '/private/members/categories/'
+            }
 
         },
         error: function(response)

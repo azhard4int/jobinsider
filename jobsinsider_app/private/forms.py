@@ -15,10 +15,11 @@ class Adminlogin(forms.ModelForm):
 class CategoryAdd(forms.ModelForm):
     category_name = forms.CharField()
     category_status = forms.IntegerField()
+    category_image = forms.ImageField
 
     class Meta:
         model = modelf.Categories
-        fields = {'category_name', 'category_status'}
+        fields = {'category_name', 'category_status', 'category_image'}
 
 
 class CategoryEdit(forms.ModelForm):

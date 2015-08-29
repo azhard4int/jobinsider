@@ -1,0 +1,61 @@
+{% extends "base_dasboard.html" %}
+
+
+<title>{% block title %}Confirm Your Account{% endblock %}</title>
+{% if user.is_authenticated %}
+
+        {% block authenticate_user %}
+
+            Hi {{ user.first_name }}  {{ user.last_name }},
+
+        {% endblock %}
+    {% endif %}
+{% block body_content %}
+<section class="c_email">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+
+            </div>
+        </div>
+    </div>
+</section>
+    <div class="clearfix"></div>
+
+    <section class="core_content">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <div class="email_box">
+                            <span class="status_msg"></span>
+
+                            <h3>Hi {{ user.first_name }}, Verify Your Email Account</h3>
+                                <br>
+                            <p>
+                                A verification link has been emailed to ({{ user.email }}) when you first created the account.
+                                Please click that link to verify your email address. If you can not find this email then check your spam folder for it..
+
+
+
+                                <br><br>
+                                However, you can request a new confirmation email again from clicking below button.
+                                <br><br>
+                                <div class="resend_c0_email">
+                                    {% csrf_token %}
+                                    <a href="" class="btn c0_email_btn">Send verification email to {{ user.email }}</a>
+                                </div>
+                                <Br>
+
+                                <h3>Why is Verification Important?</h3>
+                            </p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+
+{% endblock %}

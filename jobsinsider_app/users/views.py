@@ -7,10 +7,12 @@ from django import views
 from models import *
 from forms import *
 from django.views.generic import View
+from django.contrib.auth.decorators import login_required
 from accounts import models as accountsmodels
 
 
 # Create your views here.
+@login_required
 def index(request):
     """
     Whole view for the company - starting out from the selection of the website.

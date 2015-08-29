@@ -8,14 +8,17 @@ from datetime import timedelta
 from django.shortcuts import render, HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login as login_ses, logout
+from django.contrib.auth.decorators import login_required
 
 from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 from .forms import *
 from .models import *
 from django.utils import timezone
+from django.views.generic import View
 from django.core.mail import send_mail, EmailMultiAlternatives
 from core import email
 from users import models as usermodels
+
 
 
 BASE_URL = 'http://127.0.0.1:8000'
@@ -30,6 +33,14 @@ def index(request):
     """
 
     """
+
+
+def send_confirmation_email( **kwargs):
+
+    sendemail_ = email.EmailFunc('activateaccount', **kwargs)
+    sendemail_.generic_email()
+    status = {'status': STATUS_SUCCESS}
+
 
 
 def register(request):
@@ -108,7 +119,8 @@ def login_view(request):
             if request.GET.get('error') == 1:
                 error = 'Your token time expired, please reset password once again.'
 
-
+            if request.GET.get('error') == 2:
+                error = 'Your Token already been used'
         if request.method == 'POST':
             username = request.POST['username']
             password = request.POST['password']
@@ -120,6 +132,7 @@ def login_view(request):
                 )
 
             if user:
+
                 if user.is_superuser:   # For administrator privilleged user
                     login_ses(request, user)
                     return HttpResponse(json.dumps({'status': '1'}))
@@ -129,10 +142,15 @@ def login_view(request):
                     return HttpResponse(json.dumps({
                         'status': 2}))
                 else:
+                    """
+                        If the user account is not valid
+                    """
+                    login_ses(request, user)
                     return HttpResponse(json.dumps({
                         'status': 3}))
         else:
             login_form = LoginForm()
+            # gotta work out for the error request up here.
             return render(request, 'login_account.html', {'login_form': login_form, 'error': error})
 
 
@@ -181,6 +199,7 @@ def forgot_password(request):
         forgot = ForgotPassword()
         return render(request, 'forgot_password.html', {'forgotpassword': forgot})
 
+
 def token_gen():
     return ''.join(random.choice(string.ascii_uppercase) for i in range(60))
 
@@ -193,9 +212,12 @@ def set_new_password(request):
         """
             If the request is of post data
         """
+        print request.POST['password']
         user = User.objects.get(email=request.POST['email'])
         user.set_password(request.POST['password'])
         user.save()
+        UserForgot.objects.filter(user_id=user.id).update(token_status=1)
+
         return HttpResponse(
             json.dumps(
                 {
@@ -215,7 +237,15 @@ def set_new_password(request):
     if tokenvalue is not None:  # second level Timestmap Checker
         userdetails = token_check(tokenvalue)
         if userdetails['usercheck'] is not None:   # if the user token is valid proceed.
-            # if userdetails['timestamp_now'] > userdetails['timestamp_created']:   # 30 minutes timestamp.
+                # if userdetails['timestamp_now'] > userdetails['timestamp_created']:   # 30 minutes timestamp.
+
+                # Additional check if the token is already used!
+
+                user_detail  = UserForgot.objects.filter(user_id=userdetails['usercheck'][0].user_id)
+                if user_detail[0].token_status == 1:
+                    return HttpResponseRedirect(BASE_URL + '/accounts/login/?error=2')  #  2 for already used token
+
+
                 user_email = User.objects.filter(id=userdetails['usercheck'][0].user_id)[0].email
                 setform = SetNewPassword(initial={'email': user_email})
                 return render(request, 'set_password.html', {'setpassword': setform})
@@ -224,6 +254,7 @@ def set_new_password(request):
             #     return HttpResponseRedirect(BASE_URL + '/accounts/login/?error=1')
         else:
             return HttpResponseRedirect(BASE_URL + '/accounts/login/')
+
 
 
 
@@ -238,6 +269,7 @@ def confirm_email(request):
     # if user.is_active:
     token_value = request.GET.get('token', '')
     print token_value
+
     if len(token_value) > 10:
         try:
             user = UserActivation.objects.get(activation_key=token_value)
@@ -255,6 +287,7 @@ def confirm_email(request):
             main_user = User.objects.get(id=user.user_id)
             main_user.is_active = 1
             main_user.save()
+
 
 
             return HttpResponseRedirect('/dashboard/')
@@ -287,3 +320,33 @@ def token_check(tokenvalue=None, user_id=None):     # bring the token.
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect('http://127.0.0.1:8000/accounts/login/')
+
+
+def send_user_email(request):
+    """
+    This will be used to resend the confirmation emial to the user
+    """
+    try:
+        userobj = UserActivation.objects.filter(user_id=request.user.id)
+        if userobj:
+            userToken = userobj[0].activation_key
+            listvalue = {
+                    'tosend': request.user.email,
+                    'username': request.user.email,
+                    'first_name': request.user.first_name,
+                    'token': userToken
+                }
+            send_confirmation_email(**listvalue)
+            return HttpResponse(json.dumps({'status':1}))
+
+
+    except:
+        pass
+
+
+class ConfirmEmailView(View):
+    """
+        Confirm Your Email View Up here
+    """
+    def get(self, request):
+        return render(request, 'confirm_email_view.html')

@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.exceptions import ObjectDoesNotExist
+from django.conf import settings
 # Create your models here.
 
 class CategoriesManager(models.Manager):
@@ -31,6 +32,9 @@ class CategoriesManager(models.Manager):
 
 class Categories(models.Model):
 
+    directory_path = str(settings.MEDIA_ROOT + "/admin/categories/")
+
+
     category_name = models.CharField(
         blank=True,
         max_length=255
@@ -39,6 +43,12 @@ class Categories(models.Model):
         blank=True,
         default=1   # set active by default
     )   # For Active/Inactive option from the backend panel
+
+    category_image = models.ImageField(
+        upload_to=directory_path,
+        default=None,
+        blank=True
+    )
 
     objects = CategoriesManager()
 
