@@ -89,10 +89,12 @@ def process_catadd(request):
         category_status = request.POST['category_status']
         category_name = request.POST['category_name']
         category_image = request.FILES['category_image']
+        filename = request.FILES['category_image'].name
         catInstance = modeinsert.Categories(
             category_status=category_status,
             category_name=category_name,
             category_image=category_image,
+            file_name=filename
         )
         catInstance.save()
         return HttpResponse(json.dumps({'status': 1}))

@@ -8,10 +8,13 @@ class UserBioInfo(forms.ModelForm):
     user_title = forms.CharField(
         widget=forms.TextInput(attrs={
             'placeholder': 'Title',
+            'class': 'form-control'
             }
         )
     )
-    user_overview = forms.Textarea()
+    user_overview = forms.Textarea(
+
+    )
     user_language_pre = forms.ChoiceField(
         choices=choices
     )

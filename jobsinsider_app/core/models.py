@@ -49,6 +49,10 @@ class Categories(models.Model):
         default=None,
         blank=True
     )
+    file_name  = models.CharField(
+        blank=True,
+        max_length=255
+    )
 
     objects = CategoriesManager()
 

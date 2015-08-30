@@ -16,7 +16,7 @@ class UserProfile(models.Model):
     user_post_job = models.BooleanField(default=0)  # 0 - no, 1 - yes.
 
     def __unicode__(self):
-        return self.user
+        return unicode(self.user)
 
 class UserForgot(models.Model):
 

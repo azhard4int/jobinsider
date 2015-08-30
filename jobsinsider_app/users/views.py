@@ -41,9 +41,12 @@ def index(request):
             return render(request, 'user_biography.html', {'userbio': userProfile, 'userloc': userLocation})
 
         if step_value == '2':
+
             user_status = accountsmodels.UserProfile.objects.filter(
                     user_id=request.user.id
                 )[0]
+            print 'dsadas%s' %user_status
+
 
             try:
                 user_cv_data = UserCV.objects.filter(user_id=request.user.id)[0]
@@ -126,7 +129,8 @@ class UserInfo(View):
             return HttpResponse(json.dumps({'status': True}))
         if request.method == 'POST':
             form = UserBioInfo(request.POST, request.FILES)
-            print form
+            print User.objects.filter(id=request.user.id)
+            print request.POST
             if form.is_valid():
                 print User.objects.filter(id=request.user.id)
                 # UserBio(commit=False)
@@ -138,6 +142,19 @@ class UserInfo(View):
                 user_bio.user_overview = request.POST['user_overview']
                 user_bio.user_language_pre = request.POST['user_language_pre']
                 ret = user_bio.save()
+                # storing user location details
+                user_location = UserLocation(
+                    user_address = request.POST['user_address'],
+                    user_city = request.POST['user_city'],
+                    user_country = request.POST['user_country'],
+                    user_zipcode = request.POST['user_zipcode'],
+                    user_phone_no = request.POST['user_phone_no'],
+                    user_location_status = 1,
+                    user = User.objects.filter(id=request.user.id)[0]
+
+                )
+                user_location.save()
+
                 return HttpResponse(json.dumps({'status': True}))
 
 

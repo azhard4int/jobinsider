@@ -108,6 +108,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                "django.core.context_processors.media",
+                "django.core.context_processors.static",
             ],
         },
     },
@@ -169,7 +171,7 @@ STATICFILES_DIRS = (
 STATIC_ROOT = ''
 # STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
 STATIC_URL = '/assets/'
-
+MEDIA_URL = '/media/'
 # Email Configuration
 
 EMAIL_HOST = 'smtp.critsend.com'

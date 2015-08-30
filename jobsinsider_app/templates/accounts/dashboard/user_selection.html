@@ -7,12 +7,19 @@
 <div class="container">
     <div class="row">
             {% if user.is_authenticated %}
+
+                <div class="col-md-12">
+
+
             <form action="" id="skills_form">
 
             {% csrf_token %}
             {% for cat_name in categories%}
-                    <div class="col-md-3" class="c0_cat">
-                        <a class="c0_cat_main" href="javascript:;" value="{{cat_name.id}}">
+                    <div class="col-md-3 c0_cat main_box">
+                        <a class="c0_cat_main " href="javascript:;" value="{{cat_name.id}}">
+
+                            <img src='{{ MEDIA_URL }}categories/{{ cat_name.file_name }}'>
+
                             {{cat_name}}
                             <input type="hidden" class="category_id_value" value="{{cat_name.id}}" name="category_id"/>
                         </a>
@@ -22,6 +29,7 @@
             {% endfor %}
                 <input type="submit" value="Submit Value"/>
             </form>
+                </div>
             {% endif %}
 
 

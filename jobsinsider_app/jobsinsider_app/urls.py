@@ -18,9 +18,11 @@ BASE_PROJECT = sys.path[0]
 
 
 # from django.conf.urls.defaults import *
-from django.conf.urls import include, url
+from django.conf.urls import include, url, static
+from django.conf import settings
 from django.contrib import admin
 from views import *
+
 
 urlpatterns = [
     # url(r'', homepage),
@@ -31,4 +33,4 @@ urlpatterns = [
     url(r'^private/', include('private.urls')),
     # url(r'^ajax-upload/', include('ajax_upload.urls')),
 
-]
+] + static.static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
