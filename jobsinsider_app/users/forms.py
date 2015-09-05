@@ -30,6 +30,9 @@ class UserBioInfo(forms.ModelForm):
         }
 
 class UserCVForm(forms.ModelForm):
+    user_cv_file = forms.FileField(
+
+    )
     class Meta:
         model = UserCV
         fields = {'user_cv_file'}

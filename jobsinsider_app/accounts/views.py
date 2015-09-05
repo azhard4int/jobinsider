@@ -139,8 +139,13 @@ def login_view(request):
 
                 if user.is_active:
                     login_ses(request, user)
-                    return HttpResponse(json.dumps({
-                        'status': 2}))
+                    is_company = UserProfile.objects.get(user_id=user.id)
+                    if is_company.user_status==0:
+                        return HttpResponse(json.dumps({
+                            'status': 2}))
+                    else:
+                        return HttpResponse(json.dumps({
+                            'status': 4}))
                 else:
                     """
                         If the user account is not valid
@@ -279,6 +284,7 @@ def confirm_email(request):
 
         if user:    # If the user is already verified.
             if user.activation_status == 1:
+
                 return HttpResponseRedirect('/user/create-basic-profile/?step=0')
 
         if user:

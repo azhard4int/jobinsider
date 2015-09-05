@@ -11,6 +11,8 @@
     {% block style_block %}
         <link rel="stylesheet" href="{% static "/assets/css/main.css" %}"/>
         <link rel="stylesheet" href="{% static "/assets/css/font-awesome.min.css" %}"/>
+        <link rel="stylesheet" href="{% static "/assets/css/datepicker.css" %}"/>
+
         <!--<link rel="stylesheet" href="{% static "/assets/plugins/dropzone/dropzone.css" %}"/>-->
         {% bootstrap_css %}
 
@@ -21,7 +23,7 @@
 
 {% block dashboard_nav_content %}
     <header class="dashboard_s0">
-    <div class="container-fluid">
+    <div class="container">
         <div class="row">
             <div class="col-md-12">
 
@@ -55,7 +57,7 @@
                                 <div class="user_profile_detail">
                                     <ul class="dashboard_s0_nav_main">
                                         <li>
-                                            <a href=""><i class="fa fa-user fa-lg"></i>{% block authenticate_user %}Welcome  Username {%  endblock %} </a>
+                                            <a href="">{% block authenticate_user %}Welcome  Username {%  endblock %} <i class="fa fa-user fa-lg"></i> </a>
                                         </li>
 {#                                        <div class="dashboard_s0_nav_child">#}
 {#                                            <ul>#}
@@ -93,11 +95,15 @@
 {% block body_content %} {% endblock %}
 
 {% block scripts_block %}
+
     <script src='{% static "/assets/js/jquery-1.11.3.min.js" %}'></script>
-    <script src='{% static "/assets/js/main.js" %}'></script>
-    <script src='{% static "/assets/js/core.js" %}'></script>
-    <!--<script src='{% static "/assets/plugins/dropzone/dropzone.js" %}'></script>-->
     {% bootstrap_javascript %}
+    <script src='{% static "/assets/js/plugins/bootstrap-datepicker.js" %}'></script>
+    <script src='{% static "/assets/js/main.js" %}'></script>
+    <script src='{% static "/assets/js/helper.js" %}'></script>
+    <script src='{% static "/assets/js/core.js" %}'></script>
+
+
 
 {% endblock %}
 

@@ -1,6 +1,18 @@
 @import url('fonts.css');
 @import url('accounts.css');
+@import url('profile.css');
 @import "buttons.css";
+.clearfix {
+  clear: both;
+}
+.shadow {
+  -webkit-box-shadow: 1px 1px 2px 2px #ccc;
+  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+  -moz-box-shadow: 1px 1px 2px 2px #ccc;
+  /* Firefox 3.5 - 3.6 */
+  box-shadow: 1px 1px 2px 2px #ccc;
+  /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
+}
 .transition {
   transition: all ease-in-out 0.2s;
   -webkit-transition: all ease-in-out 0.2s;
@@ -8,6 +20,7 @@
   -ms-transition: all ease-in-out 0.2s;
 }
 body {
+  background: #ddd6ff !important;
   font-family: 'proxima_nova_regular', arial, sans-serif !important;
   margin: 0 auto;
 }
@@ -34,4 +47,196 @@ footer .footer_nav li a {
 }
 footer .footer_nav li a:hover {
   color: #959595;
+}
+#has_user {
+  padding: 20px 0;
+  margin-top: 10px;
+}
+#has_user .box_has_user {
+  padding: 0px 0 15px;
+  background: #fff;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  -webkit-box-shadow: 1px 1px 2px 2px #ccc;
+  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+  -moz-box-shadow: 1px 1px 2px 2px #ccc;
+  /* Firefox 3.5 - 3.6 */
+  box-shadow: 1px 1px 2px 2px #ccc;
+  /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
+}
+#has_user .box_has_user h2 {
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+  font-size: 20px;
+  padding-top: 15px;
+}
+#has_user .box_has_user h2.h0_child {
+  border-top: 4px solid #ebcb09;
+}
+#has_user .box_has_user h2.h1_child {
+  border-top: 4px solid #839891;
+}
+#has_user .box_has_user h2.h2_child {
+  border-top: 4px solid #8677eb;
+}
+#has_user .box_has_user h2.h3_child {
+  border-top: 4px solid #935aeb;
+}
+#has_user .box_has_user h4 {
+  font-size: 24px;
+  text-align: center;
+  color: #242424;
+}
+#jobs {
+  padding: 20px 0;
+}
+#jobs .job_view {
+  -webkit-box-shadow: 1px 1px 2px 2px #ccc;
+  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+  -moz-box-shadow: 1px 1px 2px 2px #ccc;
+  /* Firefox 3.5 - 3.6 */
+  box-shadow: 1px 1px 2px 2px #ccc;
+  /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
+  margin: 0;
+  padding: 0;
+  background: #fff;
+}
+#jobs .job_view h3 {
+  padding: 10px;
+  display: block;
+  background: #f9f9f9;
+  margin: 0;
+  padding-left: 30px;
+  color: #37264c;
+  border-bottom: 1px solid #f4f4f4;
+}
+#jobs .listed_job {
+  padding: 10px 0;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e8e8e8;
+}
+#jobs .listed_job h4 {
+  font-size: 16px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  margin: 0;
+  margin-top: 10px;
+  color: #979797;
+}
+#jobs .listed_job h4 span {
+  margin-left: 15px;
+  font-size: 13px;
+  padding: 4px 15px;
+  background: #f2f2f2;
+  color: #555;
+  border: 1px solid #e2e2e2;
+  border-radius: 30px;
+}
+#jobs .listed_job h1 {
+  margin: 0;
+  padding: 10px 0;
+  font-size: 22px !important;
+}
+#jobs .pub_date {
+  text-align: center;
+  padding-top: 25px;
+}
+#jobs .pub_date span {
+  color: #fff;
+  font-size: 20px;
+  bottom: 0px;
+  display: block;
+  line-height: 90px;
+  background: linear-gradient(135deg, #faa41a, #facc2c);
+}
+div.preview_btn,
+div.apply_btn {
+  padding-top: 30px;
+  text-align: center;
+  display: block;
+  margin: 0 auto;
+}
+div.preview_btn a,
+div.apply_btn a {
+  transition: all ease-in-out 0.2s;
+  -webkit-transition: all ease-in-out 0.2s;
+  -o-transition: all ease-in-out 0.2s;
+  -ms-transition: all ease-in-out 0.2s;
+  line-height: 40px;
+  text-align: center !important;
+  vertical-align: middle;
+  display: block;
+  width: 150px;
+  background: #9a61d1;
+  border-radius: 20px;
+  color: #fff;
+}
+div.preview_btn a:hover,
+div.apply_btn a:hover {
+  text-decoration: none;
+}
+div.preview_btn a:hover {
+  background: #8f5ac2;
+}
+div.apply_btn {
+  margin-top: 10px;
+  padding-top: 0px;
+}
+div.apply_btn a {
+  background: #8F8FE4;
+  color: #fff;
+}
+div.apply_btn a:hover {
+  background: #8989da;
+}
+.listed_job.even_child {
+  background: #ccc;
+}
+.job_alert {
+  padding: 0;
+  margin: 0;
+}
+.box_alert {
+  padding: 0 0 10px 0;
+  background: #fff;
+  margin-top: -20px;
+  -webkit-box-shadow: 1px 1px 2px 2px #ccc;
+  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+  -moz-box-shadow: 1px 1px 2px 2px #ccc;
+  /* Firefox 3.5 - 3.6 */
+  box-shadow: 1px 1px 2px 2px #ccc;
+  /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
+}
+.box_alert h3 {
+  padding: 10px;
+  text-align: center;
+  display: block;
+  background: #f9f9f9;
+}
+.box_alert .category_alert {
+  padding: 0 15px;
+}
+.box_alert .category_alert select {
+  border-radius: 0;
+  padding: 0 20px;
+}
+.box_alert .job_alert_con {
+  padding: 5px 15px;
+}
+.box_alert .job_alert_btn {
+  padding: 0 15px;
+  margin: 10px 0 20px 0;
+  margin-bottom: 20px !important;
+}
+.box_alert .job_alert_btn a {
+  display: block;
+  text-decoration: none;
+  color: #fff;
+  padding: 10px 0;
+  text-align: center;
+  background: #8F8FE4;
+  margin-bottom: 20px !important;
 }

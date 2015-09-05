@@ -1,0 +1,78 @@
+.transition{
+  transition: all ease-in-out 0.2s;
+  -webkit-transition: all ease-in-out 0.2s;
+  -o-transition: all ease-in-out 0.2s;
+  -ms-transition: all ease-in-out 0.2s;
+}
+
+.user_profile{
+  padding:25px 0;
+  list-style: none;
+  h4{
+    font-family: 'proxima_nova_regular', arial, sans-serif !important;
+    font-size:19px;
+    color:#553771;
+  }
+  ul{
+    list-style: none;
+    margin-left:-40px;
+    //border-bottom:1px solid #ccc;
+    li{
+        padding:10px 0 !important;
+      a{
+        font-size:16px;
+        text-decoration: none;
+        color:#242424;
+        padding:10px 20px ;
+        .transition;
+      }
+      a:hover{
+        color: #565656;
+        border-left:4px solid #553771;
+
+      }
+      .active{
+        border-left:4px solid #553771;
+
+      }
+
+    }
+  }
+}
+
+.personal_info, .change_password_user{
+  fieldset{
+    font-weight:500;
+    padding:7px 0;
+    label{
+      font-weight:500;
+      font-family: 'proxima_nova_regular', arial, sans-serif !important;
+      padding:5px 0;
+    }
+
+  }
+  input[type=submit]
+  {
+    .transition;
+    padding:6px 15px;
+    background:#7F94D6;
+    border: 1px solid #7386c1;
+    color:#fff;
+  }
+  input[type=submit]:hover{
+    background: #7185c2;
+  }
+
+  input[type=text],
+  input[type=email]{
+        background: #fdfdfd;
+          font-family: 'proxima_nova_regular', arial, sans-serif !important;
+          border-radius:0 !important;
+    margin:7px 0;
+  }
+  input[type=text]:focus,
+  input[type=email]:focus{
+    border-color:#7f94d6;
+  }
+
+}

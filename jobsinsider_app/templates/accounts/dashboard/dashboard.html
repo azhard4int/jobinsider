@@ -1,14 +1,10 @@
 {% extends "base_dasboard.html" %}
     <title>{% block title %}Dashboard{% endblock %}</title>
 {% block body_content %}
-
-{% if user.is_authenticated %}
-    <a href="">This is awsomdsadase</a>
-{% endif %}
-
-
-
-This is awesome man {{user.first_name}}
+    {% include 'base_dashboard_core.html' %}
+        {% if user.is_authenticated %}
+            {% block authenticate_user %} Hi {{ user.first_name }} {{ user.last_name }}{%  endblock %}
+        {% endif %}
 
 <a href="/accounts/logout">Log out</a>
 {% endblock %}

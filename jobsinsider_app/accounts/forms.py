@@ -155,3 +155,35 @@ class SetNewPassword(forms.ModelForm):
     class Meta:
         model = User
         fields = {'email', 'password' }
+
+
+class ChangeProfilePassword(forms.ModelForm):
+    password = PasswordField(
+        widget=forms.PasswordInput(
+        attrs={
+            'placeholder': 'Current Password',
+            'class': 'form-control'
+
+        })
+    )
+    new_password = PasswordField(
+        widget=forms.PasswordInput(
+        attrs={
+            'placeholder': 'Enter Your New Password',
+            'class': 'form-control'
+
+        })
+    )
+    confirm_new_password = PasswordField(
+        widget=forms.PasswordInput(
+        attrs={
+            'placeholder': 'Enter Your New Password',
+            'class': 'form-control'
+
+        })
+    )
+
+    class Meta:
+        model = User
+        fields = {'password', 'new_password', 'confirm_new_password'}
+

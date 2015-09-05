@@ -60,7 +60,9 @@
       <form id="user_cv" action="" enctype="multipart/form-data">
       <div class="modal-body">
           {% csrf_token %}
-          {{ user_cv_form }}
+          <div class="cv_upload_btn">
+                {{ user_cv_form }}
+          </div>
       </div>
       <div class="modal-footer">
         <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
@@ -81,8 +83,22 @@
             {% if user.is_authenticated %}
             {% csrf_token %}
                 <div class="selection_box">
-                    <div class="col-md-6"><a value="0" class="cv_option" href="javascript:;">UPLOAD YOUR CV</a></div>
-                    <div class="col-md-6"><a value="1" class="cv_option" href="javascript:;">CV BUILDER</a></div>
+                    <div class="col-md-4 col-md-offset-1 sel_img">
+                        <a value="0" class="cv_option" href="javascript:;">
+                            <img src="{{ MEDIA_URL }}img/cv_file.png" >
+                        <div class="cv_text">
+                            UPLOAD YOUR CV
+                        </div>
+                        </a>
+                    </div>
+                    <div class="col-md-4 col-md-offset-2 sel_img">
+                        <a value="1" class="cv_option" href="javascript:;">
+                            <img src="{{ MEDIA_URL }}img/cv_builder.png" >
+                            <div class="cv_text">
+                                CV BUILDER
+                            </div>
+                        </a>
+                    </div>
                 </div>
             {% endif %}
             <div class="clearfix"></div>

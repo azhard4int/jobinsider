@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.conf import settings
 # Create your models here.
@@ -132,3 +133,14 @@ class TimeStamp(models.Model):
 
     class Meta:
         abstract = True
+
+
+class diff_func(object):
+
+    def __init__(self, user_id):
+        self.user =  User.objects.filter(id=user_id)[0]
+
+    def is_company(self):
+        """
+
+        """

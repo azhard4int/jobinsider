@@ -8,7 +8,11 @@ from models import *
 from forms import *
 from django.views.generic import View
 from django.contrib.auth.decorators import login_required
+from django.utils.decorators import  method_decorator
+from django.contrib.auth import login as login_session
+
 from accounts import models as accountsmodels
+from accounts import forms as accountsform
 
 
 # Create your views here.
@@ -20,9 +24,10 @@ def index(request):
     step_value = request.GET.get('step', '')
     list_categories = UserSkills()
     if request.user.is_active:
-        # print request.
-        # detect_already_Exit
-        # Skillsobj = UserSkills()
+        """
+        Adding the check if its company user then show different dashboard
+        """
+
         if UserSkills.objects.exist_not(request.user.id):
             HttpResponseRedirect('/user')   # later on have to change the request
         if step_value == '0':
@@ -48,10 +53,7 @@ def index(request):
             print 'dsadas%s' %user_status
 
 
-            try:
-                user_cv_data = UserCV.objects.filter(user_id=request.user.id)[0]
-            except IndexError:
-                user_cv_data = False
+            user_cv_data = cv_object_ret(request.user.id)
 
             if user_cv_data:    # user CV table status should be 0 and user profile status should be 0
                 if user_cv_data.user_cv_builder == 0 or user_status.user_cv_status == 1:
@@ -67,11 +69,41 @@ def index(request):
                 cvemploy = InitialEmploymentForm()
                 return render(request, 'user_employment.html', {'cv_employ': cvemploy})
 
+            if user_cv.user_cv_emp_status == 1 and user_cv.user_cv_builder==0:
+                return HttpResponseRedirect('/user/dashboard/')
 
+
+        if step_value == '4':
+            user_cv_data = cv_object_ret(request.user.id)
+            if user_cv_data.user_cv_builder == 0:
+                return HttpResponseRedirect('/user/dashboard/')
+            elif user_cv_data.user_cv_builder==1:
+                """
+                CV builder further detials include
+                user_graduation status along with other info.
+                """
     else:
         HttpResponseRedirect('/accounts/signup/confirm-email')
 
 
+
+class UserDashboard(View):
+
+    @method_decorator(login_required)
+    def get(self, request):
+        return render(request, 'profile_dashboard.html')
+
+
+
+# @login_required()
+def cv_object_ret(user_id):
+    try:
+        user_cv_data = UserCV.objects.filter(user_id=user_id)[0]
+    except IndexError:
+        user_cv_data = False
+    return user_cv_data
+
+@login_required()
 def skills_list(request):
     """
     This function is to retrieve the skills list based on event triggered
@@ -88,11 +120,12 @@ def skills_list(request):
     else:
         HttpResponseRedirect('/user/')
 
-
+@login_required()
 def skills(request):
     """
     Storing newly registered details and storing them into the database.
     """
+
     if request.method == 'POST':
         category_id = request.POST['category_id']
         skills = request.POST['skills_value']
@@ -117,9 +150,7 @@ class UserInfo(View):
     """
     This section includes the user biography and CV builder.
     """
-
-
-
+    @method_decorator(login_required)
     def post(self, request, *args, **kwargs):
         """
         Handling the user basic profile information
@@ -159,11 +190,14 @@ class UserInfo(View):
 
 
 class UserCVUpload(View):
-
+    """
+    Uploading user cv through it
+    """
+    @method_decorator(login_required)
     def get(self, request, *args, **kwargs):
         """
         """
-
+    @method_decorator(login_required)
     def post(self, request, *args, **kwargs):
         """
         Detect the user CV Post Data and upload it out!
@@ -188,7 +222,9 @@ class UserCVUpload(View):
 
 
 def AddCVEmployment(request):
-
+    """
+    No need in the future , used clone function instead of it.
+    """
     if request.method == 'POST':
         # data = serializers.serialize('json', cvform)
         cvemploy = AddUserEmploymentForm()
@@ -205,12 +241,14 @@ def AddCVEmployment(request):
 
 
 class AddUserEmployment(View):
-
-
+    """
+    Updating user employment
+    """
+    @method_decorator(login_required)
     def get(self, request):
         """
         """
-
+    @method_decorator(login_required)
     def post(self, request, *args, **kwargs):
         """
         """
@@ -255,3 +293,74 @@ class UserBioUpdate(View):
     def post(self, request, *args, **kwargs):
         """
         """
+
+class Profile(View):
+    """
+    Update user profile view
+    """
+    @method_decorator(login_required)
+    def get(self, request, username=None):
+
+        user_basic = accountsform.UserForm(initial={
+            'first_name': request.user.first_name,
+            'last_name': request.user.last_name,
+            'email': request.user.email,
+
+
+        })
+        return render(request, 'user_profile.html', {'user_basic_form': user_basic})
+
+    @method_decorator(login_required)
+    def post(self, request):
+          if request.method=='POST':
+              """
+              check email is changed or not.
+              """
+              email = User.objects.filter(email=request.POST['email'])
+              if email:
+
+                  update = User.objects.filter(id=request.user.id).update(
+                      first_name=request.POST['first_name'],
+                      last_name=request.POST['last_name'],
+                  )
+                  return HttpResponse(json.dumps({'status':True}))
+              else:
+                  """
+                  Send confirmation email first.:to do
+                  """
+                  update = User.objects.filter(id=request.user.id).update(
+                      first_name=request.POST['first_name'],
+                      last_name=request.POST['last_name'],
+                      email = request.POST['email'],
+                  )
+                  return HttpResponse(json.dumps({'status':True}))
+
+
+class ProfileChangePassword(View):
+
+    @method_decorator(login_required)
+    def get(self, request):
+        change_password = accountsform.ChangeProfilePassword()
+        return render(request, 'user_change_password.html', {'cp': change_password})
+
+    @method_decorator(login_required)
+    def post(self, request):
+
+        if request.method=='POST':
+            _check = User.objects.filter(id=request.user.id)
+            print _check
+            if _check:
+                user = _check[0]
+                if user.check_password(request.POST['password']):
+                    if request.POST['new_password']==request.POST['confirm_new_password']:
+                        user.set_password(request.POST['new_password'])
+                        user.save()
+                        login_session(request, user)
+                        return HttpResponse(json.dumps({'status':1}))
+
+                    else:
+                        return HttpResponse(json.dumps({'status':-1}))
+                else:
+                    return HttpResponse(json.dumps({'status':-2}))
+            else:
+                return HttpResponse(json.dumps({'status':-3}))

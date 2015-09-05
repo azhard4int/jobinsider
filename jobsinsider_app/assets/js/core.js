@@ -31,6 +31,9 @@ function login_account()
                 else if(response.status==3){
                     window.location.href = '/accounts/confirm-email/';
                 }
+                else if(response.status==4){
+                    window.location.href = '/company/';
+                }
                 else if(response.status==-1){
 
                     $('label.l0_form .error_message').html('There is no username exist with your entered username.');
@@ -673,32 +676,68 @@ $('#user_cv').on('submit', function(event)
 });
 
 // add more employemnts history
+var getCountValue = 0;
+//$('.add_employment').on('click', function(event)
+//{
+//    event.preventDefault();
+//    var getCount = $('.company_count').attr('value');
+//    $.ajax(
+//    {
+//        url: '/user/add_user_employment/',
+//        type: 'POST',
+//        data: {'csrfmiddlewaretoken': document.getElementsByName('csrfmiddlewaretoken')[0].value},
+//        success:function(response)
+//        {
+//            getCount++;
+//            getCountValue++;
+//            console.log(response);
+//            $('.company_count').attr('value', getCount);
+//            $('.more_form').append("<div class='form_value_"+getCountValue+"'>"+response);
+//            $('.more_form'),append('<div class="removeValue" value="'+ getCountValue  + '"');
+//            console.log(response);
+//        },
+//        error: function(resposne){
+//
+//        }
+//
+//    });
+//    return false;
+//});
 
-$('.add_employment').on('click', function(event)
-{
-    event.preventDefault();
-    var getCount = $('.company_count').attr('value');
-    $.ajax(
+
+
+//through jquery clone
+
+_count = 0;
+$('.add_employment').on('click', function(event) {
+    if($('input[type=text][name=company_name]').val()=='')
     {
-        url: '/user/add_user_employment/',
-        type: 'POST',
-        data: {'csrfmiddlewaretoken': document.getElementsByName('csrfmiddlewaretoken')[0].value},
-        success:function(response)
-        {
-            getCount++;
-            $('.company_count').attr('value', getCount);
-            $('.more_form').append(response)
-            console.log(response);
-        },
-        error: function(resposne){
+        return false;
+    }
+    if(($('input[type=text][name=company_location]').val())==0)
+    {
+        return false;
 
-        }
+    }
+    if(($('input[type=text][name=company_title]').val())==0)
+    {
+        return false;
+    }
+    if(($('input[type=text][name=company_role]').val())==0)
+    {
+        return false;
+    }
 
-    });
-    return false;
+
+    $('.whl').clone().appendTo('.more_form').fadeIn();
+    var _value = "<div class='hide_field' value="+ _count + "</div>";
+    //$('.more_form').appendTo("<div class='hide_field' value='"+ _count + "'></div>");
+    $('.datepicker').datepicker("refresh")
+
 });
 
-$('#add_bio_employment').on('submit', function(event)
+
+$('#add_bio_employment').on('submit', function()
 {
     //var getCount = $('.company_count').attr('value');
     event.preventDefault();
@@ -728,4 +767,72 @@ $('#add_bio_employment').on('submit', function(event)
 
     });
     return false;
+});
+
+//user profile update
+
+
+$('.personal_info').on('submit', function() {
+    //var getCount = $('.company_count').attr('value');
+    event.preventDefault();
+    $.ajax(
+        {
+            url: '/user/u/',
+            type: 'POST',
+            data: $('.personal_info').serialize(),
+            success:function(m){
+                resp = JSON.parse(m)
+                if(resp.status==true)
+                {
+                    window.location.reload();
+                }
+            }
+        }
+    );
+    return false;
+
+});
+
+
+//change user password
+
+$('.change_password_user').on('submit', function(e) {
+    //var getCount = $('.company_count').attr('value');
+    e.preventDefault();
+    $.ajax(
+        {
+            url: '/user/u/changepassword/',
+            type: 'POST',
+            data: $('.change_password_user').serialize(),
+            success:function(m){
+                resp = JSON.parse(m)
+                if (resp.status==-3)
+                {
+                    $('.error_main').html('');
+                    $('.error_main').html('No such user found in the database')
+                }
+                else if (resp.status==-2)
+                {
+                    $('.error_main').html('');
+                    $('.error_main').html('Current password does not match.')
+                }
+                else if(resp.status==-1)
+                {
+                    $('.error_main').html('');
+                    $('.error_main').html('Both new password does not match.')
+                }
+                else if(resp.status==1)
+                {
+                    $('.error_main').html('');
+                    $('success_main').html('');
+                    $('success_main').html('Password Successfully Updated')
+
+                }
+
+
+            }
+        }
+    );
+    return false;
+
 });

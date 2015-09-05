@@ -84,9 +84,22 @@ TEMP_DIRECTORY_Dashboard = [
     'templates/accounts/dashboard',
 ]
 
+
+# Profile Directory
+
+TEMP_DIRECTORY_Dashboard = [
+    'templates/accounts/profile',
+]
+
+
 # Private Zone
 TEMP_DIRECTORY_PRIVATE = [
     'templates/private',
+]
+
+# Company Dashboard
+TEMP_DIRECTORY_PRIVATE = [
+    'templates/company',
 ]
 
 
