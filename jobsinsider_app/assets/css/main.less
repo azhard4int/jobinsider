@@ -274,5 +274,180 @@ div.apply_btn{
 
 //company dashboard starts from here
 
+#company{
+  background:#fff;
+  padding-bottom:10px;
+  font-weight:300;
+}
+.cp_nav{
+  float:right;
+  margin:0;
+  padding:0;
+  ul{
+    padding-top:30px;
+
+    list-style: none;
+    li{
+      padding-left:10px;
+      display: inline-block;
+      a{
+        color:#242424;
+        border:1px solid #f6f6f6;
+        text-decoration:none;
+        padding:10px 20px;
+        background:#fafafa;
+      }
+    }
+  }
+}
+
+//company posted jobs
+#posted_jobs{
+  margin:20px 0;
+}
+
+#jobs_stats{
+  padding:15px 0;
+}
+.posted_view, .posted_view_normal{
+  //border-top-left-radius: 8px;
+  //border-top-right-radius: 8px;
+  border-top:4px solid #8F8FE4;
+  background:#fff;
+  padding:15px 0;
+  h2{
+    margin: 0;
+    padding: 0;
+    font-size:22px;
+  }
+}
+.posted_view_normal{
+  border:none;
+}
+.stat_box{
+  .shadow;
+  text-transform: uppercase;
+  padding:15px 10px;
+  background:#fff;
+  //margin:0 10px;
+  h3{
+      margin:0;
+      padding:0;
+      font-size:16px;
+      //text-align: center;
+      padding-left:30px;
+    i{
+      padding-right:15px;
+    }
+  }
+}
+.posted_head{
+  color:#fff;
+  background: #6055a2;
+
+}
+
+.posted_jobs_box{
+  padding:10px 0;
+}
+
+//table posted jobs ads
+
+.posted_ad_head{
+  table{
+    width:100%;
+    thead{
+      th{
+        font-family: 'proxima_nova_regular';
+        text-align: center;
+        font-weight:300;
+        text-transform: uppercase;
+        padding:7px 14px;
+        background: #fafafa;
+        border:1px solid #eae7f5;
+      }
+      th:first-child{
+        width:7%;
+      }
+      th:nth-child(2){
+        width:40%;
+      }
+    }
+    tbody{
+      tr{
+        border:1px solid #eae7f5;
+        text-align: center;
+        padding:10px 0 !important;
+        h5
+        {
+          font-size:16px;
+        }
+      }
+      td:nth-child(2)
+      {
+        text-align:left;
+        padding-left:20px;
+
+      }
+      tr:nth-child(even)
+      {
+        background: #e2d3fd;
+      }
+    }
+  }
+}
+.btn_posted_jobs{
+  margin:10px 0;
+  a{
+    .transition;
+    border-radius:20px;
+    //padding:5px 10px;
+    width:80px;
+    display: block;
+    line-height:28px;
+    color:#fff;
+    margin:0 auto;
+    text-decoration:none !important;
+    background: #add078;
+  }
+  a:hover{
+    background: #84a05b;
+    color:#fafafa;
+  }
+}
+
+//company message module
+
+#company_message{
+  padding:20px 0;
+
+}
+.left_users{
+  h3{
+      padding:6px 0;
+      text-align:center;
+      margin:0;
+      background: #6055a2;
+      color:#fff;
+      font-size:20px;
+    }
+}
+.users_message{
+  margin-left:-15px;
+  background:#fff;
+  h3{
+    margin: 0;
+    margin-left: 35px;
+    padding:6px 0;
+    font-size:20px;
+  }
+
+}
+
+.user_pic{
+  background: #fff;
+  border-bottom:1px solid #e7e7e7;
+  padding:10px 0;
+}
   //importing buttons css
 @import "buttons.css";

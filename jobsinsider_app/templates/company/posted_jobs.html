@@ -1,0 +1,234 @@
+{% extends "base_dasboard.html" %}
+
+{#{% extends 'company_core.html' %}#}
+    <title>{% block title %}Dashboard{% endblock %}</title>
+{% if user.is_authenticated %}
+
+    {% block authenticate_user %} {{ user.first_name|slice:":1" }} {{ user.last_name|slice:":1" }}{%  endblock %}
+
+{% endif %}
+
+
+{% block body_content %}
+
+
+<div class="clearfix"></div>
+    <section id="company">
+        <div class="container">
+            <div class="col-md-12">
+                <div class="col-md-5">
+
+                    <h1>
+                        Dashboard
+                    </h1>
+
+                </div>
+                <div class="col-md-7">
+                    <div class="cp_nav">
+                        <ul>
+                            <li><a href="">Posted Jobs</a></li>
+                            <li><a href="">Shortlisted People</a></li>
+                            <li><a href="">Favorite CV</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{#    {% block company_dash %}#}
+
+{#    {% endblock %}#}
+
+    <section id="jobs_stats">
+            <div class="container">
+                <div class="col-md-3 stat_box"><h3>All</h3></div>
+                <div class="col-md-3 stat_box"><h3>Posted Jobs</h3></div>
+                <div class="col-md-3 stat_box"><h3>Appied People</h3></div>
+                <div class="col-md-3 stat_box"><h3>Pending Jobs</h3></div>
+            </div>
+    </section>
+
+    <section id="posted_jobs">
+        <div class="container">
+{#            <div class="row">#}
+                <div class="col-md-12 posted_view posted_head">
+                    <div class="col-md-6">
+                       <h2>
+                        List of Posted Campaigns
+                        </h2>
+                    </div>
+                </div>
+                <div class="col-md-12 posted_view_normal">
+                    <div class="posted_jobs_box">
+                        <div class="posted_ad_head">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Status
+                                        </th>
+                                        <th>
+                                            Job Title
+                                        </th>
+                                        <th>
+                                            Applicants
+                                        </th>
+                                        <th>
+                                            Posted Date
+                                        </th>
+                                        <th>
+                                            Job Type
+                                        </th>
+                                        <th>
+                                            Actions
+                                        </th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" name="" id="">
+                                    </td>
+
+                                    <td>
+                                        <h5>Web Designer and developer</h5>
+                                    </td>
+
+                                    <td>
+                                            77
+                                    </td>
+
+                                    <td>
+                                        22 Jan, 2015
+
+                                    </td>
+                                    <td>
+                                            Software Engineering
+                                    </td>
+
+                                    <td>
+                                        <div class="btn_posted_jobs">
+                                            <a href="javascript:;">Edit</a>
+                                        </div>
+
+                                        <div class="btn_posted_jobs">
+                                            <a href="javascript:;">Remove</a>
+                                        </div>
+                                    </td>
+
+                                </tr>
+
+{#                                Second row#}
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" name="" id="">
+                                    </td>
+
+                                    <td>
+                                        <h5>Web Designer and developer</h5>
+                                    </td>
+
+                                    <td>
+                                            77
+                                    </td>
+                                    <td>
+                                            22 Jan, 2015
+                                    </td>
+
+                                    <td>
+                                            Software Engineering
+                                    </td>
+
+                                    <td>
+                                        <div class="btn_posted_jobs">
+                                            <a href="javascript:;">Edit</a>
+                                        </div>
+
+                                        <div class="btn_posted_jobs">
+                                            <a href="javascript:;">Remove</a>
+                                        </div>
+                                    </td>
+
+                                </tr>
+
+                                {#Third row#}
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" name="" id="">
+                                    </td>
+
+                                    <td>
+                                        <h5>Web Designer and developer</h5>
+                                    </td>
+
+                                    <td>
+                                            77
+                                    </td>
+                                    <td>
+                                            22 Jan, 2015
+                                    </td>
+
+                                    <td>
+                                            Software Engineering
+                                    </td>
+
+                                    <td>
+                                        <div class="btn_posted_jobs">
+                                            <a href="javascript:;">Edit</a>
+                                        </div>
+
+                                        <div class="btn_posted_jobs">
+                                            <a href="javascript:;">Remove</a>
+                                        </div>
+                                    </td>
+
+                                </tr>
+                                {#Fourth row#}
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" name="" id="">
+                                    </td>
+
+                                    <td>
+                                        <h5>Web Designer and developer</h5>
+                                    </td>
+
+                                    <td>
+                                            77
+                                    </td>
+                                    <td>
+                                            22 Jan, 2015
+                                    </td>
+
+                                    <td>
+                                            Software Engineering
+                                    </td>
+
+                                    <td>
+                                        <div class="btn_posted_jobs">
+                                            <a href="javascript:;">Edit</a>
+                                        </div>
+
+                                        <div class="btn_posted_jobs">
+                                            <a href="javascript:;">Remove</a>
+                                        </div>
+                                    </td>
+
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+{#            </div>/#}
+        </div>
+
+    </section>
+
+
+
+<a href="/accounts/logout">Log out</a>
+{% endblock %}

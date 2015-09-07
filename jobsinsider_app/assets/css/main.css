@@ -240,3 +240,156 @@ div.apply_btn a:hover {
   background: #8F8FE4;
   margin-bottom: 20px !important;
 }
+#company {
+  background: #fff;
+  padding-bottom: 10px;
+  font-weight: 300;
+}
+.cp_nav {
+  float: right;
+  margin: 0;
+  padding: 0;
+}
+.cp_nav ul {
+  padding-top: 30px;
+  list-style: none;
+}
+.cp_nav ul li {
+  padding-left: 10px;
+  display: inline-block;
+}
+.cp_nav ul li a {
+  color: #242424;
+  border: 1px solid #f6f6f6;
+  text-decoration: none;
+  padding: 10px 20px;
+  background: #fafafa;
+}
+#posted_jobs {
+  margin: 20px 0;
+}
+#jobs_stats {
+  padding: 15px 0;
+}
+.posted_view,
+.posted_view_normal {
+  border-top: 4px solid #8F8FE4;
+  background: #fff;
+  padding: 15px 0;
+}
+.posted_view h2,
+.posted_view_normal h2 {
+  margin: 0;
+  padding: 0;
+  font-size: 22px;
+}
+.posted_view_normal {
+  border: none;
+}
+.stat_box {
+  -webkit-box-shadow: 1px 1px 2px 2px #ccc;
+  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+  -moz-box-shadow: 1px 1px 2px 2px #ccc;
+  /* Firefox 3.5 - 3.6 */
+  box-shadow: 1px 1px 2px 2px #ccc;
+  /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
+  text-transform: uppercase;
+  padding: 15px 10px;
+  background: #fff;
+}
+.stat_box h3 {
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+  padding-left: 30px;
+}
+.stat_box h3 i {
+  padding-right: 15px;
+}
+.posted_head {
+  color: #fff;
+  background: #6055a2;
+}
+.posted_jobs_box {
+  padding: 10px 0;
+}
+.posted_ad_head table {
+  width: 100%;
+}
+.posted_ad_head table thead th {
+  font-family: 'proxima_nova_regular';
+  text-align: center;
+  font-weight: 300;
+  text-transform: uppercase;
+  padding: 7px 14px;
+  background: #fafafa;
+  border: 1px solid #eae7f5;
+}
+.posted_ad_head table thead th:first-child {
+  width: 7%;
+}
+.posted_ad_head table thead th:nth-child(2) {
+  width: 40%;
+}
+.posted_ad_head table tbody tr {
+  border: 1px solid #eae7f5;
+  text-align: center;
+  padding: 10px 0 !important;
+}
+.posted_ad_head table tbody tr h5 {
+  font-size: 16px;
+}
+.posted_ad_head table tbody td:nth-child(2) {
+  text-align: left;
+  padding-left: 20px;
+}
+.posted_ad_head table tbody tr:nth-child(even) {
+  background: #e2d3fd;
+}
+.btn_posted_jobs {
+  margin: 10px 0;
+}
+.btn_posted_jobs a {
+  transition: all ease-in-out 0.2s;
+  -webkit-transition: all ease-in-out 0.2s;
+  -o-transition: all ease-in-out 0.2s;
+  -ms-transition: all ease-in-out 0.2s;
+  border-radius: 20px;
+  width: 80px;
+  display: block;
+  line-height: 28px;
+  color: #fff;
+  margin: 0 auto;
+  text-decoration: none !important;
+  background: #add078;
+}
+.btn_posted_jobs a:hover {
+  background: #84a05b;
+  color: #fafafa;
+}
+#company_message {
+  padding: 20px 0;
+}
+.left_users h3 {
+  padding: 6px 0;
+  text-align: center;
+  margin: 0;
+  background: #6055a2;
+  color: #fff;
+  font-size: 20px;
+}
+.users_message {
+  margin-left: -15px;
+  background: #fff;
+}
+.users_message h3 {
+  margin: 0;
+  margin-left: 35px;
+  padding: 6px 0;
+  font-size: 20px;
+}
+.user_pic {
+  background: #fff;
+  border-bottom: 1px solid #e7e7e7;
+  padding: 10px 0;
+}

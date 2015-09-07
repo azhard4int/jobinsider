@@ -98,7 +98,7 @@ TEMP_DIRECTORY_PRIVATE = [
 ]
 
 # Company Dashboard
-TEMP_DIRECTORY_PRIVATE = [
+TEMP_DIRECTORY_Company = [
     'templates/company',
 ]
 
@@ -113,6 +113,7 @@ TEMPLATES = [
             BASE_DIR.join(TEMP_DIRECTORY_ADMIN),
             BASE_DIR.join(TEMP_DIRECTORY_PRIVATE),
             BASE_DIR.join(TEMP_DIRECTORY_Dashboard),
+            BASE_DIR.join(TEMP_DIRECTORY_Company),
         ),
         'APP_DIRS': True,
         'OPTIONS': {

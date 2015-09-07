@@ -2,9 +2,9 @@
     <title>{% block title %}Dashboard{% endblock %}</title>
 {% if user.is_authenticated %}
 
-    {% block authenticate_user %} Hi {{ user.first_name }} {{ user.last_name }}{%  endblock %}
+    {% block authenticate_user %}{{ user.first_name|slice:":1"}} {{ user.last_name|slice:":1" }}{%  endblock %}
 
-{% endif %}
+{% endif %}slice:":2"
 {% block body_content %}
     {% include 'base_dashboard_core.html' %}
 

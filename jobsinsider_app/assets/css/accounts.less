@@ -225,12 +225,12 @@ body{
     }
 
   }
-  a:hover{
-    color:#fafafa;
-  }
+  //a:hover{
+  //  color:#fafafa;
+  //}
 }
 .user_profile_detail:hover, .active_dashboard{
-  background: #342449;
+  //background: #342449;
 }
 
 .right_sec
@@ -248,11 +248,30 @@ body{
 .dashboard_s0_nav_main{
   list-style: none;
   margin-left:-40px;
+  float:right;
+    li{
+      margin-top:15px;
+      padding-right:15px;
+      padding-left:15px;
+      border-left:1px solid #a56fcc;
+      display: inline-block;
+      a{
+        text-decoration: none;
+        color:#fff;
+      }
+    }
+  li:last-child{
+    padding-right:0;
+  }
+  li:first-child{
+    border-left: 0;
+  }
 }
 
 
+
 .dashboard_s0_nav_child{
-  margin-top:10px;
+  margin-top:15px;
   //display: none;
   position:absolute;
   width:100%;
@@ -598,3 +617,13 @@ section.core_content{
   }
 }
 
+
+
+//working on the top navigation bar
+
+.user_initials{
+  //margin-top: 10px !important;
+  border-radius:20px;
+  padding:10px 10px;
+  background: #9d79cc;
+}

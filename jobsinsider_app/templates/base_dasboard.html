@@ -53,11 +53,17 @@
                                 </ul>
                             </nav>
                         </div>
-                        <div class="col-md-3 user_profile_detail">
-                                <div class="user_profile_detail">
+                        <div class="col-md-3 "><!--user_profile_detail-->
+                                <div class=""><!--user_profile_detail-->
                                     <ul class="dashboard_s0_nav_main">
                                         <li>
-                                            <a href="">{% block authenticate_user %}Welcome  Username {%  endblock %} <i class="fa fa-user fa-lg"></i> </a>
+                                            <a href=""><i class="fa fa-inbox fa-lg"></i></a>
+                                        </li>
+                                        <li>
+                                            <a href=""><i class="fa fa-bell-o fa-lg"></i></a>
+                                        </li>
+                                        <li>
+                                            <a href=""><span class="user_initials">{% block authenticate_user %}Welcome  Username {%  endblock %}</span></a>
                                         </li>
 {#                                        <div class="dashboard_s0_nav_child">#}
 {#                                            <ul>#}
@@ -91,6 +97,11 @@
 
 
 {% endblock %}
+
+
+
+
+
 
 {% block body_content %} {% endblock %}
 
