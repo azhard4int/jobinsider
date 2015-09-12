@@ -213,3 +213,41 @@ def skill_view_delete(request):
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect('http://127.0.0.1:8000/accounts/login/')
+
+
+@login_required()
+def users_view(request):
+    table = User.objects.all()
+    #passsword is also going to the view.
+    return render(request, 'users_view.html', {'table': table})
+
+
+@login_required()
+def test_userinfo(request):
+    data = User.objects.get(id=request.POST.get('user_id',''))
+    wholedata = {
+
+        'firstname': data.first_name,
+        'lastname': data.last_name,
+        'username': data.username,
+        'email': data.email,
+        'status' : data.is_active
+    }
+    return HttpResponse(json.dumps({'user_info': wholedata}))
+
+
+@login_required()
+def user_update(request):
+    if request.method=='POST':
+        print request.POST['is_active']
+        first_name = request.POST['first_name']
+        last_name = request.POST['last_name']
+        username = request.POST['username']
+        email = request.POST['email']
+        is_active = request.POST['is_active']
+        data = User.objects.filter(id=request.POST['id']).update(username=username,first_name=first_name,last_name=last_name,email=email,is_active=int(is_active))
+        #data = User.objects.filter(id=request.POST['id']).update()
+    if data:
+        return HttpResponse(json.dumps({'status': 'True'}))
+    else:
+        return HttpResponse(json.dumps({'status': 'False'}))
