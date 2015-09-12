@@ -378,6 +378,40 @@ div.apply_btn a:hover {
   color: #fff;
   font-size: 20px;
 }
+.list_users {
+  height: 450px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+.user_active {
+  background: #fafafa;
+}
+.user_pic {
+  background: #fff;
+  border-bottom: 1px solid #e7e7e7;
+  padding: 20px 0 20px 10px;
+}
+.user_icon span {
+  font-size: 18px;
+  color: #fff;
+  background: #dbc1d5;
+  padding: 10px 10px;
+  border-radius: 20px;
+}
+.user_name span {
+  font-size: 18px;
+}
+.last_message {
+  margin-top: 20px;
+  margin-left: 20px;
+  border-left: 4px solid #ccc;
+}
+.last_message span {
+  color: #989898;
+}
+.message_details {
+  padding: 20px 0;
+}
 .users_message {
   margin-left: -15px;
   background: #fff;
@@ -385,11 +419,110 @@ div.apply_btn a:hover {
 .users_message h3 {
   margin: 0;
   margin-left: 35px;
-  padding: 6px 0;
+  padding: 5px 0;
   font-size: 20px;
 }
-.user_pic {
+.users_message .chatbox_model {
+  border-top: 1px solid #dcdcdc;
+  background: #f5f5f5;
+  height: 450px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  margin-left: -15px;
+  width: 103.5%;
+}
+.timestamp_message {
+  padding-top: 7px;
+  text-align: right;
+}
+.u_relative {
+  position: relative;
+}
+.u_absolute {
+  position: absolute;
+}
+.conversation_box_message {
+  margin: 10px 10px;
+  background-color: #fff;
+  border: 1px solid #c9d7df;
+  border-radius: 3px;
+  box-sizing: border-box;
+  box-shadow: 0 0 0 transparent;
+  transition: box-shadow linear 0.04s, border-color linear 0.2s;
+  position: relative;
+}
+.conversation_box_message .composer_editor {
+  padding: 5px 10px;
+  min-height: 74px;
+}
+.conversation_box_message .composer_editor:focus {
+  border: none !important;
+  outline: none !important;
+}
+.conversation_box_message .action_reply {
+  min-height: 30px;
+  float: right;
+}
+.conversation_box_message .action_reply a {
+  transition: all ease-in-out 0.2s;
+  -webkit-transition: all ease-in-out 0.2s;
+  -o-transition: all ease-in-out 0.2s;
+  -ms-transition: all ease-in-out 0.2s;
+  padding: 7px 20px;
+  background: #54a854;
+  color: #fff;
+  border-radius: 20px;
+  text-decoration: none;
+  padding: 5px 10px;
+  min-height: 74px;
+}
+.conversation_box_message .action_reply a:hover {
+  background: #62c262;
+}
+.u_message {
+  padding: 0 20px;
+  padding-bottom: 100px;
+}
+.u_message .from_user_side .fus {
+  margin-right: 10px;
+}
+.u_message .from_user_side .us_box {
   background: #fff;
-  border-bottom: 1px solid #e7e7e7;
+  border: 1px solid #c9d7df;
+  border-radius: 3px;
+  box-sizing: border-box;
+  box-shadow: 0 0 0 transparent;
+  transition: box-shadow linear 0.04s, border-color linear 0.2s;
+  padding: 10px 20px;
+}
+.u_message .from_s_side {
   padding: 10px 0;
+}
+.u_message .from_s_side .s_user {
+  float: right !important;
+}
+.u_message .from_s_side .us_box {
+  float: right;
+  background: #f8f8f8;
+  border: 1px solid #c9d7df;
+  border-radius: 3px;
+  box-sizing: border-box;
+  box-shadow: 0 0 0 transparent;
+  transition: box-shadow linear 0.04s, border-color linear 0.2s;
+  padding: 10px 20px;
+}
+.s_side {
+  float: right !important;
+}
+.fus,
+.s_user {
+  padding-top: 20px;
+}
+.fus span,
+.s_user span {
+  background: #fff;
+  padding: 20px 15px;
+}
+.top_region_messages {
+  padding: 20px 0;
 }
