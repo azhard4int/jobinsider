@@ -44,6 +44,13 @@ class Company_dashboard(View):
         ).update(company_profile_status=1)
 
 
+class CompanyListing(View):
+    @method_decorator(login_required)
+    @method_decorator(is_company)
+    def get(self, request):
+        list = CompanyProfile.objects.filter(user_id=request.user.id)
+        return render(request, 'companies.html', {'companies': list})
+
 
 class Posted_jobs(View):
     @method_decorator(login_required)

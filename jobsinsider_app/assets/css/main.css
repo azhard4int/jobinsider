@@ -1,7 +1,7 @@
 @import url('fonts.css');
 @import url('accounts.css');
-@import url('profile.css');
 @import "buttons.css";
+@import url('profile.css');
 .clearfix {
   clear: both;
 }
@@ -103,6 +103,9 @@ footer .footer_nav li a:hover {
   margin: 0;
   padding: 0;
   background: #fff;
+}
+#jobs .job_view .company_heading {
+  background: #f9f9f9;
 }
 #jobs .job_view h3 {
   padding: 10px;
@@ -595,4 +598,21 @@ div.apply_btn a:hover {
   padding: 10px 0;
   margin: 10px 0;
   width: 100%;
+}
+.add_company a {
+  padding: 10px 0;
+}
+.list_companies table {
+  font-weight: 300;
+}
+.list_companies table thead {
+  font-weight: 300 !important;
+}
+.list_companies table thead th {
+  background: #fafafa;
+  padding: 10px 15px;
+  text-transform: uppercase;
+}
+.list_companies table tbody td {
+  padding: 10px 10px;
 }

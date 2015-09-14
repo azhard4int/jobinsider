@@ -35,7 +35,9 @@ class CompanyProfile(models.Model):
         blank=True,
         max_length=255
     )
-
+    company_status = models.BooleanField(
+        default=1
+    )
     def __unicode__(self):
         return unicode(self.company_name)
 

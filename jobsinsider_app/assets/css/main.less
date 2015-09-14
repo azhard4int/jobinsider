@@ -1,5 +1,6 @@
 @import url('fonts.css');
 @import url('accounts.css');
+@import "buttons.css";
 @import url('profile.css');
 @svg-filter: '<svg height="0" xmlns="http://www.w3.org/2000/svg"><filter id="svgBlur" x="-5%" y="-5%" width="110%" height="110%"><feGaussianBlur in="SourceGraphic" stdDeviation="5"/></filter></svg>';
 // declaring shadow class
@@ -115,6 +116,11 @@
     margin:0;
     padding:0;
     background: #fff;
+    .company_heading{
+      //display: block;
+      background: #f9f9f9;
+      //width:100%;
+    }
     h3{
       padding:10px;
       display: block;
@@ -608,6 +614,9 @@ div.apply_btn{
 }
 
 //start of the comapny account
+
+
+//intro
 .ji-popup{
   filter: url('data:image/svg+xml;utf8,<svg height="0" xmlns="http://www.w3.org/2000/svg"><filter id="svgBlur" x="-5%" y="-5%" width="110%" height="110%"><feGaussianBlur in="SourceGraphic" stdDeviation="5"/></filter></svg>#svgBlur');
   -webkit-filter: url('data:image/svg+xml;utf8,<svg height="0" xmlns="http://www.w3.org/2000/svg"><filter id="svgBlur" x="-5%" y="-5%" width="110%" height="110%"><feGaussianBlur in="SourceGraphic" stdDeviation="5"/></filter></svg>#svgBlur');
@@ -688,5 +697,37 @@ div.apply_btn{
   margin:10px 0;
   width:100%;
 }
+.add_company{
+  a{
+    padding:10px 0;
+  }
+
+}
+.list_companies{
+  table{
+    font-weight:300;
+    thead{
+      font-weight: 300 !important;
+      th{
+          background: #fafafa;
+          padding:10px 15px;
+          //width:30%;
+          text-transform: uppercase;
+
+      }
+    }
+    tbody{
+      td{
+        padding:10px 10px;
+
+      }
+    }
+  }
+}
+
+//company listing
+
+
+
+
   //importing buttons css
-@import "buttons.css";

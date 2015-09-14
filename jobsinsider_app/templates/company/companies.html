@@ -1,0 +1,127 @@
+{% extends "base_dasboard.html" %}
+
+
+
+{#{% extends 'company_core.html' %}#}
+    <title>{% block title %}Dashboard{% endblock %}</title>
+{% if user.is_authenticated %}
+
+    {% block authenticate_user %} {{ user.first_name|slice:":1" }} {{ user.last_name|slice:":1" }}{%  endblock %}
+
+{% endif %}
+
+{#Setting up the blurry region for the form#}
+{% block body_tag %}
+    {% if body_status == 0 %}
+        <body class="">
+        {% include 'company/company_info_popup.html' %}
+        <div class="ji-glass-pane"></div>
+        <div class="ji-popup whole_div">
+
+    {% else %}
+        <body>
+    {% endif %}
+
+{% endblock %}
+{% block body_content %}
+
+
+<div class="clearfix"></div>
+    <section id="company">
+        <div class="container">
+            <div class="col-md-12">
+                <div class="col-md-5">
+
+                    <h1>
+                        Dashboard
+                    </h1>
+
+                </div>
+                <div class="col-md-7">
+                    <div class="cp_nav">
+                        <ul>
+                            <li><a href="">Posted Jobs</a></li>
+                            <li><a href="">Shortlisted People</a></li>
+                            <li><a href="">Favorite CV</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{#    {% block company_dash %}#}
+
+{#    {% endblock %}#}
+
+    <section id="jobs">
+        <div class="container">
+            <div class="col-md-12 job_view">
+                <div class="company_heading">
+                    <div class="col-md-9 company_heading" >
+                        <h3>
+                            Trending Jobs
+                        </h3>
+                    </div>
+                </div>
+
+                <div class="col-md-3 add_company company_heading">
+                    <a href="javascript:;">Add New Company</a>
+                </div>
+
+                <div class="clearfix"></div>
+
+                <div class="col-md-12 list_companies">
+                    <table width="100%">
+                        <thead>
+                            <th>
+                                Company Name
+                            </th>
+                            <th>
+                                Your Role
+                            </th>
+                            <th>
+                                Company URL
+                            </th>
+                            <th>
+                                Company URL
+                            </th>
+                            <th colspan="3">
+                                Actions
+                            </th>
+                        </thead>
+                        <tbody>
+                        {% for data in companies %}
+                            <tr>
+                                <td>
+                                    {{ data.company_name }}
+                                </td>
+                                <td>
+                                    {{ data.your_role }}
+                                </td>
+                                <td>
+                                    {{ data.company_url }}
+                                </td>
+                                <td>
+                                    {{ data.company_industry }}
+                                </td>
+                                <td>
+                                    <a value="{{ data.id }}" href="javascript:;">Edit</a>
+                                    <a value="{{ data.id }}" href="javascript:;">Delete</a>
+                                    <a value="{{ data.id }}" href="javascript:;">Inactive</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+
+            </div>
+        </div>
+    </section>
+
+
+<a href="/accounts/logout">Log out</a>
+{% endblock %}
+</div>
