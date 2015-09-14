@@ -14,6 +14,8 @@ urlpatterns = patterns(
     url(r'^profile_cv/$', UserCVUpload.as_view()),
     url(r'^add_user_employment/$', AddCVEmployment),
     url(r'^add_employment/$', AddUserEmployment.as_view()),
+    url(r'^education/$', EducationUpdate.as_view()),
     url(r'^u/$', Profile.as_view()),     # (?P<username>[A-Za-z0-9]+)/
     url(r'^u/changepassword/$', ProfileChangePassword.as_view()),
+
 )

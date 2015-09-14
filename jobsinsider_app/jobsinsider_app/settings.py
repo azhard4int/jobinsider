@@ -46,6 +46,7 @@ INSTALLED_APPS = (
     'core',
     'users',
     'private',
+    'company',
     'bootstrap3',
     # 'ajax_upload'
     )
@@ -83,6 +84,10 @@ TEMP_DIRECTORY_EMAILS = [
 TEMP_DIRECTORY_Dashboard = [
     'templates/accounts/dashboard',
 ]
+TEMP_DIRECTORY_Dashboard_other = [
+    'templates/accounts/dashboard',
+]
+
 
 
 # Profile Directory
@@ -113,6 +118,7 @@ TEMPLATES = [
             BASE_DIR.join(TEMP_DIRECTORY_ADMIN),
             BASE_DIR.join(TEMP_DIRECTORY_PRIVATE),
             BASE_DIR.join(TEMP_DIRECTORY_Dashboard),
+            BASE_DIR.join(TEMP_DIRECTORY_Dashboard_other),
             BASE_DIR.join(TEMP_DIRECTORY_Company),
         ),
         'APP_DIRS': True,

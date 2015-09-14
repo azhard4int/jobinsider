@@ -1,7 +1,7 @@
 {% extends "base_dasboard.html" %}
     <title>{% block title %}Dashboard{% endblock %}</title>
         {% if user.is_authenticated %}
-            {% block authenticate_user %} Hi {{ user.first_name }} {{ user.last_name }}{%  endblock %}
+            {% block authenticate_user %} Hi {{ user.first_name|slice:":1" }} {{ user.last_name|slice:":1" }}{%  endblock %}
         {% endif %}
 {% block body_content %}
     {% include 'base_dashboard_core.html' %}
@@ -35,20 +35,35 @@
 
                     <form action="" class="personal_info">
                         {% csrf_token %}
-                        <fieldset>
-                            <label for="">First Name</label>
-                            {{ user_basic_form.first_name }}
-                        </fieldset>
+                        <div class="col-md-6">
+                            <fieldset>
+                                <label for="">First Name</label>
+                                {{ user_basic_form.first_name }}
+                            </fieldset>
+                        </div>
+                        <div class="col-md-6">
 
-                        <fieldset>
-                            <label for="">Last Name</label>
-                            {{ user_basic_form.last_name }}
-                        </fieldset>
+                            <fieldset>
+                                <label for="">Last Name</label>
+                                {{ user_basic_form.last_name }}
+                            </fieldset>
 
-                        <fieldset>
-                            <label for="">Email ID</label>
-                            {{ user_basic_form.email }}
-                        </fieldset>
+                        </div>
+                        <div class="col-md-6">
+                            <fieldset>
+                                <label for="">Username</label>
+                                {{ user_basic_form.username }}
+                            </fieldset>
+                        </div>
+
+                        <div class="col-md-6">
+                            <fieldset>
+                                <label for="">Email ID</label>
+                                {{ user_basic_form.email }}
+                            </fieldset>
+                        </div>
+                        <div class="clearfix"></div>
+
                         <fieldset>
                             <input type="submit"  value="Edit Profile" class="update_profile">
                         </fieldset>

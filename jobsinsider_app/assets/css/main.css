@@ -526,3 +526,73 @@ div.apply_btn a:hover {
 .top_region_messages {
   padding: 20px 0;
 }
+.ji-popup {
+  filter: url('data:image/svg+xml;utf8,<svg height="0" xmlns="http://www.w3.org/2000/svg"><filter id="svgBlur" x="-5%" y="-5%" width="110%" height="110%"><feGaussianBlur in="SourceGraphic" stdDeviation="5"/></filter></svg>#svgBlur');
+  -webkit-filter: url('data:image/svg+xml;utf8,<svg height="0" xmlns="http://www.w3.org/2000/svg"><filter id="svgBlur" x="-5%" y="-5%" width="110%" height="110%"><feGaussianBlur in="SourceGraphic" stdDeviation="5"/></filter></svg>#svgBlur');
+  -webkit-filter: blur(5px);
+  -moz-filter: blur(5px);
+  -o-filter: blur(5px);
+  -ms-filter: blur(5px);
+  filter: blur(5px);
+  z-index: 1;
+}
+.ji-popup-info-company {
+  display: block;
+  width: 650px;
+  background: #fff;
+  filter: blur(0px) !important;
+  min-height: 400px;
+  -webkit-filter: none !important;
+  -moz-filter: none !important;
+  -o-filter: none !important;
+  -ms-filter: none !important;
+  filter: none !important;
+  position: absolute;
+  z-index: 9999 !important;
+  top: 10%;
+  border-radius: 2px;
+  left: 50%;
+  margin-left: -325px;
+}
+.ji-glass-pane {
+  display: block;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  background-color: #2B3D52;
+  opacity: 0.7;
+  z-index: 9000;
+}
+.whole_div {
+  display: block;
+  top: 0px;
+  left: 0px;
+  position: relative;
+}
+.nopad-lr {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+.main_region .popup-head-main {
+  background: #fafafa;
+  border-bottom: 1px solid #f0f0f0;
+  text-align: center;
+  padding: 5px 10px;
+  margin: 0;
+}
+.main_region p {
+  padding: 15px 0;
+}
+.textarea_form textarea {
+  width: 100%;
+  max-width: 100%;
+  min-height: 100px;
+  max-height: 100px;
+}
+.company_detail {
+  padding: 10px 0;
+  margin: 10px 0;
+  width: 100%;
+}
