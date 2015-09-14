@@ -48,7 +48,8 @@ class Categories(models.Model):
     category_image = models.ImageField(
         upload_to=directory_path,
         default=None,
-        blank=True
+        blank=True,
+        null=True
     )
     file_name  = models.CharField(
         blank=True,
@@ -107,7 +108,8 @@ class Skills(models.Model):
     category = models.ForeignKey(Categories)
     skill_name = models.CharField(
         blank=True,
-        max_length=255
+        max_length=255,
+        default=None
     )
     skill_status = models.IntegerField(
         blank=True,

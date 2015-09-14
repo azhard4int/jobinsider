@@ -6,6 +6,10 @@ from .forms import *
 from .models import *
 from core import models as modeinsert
 import simplejson as json
+from django.core import serializers
+from datetime import *
+import time
+from django.template import context, loader
 
 
 
@@ -218,7 +222,6 @@ def logout_view(request):
 @login_required()
 def users_view(request):
     table = User.objects.all()
-    #passsword is also going to the view.
     return render(request, 'users_view.html', {'table': table})
 
 
@@ -231,7 +234,9 @@ def test_userinfo(request):
         'lastname': data.last_name,
         'username': data.username,
         'email': data.email,
-        'status' : data.is_active
+        'status' : data.is_active,
+        'staff':data.is_staff,
+        'superuser': data.is_superuser
     }
     return HttpResponse(json.dumps({'user_info': wholedata}))
 
@@ -245,9 +250,149 @@ def user_update(request):
         username = request.POST['username']
         email = request.POST['email']
         is_active = request.POST['is_active']
-        data = User.objects.filter(id=request.POST['id']).update(username=username,first_name=first_name,last_name=last_name,email=email,is_active=int(is_active))
+        staff = request.POST['is_staff']
+        superuser = request.POST['is_superuser']
+
+        data = User.objects.filter(id=request.POST['id']).update(username=username,first_name=first_name,last_name=last_name,email=email,is_active=int(is_active), is_staff=int(staff),is_superuser=int(superuser))
         #data = User.objects.filter(id=request.POST['id']).update()
     if data:
         return HttpResponse(json.dumps({'status': 'True'}))
     else:
         return HttpResponse(json.dumps({'status': 'False'}))
+
+
+@login_required()
+def user_add(request):
+    if request.method=='POST':
+        first_name = request.POST['first_name']
+        last_name = request.POST['last_name']
+        username = request.POST['username']
+        email = request.POST['email']
+        password = 123456789
+    if User.objects.filter(email=request.POST['email']).exists() or User.objects.filter(username=request.POST['username']).exists() is True:
+        return HttpResponse(json.dumps({'status': 'Email or user exist'}))
+    else:
+        data = User(username=username,first_name=first_name,last_name=last_name,email=email,password = password)
+        data.save()
+
+    result = User.objects.get(email=email)
+
+    whole = {
+      'id': result.id,
+      'firstname': result.first_name,
+      'lastname': result.last_name,
+      'username': result.username,
+      'email': result.email,
+      'active' : result.is_active
+
+    }
+
+    if data and result:
+        return HttpResponse(json.dumps({'status': 'True','info': whole}))
+    else:
+        return HttpResponse(json.dumps({'status': 'False'}))
+
+
+@login_required()
+def user_delete(request):
+    if request.method=='POST':
+        id = request.POST['id']
+    data=User.objects.filter(id=int(id)).delete()
+    if data:
+        return HttpResponse(json.dumps({'status': 'True'}))
+    else:
+        return HttpResponse(json.dumps({'status': 'False'}))
+
+
+
+@login_required()
+def user_search(request):
+    value = request.POST['value']
+    if request.method=='POST':
+            try:
+              firstname=User.objects.filter(first_name=value)
+              wholedata = serializers.serialize('json', firstname)
+              if firstname:
+                 return HttpResponse(json.dumps({'user_info': wholedata}))
+            except Exception as hello:
+                     print hello
+
+            try:
+              user123=User.objects.filter(username=value)
+              wholedata = serializers.serialize('json', user123)
+              if user123:
+                 return HttpResponse(json.dumps({'user_info': wholedata}))
+            except Exception as e:
+                 print e
+
+
+
+            try:
+              email123=User.objects.filter(email=value)
+              wholedata = serializers.serialize('json', email123)
+              if email123:
+                 return HttpResponse(json.dumps({'user_info': wholedata}))
+            except Exception as ae:
+               print ae
+
+
+
+            try:
+              lastname=User.objects.filter(last_name=value)
+              wholedata = serializers.serialize('json', lastname)
+              if lastname:
+                 return HttpResponse(json.dumps({'user_info': wholedata}))
+            except Exception as ee:
+               print ee
+
+
+    return HttpResponse(json.dumps({'status': 'Not Found'}))
+
+
+
+
+@login_required()
+def get_id(request):
+         data = User.objects.get(username=request.POST.get('username'))
+         wholedata = {
+
+           'id': data.id
+           }
+         return HttpResponse(json.dumps({'user_info': wholedata}))
+
+
+@login_required()
+def allusers(request):
+         try:
+            data=User.objects.all().order_by('-date_joined')
+            wholedata = serializers.serialize('json', data)
+            if data:
+                return HttpResponse(json.dumps({'user_info': wholedata}))
+         except Exception as e:
+                 print e
+
+
+
+                 activeusers
+
+@login_required()
+def activeusers(request):
+         try:
+            data=User.objects.filter(is_active=1)
+            wholedata = serializers.serialize('json', data)
+            if data:
+                return HttpResponse(json.dumps({'user_info': wholedata}))
+         except Exception as e:
+                 print e
+
+
+
+@login_required()
+def nonactiveusers(request):
+         try:
+            data=User.objects.filter(is_active=0).order_by('date_joined')
+            wholedata = serializers.serialize('json', data)
+            if data:
+                return HttpResponse(json.dumps({'user_info': wholedata}))
+         except Exception as e:
+                 print e

@@ -23,5 +23,15 @@ urlpatterns = patterns(
     url(r'^members/users/$', users_view),
     url(r'^members/users/edit_profile/$', test_userinfo),
     url(r'^members/users/edit_profile/update_user/$', user_update),
+    url(r'^members/users/edit_profile/add_user/$', user_add),
+    url(r'^members/users/edit_profile/delete_user/$', user_delete),
+    url(r'^members/users/edit_profile/search/$', user_search),
+    url(r'^members/users/edit_profile/get_id/$', get_id),
+    url(r'^members/users/edit_profile/allusers/$', allusers),
+    url(r'^members/users/edit_profile/activeusers/$', activeusers),
+    url(r'^members/users/edit_profile/nonactiveusers/$', nonactiveusers)
+
+
+
 )
 
