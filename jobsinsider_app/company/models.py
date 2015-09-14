@@ -44,5 +44,6 @@ class CompanyProfile(models.Model):
  # - Employee_Size
  # - Headquarters
  # - Industry
- # - Company_Logo
  # - User_Profile_Location (Foreign Key)
+
+ # - Company_Logo
