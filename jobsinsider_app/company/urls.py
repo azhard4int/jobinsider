@@ -9,6 +9,7 @@ urlpatterns = patterns(
     url(r'^posted-jobs/$', Posted_jobs.as_view(), name='posted_jobs'),
     url(r'^messages/$', Messages.as_view(), name='posted_jobs'),
     url(r'^list/$', CompanyListing.as_view(), name='company_list'),
+    url(r'^changepassword/$', CompanyPassword.as_view(), name='company_password'),
     # url(r'^messages/$', Messages.as_view(), name='posted_jobs'),
     # url(r'^messages/$', Messages.as_view(), name='posted_jobs'),
 

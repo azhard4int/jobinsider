@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
                 ('user_title', models.CharField(max_length=255, blank=True)),
                 ('user_overview', models.TextField(blank=True)),
                 ('user_bio_status', models.BooleanField(default=0)),
-                ('user_portrait', models.ImageField(upload_to=b'/home/v/fyp/jobinsider/jobsinsider_app/media/userprofile/')),
+                ('user_portrait', models.ImageField(upload_to=b'/home/azhar/Python/fyp/jobinsider/jobsinsider_app/media/userprofile/')),
                 ('user_language_pre', models.IntegerField(default=0)),
                 ('user', models.OneToOneField(to=settings.AUTH_USER_MODEL)),
             ],
@@ -30,7 +30,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('user_cv_title', models.CharField(max_length=255, blank=True)),
-                ('user_cv_file', models.FileField(upload_to=b'/home/v/fyp/jobinsider/jobsinsider_app/media/users/cv/%Y/%m/%d')),
+                ('user_cv_file', models.FileField(upload_to=b'/home/azhar/Python/fyp/jobinsider/jobsinsider_app/media/users/cv/%Y/%m/%d')),
                 ('user_cv_builder_status', models.BooleanField(default=0)),
                 ('user_cv_review_status', models.IntegerField(default=0)),
                 ('user_cv_builder', models.IntegerField(default=0)),
