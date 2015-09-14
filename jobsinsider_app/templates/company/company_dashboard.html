@@ -1,5 +1,7 @@
 {% extends "base_dasboard.html" %}
 
+
+
 {#{% extends 'company_core.html' %}#}
     <title>{% block title %}Dashboard{% endblock %}</title>
 {% if user.is_authenticated %}
@@ -8,7 +10,19 @@
 
 {% endif %}
 
+{#Setting up the blurry region for the form#}
+{% block body_tag %}
+    {% if body_status == 0 %}
+        <body class="">
+        {% include 'company/company_info_popup.html' %}
+        <div class="ji-glass-pane"></div>
+        <div class="ji-popup whole_div">
 
+    {% else %}
+        <body>
+    {% endif %}
+
+{% endblock %}
 {% block body_content %}
 
 
@@ -243,3 +257,4 @@
 
 <a href="/accounts/logout">Log out</a>
 {% endblock %}
+</div>

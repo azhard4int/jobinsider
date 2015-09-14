@@ -1,0 +1,86 @@
+{% extends "base_dasboard.html" %}
+    <title>{% block title %}Dashboard{% endblock %}</title>
+{% if user.is_authenticated %}
+
+    {% block authenticate_user %}{{ user.first_name|slice:":1"}} {{ user.last_name|slice:":1" }}{%  endblock %}
+
+{% endif %}slice:":2"
+{% block body_content %}
+    {% include 'base_dashboard_core.html' %}
+
+
+    <section id="jobs">
+        <div class="container">
+            <div class="col-md-9 job_view">
+                <h3>
+                    Add Your School and Graduation History
+                </h3>
+
+                <form id="add_edu_form" action="">
+                    <div class="add_more_item">
+                        <a href="javascript:;" class="add_edu">Add More</a>
+                    </div>
+                    {% csrf_token %}
+                    <div class="education_single">
+                        <div class="col-md-6">
+                            {{ edu.user_institute }}
+                        </div>
+                        <div class="col-md-6">
+                            {{ edu.user_degree }}
+                        </div>
+                        <div class="col-md-6">
+                            {{ edu.degree_from }}
+                        </div>
+                        <div class="col-md-6">
+                            {{ edu.degree_to }}
+                        </div>
+                    </div>
+                    <div class="add_more_education"></div>
+
+
+                    <div class="col-md-4">
+                        <input type="button" id="submit-edu" value="Enter Information"/>
+                    </div>
+
+
+                </form>
+            </div>
+
+            <div class="col-md-3 job_alert">
+                <div class="box_alert">
+                    <h3>
+                        Checklist
+                    </h3>
+                    <p class="job_alert_con">
+                        <ul>
+                            <li>
+                                <a href="">User Employment Added.</a>
+                            </li>
+                            <li>
+                                <a href="">
+                                    Your Education
+                                </a>
+                            </li>
+                        </ul>
+
+                    </p>
+                    <div class="category_alert">
+                        <select name="" id="" class="form-control">
+                            <option value="">
+
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="job_alert_btn">
+                        <a href="javascript:;">Add Me</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+<a href="/accounts/logout">Log out</a>
+{% endblock %}

@@ -13,7 +13,7 @@ from django.contrib.auth import login as login_session
 
 from accounts import models as accountsmodels
 from accounts import forms as accountsform
-
+from core.decoraters import *
 
 # Create your views here.
 @login_required
@@ -28,8 +28,14 @@ def index(request):
         Adding the check if its company user then show different dashboard
         """
 
+
         if UserSkills.objects.exist_not(request.user.id):
             HttpResponseRedirect('/user')   # later on have to change the request
+
+        if is_company_true(request.user.id):
+            return HttpResponseRedirect('/company/index')
+
+
         if step_value == '0':
             detect_user = UserSkills.objects.filter(user_id=request.user.id)
             if detect_user:
@@ -82,6 +88,7 @@ def index(request):
                 CV builder further detials include
                 user_graduation status along with other info.
                 """
+                return HttpResponseRedirect('/user/education/')
     else:
         HttpResponseRedirect('/accounts/signup/confirm-email')
 
@@ -194,6 +201,7 @@ class UserCVUpload(View):
     Uploading user cv through it
     """
     @method_decorator(login_required)
+
     def get(self, request, *args, **kwargs):
         """
         """
@@ -284,6 +292,61 @@ class AddUserEmployment(View):
         return HttpResponse(json.dumps({'status': True}))
 
 
+class EducationUpdate(View):
+    """
+    User Profile Education/Typically for CV builders
+    """
+    @method_decorator(login_required)
+    def get(self, request, *args, **kwargs):
+        _c = UserCV.objects.filter(user_id=request.user.id)[0]
+        print _c
+        if _c:
+            if _c.user_cv_education==1:
+                return HttpResponseRedirect('/user/dashboard')
+            else:
+                EduForm = EducationForm()
+                return render(request, 'profile_education.html', {'edu': EduForm})
+                # self.show_form(request)
+        else:
+            # self.show_form(request)
+            EduForm = EducationForm()
+            return render(request, 'profile_education.html', {'edu': EduForm})
+
+    def post(self, request, *args, **kwargs):
+        """
+        """
+        if request.method=='POST':
+            count_check = len(request.POST.getlist('user_institute'))
+            print count_check
+            print request.POST.getlist('user_institute')
+            try:
+                for ab in range(0, count_check):
+                    user_institute = request.POST.getlist('user_institute')[ab]
+                    user_degree = request.POST.getlist('user_degree')[ab]
+                    degree_from = request.POST.getlist('degree_from')[ab]
+                    degree_to = request.POST.getlist('degree_to')[ab]
+                    # c_description = request.POST.getlist('company_description')[ab]
+                    user = UserEducation(
+                        user_id=request.user.id,
+                        user_institute=user_institute,
+                        user_degree=user_degree,
+                        degree_from=degree_from,
+                        degree_to=degree_to,
+                        # company_description =,
+                    )
+                    user.save()
+                    UserCV.objects.filter(user_id=request.user.id).update(
+                        user_cv_education=1
+                    )
+            except Exception as e:
+                print e
+
+    def show_form(self, request):
+        EduForm = EducationForm()
+        return render(request, 'profile_education.html', {'edu': EduForm})
+
+
+
 class UserBioUpdate(View):
 
     def get(self, request, *args, **kwargs):
@@ -299,12 +362,14 @@ class Profile(View):
     Update user profile view
     """
     @method_decorator(login_required)
+    @method_decorator(is_job_seeker)
     def get(self, request, username=None):
 
         user_basic = accountsform.UserForm(initial={
             'first_name': request.user.first_name,
             'last_name': request.user.last_name,
             'email': request.user.email,
+            'username': request.user.username,
 
 
         })
@@ -339,6 +404,7 @@ class Profile(View):
 class ProfileChangePassword(View):
 
     @method_decorator(login_required)
+    @method_decorator(is_job_seeker)
     def get(self, request):
         change_password = accountsform.ChangeProfilePassword()
         return render(request, 'user_change_password.html', {'cp': change_password})
@@ -364,3 +430,4 @@ class ProfileChangePassword(View):
                     return HttpResponse(json.dumps({'status':-2}))
             else:
                 return HttpResponse(json.dumps({'status':-3}))
+

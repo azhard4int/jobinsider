@@ -8,5 +8,8 @@ urlpatterns = patterns(
     url(r'^index/$', Company_dashboard.as_view(), name='company_dashboard'),
     url(r'^posted-jobs/$', Posted_jobs.as_view(), name='posted_jobs'),
     url(r'^messages/$', Messages.as_view(), name='posted_jobs'),
+    url(r'^list/$', CompanyListing.as_view(), name='company_list'),
+    # url(r'^messages/$', Messages.as_view(), name='posted_jobs'),
+    # url(r'^messages/$', Messages.as_view(), name='posted_jobs'),
 
     )

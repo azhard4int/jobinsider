@@ -106,6 +106,36 @@ class UserEmploymentForm(forms.ModelForm):
         fields = []
 
 
+class EducationForm(forms.ModelForm):
+
+    user_institute = forms.CharField(widget=forms.TextInput(attrs={
+        'class': 'form-control',
+        'placeholder': 'Institute Name'
+    }))
+    user_degree= forms.CharField(widget=forms.TextInput(attrs={
+        'class': 'form-control',
+        'placeholder': 'Degree Level'
+    }))
+
+    degree_from = forms.DateField(widget=forms.TextInput(attrs={
+        'class': 'form-control datepicker',
+        'placeholder': 'From'
+
+    }))
+    degree_to = forms.DateField(widget=forms.TextInput(attrs={
+        'class': 'form-control datepicker',
+        'placeholder': 'To'
+    }))
+
+    class Meta:
+        model = UserEducation
+        fields = {
+            'user_institute',
+            'user_degree',
+            'degree_from',
+            'degree_to'
+        }
+
 
 class InitialEmploymentForm(UserEmploymentForm):
     class Meta:

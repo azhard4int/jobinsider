@@ -32,7 +32,7 @@ function login_account()
                     window.location.href = '/accounts/confirm-email/';
                 }
                 else if(response.status==4){
-                    window.location.href = '/company/';
+                    window.location.href = '/company/index';
                 }
                 else if(response.status==-1){
 
@@ -737,6 +737,7 @@ $('.add_employment').on('click', function(event) {
 });
 
 
+
 $('#add_bio_employment').on('submit', function()
 {
     //var getCount = $('.company_count').attr('value');
@@ -768,6 +769,51 @@ $('#add_bio_employment').on('submit', function()
     });
     return false;
 });
+
+
+//user cv builder education
+
+
+var educount = 0;
+$('.add_edu').on('click', function(event)
+{
+    event.preventDefault();
+    if(educount<2)
+    {
+        $('.education_single').clone().appendTo('.add_more_education').fadeIn();
+        educount++;
+    }
+    else{
+        alert('You can add only 3-5 Higher Educations');
+    }
+
+    $('.add_more_education').find("#id_degree_from").datepicker();
+    $('.add_more_education').find("#id_degree_to").datepicker();
+    return false;
+});
+
+
+$('#submit-edu').on('click', function(event) {
+
+    event.preventDefault();
+    $.ajax({
+        type:'post',
+        url:'/user/education/',
+        data:$('#add_edu_form').serialize(),
+        success:function()
+        {
+
+        },
+        error:function()
+        {
+
+        }
+    });
+
+
+    return false;
+});
+
 
 //user profile update
 
@@ -835,4 +881,29 @@ $('.change_password_user').on('submit', function(e) {
     );
     return false;
 
+});
+
+//Company Section JS
+
+$('.company_detail').on('click', function(e){
+    e.preventDefault();
+    $.ajax(
+        {
+            type:'post',
+            url:'/company/index/',
+            data:$('#company_profile').serialize(),
+            success:function(m)
+            {
+                resp = JSON.parse(m);
+                if(resp.status==true)
+                {
+                    window.location.href = '/company/dashboard/'
+                }
+                else{
+                    $('error_m').html('Some Error Incurred');
+                }
+            }
+        }
+    );
+    return false;
 });

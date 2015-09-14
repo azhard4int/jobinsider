@@ -1,7 +1,7 @@
 @import url('fonts.css');
 @import url('accounts.css');
-@import url('profile.css');
 @import "buttons.css";
+@import url('profile.css');
 .clearfix {
   clear: both;
 }
@@ -103,6 +103,9 @@ footer .footer_nav li a:hover {
   margin: 0;
   padding: 0;
   background: #fff;
+}
+#jobs .job_view .company_heading {
+  background: #f9f9f9;
 }
 #jobs .job_view h3 {
   padding: 10px;
@@ -378,6 +381,40 @@ div.apply_btn a:hover {
   color: #fff;
   font-size: 20px;
 }
+.list_users {
+  height: 450px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+.user_active {
+  background: #fafafa;
+}
+.user_pic {
+  background: #fff;
+  border-bottom: 1px solid #e7e7e7;
+  padding: 20px 0 20px 10px;
+}
+.user_icon span {
+  font-size: 18px;
+  color: #fff;
+  background: #dbc1d5;
+  padding: 10px 10px;
+  border-radius: 20px;
+}
+.user_name span {
+  font-size: 18px;
+}
+.last_message {
+  margin-top: 20px;
+  margin-left: 20px;
+  border-left: 4px solid #ccc;
+}
+.last_message span {
+  color: #989898;
+}
+.message_details {
+  padding: 20px 0;
+}
 .users_message {
   margin-left: -15px;
   background: #fff;
@@ -385,11 +422,197 @@ div.apply_btn a:hover {
 .users_message h3 {
   margin: 0;
   margin-left: 35px;
-  padding: 6px 0;
+  padding: 5px 0;
   font-size: 20px;
 }
-.user_pic {
+.users_message .chatbox_model {
+  border-top: 1px solid #dcdcdc;
+  background: #f5f5f5;
+  height: 450px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  margin-left: -15px;
+  width: 103.5%;
+}
+.timestamp_message {
+  padding-top: 7px;
+  text-align: right;
+}
+.u_relative {
+  position: relative;
+}
+.u_absolute {
+  position: absolute;
+}
+.conversation_box_message {
+  margin: 10px 10px;
+  background-color: #fff;
+  border: 1px solid #c9d7df;
+  border-radius: 3px;
+  box-sizing: border-box;
+  box-shadow: 0 0 0 transparent;
+  transition: box-shadow linear 0.04s, border-color linear 0.2s;
+  position: relative;
+}
+.conversation_box_message .composer_editor {
+  padding: 5px 10px;
+  min-height: 74px;
+}
+.conversation_box_message .composer_editor:focus {
+  border: none !important;
+  outline: none !important;
+}
+.conversation_box_message .action_reply {
+  min-height: 30px;
+  float: right;
+}
+.conversation_box_message .action_reply a {
+  transition: all ease-in-out 0.2s;
+  -webkit-transition: all ease-in-out 0.2s;
+  -o-transition: all ease-in-out 0.2s;
+  -ms-transition: all ease-in-out 0.2s;
+  padding: 7px 20px;
+  background: #54a854;
+  color: #fff;
+  border-radius: 20px;
+  text-decoration: none;
+  padding: 5px 10px;
+  min-height: 74px;
+}
+.conversation_box_message .action_reply a:hover {
+  background: #62c262;
+}
+.u_message {
+  padding: 0 20px;
+  padding-bottom: 100px;
+}
+.u_message .from_user_side .fus {
+  margin-right: 10px;
+}
+.u_message .from_user_side .us_box {
   background: #fff;
-  border-bottom: 1px solid #e7e7e7;
+  border: 1px solid #c9d7df;
+  border-radius: 3px;
+  box-sizing: border-box;
+  box-shadow: 0 0 0 transparent;
+  transition: box-shadow linear 0.04s, border-color linear 0.2s;
+  padding: 10px 20px;
+}
+.u_message .from_s_side {
   padding: 10px 0;
+}
+.u_message .from_s_side .s_user {
+  float: right !important;
+}
+.u_message .from_s_side .us_box {
+  float: right;
+  background: #f8f8f8;
+  border: 1px solid #c9d7df;
+  border-radius: 3px;
+  box-sizing: border-box;
+  box-shadow: 0 0 0 transparent;
+  transition: box-shadow linear 0.04s, border-color linear 0.2s;
+  padding: 10px 20px;
+}
+.s_side {
+  float: right !important;
+}
+.fus,
+.s_user {
+  padding-top: 20px;
+}
+.fus span,
+.s_user span {
+  background: #fff;
+  padding: 20px 15px;
+}
+.top_region_messages {
+  padding: 20px 0;
+}
+.ji-popup {
+  filter: url('data:image/svg+xml;utf8,<svg height="0" xmlns="http://www.w3.org/2000/svg"><filter id="svgBlur" x="-5%" y="-5%" width="110%" height="110%"><feGaussianBlur in="SourceGraphic" stdDeviation="5"/></filter></svg>#svgBlur');
+  -webkit-filter: url('data:image/svg+xml;utf8,<svg height="0" xmlns="http://www.w3.org/2000/svg"><filter id="svgBlur" x="-5%" y="-5%" width="110%" height="110%"><feGaussianBlur in="SourceGraphic" stdDeviation="5"/></filter></svg>#svgBlur');
+  -webkit-filter: blur(5px);
+  -moz-filter: blur(5px);
+  -o-filter: blur(5px);
+  -ms-filter: blur(5px);
+  filter: blur(5px);
+  z-index: 1;
+}
+.ji-popup-info-company {
+  display: block;
+  width: 650px;
+  background: #fff;
+  filter: blur(0px) !important;
+  min-height: 400px;
+  -webkit-filter: none !important;
+  -moz-filter: none !important;
+  -o-filter: none !important;
+  -ms-filter: none !important;
+  filter: none !important;
+  position: absolute;
+  z-index: 9999 !important;
+  top: 10%;
+  border-radius: 2px;
+  left: 50%;
+  margin-left: -325px;
+}
+.ji-glass-pane {
+  display: block;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  background-color: #2B3D52;
+  opacity: 0.7;
+  z-index: 9000;
+}
+.whole_div {
+  display: block;
+  top: 0px;
+  left: 0px;
+  position: relative;
+}
+.nopad-lr {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+.main_region .popup-head-main {
+  background: #fafafa;
+  border-bottom: 1px solid #f0f0f0;
+  text-align: center;
+  padding: 5px 10px;
+  margin: 0;
+}
+.main_region p {
+  padding: 15px 0;
+}
+.textarea_form textarea {
+  width: 100%;
+  max-width: 100%;
+  min-height: 100px;
+  max-height: 100px;
+}
+.company_detail {
+  padding: 10px 0;
+  margin: 10px 0;
+  width: 100%;
+}
+.add_company a {
+  padding: 10px 0;
+}
+.list_companies table {
+  font-weight: 300;
+}
+.list_companies table thead {
+  font-weight: 300 !important;
+}
+.list_companies table thead th {
+  background: #fafafa;
+  padding: 10px 15px;
+  text-transform: uppercase;
+}
+.list_companies table tbody td {
+  padding: 10px 10px;
 }

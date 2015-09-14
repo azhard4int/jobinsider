@@ -94,7 +94,7 @@ class UserCV(models.Model):
     user_cv_review_status = models.IntegerField(default=0)  # 0 pending, 1 approved, 2 rejected.
     user_cv_builder = models.IntegerField(default=0)  # 0 pending, 1 approved, 2 rejected.
     user_cv_emp_status = models.BooleanField(default=0)
-
+    user_cv_education = models.IntegerField(default=0)
     def __unicode__(self):
         return unicode(self.user)
 
@@ -116,9 +116,27 @@ class UserEmployment(models.Model):
     def __unicode__(self):
         return unicode(self.user)
 
-# class Education(models.Model):
-#     """
-#     User previous education field.
-#     """
-#     user = models.ForeignKey(User)
 
+class UserEducation(models.Model):
+    """
+    User previous education field.
+    """
+    user = models.ForeignKey(User)
+    user_institute = models.CharField(
+        max_length=255,
+        blank=True,
+        default=None)
+    user_degree = models.CharField(
+        max_length=255,
+        blank=True,
+        default=None)
+    degree_from = models.DateField(
+        max_length=255,
+        blank=True,
+        default=None
+    )
+    degree_to = models.DateField(
+        max_length=255,
+        blank=True,
+        default=None
+    )

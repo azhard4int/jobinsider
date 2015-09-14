@@ -14,6 +14,7 @@ class UserProfile(models.Model):
     user_cv_status = models.BooleanField(default=0)
     user_account_review = models.IntegerField(default=0)    #0 for not approved, 1 approved, 2 rejected.
     user_post_job = models.BooleanField(default=0)  # 0 - no, 1 - yes.
+    company_profile_status = models.IntegerField(default=0)
 
     def __unicode__(self):
         return unicode(self.user)
