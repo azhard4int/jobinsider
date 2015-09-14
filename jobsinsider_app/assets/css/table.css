@@ -1,0 +1,66 @@
+body{
+   width: 100%;
+
+}
+#container {
+
+   width: 900px;
+   height: auto;
+   margin: 0 auto;
+   transition: all 0.5s ease;
+}
+
+.table{
+    margin-top: 10px;
+    font-size:90%;
+    transition: all 0.5s ease;
+
+}
+
+
+
+.wrapper{
+    width:100%
+    display: inline;
+
+}
+
+.message_display{
+
+    padding-left: 10px;
+
+
+}
+
+
+.search{
+   padding-top: 50px;
+   padding-left: 220px;
+
+
+
+}
+
+.message_error{
+
+
+ padding-left: 240px;
+    transition: all 0.5s ease;
+
+
+}
+
+
+td{
+
+
+    transition: all 0.5s ease;
+}
+
+
+.buttonset{
+
+   padding-top: 20px;
+   padding-left: 220px;
+
+}
