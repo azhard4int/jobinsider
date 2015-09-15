@@ -13,8 +13,18 @@ class Adminlogin(forms.ModelForm):
         fields = {'username', 'password'}
 
 class CategoryAdd(forms.ModelForm):
-    category_name = forms.CharField()
-    category_status = forms.IntegerField()
+    category_name = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'placeholder':'Category Name',
+            'class':'form-control',
+        })
+    )
+    category_status = forms.IntegerField(
+        widget=forms.TextInput(attrs={
+            'placeholder':'Category Status',
+            'class':'form-control',
+        })
+    )
     category_image = forms.ImageField
 
     class Meta:
