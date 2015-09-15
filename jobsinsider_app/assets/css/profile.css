@@ -38,18 +38,21 @@
   border-left: 4px solid #553771;
 }
 .personal_info fieldset,
-.change_password_user fieldset {
+.change_password_user fieldset,
+.change_company_pass_form fieldset {
   font-weight: 500;
   padding: 7px 0;
 }
 .personal_info fieldset label,
-.change_password_user fieldset label {
+.change_password_user fieldset label,
+.change_company_pass_form fieldset label {
   font-weight: 500;
   font-family: 'proxima_nova_regular', arial, sans-serif !important;
   padding: 5px 0;
 }
 .personal_info input[type=submit],
-.change_password_user input[type=submit] {
+.change_password_user input[type=submit],
+.change_company_pass_form input[type=submit] {
   transition: all ease-in-out 0.2s;
   -webkit-transition: all ease-in-out 0.2s;
   -o-transition: all ease-in-out 0.2s;
@@ -60,13 +63,16 @@
   color: #fff;
 }
 .personal_info input[type=submit]:hover,
-.change_password_user input[type=submit]:hover {
+.change_password_user input[type=submit]:hover,
+.change_company_pass_form input[type=submit]:hover {
   background: #7185c2;
 }
 .personal_info input[type=text],
 .change_password_user input[type=text],
+.change_company_pass_form input[type=text],
 .personal_info input[type=email],
-.change_password_user input[type=email] {
+.change_password_user input[type=email],
+.change_company_pass_form input[type=email] {
   background: #fdfdfd;
   font-family: 'proxima_nova_regular', arial, sans-serif !important;
   border-radius: 0 !important;
@@ -74,7 +80,28 @@
 }
 .personal_info input[type=text]:focus,
 .change_password_user input[type=text]:focus,
+.change_company_pass_form input[type=text]:focus,
 .personal_info input[type=email]:focus,
-.change_password_user input[type=email]:focus {
+.change_password_user input[type=email]:focus,
+.change_company_pass_form input[type=email]:focus {
   border-color: #7f94d6;
+}
+.list_companies table {
+  font-weight: 300;
+}
+.list_companies table thead {
+  font-weight: 300 !important;
+}
+.list_companies table thead th {
+  background: #fafafa;
+  padding: 10px 15px;
+  font-size: 12px;
+  font-weight: lighter;
+  text-transform: uppercase;
+}
+.list_companies table tbody td {
+  padding: 10px 10px;
+}
+.list_companies_data {
+  background: #fff;
 }

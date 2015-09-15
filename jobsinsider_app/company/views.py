@@ -56,16 +56,24 @@ class CompanyListing(View):
         list = CompanyProfile.objects.filter(user_id=request.user.id)
         return render(request, 'companies.html', {'companies': list})
 
+    @method_decorator(login_required)
+    @method_decorator(is_company)
+    def post(self, request):
+        """
+
+        :param request:
+        :return:
+        """
 
 class CompanyPassword(View):
     @method_decorator(login_required)
     @method_decorator(is_company)
-
-
     def get(self, request):
         change_password = accountsform.ChangeProfilePassword()
-        return render(request, 'user_change_password.html', {'cp': change_password})
+        return render(request, 'company_change_password.html', {'cp': change_password})
 
+    @method_decorator(login_required)
+    @method_decorator(is_company)
     def post(self, request):
         if request.method=='POST':
             _check = User.objects.filter(id=request.user.id)
@@ -87,6 +95,50 @@ class CompanyPassword(View):
                 return HttpResponse(json.dumps({'status':-3}))
 
 
+class CompanyProfileView(View):
+    @method_decorator(login_required)
+    @method_decorator(is_company)
+    def get(self, request):
+        user_basic = accountsform.UserForm(initial={
+            'first_name': request.user.first_name,
+            'last_name': request.user.last_name,
+            'email': request.user.email,
+            'username': request.user.username,
+
+
+        })
+        return render(request, 'company_profile.html', {'user_profile': user_basic})
+
+    @method_decorator(login_required)
+    @method_decorator(is_company)
+    def post(self, request):
+        """
+
+        :param request:
+        :return:
+        """
+
+class CompanyJobAd(View):
+    @method_decorator(login_required)
+    @method_decorator(is_company)
+    def get(self, request):
+        """
+
+        :param request:
+        :return:
+        """
+        return render(request, 'job_advertisement.html')
+
+
+class CompanyAdd(View):
+    @method_decorator(login_required)
+    @method_decorator(is_company)
+    def get(self, request):
+        """
+
+        :param request:
+        :return:
+        """
 
 class Posted_jobs(View):
     @method_decorator(login_required)

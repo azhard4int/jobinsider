@@ -907,3 +907,41 @@ $('.company_detail').on('click', function(e){
     );
     return false;
 });
+
+
+$('.change_company_password').on('click', function(e){
+    e.preventDefault();
+    $.ajax(
+        {
+            type:'post',
+            url:'/company/changepassword/',
+            data:$('.change_company_pass_form').serialize(),
+            success:function(m){
+                resp = JSON.parse(m)
+                if (resp.status==-3)
+                {
+                    $('.error_main').html('');
+                    $('.error_main').html('No such user found in the database')
+                }
+                else if (resp.status==-2)
+                {
+                    $('.error_main').html('');
+                    $('.error_main').html('Current password does not match.')
+                }
+                else if(resp.status==-1)
+                {
+                    $('.error_main').html('');
+                    $('.error_main').html('Both new password does not match.')
+                }
+                else if(resp.status==1)
+                {
+                    $('.error_main').html('');
+                    $('success_main').html('');
+                    $('success_main').html('Password Successfully Updated')
+
+                }
+            }
+        }
+    );
+    return false;
+});

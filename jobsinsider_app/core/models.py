@@ -104,6 +104,28 @@ class SkillsManager(models.Manager):
             return False
 
 
+class Countries(models.Model):
+    country_name = models.CharField(
+        default=None,
+        blank=True,
+        max_length=255
+    )
+
+    def __unicode__(self):
+        return unicode(self.country_name)
+
+
+class Cities(models.Model):
+    country = models.ForeignKey(Countries)
+    city_name = models.CharField(
+        default=None,
+        blank=True,
+        max_length=255
+    )
+
+    def __unicode__(self):
+        return unicode(self.city_name)
+
 class Skills(models.Model):
     category = models.ForeignKey(Categories)
     skill_name = models.CharField(

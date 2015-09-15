@@ -48,6 +48,7 @@ INSTALLED_APPS = (
     'private',
     'company',
     'bootstrap3',
+    'ckeditor'
     # 'ajax_upload'
     )
 

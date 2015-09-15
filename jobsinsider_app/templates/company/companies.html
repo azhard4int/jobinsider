@@ -1,77 +1,48 @@
 {% extends "base_dasboard.html" %}
-
-
-
-{#{% extends 'company_core.html' %}#}
     <title>{% block title %}Dashboard{% endblock %}</title>
-{% if user.is_authenticated %}
-
-    {% block authenticate_user %} {{ user.first_name|slice:":1" }} {{ user.last_name|slice:":1" }}{%  endblock %}
-
-{% endif %}
-
-{#Setting up the blurry region for the form#}
-{% block body_tag %}
-    {% if body_status == 0 %}
-        <body class="">
-        {% include 'company/company_info_popup.html' %}
-        <div class="ji-glass-pane"></div>
-        <div class="ji-popup whole_div">
-
-    {% else %}
-        <body>
-    {% endif %}
-
-{% endblock %}
+        {% if user.is_authenticated %}
+            {% block authenticate_user %}{{ user.first_name|slice:":1" }} {{ user.last_name|slice:":1" }}{%  endblock %}
+        {% endif %}
 {% block body_content %}
-
-
-<div class="clearfix"></div>
-    <section id="company">
-        <div class="container">
-            <div class="col-md-12">
-                <div class="col-md-5">
-
-                    <h1>
-                        Dashboard
-                    </h1>
-
-                </div>
-                <div class="col-md-7">
-                    <div class="cp_nav">
-                        <ul>
-                            <li><a href="">Posted Jobs</a></li>
-                            <li><a href="">Shortlisted People</a></li>
-                            <li><a href="">Favorite CV</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    {% include 'base_dashboard_core.html' %}
 
 {#    {% block company_dash %}#}
 
 {#    {% endblock %}#}
 
-    <section id="jobs">
-        <div class="container">
-            <div class="col-md-12 job_view">
+    <section id="list_companies ">
+        <div class="container user_profile" >
+
+
+            <div class="col-md-12">
+            <div class="col-md-3">
+                    <h4>
+                        General Settings
+                    </h4>
+                    <ul class="setting_main">
+                        <li><a href="{% url 'company_profile' %}">Personal Information</a></li>
+                        <li><a href="{% url 'company_password' %}"  >Change Password</a></li>
+{#                        <li><a href="javascript:;">User CV</a></li>#}
+                    </ul>
+                     <h4>
+                        Company Settings
+                    </h4>
+                    <ul class="setting_main">
+                        <li><a href="{% url 'company_list' %}" class="active">List All Companies</a></li>
+                        <li><a href="/company/add_company/">Add Another Company</a></li>
+
+                    </ul>
+                </div>
+            <div class="col-md-9 list_companies nopad-lr">
                 <div class="company_heading">
-                    <div class="col-md-9 company_heading" >
+                    <div class="col-md-12 company_heading" >
                         <h3>
-                            Trending Jobs
+                            Your Companies list
                         </h3>
                     </div>
                 </div>
-
-                <div class="col-md-3 add_company company_heading">
-                    <a href="javascript:;">Add New Company</a>
-                </div>
-
                 <div class="clearfix"></div>
-
-                <div class="col-md-12 list_companies">
+                <div class="col-md-12">
                     <table width="100%">
                         <thead>
                             <th>
@@ -84,7 +55,10 @@
                                 Company URL
                             </th>
                             <th>
-                                Company URL
+                                Company Industry
+                            </th>
+                            <th>
+                                Status
                             </th>
                             <th colspan="3">
                                 Actions
@@ -104,6 +78,14 @@
                                 </td>
                                 <td>
                                     {{ data.company_industry }}
+
+                                </td>
+                                <td>
+                                   {% if data.company_status   %}
+                                        Active
+                                    {% else %}
+                                        Inactive
+                                    {% endif %}
                                 </td>
                                 <td>
                                     <a value="{{ data.id }}" href="javascript:;">Edit</a>
@@ -116,7 +98,7 @@
                     </table>
                 </div>
 
-
+                </div>
             </div>
         </div>
     </section>

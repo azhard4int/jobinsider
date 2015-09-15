@@ -10,6 +10,9 @@ urlpatterns = patterns(
     url(r'^messages/$', Messages.as_view(), name='posted_jobs'),
     url(r'^list/$', CompanyListing.as_view(), name='company_list'),
     url(r'^changepassword/$', CompanyPassword.as_view(), name='company_password'),
+    url(r'^profile/$', CompanyProfileView.as_view(), name='company_profile'),
+    url(r'^create-job/$', CompanyJobAd.as_view(), name='job_advertisement'),
+
     # url(r'^messages/$', Messages.as_view(), name='posted_jobs'),
     # url(r'^messages/$', Messages.as_view(), name='posted_jobs'),
 

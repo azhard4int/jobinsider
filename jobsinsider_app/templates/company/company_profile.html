@@ -1,0 +1,80 @@
+{% extends "base_dasboard.html" %}
+    <title>{% block title %}Dashboard{% endblock %}</title>
+        {% if user.is_authenticated %}
+            {% block authenticate_user %} Hi {{ user.first_name|slice:":1" }} {{ user.last_name|slice:":1" }}{%  endblock %}
+        {% endif %}
+{% block body_content %}
+    {% include 'base_dashboard_core.html' %}
+
+
+    <div class="container user_profile">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-3">
+                    <h4>
+                        General Settings
+                    </h4>
+                    <ul class="setting_main">
+                        <li><a href="{% url 'company_profile' %}" class="active">Personal Information</a></li>
+                        <li><a href="{% url 'company_password' %}"  >Change Password</a></li>
+{#                        <li><a href="javascript:;">User CV</a></li>#}
+                    </ul>
+                     <h4>
+                        Company Settings
+                    </h4>
+                    <ul class="setting_main">
+                        <li><a href="{% url 'company_list' %}">List All Companies</a></li>
+                        <li><a href="/company/add_company/">Add Another Company</a></li>
+
+                    </ul>
+                </div>
+                <div class="col-md-9">
+                    <h2>
+                        Your Profile Details
+                    </h2>
+
+                    <form action="" class="personal_info">
+                        {% csrf_token %}
+                        <div class="col-md-6">
+                            <fieldset>
+                                <label for="">First Name</label>
+                                {{ user_profile.first_name }}
+                            </fieldset>
+                        </div>
+                        <div class="col-md-6">
+
+                            <fieldset>
+                                <label for="">Last Name</label>
+                                {{ user_profile.last_name }}
+                            </fieldset>
+
+                        </div>
+                        <div class="col-md-6">
+                            <fieldset>
+                                <label for="">Username</label>
+                                {{ user_profile.username }}
+                            </fieldset>
+                        </div>
+
+                        <div class="col-md-6">
+                            <fieldset>
+                                <label for="">Email ID</label>
+                                {{ user_profile.email }}
+                            </fieldset>
+                        </div>
+                        <div class="clearfix"></div>
+
+                        <fieldset>
+                            <input type="submit"  value="Edit Profile" class="update_profile">
+                        </fieldset>
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<a href="/accounts/logout">Log out</a>
+{% endblock %}

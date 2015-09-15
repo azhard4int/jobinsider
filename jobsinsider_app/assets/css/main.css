@@ -1,7 +1,7 @@
-@import url('fonts.css');
-@import url('accounts.css');
 @import "buttons.css";
 @import url('profile.css');
+@import url('fonts.css');
+@import url('accounts.css');
 .clearfix {
   clear: both;
 }
@@ -20,7 +20,7 @@
   -ms-transition: all ease-in-out 0.2s;
 }
 body {
-  background: #ddd6ff !important;
+  background: #f2eeff !important;
   font-family: 'proxima_nova_regular', arial, sans-serif !important;
   margin: 0 auto;
 }
@@ -574,7 +574,8 @@ div.apply_btn a:hover {
   left: 0px;
   position: relative;
 }
-.nopad-lr {
+.nopad-lr,
+.nomargin-lr {
   padding: 0 !important;
   margin: 0 !important;
 }
@@ -601,18 +602,4 @@ div.apply_btn a:hover {
 }
 .add_company a {
   padding: 10px 0;
-}
-.list_companies table {
-  font-weight: 300;
-}
-.list_companies table thead {
-  font-weight: 300 !important;
-}
-.list_companies table thead th {
-  background: #fafafa;
-  padding: 10px 15px;
-  text-transform: uppercase;
-}
-.list_companies table tbody td {
-  padding: 10px 10px;
 }
