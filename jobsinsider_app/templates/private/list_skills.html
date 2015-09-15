@@ -5,16 +5,22 @@
 
 {% block body_content %}
 <div class="container">
+    <div class="col-md-12">
+    <div class="col-md-6">
+        {% if count_skill < 20 %}
+            <form method="post" id="add_category_admin" action="">
+                {%csrf_token%}
+                {{add_category}}
+                <input type="submit">
+            </form>
+        {% endif %}
+    </div>
 
-    {% if count_skill < 20 %}
-        <form method="post" id="add_category_admin" action="">
-            {%csrf_token%}
-            {{add_category}}
-            <input type="submit">
-        </form>
-    {% endif %}
+        <br><br>
     <div class="display_message"></div>
-    <table>
+    </div>
+    <div class="col-md-12">
+    <table width="100%;">
         <thead class="categories_head">
         <tr>
             <td>Category Name</td>
@@ -61,13 +67,13 @@
             </tr>
         {% endfor %}
         </tbody>
-    </table>
+    </table></div>
 
 
     <!--{% if count_category %}-->
         <!--this is aesome-->
     <!--{% endif %}-->
-
+    </div>
 </div>
 
 

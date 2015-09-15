@@ -7,6 +7,9 @@
 <div class="container">
     <div class="row">
     <div class="col-md-12">
+    <div class="col-md-6">
+
+
     {% if count_category < 20 %}
         <form method="post" id="add_category_admin" action="" enctype="multipart/form-data">
             {%csrf_token%}
@@ -14,8 +17,12 @@
             <input type="submit">
         </form>
     {% endif %}
+    </div>
+    <div class="clearfix"></div>
+        <br>
+        <br><br>
     <div class="display_message"></div>
-    <table>
+    <table width="100%;">
         <thead class="categories_head">
         <tr>
             <td>Category Name</td>
