@@ -21,7 +21,6 @@ class UserProfile(models.Model):
 
 class UserForgot(models.Model):
 
-
     user = models.OneToOneField(User)
     token_key = models.CharField(default=None, max_length=100)
     timestamp = models.DateTimeField(default='0000-00-00 00:00:00')

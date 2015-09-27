@@ -29,35 +29,58 @@
     <header class="dashboard_s0">
     <div class="container">
         <div class="row">
-            <div class="col-md-12">
+            <div class="nav_container">
 
-                    <div class="col-md-1">
+                    <div class="main_logo">
                         <div class="logo">
                             JobInsider
                         </div>
                     </div>
-                    <div class="col-md-10 right_sec">
+{#                    <div class="col-md-10 right_sec">#}
 
-                        <div class="col-md-9">
-                            <nav class="dashboard_s0_nav">
-                                <ul>
-                                    {% if user.is_authenticated %}
+{#                        <div class="col-md-9">#}
+{#                            <nav class="dashboard_s0_nav">#}
+{#                                <ul>#}
+{#                                    {% if user.is_authenticated %}#}
+{#                                    <li>#}
+{#                                        <a href="">Create Advertisement</a>#}
+{#                                    </li>#}
+{#                                    {% else %}#}
+{##}
+{#                                        <li>#}
+{#                                          <a href="{% url 'register_account' %}">Search Jobs</a>#}
+{#                                       </li>#}
+{#                                        <li>#}
+{#                                         <a href="{% url 'register_account' %}">View Profiles</a>#}
+{#                                        </li>#}
+{#                                    {% endif %}#}
+{#                                </ul>#}
+{#                            </nav>#}
+{#                        </div>#}
+
+                        <div class="nav_bar_main">
+                            <ul>
+                                {% if user.is_authenticated %}
                                     <li>
-                                        <a href="">Create Advertisement</a>
+                                        <a href="">Jobs</a>
                                     </li>
-                                    {% else %}
-
-                                        <li>
-                                          <a href="{% url 'register_account' %}">Search Jobs</a>
-                                       </li>
-                                        <li>
-                                         <a href="{% url 'register_account' %}">View Profiles</a>
-                                        </li>
-                                    {% endif %}
-                                </ul>
-                            </nav>
+                                    <li>
+                                        <a href="">Favorite Jobs</a>
+                                    </li>
+                                    <li>
+{#                                        <a href="">Jobs</a>#}
+                                    </li>
+                                {% else %}
+                                    <li>
+                                        <a href="{% url 'register_account' %}">Search Jobs</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'register_account' %}">View Profiles</a>
+                                    </li>
+                                {% endif %}
+                            </ul>
                         </div>
-                        <div class="col-md-3 "><!--user_profile_detail-->
+                        <div class="user_actions"><!--user_profile_detail-->
                                 <div class=""><!--user_profile_detail-->
                                     <ul class="dashboard_s0_nav_main">
                                         <li>
@@ -66,8 +89,14 @@
                                         <li>
                                             <a href=""><i class="fa fa-bell-o fa-lg"></i></a>
                                         </li>
-                                        <li>
+                                        <li class="display_user_settings">
                                             <a href=""><span class="user_initials">{% block authenticate_user %}Welcome  Username {%  endblock %}</span></a>
+                                            <div class="user_profile_settings">
+                                                <div class="links_block">
+                                                    <a href="/user/u/">Account Settings</a>
+                                                    <a href="/accounts/logout/">Logout</a>
+                                                </div>
+                                            </div>
                                         </li>
 {#                                        <div class="dashboard_s0_nav_child">#}
 {#                                            <ul>#}
@@ -111,7 +140,7 @@
 
 {% block scripts_block %}
 
-    <script src='{% static "/assets/js/jquery-1.11.3.min.js" %}'></script>
+    <script src='{% static "/assets/js/jquery-2.1.4.min.js" %}'></script>
     {% bootstrap_javascript %}
     <script src='{% static "/assets/js/plugins/bootstrap-datepicker.js" %}'></script>
     <script src='{% static "/assets/js/main.js" %}'></script>

@@ -20,6 +20,12 @@ urlpatterns = patterns(
     url(r'^members/categories/skill_disable/$', skill_view_disable),
     url(r'^members/categories/skill_delete/$', skill_view_delete),
     url(r'^members/categories/skill/edit/(?P<edit>[0-9]+)/$', skills_view),
+    url(r'^members/skills/add/$', skill_add),
+    url(r'^members/education/$', EducationView.as_view()),
+    url(r'^members/education/delete/$', education_delete),
+    url(r'^members/education/enable/$', education_enable),
+    url(r'^members/education/disable/$', education_disable),
+    url(r'^members/education/edit/$', education_edit),
     url(r'^members/users/$', users_view),
     url(r'^members/users/edit_profile/$', test_userinfo),
     url(r'^members/users/edit_profile/update_user/$', user_update),
@@ -29,9 +35,16 @@ urlpatterns = patterns(
     url(r'^members/users/edit_profile/get_id/$', get_id),
     url(r'^members/users/edit_profile/allusers/$', allusers),
     url(r'^members/users/edit_profile/activeusers/$', activeusers),
-    url(r'^members/users/edit_profile/nonactiveusers/$', nonactiveusers)
-
-
-
+    url(r'^members/users/edit_profile/nonactiveusers/$', nonactiveusers),
+    url(r'^members/employment/$', EmploymentView.as_view()),
+    url(r'^members/employment/delete/$', employment_delete),
+    url(r'^members/employment/enable/$', employment_enable),
+    url(r'^members/employment/disable/$', employment_disable),
+    url(r'^members/employment/edit/$', employment_edit),
+    url(r'^members/experience/$', ExperienceView.as_view()),
+    url(r'^members/experience/delete/$', experience_delete),
+    url(r'^members/experience/enable/$', experience_enable),
+    url(r'^members/experience/disable/$', experience_disable),
+    url(r'^members/experience/edit/$', experience_edit),
 )
 

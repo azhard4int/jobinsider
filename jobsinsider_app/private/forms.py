@@ -2,7 +2,7 @@ __author__ = 'azhar'
 from django import forms
 from models import User
 from core import models as modelf
-
+from company import models as company_model
 
 class Adminlogin(forms.ModelForm):
     username = forms.CharField()
@@ -57,3 +57,50 @@ class EditSkill(forms.ModelForm):
     class Meta:
         model = modelf.Skills
         fields = {'skill_name', 'id'}
+
+class EducationForm(forms.ModelForm):
+    education_name = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'placeholder':'Education Type Name',
+            'class':'form-control edu_text',
+            'width': '500px'
+        })
+    )
+
+    class Meta:
+        model = modelf.Education
+        fields = [
+            'education_name',
+        ]
+
+
+class ExperienceForm(forms.ModelForm):
+    experience_name = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'placeholder':'Education Type Name',
+            'class':'form-control edu_text',
+            'width': '500px'
+        })
+    )
+
+    class Meta:
+        model = company_model.Experience
+        fields = [
+            'experience_name',
+        ]
+
+
+class EmploymentForm(forms.ModelForm):
+    employment_name = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'placeholder':'Employment Type Name',
+            'class':'form-control edu_text',
+            'width': '500px'
+        })
+    )
+
+    class Meta:
+        model = company_model.Employment
+        fields = [
+            'employment_name',
+        ]

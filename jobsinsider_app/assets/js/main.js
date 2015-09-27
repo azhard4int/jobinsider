@@ -1,3 +1,24 @@
+// admin panel start
+
+var count_menu = 0;
+$('.display_user_settings').on('click', function(event)
+{
+     //$('.user_profile_settings').slideToggle();
+    event.preventDefault();
+    if(count_menu==0)
+    {
+        $('.user_profile_settings').show();
+        count_menu++;
+    }
+    else{
+        $('.user_profile_settings').hide();
+        count_menu=0;
+    }
+    return false;
+
+});
+
+
 $(document).ready(function()
 {
 
@@ -126,4 +147,425 @@ $(document).ready(function()
 
 
 
+});
+
+
+//admin panel
+
+$('a.add_category_skill').on('click', function(event)
+{
+    event.preventDefault();
+    var cat_val = $(this).attr('value');
+     $('.category_value').attr('value', cat_val);
+    //return false;
+    //$.ajax(
+    //    {
+    //        type:'post',
+    //        url:'/private/members/categories/get/?cat_id='+cat_val,
+    //        data: {"csrfmiddlewaretoken": document.getElementsByName('csrfmiddlewaretoken')[0].value},
+    //        success:function(data)
+    //        {
+    //            $('.category_value').attr(data.id);
+    //        },
+    //
+    //    }
+    //);
+
+});
+
+$('.addskill').on('click', function(event)
+{
+    event.preventDefault();
+    $.ajax(
+        {
+            type:'post',
+            url:'/private/members/skills/add/',
+            data: $('#add_new_skill').serialize(),
+            success:function(data)
+            {
+                resp = JSON.parse(data);
+                if(resp.status==true)
+                {
+                    $('.info').html('Skill Successfully Added');
+                }
+            }
+        }
+    );
+});
+
+$('.add_edu_type').on('click', function(event)
+{
+    event.preventDefault();
+    $.ajax(
+        {
+            type:'post',
+            url:'/private/members/education/',
+            data: $('#add_edu_type_form').serialize(),
+            success:function(data)
+            {
+                resp = JSON.parse(data);
+                if(resp.status==true)
+                {
+                    $('.info').html('Education Type Successfully Added');
+                }
+            }
+        }
+    );
+});
+
+
+
+$('.enable_edu_btn').on('click', function(event)
+{
+    valuedata = ($(this).attr('value'));
+    $.ajax({
+        url: '/private/members/categories/enable/?cat_id=' + valuedata,
+        type: 'POST',
+        data: {
+            'category_id': valuedata,
+            csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value
+        },
+        success:function(response)
+        {
+            response = JSON.parse(response);
+            if (response.status==true)
+            {
+                $('.display_message').html('Campaign Status Enabled');
+                window.location.reload();
+            }
+        },
+        error: function(response)
+        {
+
+        }
+    });
+
+});
+
+$('.delete_edu_btn').on('click', function(event)
+{
+    valuedata = ($(this).attr('value'));
+    $.ajax({
+        url: '/private/members/education/delete/',
+        type: 'POST',
+        data: {
+            'education_id': valuedata,
+            csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value
+        },
+        success:function(response)
+        {
+            response = JSON.parse(response);
+            if (response.status==true)
+            {
+                $('.display_message').html('Education Type Deleted Successfully!');
+                window.location.reload();
+            }
+        },
+        error: function(response)
+        {
+
+        }
+    });
+});
+
+
+$('.enable_edu_type_btn').on('click', function(event)
+{
+    valuedata = ($(this).attr('value'));
+    $.ajax({
+        url: '/private/members/education/enable/',
+        type: 'POST',
+        data: {
+            'education_id': valuedata,
+            csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value
+        },
+        success:function(response)
+        {
+            response = JSON.parse(response);
+            if (response.status==true)
+            {
+                $('.display_message').html('Education Type Enabled Successfully!');
+                window.location.reload();
+            }
+        },
+        error: function(response)
+        {
+
+        }
+    });
+});
+
+
+$('.disable_edu_type_btn').on('click', function(event)
+{
+    valuedata = ($(this).attr('value'));
+    $.ajax({
+        url: '/private/members/education/disable/',
+        type: 'POST',
+        data: {
+            'education_id': valuedata,
+            csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value
+        },
+        success:function(response)
+        {
+            response = JSON.parse(response);
+            if (response.status==true)
+            {
+                $('.display_message').html('Education Type Disabled Successfully!');
+                window.location.reload();
+
+            }
+        },
+        error: function(response)
+        {
+
+        }
+    });
+});
+
+
+$('.e_edit_btn').on('click', function(event)
+{
+    valuedata = ($(this).attr('value'));
+
+    $.ajax({
+        url: '/private/members/education/edit/',
+        type: 'POST',
+        data: {
+            'education_id': valuedata,
+            'status': 0,
+            csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value
+        },
+        success:function(data)
+        {
+            response = JSON.parse(data);
+            if(response.edu_id==true)
+            {
+                window.location.reload();
+            }
+            $('.education_id_value').attr('value', valuedata)
+            $('.e_e_name').attr('value', response.edu_id)
+
+        },
+        error: function(response)
+        {
+
+        }
+    });
+});
+
+$('.edit_edu_type_btn').on('click', function(event)
+{
+    event.preventDefault();
+    $.ajax(
+        {
+            type:'post',
+            url:'/private/members/education/edit/',
+            data: $('#edit_edu_type_form').serialize(),
+            success:function(data)
+            {
+                resp = JSON.parse(data);
+                if(resp.status==true)
+                {
+                    $('.info').html('Education Type Successfully Added');
+                }
+            }
+        }
+    );
+});
+
+
+//experience button
+
+$('.add_exp_type').on('click', function(event)
+{
+
+    var type_value = $(this).attr('id');
+    if(type_value=='experience_type')
+    {
+        data_url = '/private/members/experience/';
+    }
+    else{
+        data_url = '/private/members/employment/';
+    }
+
+    event.preventDefault();
+    $.ajax(
+        {
+            type:'post',
+            url:data_url,
+            data: $('#add_exp_type_form').serialize(),
+            success:function(data)
+            {
+                resp = JSON.parse(data);
+                if(resp.status==true)
+                {
+                    $('.info').html('Experience Type Successfully Added');
+                }
+            }
+        }
+    );
+});
+
+$('.experience_manage').on('click', function(event) {
+    event.preventDefault();
+    valuedata = ($(this).attr('value'));
+    check_value = $(this).attr('id');
+    if (check_value=='enable'){
+        url_link = '/private/members/experience/enable/';
+    }
+    else if (check_value=='disable')
+    {
+        url_link = '/private/members/experience/disable/';
+    }
+    else if (check_value=='delete')
+    {
+        url_link = '/private/members/experience/delete/';
+
+    }
+    $.ajax(
+        {
+            type:'post',
+            url:url_link,
+            data: {
+                'experience_id': valuedata,
+                 csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value
+            },
+            success:function(data)
+            {
+                resp = JSON.parse(data);
+                if(resp.status==true)
+                {
+                    $('.info').html('Experience Type Successfully Added');
+                    window.location.reload();
+                }
+            }
+        }
+    );
+
+    return false;
+});
+
+
+$('.edit_exp_type_btn').on('click', function(event)
+{
+    event.preventDefault();
+    $.ajax(
+        {
+            type:'post',
+            url:'/private/members/experience/edit/',
+            data: $('#edit_exp_type_form').serialize(),
+            success:function(data)
+            {
+                resp = JSON.parse(data);
+                if(resp.exp_id==true)
+                {
+                    $('.info').html('Experience Type Successfully Added');
+                }
+            }
+        }
+    );
+});
+
+
+
+
+$('.e_exp_btn').on('click', function(event)
+{
+    valuedata = ($(this).attr('value'));
+
+    $.ajax({
+        url: '/private/members/experience/edit/',
+        type: 'POST',
+        data: {
+            'experience_id': valuedata,
+            'status': 0,
+            csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value
+        },
+        success:function(data)
+        {
+            response = JSON.parse(data);
+            if(response.exp_id==true)
+            {
+                window.location.reload();
+            }
+            $('.education_id_value').attr('value', valuedata)
+            $('.e_e_name').attr('value', response.exp_id)
+
+        },
+        error: function(response)
+        {
+
+        }
+    });
+});
+
+
+//employment type
+
+$('.employment_manage').on('click', function(event) {
+    event.preventDefault();
+    valuedata = ($(this).attr('value'));
+    check_value = $(this).attr('id');
+    if (check_value=='enable'){
+        url_link = '/private/members/employment/enable/';
+    }
+    else if (check_value=='disable')
+    {
+        url_link = '/private/members/employment/disable/';
+    }
+    else if (check_value=='delete')
+    {
+        url_link = '/private/members/employment/delete/';
+
+    }
+    $.ajax(
+        {
+            type:'post',
+            url:url_link,
+            data: {
+                'employment_id': valuedata,
+                 csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value
+            },
+            success:function(data)
+            {
+                resp = JSON.parse(data);
+                if(resp.status==true)
+                {
+                    $('.info').html('Experience Type Successfully Added');
+                    window.location.reload();
+                }
+            }
+        }
+    );
+
+    return false;
+});
+
+$('.countries_select_box').change(function(event)
+{
+    event.preventDefault();
+    var value_data = $(this).val();
+    $.ajax(
+        {
+            url:'/user/cities/',
+            type:'POST',
+            data:{
+                'country_id': value_data,
+                 csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value
+            },
+            success:function(m)
+            {
+                resp = jQuery.parseJSON(m);
+                list_obj = jQuery.parseJSON(resp.cities);
+                var options_c='';
+                $(list_obj).each(function(i)
+                {
+                    options_c += '<option value="'+ this.pk + '">'+ this.fields.city_name + "</option>";
+                });
+                $('.cities_select_box').html(options_c);
+            }
+        }
+    );
+    //alert(value_data);
 });

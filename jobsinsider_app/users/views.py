@@ -1,7 +1,7 @@
 import simplejson as json
 
 from django.shortcuts import render
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.core import serializers
 from django import views
 from models import *
@@ -10,10 +10,12 @@ from django.views.generic import View
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import  method_decorator
 from django.contrib.auth import login as login_session
+from django.core import serializers
 
 from accounts import models as accountsmodels
 from accounts import forms as accountsform
 from core.decoraters import *
+from core import models as core_models
 
 # Create your views here.
 @login_required
@@ -152,6 +154,20 @@ def skills(request):
         except:
             return HttpResponse(json.dumps({'status': False}))
 
+@login_required()
+def cities(request):
+    """
+    Fetch cities based on the ID
+    """
+    if request.method == 'POST':
+        list = core_models.Cities.objects.filter(country_id=request.POST['country_id']).all().order_by('city_name')
+        cities = [ab.city_name for ab in list]
+        cities_list = serializers.serialize('json', list)
+        # for ab in list:
+        #     ab.city_name
+        return HttpResponse(json.dumps({'cities': cities_list}))
+    else:
+        raise Http404
 
 class UserInfo(View):
     """
@@ -224,7 +240,7 @@ class UserCVUpload(View):
                 ).update(
                     user_cv_status=1
                 )
-                print 'user account updated!'
+                return HttpResponse(json.dumps({'status': True}))
 
 
 

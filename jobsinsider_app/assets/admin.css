@@ -18,3 +18,7 @@ body {
 .omer{
   background: #fff;
 }
+.add_edu_type input[type=text]{
+
+  width:500px;
+}

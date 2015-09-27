@@ -1,7 +1,15 @@
+.transition{
+  transition: all ease-in-out 0.2s;
+  -webkit-transition: all ease-in-out 0.2s;
+  -o-transition: all ease-in-out 0.2s;
+  -ms-transition: all ease-in-out 0.2s;
+}
+
 body {
   margin: 0 auto;
 }
 .admin_nav{
+  margin-top:10px;
     list-style:none;
         li{
         display:inline-block;
@@ -14,4 +22,37 @@ body {
         }
 }
 
+.dropdown_menu_list{
+  .transition;
+  display: none;
+  margin-left:-40px;
+  position:absolute;
+  z-index:10 !important;
+  margin-top:8px;
+  li{
+    //margin-top:17px;
+    //z-index:10011 !important;
+    display:block;
+    //width:200px;
+  }
+  li a{
+    width:220px !important;
+    background: #6f6f6f;
+    display: block;
+  }
+  li a:hover{
 
+    background:#242424;
+  }
+}
+.admin_nav li:hover > ul{
+  //display: block;
+  display: block;
+}
+table{
+  z-index:0 !important;
+}
+
+.edu_text{
+  width:500px !important;
+}

@@ -32,6 +32,7 @@ urlpatterns = [
     url(r'^dashboard/', dashboard),
     url(r'^private/', include('private.urls')),
     url(r'^company/', include('company.urls')),
+    url(r'^tinymce/', include('tinymce.urls')),
     # url(r'^ajax-upload/', include('ajax_upload.urls')),
 
 ] + static.static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

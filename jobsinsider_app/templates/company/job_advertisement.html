@@ -1,7 +1,7 @@
 {% extends "base_dasboard.html" %}
     <title>{% block title %}Dashboard{% endblock %}</title>
         {% if user.is_authenticated %}
-            {% block authenticate_user %} Hi {{ user.first_name|slice:":1" }} {{ user.last_name|slice:":1" }}{%  endblock %}
+            {% block authenticate_user %} {{ user.first_name|slice:":1" }} {{ user.last_name|slice:":1" }}{%  endblock %}
         {% endif %}
 {% block body_content %}
     <section class="header_top_menu">
@@ -64,30 +64,73 @@
                                     qualifications and requirements in the job description so it's easier to scan.
                                 </p>
 
-                                <form action="">
+                                <form action="" id="jobadvert_form">
+                                    {% csrf_token %}
                                     <div class="advert_box">
                                         <fieldset>
                                             <div class="col-md-6  nopad-lr">
                                                 <label for="">Job Application Title</label><br>
-
+                                                     {{ job_form.job_title }}
                                             </div>
                                             <div class="col-md-6 nopad-lr">
                                                 <label for="">No of Positions</label><br>
+                                                 {{ job_form.job_position }}
+                                            </div>
+
+                                        </fieldset>
+
+                                         <fieldset>
+                                            <div class="col-md-6  nopad-lr">
+                                                <label for="">Employment Type</label><br>
+                                                {{ job_form.employment }}
+                                            </div>
+                                            <div class="col-md-6 nopad-lr">
+                                                <label for="">Minimum Experience</label><br>
+                                                {{ job_form.experience }}
                                             </div>
 
                                         </fieldset>
                                          <fieldset>
                                             <div class="col-md-6  nopad-lr">
-                                                <label for="">Employment Type</label><br>
-
+                                                <label for="">Country</label><br>
+                                                {{ job_form.country }}
                                             </div>
                                             <div class="col-md-6 nopad-lr">
-                                                <label for="">Minimum Experience</label><br>
+                                                <label for="">Cities</label><br>
+                                                {{ job_form.cities }}
                                             </div>
 
                                         </fieldset>
+                                        <fieldset>
+                                            <div class="col-md-6 nopad-lr">
+                                                <label for="">Industry Category</label><br>
+                                                {{ job_form.category }}
+                                            </div>
+                                            <div class="col-md-6 nopad-lr">
+                                                <label for="">Industry Category</label><br>
+                                                {{ job_form.education }}
+                                            </div>
 
+
+
+                                        </fieldset>
+                                        <fieldset>
+                                            <div class="col-md-6  nopad-lr">
+                                                <label for="">Salary</label><br>
+                                                <div class="col-md-4 nopad-lr">
+                                                    {{ job_form.salary_from }}
+                                                </div>
+                                                <div class="col-md-4 nopad-lr">
+                                                    {{ job_form.salary_to }}
+                                                </div>
+
+                                            </div>
+                                        </fieldset>
+
+                                        {{ job_form.job_description }}
                                     </div>
+                                    <input type="button" value="Save" name="_save" class="job_advertisement">
+                                    <input type="button" value="Preview" name="_preview" class="job_advertisement">
                                 </form>
                         </div>
                 </div>
@@ -96,4 +139,17 @@
     </section>
 
 
+
+{% endblock %}
+
+{% block custom_scripts %}
+{#<script type="text/javascript" src="/assets/js/tiny_mce/tiny_mce.js"></script>#}
+{#<script type="text/javascript" src="{% url "tinymce-js" "createad" %}"></script>#}
+<script src="//tinymce.cachefly.net/4.2/tinymce.min.js"></script>
+<script>tinymce.init({selector:'textarea'});</script>
+{#    <script>tinyMCE.init({#}
+{#        mode: "textareas",#}
+{#        theme: "advanced",#}
+{#    })#}
+{#    </script>#}
 {% endblock %}

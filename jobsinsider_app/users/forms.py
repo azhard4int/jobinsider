@@ -1,6 +1,7 @@
 __author__ = 'azhar'
 from django import forms
 from models import *
+from core import models as core_model
 
 
 class UserBioInfo(forms.ModelForm):
@@ -40,11 +41,26 @@ class UserCVForm(forms.ModelForm):
 
 class UserLocationForm(forms.ModelForm):
     choices = ((1,'Low',), (2,'Medium',), (3,'High',))
+    get_countries = core_model.Countries.objects.all()
+    choices_countries = [(ab.id, str(ab.country_name)) for ab in get_countries]
+
     user_city = forms.ChoiceField(
-        choices=choices
+        choices=choices,
+        widget=forms.Select(
+            attrs={
+                'class': 'cities_select_box',
+
+            }
+        )
         )
     user_country = forms.ChoiceField(
-        choices=choices
+        choices=choices_countries,
+        widget=forms.Select(
+            attrs={
+                'class': 'countries_select_box',
+
+            }
+        )
     )
     user_address = forms.Textarea()
     user_zipcode  = forms.CharField(widget=forms.TextInput(

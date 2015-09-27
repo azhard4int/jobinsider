@@ -1,5 +1,10 @@
 {% extends "base_dasboard.html" %}
     <title>{% block title %}Select Your Profession{% endblock %}</title>
+{% if user.is_authenticated %}
+
+    {% block authenticate_user %}{{ user.first_name|slice:":1"}}{{ user.last_name|slice:":1" }}{%  endblock %}
+
+{% endif %}
 {% block body_content %}
     {% include 'base_dashboard_core.html' %}
 
@@ -59,7 +64,19 @@
             <form  action="" id="add_bio_employment">
                 {% csrf_token %}
                 <div class="whl">
-
+                        <fieldset>
+                            <div class="col-md-3">
+                                Date From Which Worked
+                            </div>
+                            <div class="col-md-9">
+                                <div class="col-md-4">
+                                    {{cv_employ.company_from}}
+                                </div>
+                                <div class="col-md-4">
+                                    {{cv_employ.company_to}}
+                                </div>
+                            </div>
+                        </fieldset>
 
                         <fieldset>
                             <div class="col-md-3">
@@ -89,19 +106,7 @@
                                 </div>
                             </div>
                         </fieldset>
-                        <fieldset>
-                            <div class="col-md-3">
-                                Date From Which Worked
-                            </div>
-                            <div class="col-md-9">
-                                <div class="col-md-4">
-                                    {{cv_employ.company_from}}
-                                </div>
-                                <div class="col-md-4">
-                                    {{cv_employ.company_to}}
-                                </div>
-                            </div>
-                        </fieldset>
+
                     </div>
     {#                <!--{{cv_employ.company_description}}-->#}
                     {{cv_employ.company_count}}

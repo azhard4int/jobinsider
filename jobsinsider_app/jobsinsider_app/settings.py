@@ -48,7 +48,8 @@ INSTALLED_APPS = (
     'private',
     'company',
     'bootstrap3',
-    'ckeditor'
+    'redactor',
+    'tinymce'
     # 'ajax_upload'
     )
 
@@ -200,3 +201,13 @@ EMAIL_HOST_USER = 'waqar@techpointmedia.com'
 EMAIL_HOST_PASSWORD = 'nC5pDMz6cC8W2'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+
+TINYMCE_JS_URL = 'http://debug.example.org/tiny_mce/tiny_mce_src.js'
+TINYMCE_DEFAULT_CONFIG = {
+    'plugins': "table,spellchecker,paste,searchreplace",
+    'theme': "advanced",
+    'cleanup_on_startup': True,
+    'custom_undo_redo_levels': 10,
+}
+TINYMCE_SPELLCHECKER = True
+TINYMCE_COMPRESSOR = True

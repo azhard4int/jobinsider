@@ -2,16 +2,20 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth import authenticate, logout, login
 from django.contrib.auth.decorators import login_required
+from django.views.generic import View
+from django.utils.decorators import method_decorator
 from .forms import *
 from .models import *
-from core import models as modeinsert
-import simplejson as json
 from django.core import serializers
-from datetime import *
-import time
 from django.template import context, loader
 
 
+from core import models as modeinsert
+from company import models as company_model
+
+import simplejson as json
+from datetime import *
+import time
 
 # Create your views here.
 @login_required()
@@ -396,3 +400,139 @@ def nonactiveusers(request):
                 return HttpResponse(json.dumps({'user_info': wholedata}))
          except Exception as e:
                  print e
+
+@login_required()
+def skill_add(request):
+    if request.method=='POST':
+        modeinsert.Skills(
+            category_id=request.POST['cat_id'],
+            skill_name=request.POST['skill_value'],
+            skill_status=1
+        ).save()
+        return HttpResponse(json.dumps({'status':True}))
+
+
+class EducationView(View):
+    @method_decorator(login_required)
+    def get(self, request):
+        eduForm = EducationForm()
+        list_all = modelf.Education.objects.all()
+        return render(request, 'list_education.html', {'edu': eduForm, 'edu_list':list_all})
+
+    def post(self, request):
+        modelf.Education(
+            education_name=request.POST['education_name']
+        ).save()
+        return HttpResponse(json.dumps({'status':True}))
+
+
+def education_delete(request):
+    if request.method=='POST':
+        modelf.Education.objects.filter(id=request.POST['education_id']).delete()
+        return HttpResponse(json.dumps({'status':True}))
+
+def education_enable(request):
+    if request.method=='POST':
+        modelf.Education.objects.filter(id=request.POST['education_id']).update(education_status=1)
+        return HttpResponse(json.dumps({'status':True}))
+
+def education_disable(request):
+    if request.method=='POST':
+        modelf.Education.objects.filter(id=request.POST['education_id']).update(education_status=0)
+        return HttpResponse(json.dumps({'status':True}))
+
+def education_edit(request):
+    if request.method=='POST':
+        print request.POST['status']
+        if request.POST['status']=='0':
+            edu_id = modelf.Education.objects.filter(id=request.POST['education_id'])[0]
+            return HttpResponse(json.dumps({'edu_id':edu_id.education_name}))
+        else:
+            modelf.Education.objects.filter(id=request.POST['education_id']).update(
+                education_name=request.POST['edit_education_name']
+            )
+            return HttpResponse(json.dumps({'edu_id':True}))
+
+
+class ExperienceView(View):
+    @method_decorator(login_required)
+    def get(self, request):
+        expForm = ExperienceForm()
+        list_all = company_model.Experience.objects.all()
+        return render(request, 'list_experience.html', {'exp': expForm, 'exp_list':list_all})
+
+    def post(self, request):
+        company_model.Experience(
+            experience_name=request.POST['experience_name']
+        ).save()
+        return HttpResponse(json.dumps({'status':True}))
+
+
+def experience_delete(request):
+    if request.method=='POST':
+        company_model.Experience.objects.filter(id=request.POST['experience_id']).delete()
+        return HttpResponse(json.dumps({'status':True}))
+
+def experience_enable(request):
+    if request.method=='POST':
+        company_model.Experience.objects.filter(id=request.POST['experience_id']).update(experience_status=1)
+        return HttpResponse(json.dumps({'status':True}))
+
+def experience_disable(request):
+    if request.method=='POST':
+        company_model.Experience.objects.filter(id=request.POST['experience_id']).update(experience_status=0)
+        return HttpResponse(json.dumps({'status':True}))
+
+def experience_edit(request):
+    if request.method=='POST':
+        print request.POST['status']
+        if request.POST['status']=='0':
+            exp_id = company_model.Experience.objects.filter(id=request.POST['experience_id'])[0]
+            return HttpResponse(json.dumps({'exp_id':exp_id.experience_name}))
+        else:
+            company_model.Experience.objects.filter(id=request.POST['experience_id']).update(
+                experience_name=request.POST['edit_experience_name']
+            )
+            return HttpResponse(json.dumps({'exp_id':True}))
+
+
+class EmploymentView(View):
+    @method_decorator(login_required)
+    def get(self, request):
+        expForm = EmploymentForm()
+        list_all = company_model.Employment.objects.all()
+        return render(request, 'list_empoyment.html', {'emp': expForm, 'emp_list':list_all})
+
+    def post(self, request):
+        company_model.Employment(
+            employment_name=request.POST['employment_name']
+        ).save()
+        return HttpResponse(json.dumps({'status':True}))
+
+
+def employment_delete(request):
+    if request.method=='POST':
+        company_model.Employment.objects.filter(id=request.POST['employment_id']).delete()
+        return HttpResponse(json.dumps({'status':True}))
+
+def employment_enable(request):
+    if request.method=='POST':
+        company_model.Employment.objects.filter(id=request.POST['employment_id']).update(employment_status=1)
+        return HttpResponse(json.dumps({'status':True}))
+
+def employment_disable(request):
+    if request.method=='POST':
+        company_model.Employment.objects.filter(id=request.POST['employment_id']).update(employment_status=0)
+        return HttpResponse(json.dumps({'status':True}))
+
+def employment_edit(request):
+    if request.method=='POST':
+        print request.POST['status']
+        if request.POST['status']=='0':
+            emp_id = company_model.Employment.objects.filter(id=request.POST['employment_id'])[0]
+            return HttpResponse(json.dumps({'emp_id':emp_id.experience_name}))
+        else:
+            modelf.Employment.objects.filter(id=request.POST['employment_id']).update(
+                employment_name=request.POST['edit_employment_name']
+            )
+            return HttpResponse(json.dumps({'emp_id':True}))

@@ -421,7 +421,6 @@ $('a.disable_skill_btn').on('click', function(event)
 
 $('a.delete_skill_btn').on('click', function(event)
 {
-    alert('up here');
     valuedata = ($(this).attr('value'));
     $.ajax({
         url: '/private/members/categories/skill_delete/',
@@ -435,6 +434,7 @@ $('a.delete_skill_btn').on('click', function(event)
             if (response.status=='True')
             {
                 $('.display_message').html('Category Deleted Successfully!');
+                window.location.reload();
 
             }
         },
@@ -666,8 +666,9 @@ $('#user_cv').on('submit', function(event)
             response = JSON.parse(response);
             if(response.status==true)
             {
-                window.location.href="?step=2"  // CV selection region
+                window.location.href="?step=3"  // CV selection region
             }
+
         }
     });
     return false;
@@ -944,4 +945,100 @@ $('.change_company_password').on('click', function(e){
         }
     );
     return false;
+});
+
+//job advertisement view
+
+$('.job_advertisement').on('click', function(event)
+{
+    var formElement = document.querySelector('form');
+    var form_data = $('#jobadvert_form').serialize();// new FormData(formElement);
+    var job_description = (tinyMCE.activeEditor.getContent({format : 'raw'}));
+    var csrfmdi = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+    $.ajax(
+        {
+            url:'/company/create-job/',
+            type:'POST',
+            data:{
+                'form_val': form_data,
+                'csrfmiddlewaretoken': csrfmdi,
+                'description': job_description
+            },
+            success:function(m)
+            {
+                resp = JSON.parse(m);
+                if(resp.status==true)
+                {
+                    window.location.href= '/company/settings-job/'+ resp.last_inserted;
+                }
+            },
+            error:function(m)
+            {
+
+            }
+        }
+    );
+
+    return false;
+});
+
+//to show the date for apply by
+
+$('#apply_by_date').change(function(e){
+    e.preventDefault();
+    if(this.checked)
+    {
+        $('.apply_datepicker').show();
+    }
+    else{
+        $('.apply_datepicker').hide();
+    }
+    return false;
+});
+
+
+//job settings page after the job creation
+$('.job_ad_settings').on('click', function(e)
+{
+
+    e.preventDefault();
+    var csrfmdi = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+    var is_email = 0;
+    var is_apply_by = 0;
+    if($('#resume_email').is(":checked"))
+    {
+        is_email = 1;
+    }
+    if($('#apply_by_date').is(":checked"))
+    {
+        is_apply_by = 1;
+    }
+    date_value = $('.apply_by_datevalue').val();
+    alert(date_value);
+    $.ajax(
+        {
+            url:'/company/settings-job/' + $('.job_id').attr('value'),
+            type:'POST',
+            data: {
+                'csrfmiddlewaretoken': csrfmdi,
+                'is_email': is_email,
+                'is_apply_by': is_apply_by,
+                'date_value': date_value
+            },
+            success:function(m)
+            {
+                resp = JSON.parse(m);
+                if(resp.status==true)
+                {
+                    window.location.href = '/company/finalize-job/';
+                }
+            },
+            error:function(m)
+            {
+
+            }
+        }
+    );
+    return false;
+
 });

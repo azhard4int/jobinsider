@@ -1,0 +1,87 @@
+{% extends "base_dasboard.html" %}
+    <title>{% block title %}Dashboard{% endblock %}</title>
+        {% if user.is_authenticated %}
+            {% block authenticate_user %} {{ user.first_name|slice:":1" }}{{ user.last_name|slice:":1" }}{%  endblock %}
+        {% endif %}
+{% block body_content %}
+    <section class="header_top_menu">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-xs-6 title_job">
+                        <h3>Job > <span style="color:#8949aa;">Create New</span></h3>
+                    </div>
+                    <div class="col-xs-6 title_links">
+                        <div class="nav_job">
+                            <ul>
+                                <li><a href="">Posted Jobs</a></li>
+                                <li><a href="">View Candidates</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="clearfix"></div>
+    <section id="job_advertisement">
+        <div class="container">
+            <div class="col-md-3 job_advert nopad-lr nomargin-lr">
+                <div class="job_advert_left ">
+                    <h4>
+                        New Position
+                    </h4>
+                    <p>
+                        Create your job advertisement by filling out necessary details.
+                    </p>
+                </div>
+                <div class="job_advert_left">
+                    <h4>
+                        Settings
+                    </h4>
+                    <p>
+                        You can select the basic settings for your advertisement.
+                    </p>
+                </div>
+                <div class="job_advert_left is_active">
+                    <h4>
+                        Finalize
+                    </h4>
+                    <p>
+                        Review your job advert application once, and make it public.
+                    </p>
+                </div>
+
+            </div>
+            <div class="col-md-9 job_advert_form">
+                <div class="col-md-12">
+                        <div class="col-xs-12">
+                            <div class="headline">
+                                <h4>Your job application is currently in review. You will be notified once we review your
+                                new position application.</h4>
+{#                                <p>#}
+{#                                    Got a quick quesiton or have an inquire#}
+{#                                </p>#}
+
+
+                        </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+{% endblock %}
+
+{% block custom_scripts %}
+{#<script type="text/javascript" src="/assets/js/tiny_mce/tiny_mce.js"></script>#}
+{#<script type="text/javascript" src="{% url "tinymce-js" "createad" %}"></script>#}
+<script src="//tinymce.cachefly.net/4.2/tinymce.min.js"></script>
+<script>tinymce.init({selector:'textarea'});</script>
+{#    <script>tinyMCE.init({#}
+{#        mode: "textareas",#}
+{#        theme: "advanced",#}
+{#    })#}
+{#    </script>#}
+{% endblock %}

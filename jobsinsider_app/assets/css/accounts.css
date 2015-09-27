@@ -13,10 +13,19 @@ body {
   background: linear-gradient(45deg, #7b6898, #584f84);
   height: 220px;
 }
-.top_layout .logo {
-  padding-top: 20px;
+.logo {
+  padding-top: 7px;
+  font-size: 24px;
   font-family: 'proxima_nova_scosf_condensSBd', arial, sans-serif !important;
   color: #fff;
+}
+.main_logo {
+  float: left;
+  width: 150px;
+  padding-left: 15px;
+}
+.user_actions {
+  float: right;
 }
 .top_border {
   height: 2px;
@@ -65,6 +74,24 @@ body {
 .header_nav ul .login:hover {
   background: #7f94d6;
   border: 1px solid #7b8ecf !important;
+}
+.nav_bar_main {
+  width: 300px;
+  float: left;
+}
+.nav_bar_main ul {
+  list-style: none;
+  padding-top: 15px;
+}
+.nav_bar_main ul li {
+  display: inline;
+}
+.nav_bar_main ul li a {
+  padding: 0 15px;
+  text-decoration: none;
+  color: #fff;
+  font-family: 'proxima_nova_scosf_condensSBd', arial, sans-serif !important;
+  font-size: 14px;
 }
 .nav_intro h2 {
   margin-top: 0px;
@@ -226,6 +253,37 @@ body {
   border-radius: 60px;
   background: url('../img/profile.png') no-repeat;
 }
+.user_profile_settings {
+  -webkit-transition: opacity 3s;
+  transition: all ease-in-out 0.2s;
+  -webkit-transition: all ease-in-out 0.2s;
+  -o-transition: all ease-in-out 0.2s;
+  -ms-transition: all ease-in-out 0.2s;
+  display: none;
+  background: #301d3f;
+  height: 90px;
+  width: 200px;
+  border-left: none;
+  position: absolute;
+  float: right;
+  margin-top: 16px;
+  margin-left: -170px;
+  z-index: 9000 !important;
+}
+.links_block {
+  margin-top: 5px;
+}
+.links_block a {
+  background: #452a5b;
+  width: 100%;
+  display: block;
+  padding: 10px;
+  border-bottom: 1px solid #301d3f;
+  text-transform: uppercase;
+}
+.links_block a:hover {
+  background: #50316a;
+}
 .dashboard_s0_nav_main {
   list-style: none;
   margin-left: -40px;
@@ -233,7 +291,7 @@ body {
 }
 .dashboard_s0_nav_main li {
   margin-top: 15px;
-  padding-right: 15px;
+  padding-right: 25px;
   padding-left: 15px;
   border-left: 1px solid #a56fcc;
   display: inline-block;

@@ -1,0 +1,140 @@
+{% extends "base_admin.html" %}
+<title>{% block title %}Admin Dashboard{% endblock %}</title>
+
+
+
+{% block body_content %}
+
+    <!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">New Skill</h4>
+      </div>
+        <form action="" id="add_exp_type_form"> <!-- using the same form for posting but different url routing -->
+              <div class="modal-body">
+                  <div class="info">
+
+                  </div>
+                <div class="container">
+                    <div class="col-md-12">
+                        {% csrf_token %}
+                        {{ emp.employment_name}}
+                    </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" id="employment_type" class="btn btn-primary add_exp_type">Save changes</button>
+              </div>
+        </form>
+    </div>
+  </div>
+</div>
+
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Edit Employment Type</h4>
+              </div>
+                <form action="" id="edit_exp_type_form">
+                      <div class="modal-body">
+                          <div class="info">
+
+                          </div>
+                        <div class="container">
+                            <div class="col-md-12">
+                                {% csrf_token %}
+                                <input type="hidden" name="status" value="1">
+                                <input type="hidden" name="experience_id" class="education_id_value">
+                                <input type="text" style="width:500px;" name="edit_experience_name" class="form-control e_e_name">
+                            </div>
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary edit_exp_type_btn">Save changes</button>
+                      </div>
+                </form>
+            </div>
+          </div>
+</div>
+
+    <div class="container">
+        <div class="col-md-12">
+            <input type="button" data-toggle="modal" data-target="#myModal"  value="Add Education Type" >
+        </div>
+    </div>
+
+
+<div class="container" style="z-index:0;">
+    <div class="row">
+    <div class="col-md-12">
+    <div class="display_message"></div>
+    <table width="100%;">
+        <thead class="categories_head">
+        <tr>
+            <td>Employment Type Name</td>
+            <td>Employment Type Status</td>
+            <td colspan="3">Actions</td>
+
+
+        </tr>
+        </thead>
+        <tbody class="categories_table">
+        {% csrf_token %}
+
+        {% for emp_val in emp_list %}
+
+            <tr>
+                <td>
+                    {{emp_val.employment_name}}
+                </td>
+                <td>
+                    {% if emp_val.employment_status == True %}
+                        Active
+                        {% else %}
+                        InActive
+
+                    {% endif %}
+
+                </td>
+                <td>
+                    <a class="e_edit_btn" data-toggle="modal" data-target="#editModal" href="javascript:;" value="{{emp_val.id}}">Edit</a>
+                </td>
+
+                {% if emp_val.employment_status == 0 %}
+                <td>
+                    <a class="employment_manage" id="enable" href="javascript:;" value="{{emp_val.id}}">Enable</a>
+                </td>
+                {% else %}
+                <td>
+                    <a class="employment_manage" id="disable" href="javascript:;" value="{{emp_val.id}}">Disable</a>
+                </td>
+                {% endif %}
+
+                <td>
+                    <a class="employment_manage" id="delete" href="javascript:;" value="{{emp_val.id}}">Delete</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+    <!--{% if count_category %}-->
+        <!--this is aesome-->
+    <!--{% endif %}-->
+</div>
+</div>
+
+
+
+{% endblock %}
+
+</body>
+</html>

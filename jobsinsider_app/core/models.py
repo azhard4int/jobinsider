@@ -148,6 +148,21 @@ class Skills(models.Model):
 
 
 
+class Education(models.Model):
+    education_name = models.CharField(
+        blank=True,
+        max_length=255,
+        default=None
+    )
+    education_status = models.BooleanField(
+        default=1,
+        blank=True
+    )
+
+    def __unicode__(self):
+        return unicode(self.education_name)
+
+
 class TimeStamp(models.Model):
 
 

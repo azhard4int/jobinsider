@@ -1,5 +1,11 @@
 {% extends "base_dasboard.html" %}
     <title>{% block title %}Select Your Profession{% endblock %}</title>
+
+    {% if user.is_authenticated %}
+
+        {% block authenticate_user %}{{ user.first_name|slice:":1"}}{{ user.last_name|slice:":1" }}{%  endblock %}
+
+    {% endif %}
 {% block body_content %}
 
     {%  include 'base_dashboard_core.html' %}
@@ -20,13 +26,15 @@
 
                             <img src='{{ MEDIA_URL }}categories/{{ cat_name.file_name }}'>
 
-                            {{cat_name}}
+                            <span class="cat_name">{{cat_name}}</span>
                             <input type="hidden" class="category_id_value" value="{{cat_name.id}}" name="category_id"/>
                         </a>
                         <div class="s0_skill{{cat_name.id}}">
                         </div>
                     </div>
             {% endfor %}
+
+            <div class="clearfix"></div>
                 <input type="submit" value="Submit Value"/>
             </form>
                 </div>

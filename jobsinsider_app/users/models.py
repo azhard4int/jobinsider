@@ -36,7 +36,7 @@ class UserSkills(models.Model):
         """
             display all categories that are in the database.
         """
-        return coremodels.Categories.objects.all()
+        return coremodels.Categories.objects.filter(category_status=1).all()
 
     def get_skills(self, cat_id):
         return coremodels.Skills.objects.filter(category_id=cat_id).all()
