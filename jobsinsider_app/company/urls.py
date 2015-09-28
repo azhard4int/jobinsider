@@ -12,6 +12,7 @@ urlpatterns = patterns(
     url(r'^changepassword/$', CompanyPassword.as_view(), name='company_password'),
     url(r'^profile/$', CompanyProfileView.as_view(), name='company_profile'),
     url(r'^create-job/$', CompanyJobAd.as_view(), name='job_advertisement'),
+    url(r'^job/edit/(?P<job_id>[0-9]+)$$', CompanyAdEdit.as_view(), name='job_advertisement_edit'),
     url(r'^settings-job/(?P<last_id>[0-9]+)$', CompanyAdSettings.as_view(), name='job_settings'),
     url(r'^finalize-job/$', CompanyJobAdFinalize.as_view(), name='job_finalize'),
     url(r'^delete-job/(?P<job_id>[0-9]+)/$', delete_job, name='job_delete'),

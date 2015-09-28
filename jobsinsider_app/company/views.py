@@ -163,6 +163,32 @@ class CompanyJobAd(View):
         return HttpResponse(json.dumps(resp))
 
 
+class CompanyAdEdit(View):
+    def get(self, request, job_id):
+        """
+        """
+        try:
+            data = Advertisement.admanager.filter(company_user_id=request.user.id, id=job_id)
+            jobad = JobAdvertisementForm(
+                job_title=data[0].job_title,
+                job_position=data[0].job_position,
+                job_description=data[0].job_description,
+                #employment_id=data[0]..employment,
+                #experience_id=parameters['experience'][0],
+                #category_id=parameters['category'][0],
+                #country_id=parameters['country'][0],
+                #cities_id=parameters['cities'][0],
+                salary_from=data[0].salary_from,
+                salary_to=data[0].salary_to,
+                #degree_level_id=parameters['education'][0],
+                #submission_date=datetime.now(),
+                #company_user_id=request.user.id
+            )
+
+        except Exception as e:
+            print e
+            pass
+
 #Company settings for the job advert
 class CompanyAdSettings(View):
     @method_decorator(login_required)
@@ -197,8 +223,10 @@ class CompanyAdSettings(View):
         return HttpResponse(json.dumps(resp))
 
 
-#when the application has been posted and in review form
 class CompanyJobAdFinalize(View):
+    """
+    Your job application is in the review process
+    """
     @method_decorator(login_required)
     @method_decorator(is_company)
     def get(self, request):
@@ -208,6 +236,9 @@ class CompanyJobAdFinalize(View):
         )
 
 class Posted_jobs(View):
+    """
+    List all the posted jobs
+    """
     @method_decorator(login_required)
     def get(self, request):
         list = Advertisement.admanager.posted(request.user.id)
@@ -215,6 +246,9 @@ class Posted_jobs(View):
 
 
 def delete_job(request, job_id):
+    """
+    Delete Job ID from the posted jobs
+    """
     if request.method=='POST':
         resp={}
         try:
