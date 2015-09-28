@@ -154,9 +154,10 @@ class CompanyJobAd(View):
             ).save()
 
             resp['status']= True    # when the query succeed.
-            resp['last_inserted'] = Advertisement.objects.latest('id').id
+            resp['last_inserted'] = Advertisement.admanager.latest('id').id
 
         except Exception as e:
+            print e
             resp['status']= False   # In case if query fails
 
         return HttpResponse(json.dumps(resp))
@@ -206,12 +207,30 @@ class CompanyJobAdFinalize(View):
             'review_job_advertisement.html'
         )
 
-    def post(self, request):
-        """
+class Posted_jobs(View):
+    @method_decorator(login_required)
+    def get(self, request):
+        list = Advertisement.admanager.posted(request.user.id)
+        return render(request, 'posted_jobs.html', {'posted_jobs': list})
 
-        :param request:
-        :return:
-        """
+
+def delete_job(request, job_id):
+    if request.method=='POST':
+        resp={}
+        try:
+            AdvertisementSettings.objects.filter(advertisement_id=job_id).delete()
+            Advertisement.admanager.filter(id=job_id).delete()
+            resp['status']=True
+        except:
+            resp['status']= False
+        return HttpResponse(json.dumps(resp))
+
+
+
+
+
+
+
 
 class CompanyAdd(View):
     @method_decorator(login_required)
@@ -223,12 +242,9 @@ class CompanyAdd(View):
         :return:
         """
 
-class Posted_jobs(View):
-    @method_decorator(login_required)
-    def get(self, request):
-        return render(request, 'posted_jobs.html')
 
 class Messages(View):
     @method_decorator(login_required)
     def get(self, request):
+        print Advertisement.admanager.get_queryset()
         return render(request, 'company_message.html')

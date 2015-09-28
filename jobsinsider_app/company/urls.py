@@ -14,6 +14,7 @@ urlpatterns = patterns(
     url(r'^create-job/$', CompanyJobAd.as_view(), name='job_advertisement'),
     url(r'^settings-job/(?P<last_id>[0-9]+)$', CompanyAdSettings.as_view(), name='job_settings'),
     url(r'^finalize-job/$', CompanyJobAdFinalize.as_view(), name='job_finalize'),
+    url(r'^delete-job/(?P<job_id>[0-9]+)/$', delete_job, name='job_delete'),
 
     # url(r'^tinymce/', include('tinymce.urls')),
 

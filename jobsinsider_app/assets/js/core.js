@@ -947,6 +947,8 @@ $('.change_company_password').on('click', function(e){
     return false;
 });
 
+
+
 //job advertisement view
 
 $('.job_advertisement').on('click', function(event)
@@ -1041,4 +1043,54 @@ $('.job_ad_settings').on('click', function(e)
     );
     return false;
 
+});
+
+//posted jobs
+
+is_active_dropdown  = 0;
+$('.action_posted_job').on('click', function(e)
+{
+    e.preventDefault();
+    get_id = $(this).attr('value');
+    if(is_active_dropdown==0)
+    {
+        $('.menu_id_'+get_id).show();
+        is_active_dropdown = 1;
+    }
+    else{
+        $('.menu_id_'+get_id).hide();
+        is_active_dropdown=0;
+    }
+
+    console.log(get_id);
+    return false;
+});
+
+$('.delete_job_menu').on('click', function(e)
+{
+    e.preventDefault();
+    get_id = $(this).attr('value');
+    csrfmdi = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+    $.ajax(
+        {
+            type:'POST',
+            url:'/company/delete-job/' + get_id   + '/',
+            data: {
+                'csrfmiddlewaretoken': csrfmdi
+            },
+            success:function(m)
+            {
+                var resp = JSON.parse(m);
+                if(resp.status==true){
+                    $('html,body').animate({
+                            scrollTop: $('.message_details').offset().top},
+                        'slow');
+
+                    console.log('here');
+                    $('.message_details').html('Job has been deleted successfully!')
+                }
+            }
+        }
+    )
+    return false;
 });

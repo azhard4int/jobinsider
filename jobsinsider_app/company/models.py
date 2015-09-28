@@ -80,6 +80,13 @@ class Employment(models.Model):
     def __unicode__(self):
         return (self.experience_name)
 
+class AdvertisementManager(models.Manager):
+    def posted(self, user_id):
+        return super(AdvertisementManager, self).get_queryset().filter(company_user_id=user_id).prefetch_related(
+            'category'
+        ).prefetch_related(
+            'country'
+        ).prefetch_related('cities').order_by('-submission_date')
 
 class Advertisement(models.Model):
     job_title = models.CharField(
@@ -99,7 +106,7 @@ class Advertisement(models.Model):
     employment = models.ForeignKey(Employment)
     category = models.ForeignKey(core_models.Categories)
     country = models.ForeignKey(core_models.Countries)
-    cities=  models.ForeignKey(core_models.Cities)
+    cities = models.ForeignKey(core_models.Cities)
     salary_from = models.BigIntegerField(
         default=10000
     )
@@ -130,6 +137,7 @@ class Advertisement(models.Model):
     is_draft = models.BooleanField(
         default=False,
     )
+    admanager = AdvertisementManager()
 
     def __unicode__(self):
         return unicode(self.job_title)
@@ -155,3 +163,6 @@ class AdvertisementSettings(models.Model):
         default=False
     )
     advertisement = models.OneToOneField(Advertisement, default=None)
+
+
+

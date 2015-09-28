@@ -6,7 +6,7 @@
     <title>{% block title %}Dashboard{% endblock %}</title>
 {% if user.is_authenticated %}
 
-    {% block authenticate_user %} {{ user.first_name|slice:":1" }} {{ user.last_name|slice:":1" }}{%  endblock %}
+    {% block authenticate_user %} {{ user.first_name|slice:":1" }}{{ user.last_name|slice:":1" }}{%  endblock %}
 
 {% endif %}
 
@@ -62,7 +62,7 @@
                     <div class="col-md-3">
                         <div class="box_has_user">
                             <h2 class="h0_child">
-                                Applied Jobs
+                                Jobs Posted
                             </h2>
                             <h4>
                                 0
@@ -72,8 +72,19 @@
                     </div>
                     <div class="col-md-3">
                         <div class="box_has_user">
+                            <h2 class="h3_child">
+                                Total Applicants
+                            </h2>
+                            <h4>
+                                0
+                            </h4>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="box_has_user">
                             <h2 class="h1_child">
-                                Shortlisted Jobs
+                                Shortlisted People
                             </h2>
                             <h4>
                                 0
@@ -91,16 +102,6 @@
                             </h4>
                         </div>
                     </div>
-                    <div class="col-md-3">
-                        <div class="box_has_user">
-                            <h2 class="h3_child">
-                                Favorites Jobs
-                            </h2>
-                            <h4>
-                                0
-                            </h4>
-                        </div>
-                    </div>
 
                 </div>
             </div>
@@ -110,145 +111,92 @@
 
     <section id="jobs">
         <div class="container">
-            <div class="col-md-9 job_view">
-                <h3>
-                    Trending Jobs
-                </h3>
-                <div class="clearfix"></div>
-
-
-{#                dummy job 1#}
-
-                <div class="listed_job">
-                    <div class="col-md-2">
-                        <div class="pub_date">
-                            <span class=" p0_child">
-                            Jan 22
-                            </span>
-                        </div>
-                    </div>
-                    <div class="col-md-7" class="tjobdesc">
-                        <h4>
-                            Job Company
-                            <span class="job_location">Austin</span>
-                        </h4>
-                        <h1>Graphic Designer in Company Name</h1>
-                        <p>We are looking for talented Job Designer in the city XXX.
-                            We are looking for talented Job Designer in the city XXX</p>
-
-                    </div>
-                    <div class="col-md-3">
-                        <div class="preview_btn">
-                            <a href="">
-                                Preview Job
-                            </a>
-
-                        </div>
-                        <div class="apply_btn">
-                            <a href="">
-                                Apply Job
-                            </a>
-                        </div>
-
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="clearfix"></div>
-
-{#                dummy job 2#}
-
-
-                <div class="listed_job" >
-                    <div class="col-md-2">
-                        <div class="pub_date">
-                            <span class=" p0_child">
-                            Jan 22
-                            </span>
-                        </div>
-                    </div>
-                    <div class="col-md-7" class="tjobdesc">
-                        <h4>
-                            Job Company
-                            <span class="job_location">Austin</span>
-                        </h4>
-                        <h1>Graphic Designer in Company Name</h1>
-                        <p>We are looking for talented Job Designer in the city XXX.
-                            We are looking for talented Job Designer in the city XXX</p>
-
-                    </div>
-                    <div class="col-md-3">
-                        <div class="preview_btn">
-                            <a href="">
-                                Preview Job
-                            </a>
-                        </div>
-                        <div class="apply_btn">
-                            <a href="">
-                                Apply Job
-                            </a>
-                        </div>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="clearfix"></div>
-{#                dummy job 3#}
-                <div class="listed_job">
-                    <div class="col-md-2">
-                        <div class="pub_date">
-                            <span class=" p0_child">
-                            Jan 22
-                            </span>
-                        </div>
-                    </div>
-                    <div class="col-md-7" class="tjobdesc">
-                        <h4>
-                            Job Company
-                            <span class="job_location">Austin</span>
-                        </h4>
-                        <h1>Graphic Designer in Company Name</h1>
-                        <p>We are looking for talented Job Designer in the city XXX.
-                            We are looking for talented Job Designer in the city XXX</p>
-
-                    </div>
-                    <div class="col-md-3">
-                        <div class="preview_btn">
-                            <a href="">
-                                Preview Job
-                            </a>
-                        </div>
-                        <div class="apply_btn">
-                            <a href="">
-                                Apply Job
-                            </a>
-
-                        </div>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="clearfix"></div>
-
-{#                ending job here#}
-            </div>
-            <div class="col-md-3 job_alert">
-                <div class="box_alert">
+            <div class="col-md-8 nopad-lr">
+                <div class="col-md-12 company_job_box">
                     <h3>
-                        Job Alert
+                        Trending Jobs
                     </h3>
-                    <p class="job_alert_con">
-                        Want to keep yourself updated from the latest jobs? Select category from below.
-                    </p>
-                    <div class="category_alert">
-                        <select name="" id="" class="form-control">
-                            <option value="">
+                    <div class="clearfix"></div>
+                        <table width="100%;">
+                            <thead>
+                                <th>
+                                    Job Title
+                                </th>
+                                <th>
+                                    Total
+                                </th>
+                                <th>
+                                    New
+                                </th>
+                                <th>
+                                    Status
+                                </th>
 
-                            </option>
-                        </select>
+                            </thead>
+                        </table>
+                    <div class="my_job_box">
+                        <div class="job_list">
+                            <h5>Graphic Designer</h5>
+                        </div>
+                        <div class="job_status">
+                            <span class="is_pending">Pending</span>
+
+                        </div>
+                        <div class="clearfix"></div>
                     </div>
+                    <span class="empty_data">
+                        There is no job advertisement has been created yet.
 
-                    <div class="job_alert_btn">
-                        <a href="javascript:;">Add Me</a>
+                    </span><div class="clearfix"></div>
+    {#                ending job here#}
+                </div>
+
+                <div class="col-md-12 company_job_box">
+                    <h3>
+                        Scheduled Interviews
+                    </h3>
+                    <div class="clearfix"></div>
+                        <table width="100%;">
+                            <thead>
+                                <th>
+                                    Job Title
+                                </th>
+                                <th>
+                                    Date
+                                </th>
+                                <th>
+                                    Status
+                                </th>
+
+                            </thead>
+                        </table>
+                        <div class="my_job_box">
+                        <div class="job_list">
+                            <h5>Ahmad Ali</h5>
+                        </div>
+                        <div class="job_status">
+                            <span >After 4 Hours</span>
+
+                        </div>
+                        <div class="clearfix"></div>
+                            <span class="empty_data">
+                                There is no job advertisement has been created yet.
+                            </span>
+                            <div class="clearfix"></div>
                     </div>
-
+    {#                ending job here#}
+                </div>
+            </div>
+            <div class="col-md-4 nopad-lr">
+                <div class="col-md-12 view_message">
+                     <h3>
+                        View Notifications
+                    </h3>
+                    <div class="notifications">
+                            <span class="empty_data">
+                                No Notifications For You!
+                            </span>
+                    </div>
                 </div>
             </div>
         </div>

@@ -35,39 +35,19 @@
             </div>
         </div>
     </section>
-
-{#    {% block company_dash %}#}
-
-{#    {% endblock %}#}
-
-    <section id="jobs_stats">
-            <div class="container">
-                <div class="col-md-3 stat_box"><h3>All</h3></div>
-                <div class="col-md-3 stat_box"><h3>Posted Jobs</h3></div>
-                <div class="col-md-3 stat_box"><h3>Appied People</h3></div>
-                <div class="col-md-3 stat_box"><h3>Pending Jobs</h3></div>
-            </div>
-    </section>
-
     <section id="posted_jobs">
         <div class="container">
-{#            <div class="row">#}
-                <div class="col-md-12 posted_view posted_head">
-                    <div class="col-md-6">
-                       <h2>
-                        List of Posted Campaigns
-                        </h2>
-                    </div>
-                </div>
-                <div class="col-md-12 posted_view_normal">
+        <div class="col-md-12">
+            <div class="message_details">
+
+            </div>
+        </div>
+                <div class="col-md-12 posted_view_normal nopad-lr">
                     <div class="posted_jobs_box">
                         <div class="posted_ad_head">
                             <table>
                                 <thead>
                                     <tr>
-                                        <th>
-                                            Status
-                                        </th>
                                         <th>
                                             Job Title
                                         </th>
@@ -75,7 +55,7 @@
                                             Applicants
                                         </th>
                                         <th>
-                                            Posted Date
+                                            Posted
                                         </th>
                                         <th>
                                             Job Type
@@ -87,13 +67,14 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                            {% csrf_token %}
+                                {% for job in posted_jobs %}
+
                                 <tr>
                                     <td>
-                                        <input type="checkbox" name="" id="">
-                                    </td>
-
-                                    <td>
-                                        <h5>Web Designer and developer</h5>
+                                        <h5>{{ job.job_title }}</h5>
+                                        <div class="clearfix"></div>
+                                        <span class="location_info"><i class="fa fa-location-arrow"></i>{{ job.country }}, {{ job.cities }}</span>
                                     </td>
 
                                     <td>
@@ -101,122 +82,43 @@
                                     </td>
 
                                     <td>
-                                        22 Jan, 2015
+                                        {{ job.submission_date }}
 
                                     </td>
                                     <td>
-                                            Software Engineering
+                                            {{ job.category }}
                                     </td>
 
                                     <td>
-                                        <div class="btn_posted_jobs">
-                                            <a href="javascript:;">Edit</a>
-                                        </div>
+
 
                                         <div class="btn_posted_jobs">
-                                            <a href="javascript:;">Remove</a>
+                                            <a value="{{ job.id }}" class="action_posted_job" href="javascript:;">Actions</a>
+
                                         </div>
+                                        <ul class="dropdown_menu_actions menu_id_{{ job.id }}">
+                                                <li>
+                                                    <a href="">View Job Details</a>
+                                                </li>
+                                                <li>
+                                                    <a href="">View Analytics</a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:;" class="delete_job_menu" value="{{ job.id }}">Delete Job</a>
+                                                </li>
+                                                <li>
+                                                    <a href="">Pause Job</a>
+                                                </li>
+                                                <li>
+                                                    <a href="">Clone Job</a>
+                                                </li>
+                                                <div class="clearfix"></div>
+                                        </ul>
                                     </td>
 
                                 </tr>
 
-{#                                Second row#}
-                                <tr>
-                                    <td>
-                                        <input type="checkbox" name="" id="">
-                                    </td>
-
-                                    <td>
-                                        <h5>Web Designer and developer</h5>
-                                    </td>
-
-                                    <td>
-                                            77
-                                    </td>
-                                    <td>
-                                            22 Jan, 2015
-                                    </td>
-
-                                    <td>
-                                            Software Engineering
-                                    </td>
-
-                                    <td>
-                                        <div class="btn_posted_jobs">
-                                            <a href="javascript:;">Edit</a>
-                                        </div>
-
-                                        <div class="btn_posted_jobs">
-                                            <a href="javascript:;">Remove</a>
-                                        </div>
-                                    </td>
-
-                                </tr>
-
-                                {#Third row#}
-                                <tr>
-                                    <td>
-                                        <input type="checkbox" name="" id="">
-                                    </td>
-
-                                    <td>
-                                        <h5>Web Designer and developer</h5>
-                                    </td>
-
-                                    <td>
-                                            77
-                                    </td>
-                                    <td>
-                                            22 Jan, 2015
-                                    </td>
-
-                                    <td>
-                                            Software Engineering
-                                    </td>
-
-                                    <td>
-                                        <div class="btn_posted_jobs">
-                                            <a href="javascript:;">Edit</a>
-                                        </div>
-
-                                        <div class="btn_posted_jobs">
-                                            <a href="javascript:;">Remove</a>
-                                        </div>
-                                    </td>
-
-                                </tr>
-                                {#Fourth row#}
-                                <tr>
-                                    <td>
-                                        <input type="checkbox" name="" id="">
-                                    </td>
-
-                                    <td>
-                                        <h5>Web Designer and developer</h5>
-                                    </td>
-
-                                    <td>
-                                            77
-                                    </td>
-                                    <td>
-                                            22 Jan, 2015
-                                    </td>
-
-                                    <td>
-                                            Software Engineering
-                                    </td>
-
-                                    <td>
-                                        <div class="btn_posted_jobs">
-                                            <a href="javascript:;">Edit</a>
-                                        </div>
-
-                                        <div class="btn_posted_jobs">
-                                            <a href="javascript:;">Remove</a>
-                                        </div>
-                                    </td>
-
-                                </tr>
+                                {% endfor %}
                                 </tbody>
                             </table>
                         </div>
