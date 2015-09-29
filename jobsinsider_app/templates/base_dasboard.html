@@ -1,25 +1,19 @@
 {% load staticfiles %}
 {% load bootstrap3 %}
-
-
-
 <!DOCTYPE html>
 <html>
 <head lang="en">
     <meta charset="UTF-8">
     <title>{% block title %} {% endblock %}</title>
-    {% block style_block %}
+        {% block style_block %}
         <link rel="stylesheet" href="{% static "/assets/css/main.css" %}"/>
         <link rel="stylesheet" href="{% static "/assets/css/font-awesome.min.css" %}"/>
         <link rel="stylesheet" href="{% static "/assets/css/datepicker.css" %}"/>
         <link rel="stylesheet"  href="{% static "/assets/css/company.css" %}"/>
         <link rel="stylesheet"  href="{% static "/assets/css/chosen/chosen.css" %}"/>
-
         <!--<link rel="stylesheet" href="{% static "/assets/plugins/dropzone/dropzone.css" %}"/>-->
         {% bootstrap_css %}
-
     {% endblock %}
-
 </head>
 
 {% block body_tag %}

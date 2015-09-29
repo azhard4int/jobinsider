@@ -1,0 +1,146 @@
+{% extends "base_dasboard.html" %}
+    <title>{% block title %}Dashboard{% endblock %}</title>
+        {% if user.is_authenticated %}
+            {% block authenticate_user %} {{ user.first_name|slice:":1" }} {{ user.last_name|slice:":1" }}{%  endblock %}
+        {% endif %}
+{% block body_content %}
+    <section class="header_top_menu">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-xs-6 title_job">
+                        <h3>Job > <span style="color:#8949aa;">Create New</span></h3>
+                    </div>
+                    <div class="col-xs-6 title_links">
+                        <div class="nav_job">
+                            <ul>
+                                <li><a href="">Posted Jobs</a></li>
+                                <li><a href="">View Candidates</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="clearfix"></div>
+    <section id="job_advertisement">
+        <div class="container">
+            <div class="col-md-9 job_advert_form">
+                    <div class="col-md-12">
+                            <div class="col-xs-12">
+                                <div class="headline">
+                                    <h4>Start Creating Off Your Job Application</h4>
+                                    <p>
+                                        Write a compelling job description. Use a job title that job seekers are most
+                                        likely to look for on job boards. Be sure to use a bulleted list for
+                                        qualifications and requirements in the job description so it's easier to scan.
+                                    </p>
+
+                                    <form action="" id="jobadvert_form">
+                                        {% csrf_token %}
+                                        <div class="advert_box">
+                                            <fieldset>
+                                                <div class="col-md-6  nopad-lr">
+                                                    <label for="">Job Application Title</label><br>
+                                                         {{ job_form.job_title }}
+                                                </div>
+                                                <div class="col-md-6 nopad-lr">
+                                                    <label for="">No of Positions</label><br>
+                                                     {{ job_form.job_position }}
+                                                </div>
+
+                                            </fieldset>
+
+                                             <fieldset>
+                                                <div class="col-md-6  nopad-lr">
+                                                    <label for="">Employment Type</label><br>
+                                                    {{ job_form.employment }}
+                                                </div>
+                                                <div class="col-md-6 nopad-lr">
+                                                    <label for="">Minimum Experience</label><br>
+                                                    {{ job_form.experience }}
+                                                </div>
+
+                                            </fieldset>
+                                             <fieldset>
+                                                <div class="col-md-6  nopad-lr">
+                                                    <label for="">Country</label><br>
+                                                    {{ job_form.country }}
+                                                </div>
+                                                <div class="col-md-6 nopad-lr">
+                                                    <label for="">Cities</label><br>
+                                                    {{ job_form.cities }}
+                                                </div>
+
+                                            </fieldset>
+                                            <fieldset>
+                                                <div class="col-md-6 nopad-lr">
+                                                    <label for="">Industry Category</label><br>
+                                                    {{ job_form.category }}
+                                                </div>
+                                                <div class="col-md-6 nopad-lr">
+                                                    <label for="">Education Category</label><br>
+                                                    {{ job_form.education }}
+                                                </div>
+
+
+
+                                            </fieldset>
+                                            <fieldset>
+                                                <div class="col-md-6  nopad-lr">
+                                                    <label for="">Salary</label><br>
+                                                    <div class="col-md-4 nopad-lr">
+                                                        {{ job_form.salary_from }}
+                                                    </div>
+                                                    <div class="col-md-4 nopad-lr">
+                                                        {{ job_form.salary_to }}
+                                                    </div>
+
+                                                </div>
+                                            </fieldset>
+                                            <input type="hidden" name="jobid_value" value="{{ jobid }}" class="jobid_value">
+                                            {{ job_form.job_description }}
+                                        </div>
+                                        <input type="button" value="Edit Job Details" name="_edit" class="job_advertisement_edit">
+                                        <input type="button" value="Preview" name="_preview" class="job_advertisement">
+                                    </form>
+                            </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+
+            </div>
+        </div>
+    </section>
+
+
+
+{% endblock %}
+
+{% block custom_scripts %}
+{#<script type="text/javascript" src="/assets/js/tiny_mce/tiny_mce.js"></script>#}
+{#<script type="text/javascript" src="{% url "tinymce-js" "createad" %}"></script>#}
+    <script src="//tinymce.cachefly.net/4.2/tinymce.min.js"></script>
+    <script src="/assets/js/plugins/chosen/chosen.jquery.js"></script>
+    <script>tinymce.init({selector:'textarea'});</script>
+{#    <script>tinyMCE.init({#}
+{#        mode: "textareas",#}
+{#        theme: "advanced",#}
+{#    })#}
+{#    </script>#}
+
+     <script type="text/javascript">
+        var config = {
+          '.chosen-select'           : {},
+          '.chosen-select-deselect'  : {allow_single_deselect:true},
+          '.chosen-select-no-single' : {disable_search_threshold:10},
+          '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+          '.chosen-select-width'     : {width:"95%"}
+        }
+        for (var selector in config) {
+          $(selector).chosen(config[selector]);
+        }
+     </script>
+{% endblock %}

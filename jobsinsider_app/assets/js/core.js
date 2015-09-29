@@ -1094,3 +1094,40 @@ $('.delete_job_menu').on('click', function(e)
     )
     return false;
 });
+
+//edit job details
+
+$('.job_advertisement_edit').on('click', function(event)
+{
+    var formElement = document.querySelector('form');
+    var form_data = $('#jobadvert_form').serialize();// new FormData(formElement);
+    var job_description = (tinyMCE.activeEditor.getContent({format : 'raw'}));
+    var csrfmdi = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+    var id_value = $('.jobid_value').attr('value');
+    alert(id_value);
+    $.ajax(
+        {
+            url:'/company/job/edit/' + id_value,
+            type:'POST',
+            data:{
+                'form_val': form_data,
+                'csrfmiddlewaretoken': csrfmdi,
+                'description': job_description
+            },
+            success:function(m)
+            {
+                resp = JSON.parse(m);
+                if(resp.status==true)
+                {
+                    window.location.href= '/company/settings-job/'+ resp.last_inserted;
+                }
+            },
+            error:function(m)
+            {
+
+            }
+        }
+    );
+
+    return false;
+});

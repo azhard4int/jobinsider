@@ -168,26 +168,57 @@ class CompanyAdEdit(View):
         """
         """
         try:
-            data = Advertisement.admanager.filter(company_user_id=request.user.id, id=job_id)
-            jobad = JobAdvertisementForm(
-                job_title=data[0].job_title,
-                job_position=data[0].job_position,
-                job_description=data[0].job_description,
-                #employment_id=data[0]..employment,
-                #experience_id=parameters['experience'][0],
-                #category_id=parameters['category'][0],
-                #country_id=parameters['country'][0],
-                #cities_id=parameters['cities'][0],
-                salary_from=data[0].salary_from,
-                salary_to=data[0].salary_to,
-                #degree_level_id=parameters['education'][0],
+            data = Advertisement.admanager.filter(company_user_id=request.user.id, id=job_id).prefetch_related(
+                'category'
+            ).prefetch_related(
+            'country'
+            ).prefetch_related('cities')
+            print data[0].category
+            jobad = JobAdvertisementForm(initial={
+                'job_title': data[0].job_title,
+                'job_position':data[0].job_position,
+                'job_description':data[0].job_description,
+                'employment':data[0].employment_id,
+                'experience':data[0].experience_id,
+                'category':data[0].category_id,
+                'country':data[0].country_id,
+                'cities':data[0].cities_id,
+                'salary_from':data[0].salary_from,
+                'salary_to':data[0].salary_to,
+                'education':data[0].degree_level_id,
                 #submission_date=datetime.now(),
                 #company_user_id=request.user.id
+
+             }
             )
 
         except Exception as e:
             print e
             pass
+
+        return render(request, 'job_advertisement_edit.html', {'job_form': jobad, 'jobid': job_id})
+    def post(self, request, job_id):
+        parameters = parse_qs(request.POST['form_val'])
+        resp = {}
+        Advertisement.admanager.filter(id=job_id, company_user_id=request.user.id).update(
+                job_title=parameters['job_title'][0],
+                job_position=parameters['job_position'][0],
+                job_description=request.POST['description'],
+                employment_id=parameters['employment'][0],
+                experience_id=parameters['experience'][0],
+                category_id=parameters['category'][0],
+                country_id=parameters['country'][0],
+                cities_id=parameters['cities'][0],
+                salary_from=parameters['salary_from'][0],
+                salary_to=parameters['salary_to'][0],
+                degree_level_id=parameters['education'][0],
+                # submission_date=datetime.now(),
+
+            )
+
+        resp['status']= True    # when the query succeed.
+
+
 
 #Company settings for the job advert
 class CompanyAdSettings(View):
