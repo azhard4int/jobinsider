@@ -293,10 +293,6 @@ def delete_job(request, job_id):
 
 
 
-
-
-
-
 class CompanyAdd(View):
     @method_decorator(login_required)
     @method_decorator(is_company)
