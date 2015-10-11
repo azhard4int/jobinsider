@@ -1,0 +1,85 @@
+{#            <div id="jobs" class="col-md-9 job_view jobsearch_right_filter">#}
+
+                        <div class="clearfix"></div>
+
+
+
+                {% for job_detail in data %}
+
+
+                        <div class="listed_job">
+                            <div class="col-md-2">
+                                <div class="pub_date">
+                                    <span class=" p0_child">
+                                    {{ job_detail.submission_date|date:"D d" }}
+{#                                        <div>{{ job_detail.submission_date|date:"M Y" }}</div>#}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-7">
+                                <h4>
+                                    Job Company
+                                    <span class="job_location">{{ job_detail.country }}</span>
+                                    <span class="job_location_bg">{{ job_detail.cities }}</span>
+                                </h4>
+                                <h1>{{ job_detail.job_title }}</h1>
+                                <p>{{ job_detail.job_description|safe|truncatewords:15 }}</p>
+
+                            </div>
+                            <div class="col-md-3">
+                                <div class="preview_btn">
+                                    <a href="">
+                                        Preview Job
+                                    </a>
+
+                                </div>
+                                <div class="apply_btn">
+                                    {% if user_status == 0 %}
+                                    <a href="">
+                                        Apply Job
+                                    </a>
+                                    {% else %}
+                                        <a href="">
+                                            Sign up
+                                        </a>
+                                    {% endif %}
+                                </div>
+
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="clearfix"></div>
+
+
+
+                {% endfor %}
+                    <div class="pagination" ng-controller="paginationCtrl">
+                                        <span class="step-links">
+                                            {% if data.has_previous %}
+                                                {% if filtered_results == 1 %}
+                                                    <a href="javascript:;" ng-click="getResults({{ data.previous_page_number }})">Previous</a>
+                                                {% else %}
+                                                    <a href="javascript:;" ng-click="getResults({{ data.previous_page_number }})">Previous</a>
+
+                                                {% endif %}
+                                            {% endif %}
+
+                                            <span class="current">
+                                                Page {{ data.number }} of {{ data.paginator.num_pages }}.
+                                            </span>
+
+                                            {% if data.has_next %}
+                                                {% if filtered_results == 1 %}
+                                                    <a href="javascript:;" ng-click="getResults({{ data.next_page_number }})">Next</a>
+                                                {% else %}
+                                                    <a href="javascript:;" ng-click="getResults({{ data.next_page_number }})">Next</a>
+                                                {% endif %}
+                                            {% endif %}
+                                        </span>
+                                    </div>
+
+                        </div>
+{#            </div>#}
+
+    </section>
+

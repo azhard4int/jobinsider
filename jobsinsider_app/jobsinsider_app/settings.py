@@ -109,6 +109,11 @@ TEMP_DIRECTORY_Company = [
     'templates/company',
 ]
 
+# Company Jobs
+TEMP_DIRECTORY_JOBS = [
+    'templates/jobs',
+]
+
 
 TEMPLATES = [
     {
@@ -122,6 +127,7 @@ TEMPLATES = [
             BASE_DIR.join(TEMP_DIRECTORY_Dashboard),
             BASE_DIR.join(TEMP_DIRECTORY_Dashboard_other),
             BASE_DIR.join(TEMP_DIRECTORY_Company),
+            BASE_DIR.join(TEMP_DIRECTORY_JOBS),
         ),
         'APP_DIRS': True,
         'OPTIONS': {

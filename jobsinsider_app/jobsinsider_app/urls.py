@@ -32,6 +32,8 @@ urlpatterns = [
     url(r'^dashboard/', dashboard),
     url(r'^private/', include('private.urls')),
     url(r'^company/', include('company.urls')),
+    url(r'^jobs/', include('jobs.urls')),
+    url(r'^api/', include('api.urls')),
     url(r'^tinymce/', include('tinymce.urls')),
     # url(r'^ajax-upload/', include('ajax_upload.urls')),
 

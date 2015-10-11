@@ -617,3 +617,20 @@ div.apply_btn a:hover {
 .add_company a {
   padding: 10px 0;
 }
+.jobsearch_left_filter ul {
+  margin-left: -40px;
+  list-style: none;
+}
+.jobsearch_left_filter ul li {
+  font-weight: normal !important;
+}
+.jobsearch_left_filter h3 {
+  font-size: 17px;
+}
+.jobsearch_right_filter {
+  margin-top: 20px;
+  background: #fff;
+}
+.job_location_bg {
+  background: #d7d9f9 !important;
+}

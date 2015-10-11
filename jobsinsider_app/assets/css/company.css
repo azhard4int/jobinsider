@@ -1,0 +1,188 @@
+.transition_value {
+  transition: all ease-in-out 0.2s;
+  -webkit-transition: all ease-in-out 0.2s;
+  -o-transition: all ease-in-out 0.2s;
+  -ms-transition: all ease-in-out 0.2s;
+}
+.title_links ul {
+  float: right;
+  margin-left: -40px;
+  list-style: none;
+}
+.title_links ul li {
+  display: inline;
+}
+.title_links ul li a {
+  text-decoration: none;
+  color: #242424;
+}
+#job_advertisement .container-fluid {
+  padding: 0 !important;
+}
+#job_advertisement .job_advert_left {
+  transition: all ease-in-out 0.2s;
+  -webkit-transition: all ease-in-out 0.2s;
+  -o-transition: all ease-in-out 0.2s;
+  -ms-transition: all ease-in-out 0.2s;
+  padding: 15px;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+#job_advertisement .job_advert {
+  margin-top: 20px !important;
+}
+#job_advertisement .job_advert h4 {
+  padding-top: 10px;
+  margin: 0;
+}
+#job_advertisement .job_advert p {
+  padding-bottom: 5px;
+  padding-top: 5px;
+}
+#job_advertisement .is_active {
+  width: 101%;
+  z-index: 9000;
+  border-right: none;
+  background: #fff !important;
+  border-bottom: 1px solid #e0e0e0;
+  border-top: 1px solid #e0e0e0;
+}
+#job_advertisement .job_advert_left:hover {
+  cursor: pointer;
+  background: #fff !important;
+}
+#job_advertisement .job_advert_form {
+  background: #fff;
+  min-height: 500px;
+  border-left: 1px solid #e0e0e0;
+}
+#job_advertisement .job_advert_form .headline {
+  padding-top: 10px;
+}
+#job_advertisement .job_advert_form .advert_box fieldset {
+  padding: 10px 0;
+}
+#job_advertisement .job_advert_form .advert_box fieldset label {
+  font-weight: bold;
+  font-size: 16px;
+}
+#job_advertisement .job_advert_form .apply_datepicker {
+  display: none;
+}
+.company_job_box {
+  padding-bottom: 20px;
+}
+.company_job_box h3 {
+  padding: 0;
+  font-size: 20px;
+  padding: 10px;
+  display: block;
+  background: #4D2E69;
+  margin: 0;
+  padding-left: 10px;
+  color: #fff;
+  border-bottom: 1px solid #8C53BF;
+}
+.company_job_box thead {
+  background: #fafafa;
+  border-bottom: 1px solid #faf2cc;
+}
+.company_job_box thead th {
+  padding: 10px 0 !important;
+  padding-left: 10px !important;
+}
+.company_job_box .my_job_box {
+  background: #fff;
+  padding: 10px;
+}
+.company_job_box .my_job_box .job_list {
+  width: 70%;
+  float: left;
+}
+.company_job_box .my_job_box .job_list h5 {
+  font-size: 16px;
+}
+.company_job_box .my_job_box .job_status {
+  padding-top: 0px;
+  width: 30%;
+  float: left;
+}
+.company_job_box .my_job_box .job_status span {
+  padding: 7px 21px;
+  text-align: center;
+  background: #E4BE31;
+  border-radius: 4px;
+  float: right;
+  margin-right: 10px;
+}
+.view_message {
+  padding-bottom: 20px;
+}
+.view_message h3 {
+  padding: 0;
+  font-size: 20px;
+  padding: 10px;
+  display: block;
+  background: #4D2E69;
+  margin: 0;
+  padding-left: 10px;
+  color: #fff;
+  border-bottom: 1px solid #8C53BF;
+}
+.view_message .notifications {
+  padding: 10px;
+  background: #fff;
+  min-height: 70px;
+}
+.nopad-lr {
+  padding: 0;
+  margin: 0;
+}
+.empty_data {
+  background: #fff;
+  padding: 15px 0;
+  text-align: center;
+  font-size: 16px;
+  color: #999999;
+  display: block;
+}
+.dropdown_menu_actions {
+  position: absolute;
+  display: none;
+  width: 160px;
+  list-style-type: none;
+  margin-left: -40px;
+  background: #6a6a6a;
+  padding: 10px 0;
+  margin-left: -30px;
+}
+.dropdown_menu_actions li {
+  clear: both;
+  padding: 5px;
+  text-align: left;
+  padding-left: 15px;
+}
+.dropdown_menu_actions li a {
+  background: none;
+  text-align: left;
+  float: left;
+  padding: 0;
+  text-decoration: none !important;
+  color: #fff !important;
+}
+.dropdown_menu_actions li a:hover {
+  background: none;
+}
+.dropdown_menu_actions:before {
+  border-bottom: 15px solid #000;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+}
+.location_info i {
+  padding-right: 10px;
+}
+.message_details {
+  text-align: center;
+  font-size: 20px;
+  color: #999999;
+}
