@@ -27,7 +27,14 @@ app.controller('leftfilters', function($http, $scope)
     $scope.countries = [];
     $scope.education = [];
     $scope.cities = [];
-    $scope.is_categories = false;
+    $scope.is_categories=false;
+    $scope.is_experience=false;
+    $scope.is_education=false;
+    $scope.is_employment = false;
+    $scope.counter_categories = 0;
+    $scope.counter_experience = 0;
+    $scope.counter_education = 0;
+    $scope.counter_employment = 0;
     $http(
         {
             method: 'GET',
@@ -73,8 +80,63 @@ app.controller('leftfilters', function($http, $scope)
             });
     $scope.isCategories = function()
     {
-        this.is_categories = true;
+        if($scope.counter_categories==0)
+        {
+            this.is_categories = true;
+            $scope.counter_categories++;
+        }
+        else{
+            this.is_categories = false;
+            $scope.counter_categories = 0;
+
+        }
+
     };
+    $scope.isExperience = function()
+    {
+        if($scope.counter_experience==0)
+        {
+            this.is_experience = true;
+            $scope.counter_experience++;
+        }
+        else{
+            this.is_experience = false;
+            $scope.counter_experience = 0;
+
+        }
+
+    };
+
+    $scope.isEducation = function()
+    {
+        if($scope.counter_education==0)
+        {
+            this.is_education = true;
+            $scope.counter_education++;
+        }
+        else{
+            this.is_education = false;
+            $scope.counter_education = 0;
+
+        }
+
+    };
+    $scope.isEmployment = function()
+    {
+        if($scope.counter_employment==0)
+        {
+            this.is_employment = true;
+            $scope.counter_employment++;
+        }
+        else{
+            this.is_employment = false;
+            $scope.counter_employment = 0;
+
+        }
+
+    };
+
+
     $scope.categoriesInsert = function(value)
     {
         if(this.categoriesID[value])
@@ -183,3 +245,21 @@ app.controller('paginationCtrl', function($http, $scope)
               })
     };
 });
+
+function getResults(pageValue)
+{
+    //console.log(value);
+    $.ajax({
+            'method':'GET',
+            'url': base_url + 'jobs/index/?page='+pageValue+"&is_ajax=1",
+            success: function(data)
+              {
+                  $('.jobsearch_right_filter').html(data);
+                  console.log(data)
+              }
+            }
+        )
+
+};
+
+

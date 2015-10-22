@@ -45,19 +45,21 @@
                         Employment Type
                     </h3>
                     <ul>
-                        <div>
-                        <li ng-repeat="emp in employment">
-                               <input ng-change="employmentInsert(emp.pk)" ng-model="employmentID[emp.pk]" type="checkbox" id="employment<<emp.pk>>">
-                               <label for="employment<<emp.pk>>"><< emp.fields.employment_name >></label>
-                           </li>
+                        <a href="javascript:;" ng-click="isEmployment();">Expand</a>
 
+                        <div ng-if="is_employment!=false">
+                            <li ng-repeat="emp in employment">
+                                   <input ng-change="employmentInsert(emp.pk)" ng-model="employmentID[emp.pk]" type="checkbox" id="employment<<emp.pk>>">
+                                   <label for="employment<<emp.pk>>"><< emp.fields.employment_name >></label>
+                            </li>
                         </div>
                         {#education filters#}
                     </ul>
                     <h3>Education Type</h3>
                     <ul>
 
-                        <div>
+                        <a href="javascript:;" ng-click="isEducation();">Expand</a>
+                        <div ng-if="is_education!=false">
 
                         <li ng-repeat="edu in education">
                                <input ng-change="educationInsert(edu.pk)" ng-model="educationID[edu.pk]" type="checkbox" id="education<<edu.pk>>">
@@ -74,8 +76,8 @@
                     </h3>
                     <ul>
 
-
-                        <div>
+                        <a href="javascript:;" ng-click="isExperience();">Expand</a>
+                        <div ng-if="is_experience!=false">
                         <li ng-repeat="exp in experience">
                                <input ng-change="experienceID(exp.pk)" ng-model="experienceID[exp.pk]" type="checkbox" id="experience<<exp.pk>>">
                                <label for="experience<<edu.pk>>"><< exp.fields.experience_name>></label>
