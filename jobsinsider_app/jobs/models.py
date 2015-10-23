@@ -30,12 +30,31 @@ class SearchView():
         ).filter(job_approval_status=1).order_by('-submission_date')
         return data
 
+    def toCheck(self, object_name, object):
+        """
+        Splitting the values and returning data
+        """
+        if not object_name:
+            data =[]
+            for data_value in object:
+                data.append(data_value.id)
+        else:
+            data= object_name.split(',')
+        return data
+
     def fetch_filtered_adverts(self, category=None, employment=None, experience=None, education=None):
         """
         Retrieves only filtered results
         """
-        print category
-        data = data = company_models.Advertisement.admanager.prefetch_related(
+        allCategories = core_models.Categories.objects.all()
+        allEducation = core_models.Education.objects.all()
+        allExperience = company_models.Experience.objects.all()
+        allEmployment = company_models.Employment.objects.all()
+        category = self.toCheck(category, allCategories)
+        experience = self.toCheck(experience, allExperience)
+        employment = self.toCheck(employment, allEmployment)
+        education = self.toCheck(education, allEducation)
+        data = company_models.Advertisement.admanager.prefetch_related(
             'category'
         ).prefetch_related(
             'country'
@@ -50,11 +69,46 @@ class SearchView():
         ).prefetch_related(
             'cities'
         ).filter(
-            category__in=category
-        ).filter(
+            experience__in=experience,
+            category__in=category,
+            degree_level__in=education,
+            employment__in=employment,
             job_approval_status=1
         ).order_by('-submission_date')
         return data
+
+
+    def fetch_job_details(self, job_id):
+        data = company_models.Advertisement.admanager.prefetch_related(
+            'category'
+        ).prefetch_related(
+            'country'
+        ).prefetch_related(
+            'employment'
+        ).prefetch_related(
+            'experience'
+        ).prefetch_related(
+            'degree_level'
+        ).prefetch_related(
+            'company_user'
+        ).prefetch_related(
+            'cities'
+        ).filter(
+            id=job_id
+        )[0]
+        return data
+
+    def fetch_company_details(self, user_id):
+        data = company_models.CompanyProfile.objects.filter(user_id=user_id)[0]
+        return data
+
+    def is_already_applied(self, user_id,job_id):
+        try:
+            data = company_models.AdvertisementApplied.objects.filter(user_id=user_id, advertisement_id=job_id)[0]
+            if data:
+                return True
+        except IndexError:
+            return False
 
     def is_user_job_seeker(self, id):
         data = accounts_models.UserProfile.objects.filter(user_id=id)[0]

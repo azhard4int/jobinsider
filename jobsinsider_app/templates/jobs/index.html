@@ -79,7 +79,7 @@
                         <a href="javascript:;" ng-click="isExperience();">Expand</a>
                         <div ng-if="is_experience!=false">
                         <li ng-repeat="exp in experience">
-                               <input ng-change="experienceID(exp.pk)" ng-model="experienceID[exp.pk]" type="checkbox" id="experience<<exp.pk>>">
+                               <input ng-change="experienceInsert(exp.pk)" ng-model="experienceID[exp.pk]" type="checkbox" id="experience<<exp.pk>>">
                                <label for="experience<<edu.pk>>"><< exp.fields.experience_name>></label>
                            </li>
 
@@ -117,15 +117,15 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="preview_btn">
-                                    <a href="">
-                                        Preview Job
+                                    <a href="{% url 'job_details' job_detail.id %}">
+                                        View Job Details
                                     </a>
 
                                 </div>
                                 <div class="apply_btn">
                                     {% if user_status == 0 %}
                                     <a href="">
-                                        Apply Job
+                                         View Job Details
                                     </a>
                                     {% else %}
                                         <a href="">

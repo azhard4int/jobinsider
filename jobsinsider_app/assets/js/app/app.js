@@ -143,10 +143,12 @@ app.controller('leftfilters', function($http, $scope)
         {
             this.categories_id.push(value);
             alert(this.categories_id)
-            this.getfilteredResults(this.categories_id);
+            this.getfilteredResults();
         }
         else{
+
             this.categories_id.pop(value);
+             this.getfilteredResults();
         }
 
     };
@@ -155,11 +157,11 @@ app.controller('leftfilters', function($http, $scope)
         if(this.employmentID[value])
         {
             this.employment_id.push(value);
-            alert(this.employment_id)
-
+            this.getfilteredResults();
         }
         else{
             this.employment_id.pop(value);
+            this.getfilteredResults();
         }
 
     };
@@ -168,11 +170,11 @@ app.controller('leftfilters', function($http, $scope)
         if(this.experienceID[value])
         {
             this.experience_id.push(value);
-            alert(this.experience_id)
-
+            this.getfilteredResults();
         }
         else{
             this.experience_id.pop(value);
+            this.getfilteredResults();
         }
 
     };
@@ -181,23 +183,25 @@ app.controller('leftfilters', function($http, $scope)
         if(this.educationID[value])
         {
             this.education_id.push(value);
-            alert(this.education_id)
+            this.getfilteredResults();
+
 
         }
         else{
             this.education_id.pop(value);
+            this.getfilteredResults();
         }
 
     };
 
 
-    $scope.getfilteredResults = function(categories)
+    $scope.getfilteredResults = function()
     {
-        console.log(categories);
         $http(
               {
                 'method':'GET',
-                'url': base_url + 'jobs/filtered/?categories='+categories+"&is_ajax=1"
+                'url': base_url + 'jobs/filtered/?categories='+this.categories_id+"&experience="+ this.experience_id +"&is_ajax=1" +
+                "&education="+ this.education_id+"&employment="+ this.employment_id
             }
         ).success(function(data)
               {

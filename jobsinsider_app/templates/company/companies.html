@@ -3,6 +3,10 @@
         {% if user.is_authenticated %}
             {% block authenticate_user %}{{ user.first_name|slice:":1" }} {{ user.last_name|slice:":1" }}{%  endblock %}
         {% endif %}
+{% block header_company_nav %}
+    <a href="/company/profile/">Account Settings</a>
+    <a href="/accounts/logout/">Logout</a>
+{% endblock %}
 {% block body_content %}
     {% include 'base_dashboard_core.html' %}
 

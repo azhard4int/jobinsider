@@ -142,6 +142,19 @@ class Advertisement(models.Model):
     def __unicode__(self):
         return unicode(self.job_title)
 
+class AdvertisementApplied(models.Model):
+    """Applied people links"""
+    advertisement = models.ForeignKey(Advertisement, default=None)
+    user = models.ForeignKey(User, default=None)
+
+    def __unicode__(self):
+        return unicode(self.advertisement)
+
+
+class AdvertisementFavorite(models.Model):
+    """
+    I have to add the models here base don the user criteria
+    """
 
 class AdvertisementSettings(models.Model):
     """

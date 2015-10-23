@@ -15,11 +15,9 @@
         {% bootstrap_css %}
     {% endblock %}
 </head>
-
 {% block body_tag %}
 <body>
 {% endblock %}
-
 {% block dashboard_nav_content %}
     <header class="dashboard_s0">
     <div class="container">
@@ -28,7 +26,7 @@
 
                     <div class="main_logo">
                         <div class="logo">
-                            JobInsider
+                            <a href="/accounts/login">JobInsider</a>
                         </div>
                     </div>
 {#                    <div class="col-md-10 right_sec">#}
@@ -57,7 +55,7 @@
                             <ul>
                                 {% if user.is_authenticated %}
                                     <li>
-                                        <a href="">Jobs</a>
+                                        <a href="/jobs/index">Jobs</a>
                                     </li>
                                     <li>
                                         <a href="">Favorite Jobs</a>
@@ -84,12 +82,14 @@
                                         <li>
                                             <a href=""><i class="fa fa-bell-o fa-lg"></i></a>
                                         </li>
-                                        <li class="display_user_settings">
-                                            <a href=""><span class="user_initials">{% block authenticate_user %}Welcome  Username {%  endblock %}</span></a>
+                                        <li >
+                                            <a class="display_user_settings" href=""><span class="user_initials">{% block authenticate_user %}Welcome  Username {%  endblock %}</span></a>
                                             <div class="user_profile_settings">
                                                 <div class="links_block">
-                                                    <a href="/user/u/">Account Settings</a>
-                                                    <a href="/accounts/logout/">Logout</a>
+                                                    {% block header_company_nav %}
+                                                        <a href="/user/u/">Account Settings</a>
+                                                        <a href="/accounts/logout/">Logout</a>
+                                                    {% endblock %}
                                                 </div>
                                             </div>
                                         </li>
@@ -122,17 +122,8 @@
 </header>
     <div class="clearfix">
     </div>
-
-
 {% endblock %}
-
-
-
-
-
-
 {% block body_content %} {% endblock %}
-
 {% block scripts_block %}
     <script src='{% static "/assets/js/jquery-2.1.4.min.js" %}'></script>
     {% bootstrap_javascript %}

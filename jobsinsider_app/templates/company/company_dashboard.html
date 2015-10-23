@@ -9,7 +9,10 @@
     {% block authenticate_user %} {{ user.first_name|slice:":1" }}{{ user.last_name|slice:":1" }}{%  endblock %}
 
 {% endif %}
-
+{% block header_company_nav %}
+    <a href="/company/profile/">Account Settings</a>
+    <a href="/accounts/logout/">Logout</a>
+{% endblock %}
 {#Setting up the blurry region for the form#}
 {% block body_tag %}
     {% if body_status == 0 %}

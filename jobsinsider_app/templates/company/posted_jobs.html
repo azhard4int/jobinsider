@@ -4,11 +4,13 @@
     <title>{% block title %}Dashboard{% endblock %}</title>
 {% if user.is_authenticated %}
 
-    {% block authenticate_user %} {{ user.first_name|slice:":1" }} {{ user.last_name|slice:":1" }}{%  endblock %}
+    {% block authenticate_user %} {{ user.first_name|slice:":1" }}{{ user.last_name|slice:":1" }}{%  endblock %}
 
 {% endif %}
-
-
+{% block header_company_nav %}
+    <a href="/company/profile/">Account Settings</a>
+    <a href="/accounts/logout/">Logout</a>
+{% endblock %}
 {% block body_content %}
 
 
@@ -101,6 +103,9 @@
                                                     <a href="/company/job/edit/{{ job.id }}" >Edit Job Details</a>
                                                 </li>
                                                 <li>
+                                                    <a href="">Applied Candidates</a>
+                                                </li>
+                                                <li>
                                                     <a href="">View Analytics</a>
                                                 </li>
                                                 <li>
@@ -108,9 +113,6 @@
                                                 </li>
                                                 <li>
                                                     <a href="">Pause Job</a>
-                                                </li>
-                                                <li>
-                                                    <a href="">Clone Job</a>
                                                 </li>
                                                 <div class="clearfix"></div>
                                         </ul>

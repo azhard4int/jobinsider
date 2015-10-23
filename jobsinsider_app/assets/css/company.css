@@ -186,3 +186,50 @@
   font-size: 20px;
   color: #999999;
 }
+#detailed_description {
+  padding: 15px;
+}
+.detail_description_head {
+  background: #fff;
+  padding: 20px 10px;
+}
+.detail_description_head h3 {
+  padding: 0;
+  margin: 0;
+}
+.job_apply_btn {
+  display: block;
+  text-decoration: none;
+  color: #fff;
+  background: #999999;
+  width: 100%;
+  text-align: center;
+  line-height: 40px;
+  transition: all ease-in-out 0.2s;
+  -webkit-transition: all ease-in-out 0.2s;
+  -o-transition: all ease-in-out 0.2s;
+  -ms-transition: all ease-in-out 0.2s;
+}
+.job_apply_btn:hover {
+  background: #c0c0c0;
+  text-decoration: none;
+  color: #fff;
+}
+.job_stats {
+  margin-left: -40px;
+}
+.job_stats li {
+  margin-right: 5px;
+  padding: 5px 15px;
+  background: #f4f4f4;
+  display: inline-block;
+  list-style: none;
+  border: 1px solid #e8e8e8;
+}
+.add_favorite {
+  margin-top: 10px;
+  background: #7b94cc !important;
+}
+.add_favorite {
+  background: #97b0cc !important;
+}

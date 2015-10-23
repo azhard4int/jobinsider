@@ -1131,3 +1131,30 @@ $('.job_advertisement_edit').on('click', function(event)
 
     return false;
 });
+
+//applying candidates
+
+$('.job_apply_btn').on('click', function(event)
+{
+    event.preventDefault();
+    var csrfmdi = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+    var id_value = $('.job_apply_btn').attr('value');
+    $.ajax(
+        {
+            url:'/jobs/detail/' + id_value + "/",
+            type:'POST',
+            data:{
+                'csrfmiddlewaretoken': csrfmdi
+            },
+            success:function(data)
+            {
+
+            },
+            error:function(data)
+            {
+
+            }
+        }
+    )
+    return false;
+});

@@ -1,0 +1,82 @@
+{% extends "base_dasboard.html" %}
+    <title>{% block title %}Dashboard{% endblock %}</title>
+        {% if user.is_authenticated %}
+            {% block authenticate_user %} {{ user.first_name|slice:":1" }}{{ user.last_name|slice:":1" }}{%  endblock %}
+        {% endif %}
+{% block body_content %}
+    <section class="header_top_menu">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-xs-6 title_job">
+                        <h3>
+                            Job Description
+{#                            Job > <span style="color:#8949aa;">Create New</span><#}
+                        </h3>
+                    </div>
+                    <div class="col-xs-6 title_links">
+{#                        <div class="nav_job">#}
+{#                            <ul>#}
+{#                                <li><a href="">Posted Jobs</a></li>#}
+{#                                <li><a href="">View Candidates</a></li>#}
+{#                            </ul>#}
+{#                        </div>#}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="clearfix"></div>
+    <section id="detailed_description">
+        <div class="container">
+                        {% csrf_token %}
+            <div class="col-md-12 col-lg-12 detail_description_head">
+                <div class="col-md-8">
+                    <h3>
+                        {{ job.job_title }}
+                    </h3>
+                    <h4>
+                        {{ company.company_name }}, {{ company.company_industry}}
+                    </h4>
+                    <ul class="job_stats">
+                        <li>
+                            {{ job.category}}
+                        </li>
+                        <li>
+                            {{ job.cities}}
+                        </li>
+                        <li>
+                            {{ job.country}}
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    {% if user_status %}
+                        {% if not is_applied %}
+                            {% if not is_company %}
+                                <a href="javascript:;" value="{{ job.id }}" class="job_apply_btn">Apply Job</a>
+                            {% endif %}
+                        {% else %}
+                            <a href="javascript:;" class="job_apply_btn">Applied</a>
+                        {% endif %}
+                    {% else %}
+                        <a href="/accounts/register" value="{{ job.id }}" class="job_apply_btn">Sign Up to Apply</a>
+                    {% endif %}
+                    <div class="clearfix"></div>
+                    {% if user_status %}
+                         {% if not is_company %}
+                            <a href="javascript:;" value="{{ job.id }}" class="job_apply_btn add_favorite">Add to Favorite</a>
+                         {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="col-lg-9 col-md-9">
+
+            </div>
+            <div class="col-lg-3 col-md-3">
+
+            </div>
+        </div>
+    </section>
+{% endblock %}

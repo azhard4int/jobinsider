@@ -8,9 +8,10 @@ $('.display_user_settings').on('click', function(event)
     if(count_menu==0)
     {
         $('.user_profile_settings').show();
-        count_menu++;
+        count_menu++
     }
     else{
+
         $('.user_profile_settings').hide();
         count_menu=0;
     }
@@ -569,3 +570,5 @@ $('.countries_select_box').change(function(event)
     );
     //alert(value_data);
 });
+
+//shortlisting candidates

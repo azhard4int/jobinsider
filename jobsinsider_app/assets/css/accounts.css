@@ -19,6 +19,14 @@ body {
   font-family: 'proxima_nova_scosf_condensSBd', arial, sans-serif !important;
   color: #fff;
 }
+.logo a {
+  text-decoration: none;
+  color: #fff;
+}
+.logo a:hover {
+  text-decoration: none;
+  color: #fff;
+}
 .main_logo {
   float: left;
   width: 150px;
