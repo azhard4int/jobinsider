@@ -8,20 +8,24 @@
     <a href="/accounts/logout/">Logout</a>
 {% endblock %}
 {% block body_content %}
-    <section class="header_top_menu">
+     <section id="company">
         <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="col-xs-6 title_job">
-                        <h3>Job > <span style="color:#8949aa;">Create New</span></h3>
-                    </div>
-                    <div class="col-xs-6 title_links">
-                        <div class="nav_job">
-                            <ul>
-                                <li><a href="">Posted Jobs</a></li>
-                                <li><a href="">View Candidates</a></li>
-                            </ul>
-                        </div>
+            <div class="col-md-12">
+                <div class="col-md-5">
+
+                    <h3>
+                        Edit Job Advertisement
+                    </h3>
+
+                </div>
+                <div class="col-md-7">
+                    <div class="cp_nav">
+                        <ul>
+                            <li><a href="{% url 'job_advertisement' %}">Create Advertisement</a></li>
+                            <li><a href="{% url 'posted_jobs' %}">Posted Jobs</a></li>
+                            <li><a href="">Shortlisted People</a></li>
+                            <li><a href="{% url 'favorite' %}">Favorite CV</a></li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -114,6 +118,22 @@
                 </div>
             </div>
             <div class="col-md-3">
+                <div class="jobadvert_edit_right">
+                    <h4>
+                        Job Status
+                    </h4>
+                    <p style="padding-bottom: 10px;">
+
+                        {% if job_approval_status == 0 %}
+                            <span class="is_pending " style="float:left;">Pending</span>
+                        {% elif job_approval_status == 2 %}
+                            <span class="is_rejected" style="float:left;">Rejected</span>
+                        {% else %}
+                            <span class="is_approved" style="float:left;">Approved</span>
+                        {% endif %}
+                    <div class="clearfix"></div>
+                    </p>
+                </div>
 
             </div>
         </div>

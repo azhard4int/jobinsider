@@ -88,6 +88,16 @@ class AdvertisementManager(models.Manager):
             'country'
         ).prefetch_related('cities').order_by('-submission_date')
 
+    def applied_user(self, job_id):
+        return super(AdvertisementManager, self).get_queryset().filter(id=job_id)[0].total_applied
+
+    def is_total_applied(self, job_id, current_count):
+        current_count = current_count + 1
+        return super(AdvertisementManager, self).get_queryset().filter(id=job_id).update(
+            total_applied = current_count
+        )
+
+
 class Advertisement(models.Model):
     job_title = models.CharField(
         default=None,
@@ -102,6 +112,7 @@ class Advertisement(models.Model):
         blank=True
     )
     company_user = models.ForeignKey(User, default=None)
+    company = models.CharField(default=None, max_length=255)
     experience = models.ForeignKey(Experience)
     employment = models.ForeignKey(Employment)
     category = models.ForeignKey(core_models.Categories)
@@ -137,6 +148,9 @@ class Advertisement(models.Model):
     is_draft = models.BooleanField(
         default=False,
     )
+    total_applied = models.IntegerField(
+        default=0
+    )
     admanager = AdvertisementManager()
 
     def __unicode__(self):
@@ -155,6 +169,12 @@ class AdvertisementFavorite(models.Model):
     """
     I have to add the models here base don the user criteria
     """
+    advertisement = models.ForeignKey(Advertisement, default=None)
+    user = models.ForeignKey(User, default=None)
+    add_date = models.DateTimeField(default=None)
+
+    def __unicode__(self):
+        return unicode(self.advertisement)
 
 class AdvertisementSettings(models.Model):
     """

@@ -1,14 +1,10 @@
 {% extends "base_dasboard.html" %}
 
 {#{% extends 'company_core.html' %}#}
-    <title>{% block title %}Dashboard{% endblock %}</title>
+<title>{% block title %}Dashboard{% endblock %}</title>
 {% if user.is_authenticated %}
-
-    {% block authenticate_user %} {{ user.first_name|slice:":1" }} {{ user.last_name|slice:":1" }}{%  endblock %}
-
+    {% block authenticate_user %} {{ user.first_name|slice:":1" }}{{ user.last_name|slice:":1" }}{%  endblock %}
 {% endif %}
-
-
 {% block body_content %}
 
 
@@ -16,19 +12,20 @@
     <section id="company">
         <div class="container">
             <div class="col-md-12">
-                <div class="col-md-5">
+                <div class="col-md-4">
 
                     <h1>
                         Messages
                     </h1>
 
                 </div>
-                <div class="col-md-7">
+                <div class="col-md-8">
                     <div class="cp_nav">
                         <ul>
-                            <li><a href="">Posted Jobs</a></li>
+                            <li><a href="{% url 'job_advertisement' %}">Create Advertisement</a></li>
+                            <li><a href="{% url 'posted_jobs' %}">Posted Jobs</a></li>
                             <li><a href="">Shortlisted People</a></li>
-                            <li><a href="">Favorite CV</a></li>
+                            <li><a href="{% url 'favorite' %}">Favorite CV</a></li>
                         </ul>
                     </div>
                 </div>

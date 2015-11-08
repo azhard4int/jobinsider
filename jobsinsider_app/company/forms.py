@@ -59,6 +59,8 @@ class JobAdvertisementForm(forms.ModelForm):
     categories = core_models.Categories.objects.all()
     choices_categories = [(ab.id, str(ab.category_name)) for ab in categories]
 
+    cities = core_models.Cities.objects.filter(country_id=1)
+    choices_cities= [(ab.id, (ab.city_name)) for ab in cities]
 
     countries = core_models.Countries.objects.all()
     choices_countries= [(ab.id, str(ab.country_name)) for ab in countries]
@@ -129,6 +131,7 @@ class JobAdvertisementForm(forms.ModelForm):
 
 
     cities = forms.ChoiceField(
+            choices=choices_cities,
             widget=forms.Select(
                 attrs={
                     'class': 'cities_select_box form-control',

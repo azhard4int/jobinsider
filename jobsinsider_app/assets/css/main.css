@@ -5,6 +5,24 @@
 .clearfix {
   clear: both;
 }
+.mt_10 {
+  margin: 10px 0;
+}
+.normal_btn {
+  padding: 6px 20px;
+}
+.medium_btn {
+  padding: 10px 25px;
+}
+.large_btn {
+  padding: 10px 30px;
+}
+.primary_btn_color {
+  background: #935aeb;
+}
+.primary_btn_color_hover {
+  background: #8677eb;
+}
 .shadow {
   -webkit-box-shadow: 1px 1px 2px 2px #ccc;
   /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
@@ -156,14 +174,16 @@ footer .footer_nav li a:hover {
   background: linear-gradient(135deg, #faa41a, #facc2c);
 }
 div.preview_btn,
-div.apply_btn {
+div.apply_btn,
+div.remove_favorite_btn {
   padding-top: 30px;
   text-align: center;
   display: block;
   margin: 0 auto;
 }
 div.preview_btn a,
-div.apply_btn a {
+div.apply_btn a,
+div.remove_favorite_btn a {
   transition: all ease-in-out 0.2s;
   -webkit-transition: all ease-in-out 0.2s;
   -o-transition: all ease-in-out 0.2s;
@@ -178,7 +198,8 @@ div.apply_btn a {
   color: #fff;
 }
 div.preview_btn a:hover,
-div.apply_btn a:hover {
+div.apply_btn a:hover,
+div.remove_favorite_btn a:hover {
   text-decoration: none;
 }
 div.preview_btn a:hover {
@@ -194,6 +215,17 @@ div.apply_btn a {
 }
 div.apply_btn a:hover {
   background: #8989da;
+}
+div.remove_favorite_btn {
+  margin-top: 10px;
+  padding-top: 0px;
+}
+div.remove_favorite_btn a {
+  background: #cc2e2a !important;
+  color: #fff;
+}
+div.remove_favorite_btn a:hover {
+  background: #ba1f26 !important;
 }
 .listed_job.even_child {
   background: #ccc;
@@ -427,7 +459,7 @@ div.apply_btn a:hover {
   height: 30%;
 }
 .message_details {
-  padding: 20px 0;
+  padding: 5px 0;
 }
 .users_message {
   margin-left: -15px;
@@ -633,4 +665,35 @@ div.apply_btn a:hover {
 }
 .job_location_bg {
   background: #d7d9f9 !important;
+}
+.main_btn {
+  padding: 6px 20px;
+  color: #fff;
+  text-decoration: none;
+  transition: all ease-in-out 0.2s;
+  -webkit-transition: all ease-in-out 0.2s;
+  -o-transition: all ease-in-out 0.2s;
+  -ms-transition: all ease-in-out 0.2s;
+  background: #935aeb;
+}
+.main_btn:hover {
+  text-decoration: none;
+  color: #fff;
+  background: #8677eb;
+}
+.main_btn.active {
+  text-decoration: none;
+  color: #fff;
+}
+.profile_picture {
+  margin: 10px 0;
+  width: 200px;
+  height: 160px;
+}
+.profile_picture img {
+  width: 100%;
+  height: 100%;
+}
+.user_profile_history {
+  padding: 0 15px;
 }

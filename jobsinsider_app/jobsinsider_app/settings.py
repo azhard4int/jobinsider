@@ -87,10 +87,12 @@ TEMP_DIRECTORY_Dashboard = [
     'templates/accounts/dashboard',
 ]
 TEMP_DIRECTORY_Dashboard_other = [
-    'templates/accounts/dashboard',
+    'templates/accounts/dashboard/',
 ]
 
-
+TEMP_DIRECTORY_Dashboard_DYNAMIC = [
+    'templates/accounts/dashboard/dynamic/',
+]
 
 # Profile Directory
 
@@ -126,6 +128,7 @@ TEMPLATES = [
             BASE_DIR.join(TEMP_DIRECTORY_PRIVATE),
             BASE_DIR.join(TEMP_DIRECTORY_Dashboard),
             BASE_DIR.join(TEMP_DIRECTORY_Dashboard_other),
+            BASE_DIR.join(TEMP_DIRECTORY_Dashboard_DYNAMIC),
             BASE_DIR.join(TEMP_DIRECTORY_Company),
             BASE_DIR.join(TEMP_DIRECTORY_JOBS),
         ),

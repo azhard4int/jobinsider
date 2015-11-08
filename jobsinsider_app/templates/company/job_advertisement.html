@@ -4,8 +4,8 @@
             {% block authenticate_user %} {{ user.first_name|slice:":1" }} {{ user.last_name|slice:":1" }}{%  endblock %}
         {% endif %}
 {% block header_company_nav %}
-    <a href="/company/profile/">Account Settings</a>
-    <a href="/accounts/logout/">Logout</a>
+    <a href="{% url 'company_profile' %}">Account Settings</a>
+    <a href="{% url 'logout' %}">Logout</a>
 {% endblock %}
 {% block body_content %}
     <section class="header_top_menu">
@@ -18,7 +18,7 @@
                     <div class="col-xs-6 title_links">
                         <div class="nav_job">
                             <ul>
-                                <li><a href="">Posted Jobs</a></li>
+                                <li><a href="{% url 'posted_jobs' %}">Posted Jobs</a></li>
                                 <li><a href="">View Candidates</a></li>
                             </ul>
                         </div>
@@ -150,14 +150,9 @@
 {#<script type="text/javascript" src="/assets/js/tiny_mce/tiny_mce.js"></script>#}
 {#<script type="text/javascript" src="{% url "tinymce-js" "createad" %}"></script>#}
     <script src="//tinymce.cachefly.net/4.2/tinymce.min.js"></script>
+{#    <script src="/assets/js/plugins/tinymce/tinymce.min.js"></script>#}
     <script src="/assets/js/plugins/chosen/chosen.jquery.js"></script>
     <script>tinymce.init({selector:'textarea'});</script>
-{#    <script>tinyMCE.init({#}
-{#        mode: "textareas",#}
-{#        theme: "advanced",#}
-{#    })#}
-{#    </script>#}
-
      <script type="text/javascript">
         var config = {
           '.chosen-select'           : {},

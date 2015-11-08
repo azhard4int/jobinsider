@@ -21,7 +21,7 @@
                                 Applied Jobs
                             </h2>
                             <h4>
-                                0
+                                {{ applied_jobs }}
                             </h4>
 
                         </div>
@@ -53,7 +53,7 @@
                                 Favorites Jobs
                             </h2>
                             <h4>
-                                0
+                                {{ favorite_jobs }}
                             </h4>
                         </div>
                     </div>
@@ -68,41 +68,33 @@
         <div class="container">
             <div class="col-md-9 job_view">
                 <h3>
-                    Trending Jobs
+                    Latest Jobs
                 </h3>
                 <div class="clearfix"></div>
-
-
-{#                dummy job 1#}
-
+                {% for job in job_detail %}
                 <div class="listed_job">
                     <div class="col-md-2">
                         <div class="pub_date">
                             <span class=" p0_child">
-                            Jan 22
+                            {{ job.submission_date|date:"D d" }}
                             </span>
                         </div>
                     </div>
                     <div class="col-md-7" class="tjobdesc">
                         <h4>
-                            Job Company
-                            <span class="job_location">Austin</span>
+                            {{ job.company }}
+                            <span class="job_location">{{ job.country }}</span>
+                            <span class="job_location_bg">{{ job.cities }}</span>
                         </h4>
-                        <h1>Graphic Designer in Company Name</h1>
-                        <p>We are looking for talented Job Designer in the city XXX.
-                            We are looking for talented Job Designer in the city XXX</p>
+                        <h1>{{ job.job_title }}</h1>
+                        <p>{{ job.job_description|safe|truncatewords:20 }}</p>
 
                     </div>
                     <div class="col-md-3">
-                        <div class="preview_btn">
-                            <a href="">
-                                Preview Job
-                            </a>
 
-                        </div>
                         <div class="apply_btn">
-                            <a href="">
-                                Apply Job
+                            <a href="{% url 'job_details' job.id %}">
+                                View Job Details
                             </a>
                         </div>
 
@@ -111,76 +103,7 @@
                 </div>
                 <div class="clearfix"></div>
 
-{#                dummy job 2#}
-
-
-                <div class="listed_job" >
-                    <div class="col-md-2">
-                        <div class="pub_date">
-                            <span class=" p0_child">
-                            Jan 22
-                            </span>
-                        </div>
-                    </div>
-                    <div class="col-md-7" class="tjobdesc">
-                        <h4>
-                            Job Company
-                            <span class="job_location">Austin</span>
-                        </h4>
-                        <h1>Graphic Designer in Company Name</h1>
-                        <p>We are looking for talented Job Designer in the city XXX.
-                            We are looking for talented Job Designer in the city XXX</p>
-
-                    </div>
-                    <div class="col-md-3">
-                        <div class="preview_btn">
-                            <a href="">
-                                Preview Job
-                            </a>
-                        </div>
-                        <div class="apply_btn">
-                            <a href="">
-                                Apply Job
-                            </a>
-                        </div>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="clearfix"></div>
-{#                dummy job 3#}
-                <div class="listed_job">
-                    <div class="col-md-2">
-                        <div class="pub_date">
-                            <span class=" p0_child">
-                            Jan 22
-                            </span>
-                        </div>
-                    </div>
-                    <div class="col-md-7" class="tjobdesc">
-                        <h4>
-                            Job Company
-                            <span class="job_location">Austin</span>
-                        </h4>
-                        <h1>Graphic Designer in Company Name</h1>
-                        <p>We are looking for talented Job Designer in the city XXX.
-                            We are looking for talented Job Designer in the city XXX</p>
-
-                    </div>
-                    <div class="col-md-3">
-                        <div class="preview_btn">
-                            <a href="">
-                                Preview Job
-                            </a>
-                        </div>
-                        <div class="apply_btn">
-                            <a href="">
-                                Apply Job
-                            </a>
-
-                        </div>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
+                {% endfor %}
                 <div class="clearfix"></div>
 
 {#                ending job here#}
@@ -210,7 +133,4 @@
             </div>
         </div>
     </section>
-
-
-<a href="/accounts/logout">Log out</a>
 {% endblock %}

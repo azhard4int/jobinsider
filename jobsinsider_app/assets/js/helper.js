@@ -47,4 +47,4 @@ function date_input(input_value)
 $('.datepicker').datepicker({
     format: 'yyyy-mm-dd',
     startDate: '0d'
-})
+});

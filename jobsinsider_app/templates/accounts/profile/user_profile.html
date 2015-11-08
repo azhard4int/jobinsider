@@ -9,15 +9,16 @@
 
     <div class="container user_profile">
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-12 nopad-lr">
                 <div class="col-md-3">
                     <h4>
                         Settings
                     </h4>
                     <ul class="setting_main">
-                        <li><a href="/user/u/" class="active">Personal Information</a></li>
-                        <li><a href="/user/u/changepassword/"  >Change Password</a></li>
-                        <li><a href="/user/u/profile/">Profile Settings</a></li>
+                        <li><a href="{% url 'user_profile' %}" class="active">Personal Information</a></li>
+                        <li><a href="{% url 'user_change_password' %}"  >Change Password</a></li>
+                        <li><a href="{% url 'profile' %}" >Profile Preview</a></li>
+                        <li><a href="{% url 'profile_settings' %}" >Profile Settings</a></li>
                         <li><a href="javascript:;">User CV</a></li>
                     </ul>
                      <h4>
@@ -74,7 +75,4 @@
             </div>
         </div>
     </div>
-
-
-<a href="/accounts/logout">Log out</a>
 {% endblock %}

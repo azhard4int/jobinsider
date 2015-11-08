@@ -54,25 +54,29 @@
                     {% if user_status %}
                         {% if not is_applied %}
                             {% if not is_company %}
-                                <a href="javascript:;" value="{{ job.id }}" class="job_apply_btn">Apply Job</a>
+                                <a href="javascript:;" value="{{ job.id }}" class="job_apply_btn apply_job">Apply Job</a>
                             {% endif %}
                         {% else %}
                             <a href="javascript:;" class="job_apply_btn">Applied</a>
                         {% endif %}
                     {% else %}
-                        <a href="/accounts/register" value="{{ job.id }}" class="job_apply_btn">Sign Up to Apply</a>
+                        <a href="/accounts/register" value="{{ job.id }}" class="job_apply_btn apply_job">Sign Up to Apply</a>
                     {% endif %}
                     <div class="clearfix"></div>
                     {% if user_status %}
                          {% if not is_company %}
-                            <a href="javascript:;" value="{{ job.id }}" class="job_apply_btn add_favorite">Add to Favorite</a>
+                             {% if not is_favorite %}
+                                <a href="javascript:;" value="{{ job.id }}" class="job_apply_btn add_favorite">Add to Favorite</a>
+                             {% else %}
+                                 <a href="javascript:;" value="{{ job.id }}" class="job_apply_btn remove_favorite_job">Remove From Favorite</a>
+                             {% endif %}
                          {% endif %}
                     {% endif %}
                 </div>
             </div>
 
             <div class="col-lg-9 col-md-9">
-
+                dasdas
             </div>
             <div class="col-lg-3 col-md-3">
 

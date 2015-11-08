@@ -4,7 +4,6 @@ import string
 import json
 from datetime import timedelta
 
-
 from django.shortcuts import render, HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login as login_ses, logout
@@ -19,8 +18,6 @@ from django.core.mail import send_mail, EmailMultiAlternatives
 from core import email
 from users import models as usermodels
 
-
-
 BASE_URL = 'http://127.0.0.1:8000'
 STATUS_SUCCESS = 'Your account has been created successfully'
 STATUS_EXIST = 'Account with that email address already exists.'
@@ -34,14 +31,11 @@ def index(request):
 
     """
 
-
 def send_confirmation_email( **kwargs):
 
     sendemail_ = email.EmailFunc('activateaccount', **kwargs)
     sendemail_.generic_email()
     status = {'status': STATUS_SUCCESS}
-
-
 
 def register(request):
     """
@@ -285,7 +279,7 @@ def confirm_email(request):
         if user:    # If the user is already verified.
             if user.activation_status == 1:
 
-                return HttpResponseRedirect('/user/create-basic-profile/?step=0')
+                return HttpResponseRedirect('/user/create-basic-profile/')
 
         if user:
             user.activation_status = 1
@@ -293,9 +287,6 @@ def confirm_email(request):
             main_user = User.objects.get(id=user.user_id)
             main_user.is_active = 1
             main_user.save()
-
-
-
             return HttpResponseRedirect('/dashboard/')
     else:
         return HttpResponseRedirect('/accounts/confirm-email/')
@@ -355,4 +346,6 @@ class ConfirmEmailView(View):
         Confirm Your Email View Up here
     """
     def get(self, request):
+        if request.user.is_active:
+            return HttpResponseRedirect('/user/create-basic-profile/')
         return render(request, 'confirm_email_view.html')

@@ -1,0 +1,190 @@
+{% extends "base_dasboard.html" %}
+    <title>{% block title %}Select Your Profession{% endblock %}</title>
+{% if user.is_authenticated %}
+
+    {% block authenticate_user %}{{ user.first_name|slice:":1"}} {{ user.last_name|slice:":1" }}{%  endblock %}
+
+{% endif %}
+{% block body_content %}
+{% include 'base_dashboard_core.html' %}
+
+    <section class="create_profile">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3>
+                        Create Your Profile
+                    </h3>
+                    <p>
+                      Impress prospective clients and land your first job with a well-done freelancer profile.
+                        It's like a personal resume, business card, and marketing brochure all rolled up in one.
+
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="steps">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                     <div class="progress_line">
+
+                    </div>
+                        <div class="col-md-4">
+                            <div  class="colSteps color_step step1">Your Personal Information</div>
+                        </div>
+                        <div class="col-md-4">
+                            <div  class="colSteps step2">Choose Way Of CV</div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="colSteps step3">Education &amp; Experience</div>
+                        </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+<div class="clearfix"></div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+
+
+            {% if user.is_authenticated %}
+
+
+
+            <form  action="" id="bio_form" enctype="multipart/form-data">
+                {% csrf_token %}
+                <fieldset>
+                    <div class="col-md-3 bio_description">
+                        <img src="{{ MEDIA_URL }}user.svg" alt="User Portrait" class="port">
+                        <p class="porto">
+                            User Portrait
+                        </p>
+                    </div>
+                    <div class="col-md-9">
+                        <p>
+
+                            <b>You need a photo!</b>
+                            <br>
+                            Freelancers with a friendly, professional-looking portrait are hired 5 times
+                            more often than those without a photo.</p>
+                        {{userbio.user_portrait}}
+                    </div>
+                </fieldset>
+
+
+                <fieldset>
+                    <div class="col-md-3 bio_description">
+                        <p>
+                            Professional Title
+                        </p>
+                    </div>
+                    <div class="col-md-9">
+                        {{userbio.user_title}}
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <div class="col-md-3 bio_description">
+                        <p>
+                            Overview
+                        </p>
+                    </div>
+                    <div class="col-md-9">
+                        {{userbio.user_overview}}
+                    </div>
+                </fieldset>
+
+
+                <fieldset>
+                    <div class="col-md-3 bio_description">
+                        <p>
+                            Language Proefficiency
+                        </p>
+                    </div>
+                    <div class="col-md-9">
+                          {{userbio.user_language_pre}}
+                    </div>
+                </fieldset>
+
+
+{#                This is for the user locatino#}
+                <fieldset>
+                    <div class="col-md-3 bio_description">
+                        <p>
+                            User Country
+                        </p>
+                    </div>
+                    <div class="col-md-9">
+                            {{ userloc.user_country }}
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <div class="col-md-3 bio_description">
+                        <p>
+                            User City
+                        </p>
+                    </div>
+                    <div class="col-md-9">
+                            {{ userloc.user_city }}
+                    </div>
+                </fieldset>
+                    <fieldset>
+                    <div class="col-md-3 bio_description">
+                        <p>
+                            User Address
+                        </p>
+                    </div>
+                    <div class="col-md-9">
+                                 {{ userloc.user_address }}
+                    </div>
+                </fieldset>
+
+                    <fieldset>
+                    <div class="col-md-3 bio_description">
+                        <p>
+                            User Zipcode
+                        </p>
+                    </div>
+                    <div class="col-md-9">
+                            {{ userloc.user_zipcode }}
+                    </div>
+                </fieldset>
+
+                    <fieldset>
+                    <div class="col-md-3 bio_description">
+                        <p>
+                            Phone No
+                        </p>
+                    </div>
+                    <div class="col-md-9">
+                             {{ userloc.user_phone_no }}
+
+                    </div>
+                </fieldset>
+
+                <input type="submit" id="submit-bio" value="Enter Information"/>
+            </form>
+                
+
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+
+
+<a href="/accounts/logout">Log out</a>
+{% endblock %}
+
+{% block custom_scripts %}
+
+
+{% endblock %}

@@ -144,17 +144,35 @@
     .job_status{
       padding-top:0px;
       width: 30%;float: left;
-      span{
-            padding: 7px 21px;
-            text-align: center;
-            background: #E4BE31;
-            border-radius: 4px;
-            float: right;
-            margin-right:10px;
-      }
+
     }
   }
 
+}
+.is_pending{
+  padding: 7px 21px;
+  text-align: center;
+  background: #E4BE31;
+  border-radius: 4px;
+  float: right;
+  margin-right:10px;
+}
+.is_approved{
+  padding: 7px 21px;
+  text-align: center;
+  background: #6fe459;
+  border-radius: 4px;
+  float: right;
+  margin-right:10px;
+}
+.is_rejected{
+  padding: 7px 21px;
+  text-align: center;
+  background: #cc2e2a;
+  color:#fff;
+  border-radius: 4px;
+  float: right;
+  margin-right:10px;
 }
 
 .view_message{
@@ -286,4 +304,43 @@
 }
 .add_favorite{
   background: #97b0cc !important;
+}
+
+.remove_favorite_job{
+  margin-top: 10px;
+  background: #cc2e2a !important;
+}
+.remove_favorite_job:hover{
+    background: #ba1f26 !important;
+}
+.posted_job_status{
+  text-align:center;
+  margin:0 auto;
+  display: block;
+  margin-left:50px;
+  float:left !important;
+}
+.favorite_empty, .posted_jobs{
+  font-size:20px;
+}
+#job_advertisement{
+  margin:20px 0;
+}
+.jobs_search{
+  background:#fff;
+}
+.jobsearch_left_filter{
+  padding:0 !important;
+  border-right:1px solid #ccc;
+}
+.jobadvert_edit_right{
+
+  background:#fff;
+  h4, h3{
+    padding:15px;
+     margin:0;
+  }
+  p{
+    padding:0 15px;
+  }
 }

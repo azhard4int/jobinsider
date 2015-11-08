@@ -479,8 +479,6 @@ $('#edit_skill_form').on('submit', function(event)
 
 
 });
-
-
     //User dashboard javascript
 
     $('a.c0_cat_main').on('click', function()
@@ -516,8 +514,6 @@ $('#edit_skill_form').on('submit', function(event)
         });
         return false;
     });
-
-
 // Passing the skills value to user skills view
 
 $('#skills_form').on('submit', function(event)
@@ -594,30 +590,40 @@ $('a.cv_option').on('click', function(event){
 
 //Basic profile event triggered!
 
-$('#bio_form').on('submit', function(event)
+$('.user_bio_form').on('click', function(event)
 {
     event.preventDefault();
-    var data = new FormData($('#bio_form').get(0));
-    console.log(data);
-    $.ajax({
-        url: '/user/profile_bio/',
-        type: 'POST',
-        data: data,
-        cache: false,
-        processData: false,
-        contentType: false,
-        success:function(response)
+    if($('#id_user_portrait').val()=='')
+    {
+        alert('Please upload your profile picture.');
+    }
+     if($('#id_user_zipcode, #id_user_phone_no').val()=='')
         {
-            response = JSON.parse(response);
-            if(response.status==true)
-            {
-                window.location.href="?step=2"  // CV selection region
-            }
+            $('#id_user_zipcode, #id_user_phone_no').focus();
+            $('#id_user_zipcode, #id_user_phone_no').css('border-color', 'red');
         }
-    });
+    else{
+
+         var data = new FormData($('#bio_form').get(0));
+         console.log(data);
+         $.ajax({
+            url: '/user/profile_bio/',
+            type: 'POST',
+            data: data,
+            cache: false,
+            processData: false,
+            contentType: false,
+            success:function(response)
+            {
+                response = JSON.parse(response);
+                if(response.status==true)
+                {
+                    window.location.href="/user/profile_cv"  // CV selection region
+                }
+            }
+         });
+     }
     return false;
-
-
 });
 
 
@@ -666,7 +672,7 @@ $('#user_cv').on('submit', function(event)
             response = JSON.parse(response);
             if(response.status==true)
             {
-                window.location.href="?step=3"  // CV selection region
+                window.location.href="/user/add_employment/";  // CV selection region
             }
 
         }
@@ -738,38 +744,61 @@ $('.add_employment').on('click', function(event) {
 });
 
 
-
-$('#add_bio_employment').on('submit', function()
+//education update for the page.
+$('.employment_info').on('click', function(e)
 {
     //var getCount = $('.company_count').attr('value');
-    event.preventDefault();
-    formdata = new FormData('#add_bio_employment');
-    $.ajax(
+    e.preventDefault();
+    if($("#id_company_name, #id_company_location, #id_company_worktitle, #id_company_role ").val()=='')
     {
-        url: '/user/add_employment/',
-        type: 'POST',
-        data: $('#add_bio_employment').serialize(),
-        success:function(response)
+        $('#id_company_name, #id_company_location, #id_company_worktitle, #id_company_role ').focus();
+        $('#id_company_name, #id_company_location, #id_company_worktitle, #id_company_role').css('border-color', 'red');
+    }
+    else
+    {
+        formdata = new FormData('#add_bio_employment');
+        $.ajax(
         {
-            resp = JSON.parse(response);
-            if (resp.status==true){
-                window.location.href="?step=4"
-            }
-            else if(resp.status==false)
+            url: '/user/add_employment/',
+            type: 'POST',
+            data: $('#add_bio_employment').serialize(),
+            success:function(response)
             {
-                window.location.href="?step=3"
+                $('.list_education').show('slow');
+                $('.company_bio_appended').append(response);
+            },
+            error: function(response){
             }
-            //getCount++;
-            //$('.company_count').attr('value', getCount);
-            //$('#user_employemnt').append(response)
-            //console.log(response);
-        },
-        error: function(resposne){
-        }
 
+        });
+    }
+    return false;
+});
+
+$(document).on('click', '.user_company_delete', function(e)
+{
+    e.preventDefault();
+    var id = $(this).attr('value');
+    $('.user_employment_'+id).remove();
+    var csrfmdi = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+    $.ajax({
+        type:'POST',
+        url:'/user/remove_employment/' + id + '/',
+        data:{
+            'csrfmiddlewaretoken': csrfmdi
+        },
+        success:function(m)
+        {
+            resp = JSON.parse(m);
+            if(resp.status==true)
+            {
+                console.log('Removed');
+            }
+        }
     });
     return false;
 });
+
 
 
 //user cv builder education
@@ -794,27 +823,117 @@ $('.add_edu').on('click', function(event)
 });
 
 
-$('#submit-edu').on('click', function(event) {
+$('.education_info').on('click', function(event) {
 
     event.preventDefault();
-    $.ajax({
-        type:'post',
-        url:'/user/education/',
-        data:$('#add_edu_form').serialize(),
-        success:function()
-        {
+    if($("#id_user_institute, #id_user_degree").val()=='')
+    {
+        $('#id_user_institute, #id_user_degree').focus();
+        $('#id_user_institute, #id_user_degree').css('border-color', 'red');
+    }
+    else {
+        $.ajax({
+            type: 'post',
+            url: '/user/education/',
+            data: $('#add_edu_form').serialize(),
+            success: function (m) {
+                $('.user_education_append').append(m);
+            },
+            error: function () {
 
-        },
-        error:function()
-        {
-
-        }
-    });
-
-
+            }
+        });
+    }
     return false;
 });
 
+
+
+$(document).on('click', '.user_education_delete', function(e)
+{
+    e.preventDefault();
+    var id = $(this).attr('value');
+    $('.user_education_'+id).remove();
+    var csrfmdi = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+    $.ajax({
+        type:'POST',
+        url:'/user/remove_education/' + id + '/',
+        data:{
+            'csrfmiddlewaretoken': csrfmdi
+        },
+        success:function(m)
+        {
+            resp = JSON.parse(m);
+            if(resp.status==true)
+            {
+                console.log('Removed');
+            }
+        }
+    });
+    return false;
+});
+
+//cv builder continue
+
+$('.cv_builder_status').on('click', function(e)
+{
+    var csrfmdi = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+    $.ajax(
+        {
+            type:'POST',
+            url:'/user/is_cv_builder/',
+            data:{
+                'csrfmiddlewaretoken':csrfmdi
+            },
+            success:function(m)
+            {
+                resp  = JSON.parse(m);
+                if(resp.status=true)
+                {
+                    window.location.href = '/user/add_employment/';
+                }
+
+            },
+            error:function(m){
+
+            }
+
+
+        }
+    )
+    return false;
+});
+
+//complete profile
+
+$('.complete_profile').on('click', function(e)
+{
+    var csrfmdi = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+    $.ajax(
+        {
+            type:'POST',
+            url:'/user/complete_profile/',
+            data:{
+                'csrfmiddlewaretoken':csrfmdi
+            },
+            success:function(m)
+            {
+                resp  = JSON.parse(m);
+                if(resp.status=true)
+                {
+                    window.location.href = '/user/dashboard/';
+                }
+
+            },
+            error:function(m){
+
+            }
+
+
+        }
+    )
+    return false;
+});
 
 //user profile update
 
@@ -888,6 +1007,11 @@ $('.change_password_user').on('submit', function(e) {
 
 $('.company_detail').on('click', function(e){
     e.preventDefault();
+    if($('#id_company_name, #id_your_role, #id_company_url, #id_company_industry').val()=='')
+        {
+            $('#id_company_name, #id_your_role, #id_company_url, #id_company_industry').focus();
+            $('#id_company_name, #id_your_role, #id_company_url, #id_company_industry').css('border-color', 'red');
+        }
     $.ajax(
         {
             type:'post',
@@ -1134,7 +1258,7 @@ $('.job_advertisement_edit').on('click', function(event)
 
 //applying candidates
 
-$('.job_apply_btn').on('click', function(event)
+$('.apply_job').on('click', function(event)
 {
     event.preventDefault();
     var csrfmdi = document.getElementsByName('csrfmiddlewaretoken')[0].value;
@@ -1156,5 +1280,58 @@ $('.job_apply_btn').on('click', function(event)
             }
         }
     )
+    return false;
+});
+
+
+$('.add_favorite').on('click', function(event)
+{
+    event.preventDefault();
+    var csrfmdi = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+    var id_value = $('.add_favorite').attr('value');
+    $.ajax(
+        {
+            url:'/jobs/add_favorite_job/',
+            type:'POST',
+            data:{
+                'csrfmiddlewaretoken': csrfmdi,
+                'job_id': id_value
+            },
+            success:function(data)
+            {
+
+            },
+            error:function(data)
+            {
+
+            }
+        }
+    )
+    return false;
+});
+
+$('.remove_favorite_job').on('click', function(event)
+{
+    event.preventDefault();
+    var csrfmdi = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+    var id_value = $('.remove_favorite_job').attr('value');
+    $.ajax(
+        {
+            url:'/jobs/remove_favorite_job/',
+            type:'POST',
+            data:{
+                'csrfmiddlewaretoken': csrfmdi,
+                'job_id': id_value
+            },
+            success:function(data)
+            {
+
+            },
+            error:function(data)
+            {
+
+            }
+        }
+    );
     return false;
 });

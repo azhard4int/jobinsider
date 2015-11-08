@@ -1,0 +1,20 @@
+<div class="user_education_{{ user.id }}">
+                                <div class="col-md-4">
+                                    <b>{{ user.user_institute }}</b>
+                                </div>
+                                <div class="col-md-4">
+                                    {{ user.user_degree }}
+                                </div>
+                                <div class="col-md-4">
+{#                                    <span>#}
+{#                                        <a value="{{ user.id }}" href="javascript:;" class="user_company_edit">#}
+{#                                            Edit#}
+{#                                        </a>#}
+{#                                    </span>#}
+                                    <span>
+                                        <a value="{{ user.id }}" href="javascript:;" class="user_education_delete">
+                                            Delete
+                                        </a>
+                                    </span>
+                                </div>
+                            </div>

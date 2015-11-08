@@ -5,8 +5,9 @@
   -ms-transition: all ease-in-out 0.2s;
 }
 .user_profile {
-  padding: 25px 0;
+  margin: 25px 0;
   list-style: none;
+  background: #fff !important;
 }
 .user_profile h4 {
   font-family: 'proxima_nova_regular', arial, sans-serif !important;
@@ -104,4 +105,12 @@
 }
 .list_companies_data {
   background: #fff;
+}
+.user_profile_details {
+  background: #fefefe;
+  padding-right: 0px !important;
+  border: 1px solid #ccc;
+}
+.nopad-lr {
+  padding: 0 !important;
 }

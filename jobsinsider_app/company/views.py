@@ -21,8 +21,6 @@ import simplejson as json
 def index(request):
     return HttpResponseRedirect('/company/')
 
-
-
 class Company_dashboard(View):
     @method_decorator(login_required)
     @method_decorator(is_company)
@@ -33,9 +31,17 @@ class Company_dashboard(View):
         else:
             status = 1
         company_profile = CompanyProfileForm()
+        posted_jobs = Advertisement.admanager.filter(company_user_id=request.user.id).count()
+        total_applications = AdvertisementApplied.objects.filter(
+            advertisement=Advertisement.admanager.filter(company_user_id=request.user.id),
+        ).count()
+        jobs_details = Advertisement.admanager.posted(request.user.id).order_by('-submission_date')[:5]
         return render(request, 'company_dashboard.html', {
             'body_status': status,
-            'profile_form': company_profile
+            'profile_form': company_profile,
+            'posted_jobs': posted_jobs,
+            'job_details': jobs_details,
+            'total_applications': total_applications
         })
     def post(self, request):
         CompanyProfile(
@@ -83,7 +89,7 @@ class CompanyPassword(View):
             if _check:
                 user = _check[0]
                 if user.check_password(request.POST['password']):
-                    if request.POST['new_password']==request.POST['confirm_new_password']:
+                    if request.POST['new_password'] == request.POST['confirm_new_password']:
                         user.set_password(request.POST['new_password'])
                         user.save()
                         login_session(request, user)
@@ -95,7 +101,6 @@ class CompanyPassword(View):
                     return HttpResponse(json.dumps({'status':-2}))
             else:
                 return HttpResponse(json.dumps({'status':-3}))
-
 
 class CompanyProfileView(View):
     @method_decorator(login_required)
@@ -120,8 +125,6 @@ class CompanyProfileView(View):
         :return:
         """
 
-
-
 class CompanyJobAd(View):
     """
     Adding user company advertisement
@@ -135,8 +138,11 @@ class CompanyJobAd(View):
 
     def post(self, request):
         parameters = parse_qs(request.POST['form_val'])
-        resp={}
+        resp = {}
         try:
+            get_company_name = CompanyProfile.objects.filter(
+                user_id=request.user.id
+            )[0].company_name
             Advertisement(
                 job_title=parameters['job_title'][0],
                 job_position=parameters['job_position'][0],
@@ -150,7 +156,8 @@ class CompanyJobAd(View):
                 salary_to=parameters['salary_to'][0],
                 degree_level_id=parameters['education'][0],
                 submission_date=datetime.now(),
-                company_user_id=request.user.id
+                company_user_id=request.user.id,
+                company = get_company_name
             ).save()
 
             resp['status']= True    # when the query succeed.
@@ -161,7 +168,6 @@ class CompanyJobAd(View):
             resp['status']= False   # In case if query fails
 
         return HttpResponse(json.dumps(resp))
-
 
 class CompanyAdEdit(View):
     def get(self, request, job_id):
@@ -196,7 +202,11 @@ class CompanyAdEdit(View):
             print e
             pass
 
-        return render(request, 'job_advertisement_edit.html', {'job_form': jobad, 'jobid': job_id})
+        return render(request, 'job_advertisement_edit.html', {
+            'job_form': jobad,
+            'jobid': job_id,
+            'job_approval_status': data[0].job_approval_status
+        })
     def post(self, request, job_id):
         parameters = parse_qs(request.POST['form_val'])
         resp = {}
@@ -217,8 +227,6 @@ class CompanyAdEdit(View):
             )
 
         resp['status']= True    # when the query succeed.
-
-
 
 #Company settings for the job advert
 class CompanyAdSettings(View):
@@ -271,10 +279,10 @@ class Posted_jobs(View):
     List all the posted jobs
     """
     @method_decorator(login_required)
+    @method_decorator(is_company)
     def get(self, request):
         list = Advertisement.admanager.posted(request.user.id)
         return render(request, 'posted_jobs.html', {'posted_jobs': list})
-
 
 def delete_job(request, job_id):
     """
@@ -290,9 +298,6 @@ def delete_job(request, job_id):
             resp['status']= False
         return HttpResponse(json.dumps(resp))
 
-
-
-
 class CompanyAdd(View):
     @method_decorator(login_required)
     @method_decorator(is_company)
@@ -302,7 +307,6 @@ class CompanyAdd(View):
         :param request:
         :return:
         """
-
 
 class Messages(View):
     @method_decorator(login_required)

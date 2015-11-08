@@ -1,9 +1,5 @@
 {#            <div id="jobs" class="col-md-9 job_view jobsearch_right_filter">#}
-
                         <div class="clearfix"></div>
-
-
-
                 {% for job_detail in data %}
 
 
@@ -18,7 +14,7 @@
                             </div>
                             <div class="col-md-7">
                                 <h4>
-                                    Job Company
+                                    {{ job_detail.company }}
                                     <span class="job_location">{{ job_detail.country }}</span>
                                     <span class="job_location_bg">{{ job_detail.cities }}</span>
                                 </h4>

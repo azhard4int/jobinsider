@@ -1,5 +1,4 @@
 {% load staticfiles %}
-{% load bootstrap3 %}
 <!DOCTYPE html>
 <html>
 <head lang="en">
@@ -12,7 +11,8 @@
         <link rel="stylesheet"  href="{% static "/assets/css/company.css" %}"/>
         <link rel="stylesheet"  href="{% static "/assets/css/chosen/chosen.css" %}"/>
         <!--<link rel="stylesheet" href="{% static "/assets/plugins/dropzone/dropzone.css" %}"/>-->
-        {% bootstrap_css %}
+        <link rel="stylesheet"  href="{% static "/assets/css/chosen/chosen.css" %}"/>
+            <link rel="stylesheet"  href="{% static "/assets/css/plugins/bootstrap/bootstrap.min.css" %}"/>
     {% endblock %}
 </head>
 {% block body_tag %}
@@ -29,40 +29,20 @@
                             <a href="/accounts/login">JobInsider</a>
                         </div>
                     </div>
-{#                    <div class="col-md-10 right_sec">#}
-
-{#                        <div class="col-md-9">#}
-{#                            <nav class="dashboard_s0_nav">#}
-{#                                <ul>#}
-{#                                    {% if user.is_authenticated %}#}
-{#                                    <li>#}
-{#                                        <a href="">Create Advertisement</a>#}
-{#                                    </li>#}
-{#                                    {% else %}#}
-{##}
-{#                                        <li>#}
-{#                                          <a href="{% url 'register_account' %}">Search Jobs</a>#}
-{#                                       </li>#}
-{#                                        <li>#}
-{#                                         <a href="{% url 'register_account' %}">View Profiles</a>#}
-{#                                        </li>#}
-{#                                    {% endif %}#}
-{#                                </ul>#}
-{#                            </nav>#}
-{#                        </div>#}
-
                         <div class="nav_bar_main">
                             <ul>
                                 {% if user.is_authenticated %}
                                     <li>
                                         <a href="/jobs/index">Jobs</a>
                                     </li>
-                                    <li>
-                                        <a href="">Favorite Jobs</a>
-                                    </li>
-                                    <li>
-{#                                        <a href="">Jobs</a>#}
-                                    </li>
+                                    {% if not body_status %}
+                                        <li>
+                                            <a href="{% url 'favorite' %}">Favorite Jobs</a>
+                                        </li>
+                                        <li>
+                                            <a href="{% url 'applied' %}">Applied </a>
+                                        </li>
+                                    {% endif %}
                                 {% else %}
                                     <li>
                                         <a href="{% url 'register_account' %}">Search Jobs</a>
@@ -83,7 +63,7 @@
                                             <a href=""><i class="fa fa-bell-o fa-lg"></i></a>
                                         </li>
                                         <li >
-                                            <a class="display_user_settings" href=""><span class="user_initials">{% block authenticate_user %}Welcome  Username {%  endblock %}</span></a>
+                                            <a class="display_user_settings"  href=""><span class="user_initials">{% block authenticate_user %}Welcome  Username {%  endblock %}</span></a>
                                             <div class="user_profile_settings">
                                                 <div class="links_block">
                                                     {% block header_company_nav %}
@@ -93,26 +73,10 @@
                                                 </div>
                                             </div>
                                         </li>
-{#                                        <div class="dashboard_s0_nav_child">#}
-{#                                            <ul>#}
-{#                                                <li><a href="">Settings</a></li>#}
-{#                                                <li><a href="">Logout</a></li>#}
-{#                                            </ul>#}
-{#                                        </div>#}
-
                                     </ul>
-
-
                                 </div>
-
-
                         </div>
-
                     </div>
-
-
-            {#  Menu dropdown   #}
-
         </div>
 
         <div class="clearfix"></div>
@@ -126,7 +90,7 @@
 {% block body_content %} {% endblock %}
 {% block scripts_block %}
     <script src='{% static "/assets/js/jquery-2.1.4.min.js" %}'></script>
-    {% bootstrap_javascript %}
+    <script src='{% static "/assets/js/plugins/bootstrap/bootstrap.min.js" %}'></script>
     <script src='{% static "/assets/js/plugins/bootstrap-datepicker.js" %}'></script>
     <script src='{% static "/assets/js/main.js" %}'></script>
     <script src='{% static "/assets/js/helper.js" %}'></script>

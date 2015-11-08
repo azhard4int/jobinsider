@@ -28,6 +28,7 @@ class SearchView():
         ).prefetch_related(
             'cities'
         ).filter(job_approval_status=1).order_by('-submission_date')
+
         return data
 
     def toCheck(self, object_name, object):
@@ -110,6 +111,14 @@ class SearchView():
         except IndexError:
             return False
 
+    def is_already_favorite(self, user_id,job_id):
+        try:
+            data = company_models.AdvertisementFavorite.objects.filter(user_id=user_id, advertisement_id=job_id)[0]
+            if data:
+                return True
+        except IndexError:
+            return False
+
     def is_user_job_seeker(self, id):
         data = accounts_models.UserProfile.objects.filter(user_id=id)[0]
         return data.user_status
@@ -124,3 +133,57 @@ class SearchView():
             jobs_advertisement = paginator.page(paginator.num_pages)
 
         return jobs_advertisement
+
+    def get_favorite_jobs(self, user_id):
+        data = company_models.AdvertisementFavorite.objects.filter(user_id=user_id)
+        advertisement_id = []
+        if data:
+            for ab in data:
+                advertisement_id.append(ab.advertisement_id)
+        whole_data = company_models.Advertisement.admanager.prefetch_related(
+            'category'
+        ).prefetch_related(
+            'country'
+        ).prefetch_related(
+            'employment'
+        ).prefetch_related(
+            'experience'
+        ).prefetch_related(
+            'degree_level'
+        ).prefetch_related(
+            'company_user'
+        ).prefetch_related(
+            'cities'
+        ).filter(
+            job_approval_status=1,
+            id__in=advertisement_id
+        ).order_by('-submission_date')
+        print whole_data
+        return whole_data
+
+    def get_applied_jobs(self, user_id):
+        data = company_models.AdvertisementApplied.objects.filter(user_id=user_id)
+        advertisement_id = []
+        if data:
+            for ab in data:
+                advertisement_id.append(ab.advertisement_id)
+        whole_data = company_models.Advertisement.admanager.prefetch_related(
+            'category'
+        ).prefetch_related(
+            'country'
+        ).prefetch_related(
+            'employment'
+        ).prefetch_related(
+            'experience'
+        ).prefetch_related(
+            'degree_level'
+        ).prefetch_related(
+            'company_user'
+        ).prefetch_related(
+            'cities'
+        ).filter(
+            job_approval_status=1,
+            id__in=advertisement_id
+        ).order_by('-submission_date')
+        print whole_data
+        return whole_data

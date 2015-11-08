@@ -1,6 +1,8 @@
 import simplejson as json
 
 from django.shortcuts import render
+from django.template.loader import render_to_string
+from django.db import IntegrityError
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.core import serializers
 from django import views
@@ -14,6 +16,7 @@ from django.core import serializers
 
 from accounts import models as accountsmodels
 from accounts import forms as accountsform
+from company import models as company_models
 from core.decoraters import *
 from core import models as core_models
 
@@ -29,82 +32,63 @@ def index(request):
         """
         Adding the check if its company user then show different dashboard
         """
-
-
         if UserSkills.objects.exist_not(request.user.id):
             HttpResponseRedirect('/user')   # later on have to change the request
-
         if is_company_true(request.user.id):
             return HttpResponseRedirect('/company/index')
+        user_profile = UserBioInfo()
+        user_location = UserLocationForm()
+        detect_user = UserBio.objects.filter(user_id=request.user.id)
+        if detect_user:
+            return HttpResponseRedirect('/user/profile_cv')
+        return render(
+            request, 'user_biography.html',
+            {
+                'userbio': user_profile,
+                'userloc': user_location
+            }
+        )
 
-
-        if step_value == '0':
-            detect_user = UserSkills.objects.filter(user_id=request.user.id)
-            if detect_user:
-                return HttpResponseRedirect('/user/create-basic-profile/?step=1')
-            cats = list_categories.list_categories()
-            return render(request, 'user_selection.html', {'categories':cats})
-
-        if step_value == '1':
-            userProfile = UserBioInfo()
-            userLocation = UserLocationForm()
-            detect_user = UserBio.objects.filter(user_id=request.user.id)
-            if detect_user:
-                return HttpResponseRedirect('/user/create-basic-profile/?step=2')
-            return render(request, 'user_biography.html', {'userbio': userProfile, 'userloc': userLocation})
-
-        if step_value == '2':
-
-            user_status = accountsmodels.UserProfile.objects.filter(
-                    user_id=request.user.id
-                )[0]
-            print 'dsadas%s' %user_status
-
-
-            user_cv_data = cv_object_ret(request.user.id)
-
-            if user_cv_data:    # user CV table status should be 0 and user profile status should be 0
-                if user_cv_data.user_cv_builder == 0 or user_status.user_cv_status == 1:
-                        return HttpResponseRedirect('/user/create-basic-profile/?step=3')
-            cvform = UserCVForm()
-            return render(request, 'cv_selection_page.html', {'user_cv_form': cvform})
-
-        if step_value == '3':
-            user_cv = UserCV.objects.filter(user_id=request.user.id)[0]
-
-            if user_cv.user_cv_emp_status == 0:
-
-                cvemploy = InitialEmploymentForm()
-                return render(request, 'user_employment.html', {'cv_employ': cvemploy})
-
-            if user_cv.user_cv_emp_status == 1 and user_cv.user_cv_builder==0:
-                return HttpResponseRedirect('/user/dashboard/')
-
-
-        if step_value == '4':
-            user_cv_data = cv_object_ret(request.user.id)
-            if user_cv_data.user_cv_builder == 0:
-                return HttpResponseRedirect('/user/dashboard/')
-            elif user_cv_data.user_cv_builder==1:
-                """
-                CV builder further detials include
-                user_graduation status along with other info.
-                """
-                return HttpResponseRedirect('/user/education/')
+        # if step_value == '4':
+        #     user_cv_data = cv_object_ret(request.user.id)
+        #     if user_cv_data.user_cv_builder == 0:
+        #         return HttpResponseRedirect('/user/dashboard/')
+        #     elif user_cv_data.user_cv_builder==1:
+        #         """
+        #         CV builder further detials include
+        #         user_graduation status along with other info.
+        #         """
+        #         return HttpResponseRedirect('/user/education/')
     else:
         HttpResponseRedirect('/accounts/signup/confirm-email')
-
 
 
 class UserDashboard(View):
 
     @method_decorator(login_required)
     def get(self, request):
-        return render(request, 'profile_dashboard.html')
-
-
+        jobs_details = company_models.Advertisement.admanager.filter(
+            job_approval_status=1
+        ).order_by('-submission_date')[:5]
+        applied_jobs = company_models.AdvertisementApplied.objects.filter(
+            user_id=request.user.id
+        ).count()
+        # shortlisted_jobs =
+        favorite_jobs = company_models.AdvertisementFavorite.objects.filter(
+            user_id=request.user.id
+        ).count()
+        return render(
+            request,
+            'profile_dashboard.html',
+            {
+                'job_detail': jobs_details,
+                'applied_jobs': applied_jobs,
+                'favorite_jobs': favorite_jobs
+            }
+        )
 
 # @login_required()
+
 def cv_object_ret(user_id):
     try:
         user_cv_data = UserCV.objects.filter(user_id=user_id)[0]
@@ -128,6 +112,7 @@ def skills_list(request):
         return HttpResponse(json_data)
     else:
         HttpResponseRedirect('/user/')
+
 
 @login_required()
 def skills(request):
@@ -153,6 +138,7 @@ def skills(request):
                 return HttpResponse(json.dumps({'status': True}))
         except:
             return HttpResponse(json.dumps({'status': False}))
+
 
 @login_required()
 def cities(request):
@@ -186,28 +172,32 @@ class UserInfo(View):
             print User.objects.filter(id=request.user.id)
             print request.POST
             if form.is_valid():
+
                 print User.objects.filter(id=request.user.id)
                 # UserBio(commit=False)
-                user_bio = UserBio()
-                user_bio.user = User.objects.filter(id=request.user.id)[0]
-                user_bio.user_bio_status = 1
-                user_bio.user_portrait = request.FILES['user_portrait']
-                user_bio.user_title = request.POST['user_title']
-                user_bio.user_overview = request.POST['user_overview']
-                user_bio.user_language_pre = request.POST['user_language_pre']
-                ret = user_bio.save()
-                # storing user location details
-                user_location = UserLocation(
-                    user_address = request.POST['user_address'],
-                    user_city = request.POST['user_city'],
-                    user_country = request.POST['user_country'],
-                    user_zipcode = request.POST['user_zipcode'],
-                    user_phone_no = request.POST['user_phone_no'],
-                    user_location_status = 1,
-                    user = User.objects.filter(id=request.user.id)[0]
+                try:
+                    user_bio = UserBio()
+                    user_bio.user = User.objects.filter(id=request.user.id)[0]
+                    user_bio.user_bio_status = 1
+                    user_bio.user_portrait = request.FILES['user_portrait']
+                    user_bio.user_title = request.POST['user_title']
+                    user_bio.user_overview = request.POST['user_overview']
+                    user_bio.user_language_pre = request.POST['user_language_pre']
+                    ret = user_bio.save()
+                    # storing user location details
+                    user_location = UserLocation(
+                        user_address = request.POST['user_address'],
+                        user_city = request.POST['user_city'],
+                        user_country = request.POST['user_country'],
+                        user_zipcode = request.POST['user_zipcode'],
+                        user_phone_no = request.POST['user_phone_no'],
+                        user_location_status = 1,
+                        user = User.objects.filter(id=request.user.id)[0]
 
-                )
-                user_location.save()
+                    )
+                    user_location.save()
+                except IntegrityError:
+                    return HttpResponse(json.dumps({'status': True}))
 
                 return HttpResponse(json.dumps({'status': True}))
 
@@ -221,6 +211,16 @@ class UserCVUpload(View):
     def get(self, request, *args, **kwargs):
         """
         """
+        user_status = accountsmodels.UserProfile.objects.filter(
+                user_id=request.user.id
+        )[0]
+        user_cv_data = cv_object_ret(request.user.id)
+        if user_cv_data:    # user CV table status should be 0 and user profile status should be 0
+            if user_cv_data.user_cv_builder == 0 or user_status.user_cv_status == 1:
+                return HttpResponseRedirect('/user/add_employment/')
+        cvform = UserCVForm()
+        return render(request, 'cv_selection_page.html', {'user_cv_form': cvform})
+
     @method_decorator(login_required)
     def post(self, request, *args, **kwargs):
         """
@@ -242,8 +242,27 @@ class UserCVUpload(View):
                 )
                 return HttpResponse(json.dumps({'status': True}))
 
+@login_required()
+def is_cv_builder(request):
+    if request.method == 'POST':
+        UserCV(
+            user_cv_title= 0,
+            user_cv_file= 0,
+            user_id=request.user.id,
+            user_cv_builder_status=1,
+            user_cv_builder=1
+        ).save()
 
-
+        accountsmodels.UserProfile.objects.filter(
+                    user_id=request.user.id
+                ).update(
+            user_cv_status=1
+        )
+        return HttpResponse(
+            json.dumps(
+                {'status': True}
+            )
+        )
 
 def AddCVEmployment(request):
     """
@@ -266,43 +285,73 @@ def AddCVEmployment(request):
 
 class AddUserEmployment(View):
     """
-    Updating user employment
+     User Work history page//cv builder.
     """
     @method_decorator(login_required)
     def get(self, request):
-        """
-        """
+
+        user_cv = UserCV.objects.filter(user_id=request.user.id)[0]
+        is_exist = False
+        is_exist_education = False
+        if UserEmployment.objects.filter(user_id=request.user.id).count() >0:
+            is_exist= True
+        if UserEducation.objects.filter(user_id=request.user.id).count() >0:
+            is_exist_education= True
+        employment_history = UserEmployment.objects.filter(user_id=request.user.id)
+        education_history = UserEducation.objects.filter(user_id=request.user.id)
+        if user_cv.user_cv_emp_status == 0:
+            cvemploy = InitialEmploymentForm()
+            eduform = EducationForm()
+            return render(
+                request,
+                'user_employment.html',
+                {
+                    'cv_employ': cvemploy,
+                    'is_exist': is_exist,
+                    'is_exist_education': is_exist_education,
+                    'employment_user': employment_history,
+                    'education_user': education_history,
+                    'edu': eduform,
+                }
+            )
+        if user_cv.user_cv_emp_status == 1 and user_cv.user_cv_builder==0:
+                return HttpResponseRedirect('/user/dashboard/')
+
     @method_decorator(login_required)
     def post(self, request, *args, **kwargs):
-        """
-        """
-        count_check = len(request.POST.getlist('company_name'))
-
         try:
-            for ab in range(0, count_check):
-                c_worktitle = request.POST.getlist('company_worktitle')[ab]
-                c_name = request.POST.getlist('company_name')[ab]
-                c_location = request.POST.getlist('company_location')[ab]
-                c_role = request.POST.getlist('company_role')[ab]
-                c_from = request.POST.getlist('company_from')[ab]
-                c_to = request.POST.getlist('company_to')[ab]
-                # c_description = request.POST.getlist('company_description')[ab]
-                user = UserEmployment(
-                    user_id=request.user.id,
-                    company_name=c_name,
-                    company_location=c_location,
-                    company_worktitle=c_worktitle,
-                    company_role=c_role,
-                    company_from =c_from,
-                    company_to =c_to,
+            c_worktitle = request.POST.getlist('company_worktitle')[0]
+            c_name = request.POST.getlist('company_name')[0]
+            c_location = request.POST.getlist('company_location')[0]
+            c_role = request.POST.getlist('company_role')[0]
+            c_from = request.POST.getlist('company_from')[0]
+            c_to = request.POST.getlist('company_to')[0]
+            # c_description = request.POST.getlist('company_description')[ab]
+            user = UserEmployment(
+                user_id=request.user.id,
+                company_name=c_name,
+                company_location=c_location,
+                company_worktitle=c_worktitle,
+                company_role=c_role,
+                company_from =c_from,
+                company_to =c_to,
                     # company_description =,
-                )
-                user.save()
-                UserCV.objects.filter(user_id=request.user.id).update(
-                    user_cv_emp_status=1
-                )
+                ).save()
 
-        except:
+            user_data = UserEmployment.objects.latest('id')
+            data = render_to_string(
+                'employment.html',
+                {
+                    'user': user_data
+                }
+            )
+            return HttpResponse(data)
+                # UserCV.objects.filter(user_id=request.user.id).update(
+                #     user_cv_emp_status=1
+                # )
+
+        except Exception as e:
+            print e
             return HttpResponse(json.dumps({'status': False}))
 
         return HttpResponse(json.dumps({'status': True}))
@@ -329,31 +378,33 @@ class EducationUpdate(View):
             return render(request, 'profile_education.html', {'edu': EduForm})
 
     def post(self, request, *args, **kwargs):
-        """
-        """
-        if request.method=='POST':
-            count_check = len(request.POST.getlist('user_institute'))
-            print count_check
-            print request.POST.getlist('user_institute')
+        if request.method == 'POST':
             try:
-                for ab in range(0, count_check):
-                    user_institute = request.POST.getlist('user_institute')[ab]
-                    user_degree = request.POST.getlist('user_degree')[ab]
-                    degree_from = request.POST.getlist('degree_from')[ab]
-                    degree_to = request.POST.getlist('degree_to')[ab]
-                    # c_description = request.POST.getlist('company_description')[ab]
-                    user = UserEducation(
-                        user_id=request.user.id,
-                        user_institute=user_institute,
-                        user_degree=user_degree,
-                        degree_from=degree_from,
-                        degree_to=degree_to,
-                        # company_description =,
-                    )
-                    user.save()
-                    UserCV.objects.filter(user_id=request.user.id).update(
-                        user_cv_education=1
-                    )
+                user_institute = request.POST.getlist('user_institute')[0]
+                user_degree = request.POST.getlist('user_degree')[0]
+                degree_from = request.POST.getlist('degree_from')[0]
+                degree_to = request.POST.getlist('degree_to')[0]
+                # c_description = request.POST.getlist('company_description')[ab]
+                user = UserEducation(
+                    user_id=request.user.id,
+                    user_institute=user_institute,
+                    user_degree=user_degree,
+                    degree_from=degree_from,
+                    degree_to=degree_to,
+                    # company_description =,
+                ).save()
+
+                    # UserCV.objects.filter(user_id=request.user.id).update(
+                    #     user_cv_education=1
+                    # )
+                user_data = UserEducation.objects.latest('id')
+                data = render_to_string(
+                    'education.html',
+                    {
+                        'user': user_data
+                    }
+                )
+                return HttpResponse(data)
             except Exception as e:
                 print e
 
@@ -361,6 +412,35 @@ class EducationUpdate(View):
         EduForm = EducationForm()
         return render(request, 'profile_education.html', {'edu': EduForm})
 
+@login_required()
+def remove_employment(request, emp_id):
+    UserEmployment.objects.filter(
+        id=emp_id,
+        user_id=request.user.id
+    ).delete()
+    return HttpResponse(json.dumps({
+        'status': True
+    }))
+
+@login_required()
+def remove_education(request, edu_id):
+    UserEducation.objects.filter(
+        id=edu_id,
+        user_id=request.user.id
+    ).delete()
+    return HttpResponse(json.dumps({
+        'status': True
+    }))
+
+@login_required()
+def complete_profile(request):
+     UserCV.objects.filter(user_id=request.user.id).update(
+         user_cv_education=1,
+         user_cv_emp_status=1
+     )
+     return HttpResponse(json.dumps({
+        'status': True
+    }))
 
 
 class UserBioUpdate(View):
@@ -446,4 +526,67 @@ class ProfileChangePassword(View):
                     return HttpResponse(json.dumps({'status':-2}))
             else:
                 return HttpResponse(json.dumps({'status':-3}))
+
+
+
+class ProfileUser(View):
+    @method_decorator(login_required)
+    @method_decorator(is_job_seeker)
+    def get(self, request):
+        data = User.objects.prefetch_related('userbio','usercv','userskills', 'userlocation').get(id=request.user.id)
+        employment_data =UserEmployment.objects.filter(user_id=request.user.id)
+        portrait = str(data.userbio.user_portrait)
+        portrait = portrait[portrait.find('/media'):]
+        country = core_models.Countries.objects.filter(id=data.userlocation.user_country)[0]
+        city = core_models.Cities.objects.filter(id=data.userlocation.user_city)[0]
+        education = UserEducation.objects.filter(user_id=request.user.id)
+        main = {
+            'first_name': data.first_name,
+            'last_name': data.last_name,
+            'overview': data.userbio.user_overview,
+            'email': data.email,
+            'contact': data.userlocation.user_phone_no,
+            'address': data.userlocation.user_address,
+            'portrait': portrait,
+            'country': country.country_name,
+            'city': city.city_name
+        }
+        print main
+        return render(request, 'profile.html', {
+            'user': main,
+            'user_employment': employment_data,
+            'user_education': education
+        })
+
+class ProfileSettings(View):
+    @method_decorator(login_required)
+    @method_decorator(is_job_seeker)
+    def get(self, request):
+        data = User.objects.prefetch_related('userbio','usercv','userskills', 'userlocation').get(id=request.user.id)
+        employment_data =UserEmployment.objects.filter(user_id=request.user.id)
+        portrait = str(data.userbio.user_portrait)
+        portrait = portrait[portrait.find('/media'):]
+        country = core_models.Countries.objects.filter(id=data.userlocation.user_country)[0]
+        city = core_models.Cities.objects.filter(id=data.userlocation.user_city)[0]
+        education = UserEducation.objects.filter(user_id=request.user.id)
+
+
+        main = {
+            'first_name': data.first_name,
+            'last_name': data.last_name,
+            'overview': data.userbio.user_overview,
+            'email': data.email,
+            'contact': data.userlocation.user_phone_no,
+            'address': data.userlocation.user_address,
+            'portrait': portrait,
+            'country': country.country_name,
+            'city': city.city_name
+        }
+        print main
+        return render(request, 'profile_settings.html', {
+            'user': main,
+            'user_employment': employment_data,
+            'user_education': education
+        })
+
 

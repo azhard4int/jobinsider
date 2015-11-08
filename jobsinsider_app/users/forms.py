@@ -2,10 +2,14 @@ __author__ = 'azhar'
 from django import forms
 from models import *
 from core import models as core_model
+from tinymce.widgets import TinyMCE
 
 
+choices = (
+    ('Novice - Know a basic English','Novice - Know a basic English',),
+    ('Amateur - Fluently speak English.','Amateur - Fluently speak English.',),
+    ('Strong in both formal and informal communication','Professional - Strong in both formal and informal communication.',))
 class UserBioInfo(forms.ModelForm):
-    choices = ((1,'Low',), (2,'Medium',), (3,'High',))
     user_title = forms.CharField(
         widget=forms.TextInput(attrs={
             'placeholder': 'Title',
@@ -40,12 +44,14 @@ class UserCVForm(forms.ModelForm):
 
 
 class UserLocationForm(forms.ModelForm):
-    choices = ((1,'Low',), (2,'Medium',), (3,'High',))
+    cities = core_model.Cities.objects.filter(country_id=1)
+    print cities
+    choices_cities= [(ab.id, (ab.city_name)) for ab in cities]
     get_countries = core_model.Countries.objects.all()
     choices_countries = [(ab.id, str(ab.country_name)) for ab in get_countries]
 
     user_city = forms.ChoiceField(
-        choices=choices,
+        choices=choices_cities,
         widget=forms.Select(
             attrs={
                 'class': 'cities_select_box',
@@ -65,12 +71,16 @@ class UserLocationForm(forms.ModelForm):
     user_address = forms.Textarea()
     user_zipcode  = forms.CharField(widget=forms.TextInput(
         attrs={
-            'placeholder': 'Zip Code'
+            'placeholder': 'Zip Code',
+            'class': 'form-control',
+            'pattern': '\d+'
         }
     ))
     user_phone_no = forms.CharField(widget=forms.TextInput(
         attrs={
-            'placeholder': 'Phone No'
+            'placeholder': 'Phone No',
+            'class': 'form-control',
+            'pattern': "\d{2}-?\d{3}-?\d{7}"
         }
     ))
 
@@ -183,3 +193,37 @@ class AddUserEmploymentForm(UserEmploymentForm):
             'company_to',
            }
 
+class ProfileSettingsForm(forms.ModelForm):
+    countries = core_model.Countries.objects.all()
+    choices_countries= [(ab.id, str(ab.country_name)) for ab in countries]
+
+    cities = core_model.Cities.objects.all()
+    choices_cities= [(ab.id, (ab.city_name)) for ab in cities]
+
+    country = forms.ChoiceField(
+            choices=choices_countries,
+            widget=forms.Select(
+                attrs={
+                    'class': 'countries_select_box form-control',
+
+                }
+            )
+        )
+
+    cities = forms.ChoiceField(
+            choices=choices_cities,
+            widget=forms.Select(
+                attrs={
+                    'class': 'cities_select_box form-control',
+                    'placeholder':'Select City',
+
+                }
+            )
+    )
+
+
+
+
+class AdAlertForm(forms.ModelForm):
+    categories = core_model.Categories.objects.filter(category_status=1).all()
+    categories_choices = [(ab.id, str(ab.category_name)) for ab in categories]

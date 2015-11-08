@@ -54,7 +54,7 @@ class UserBio(models.Model):
     user_overview = models.TextField(blank=True)
     user_bio_status = models.BooleanField(default=0)
     user_portrait = models.ImageField(upload_to=directory_path)
-    user_language_pre = models.IntegerField(default=0)
+    user_language_pre = models.CharField(default=None, max_length=255)
     # Professional_Title
     # English Proficiency (It will have select box)
 
@@ -88,8 +88,15 @@ class UserCV(models.Model):
     """
     directory_path = str(settings.MEDIA_ROOT + "/users/cv/")
     user = models.OneToOneField(User)
-    user_cv_title = models.CharField(blank=True, max_length=255)
-    user_cv_file = models.FileField(upload_to=directory_path + '%Y/%m/%d')
+    user_cv_title = models.CharField(
+        blank=True,
+        max_length=255,
+        default=None
+    )
+    user_cv_file = models.FileField(
+        upload_to=directory_path + '%Y/%m/%d',
+        default=None
+    )
     user_cv_builder_status = models.BooleanField(default=0)     # 0 means no to cv builder, 1 means yes.
     user_cv_review_status = models.IntegerField(default=0)  # 0 pending, 1 approved, 2 rejected.
     user_cv_builder = models.IntegerField(default=0)  # 0 pending, 1 approved, 2 rejected.

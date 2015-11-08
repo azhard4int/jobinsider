@@ -1,0 +1,114 @@
+{% extends "base_dasboard.html" %}
+    <title>{% block title %}Dashboard{% endblock %}</title>
+        {% if user.is_authenticated %}
+            {% block authenticate_user %} {{ user.first_name|slice:":1" }}{{ user.last_name|slice:":1" }}{%  endblock %}
+        {% endif %}
+{% block body_content %}
+    <section id="company">
+        <div class="container">
+            <div class="col-md-12">
+                <div class="col-md-5">
+
+                    <h3>
+                        Favorite Jobs
+                    </h3>
+
+                </div>
+                <div class="col-md-7">
+                    <div class="cp_nav">
+                        <ul>
+                            <li><a href="{% url 'posted_jobs' %}">Posted Jobs</a></li>
+                            <li><a href="">Shortlisted People</a></li>
+                            <li><a href="{% url 'favorite' %}">Favorite CV</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="clearfix"></div>
+    <section id="job_advertisement" ng-app="filtersapp">
+        <div class="container jobs_search" ng-controller="rootCtrl">
+            <div id="jobs" class="col-md-12 job_view jobsearch_right_filter">
+                <div class="clearfix"></div>
+                {% csrf_token %}
+                {% if data %}
+                    {% for job_detail in data %}
+                            <div class="listed_job">
+                                <div class="col-md-2">
+                                    <div class="pub_date">
+                                        <span class=" p0_child">
+                                        {{ job_detail.submission_date|date:"D d" }}
+    {#                                        <div>{{ job_detail.submission_date|date:"M Y" }}</div>#}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-7">
+                                    <h4>
+                                        {{ job_detail.company }}
+                                        <span class="job_location">{{ job_detail.country }}</span>
+                                        <span class="job_location_bg">{{ job_detail.cities }}</span>
+                                    </h4>
+                                    <h1>{{ job_detail.job_title }}</h1>
+                                    <p>{{ job_detail.job_description|safe|truncatewords:15 }}</p>
+
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="apply_btn">
+                                        <a href="{% url 'job_details' job_detail.id %}">
+                                             View Job Details
+                                        </a>
+                                    </div>
+
+                                    <div class="remove_favorite_btn">
+                                        <a value="{{ job_detail.id }}" class="remove_favorite_job" href="javascript:;">
+                                            Remove From Favorite
+                                        </a>
+
+                                    </div>
+
+
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="clearfix"></div>
+
+
+
+                    {% endfor %}
+                {% else %}
+                    <span class="empty_data favorite_empty">
+                        There is no job advertisement has been created yet.
+                    </span>
+                {% endif %}
+
+                {% if job_detail %}
+                    <div class="pagination" ng-controller="paginationCtrl">
+                        <span class="step-links">
+                            {% if data.has_previous %}
+                                {% if filtered_results == 1 %}
+                                    <a href="javascript:;" ng-click="getResults({{ data.previous_page_number }})">Previous</a>
+                                {% else %}
+                                    <a href="javascript:;" ng-click="getFilteredPaginate({{ data.previous_page_number }})">Previous</a>
+                                {% endif %}
+                            {% endif %}
+                                <span class="current">
+                                    Page {{ data.number }} of {{ data.paginator.num_pages }}.
+                                </span>
+                            {% if data.has_next %}
+{#                                               <a href="?page={{ data.next_page_number}}">Next</a>#}
+                                <a href="javascript:;" ng-click="getResults({{ data.next_page_number }})">next</a>
+                            {% endif %}
+                        </span>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+    </section>
+{% endblock %}
+{% block custom_scripts %}
+    <script src="/assets/js/app/angular.min.js"></script>
+    <script src="/assets/js/app/app.js"></script>
+
+{% endblock %}

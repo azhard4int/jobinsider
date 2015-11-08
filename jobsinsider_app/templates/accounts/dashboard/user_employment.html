@@ -6,142 +6,232 @@
 
 {% endif %}
 {% block body_content %}
-    {% include 'base_dashboard_core.html' %}
-
-    <section class="create_profile">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <h3>
-                        Create Your Profile
-                    </h3>
-                    <p>
-                      Impress prospective clients and land your first job with a well-done freelancer profile.
-                        It's like a personal resume, business card, and marketing brochure all rolled up in one.
-
-                    </p>
-                </div>
+ <div class="container guider_steps">
+        <div class="col-md-4 col-md-offset-5 col-lg-4 col-lg-offset-5">
+            <div class="guider">
+                <ul class="guider_list">
+                    <li ></li>
+                    <li ></li>
+                    <li></li>
+                    <li class="guider_active"></li>
+                </ul>
             </div>
         </div>
-    </section>
-
-
-    <section class="steps">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                     <div class="progress_line">
-
-                    </div>
-                        <div class="col-md-4">
-                            <div  class="colSteps step1">Your Personal Information</div>
-                        </div>
-                        <div class="col-md-4">
-                            <div  class="colSteps  step2">Choose Way Of CV</div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="colSteps color_step step3">Education &amp; Experience</div>
-                        </div>
-
-                </div>
-            </div>
-        </div>
-    </section>
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
-                    <h3>
-                        Employment History
-                    </h3>
-                    <p>
-                        Impress prospective clients and land your first job with a well-done freelancer profile.
-                        It's like a personal resume, business card, and marketing brochure all rolled up in one.
-
-                    </p>
-
+    </div>
+    <section class="main_profile">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-lg-8 col-md-offset-2 col-lg-offset-2">
+            <div class="profile_box">
+                    <h2 class="ta-center">
+                        Work History and Education
+                    </h2>
             {% if user.is_authenticated %}
+                <hr>
 
-            <form  action="" id="add_bio_employment">
-                {% csrf_token %}
-                <div class="whl">
-                        <fieldset>
-                            <div class="col-md-3">
-                                Date From Which Worked
-                            </div>
-                            <div class="col-md-9">
-                                <div class="col-md-4">
-                                    {{cv_employ.company_from}}
-                                </div>
-                                <div class="col-md-4">
-                                    {{cv_employ.company_to}}
-                                </div>
-                            </div>
-                        </fieldset>
-
-                        <fieldset>
-                            <div class="col-md-3">
-                                Company Name and Location
-                            </div>
-                            <div class="col-md-9">
-                                <div class="col-md-4">
-                                    {{cv_employ.company_name}}
-                                </div>
-                                <div class="col-md-4">
-                                    {{cv_employ.company_location}}
-                                </div>
-                            </div>
-                        </fieldset>
-
-
-                        <fieldset>
-                            <div class="col-md-3">
-                                Company Work Title and Role
-                            </div>
-                            <div class="col-md-9">
-                                 <div class="col-md-4">
-                                    {{cv_employ.company_worktitle}}
-                                </div>
-                                <div class="col-md-4">
-                                    {{cv_employ.company_role}}
-                                </div>
-                            </div>
-                        </fieldset>
-
-                    </div>
-    {#                <!--{{cv_employ.company_description}}-->#}
-                    {{cv_employ.company_count}}
-                    <div class="more_form">
-
-                    </div>
-                    <fieldset>
-                        <div class="col-md-3">
-
+                <h3>
+                Employment History
+                </h3>
+                <div class="user-info-box">
+                        <form  action="" id="add_bio_employment">
+                        {% csrf_token %}
+                        <div class="whl">
+                                <fieldset>
+                                    <div class="col-md-12">
+                                        <div class="col-md-6">
+                                            {{cv_employ.company_name}}
+                                        </div>
+                                        <div class="col-md-6">
+                                            {{cv_employ.company_location}}
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <fieldset>
+                                    <div class="col-md-12">
+                                         <div class="col-md-6">
+                                            {{cv_employ.company_worktitle}}
+                                        </div>
+                                        <div class="col-md-6">
+                                            {{cv_employ.company_role}}
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <fieldset>
+                                    <div class="col-md-12">
+                                        <div class="col-md-6">
+                                            {{cv_employ.company_from}}
+                                        </div>
+                                        <div class="col-md-6">
+                                            {{cv_employ.company_to}}
+                                        </div>
+                                    </div>
+                                </fieldset>
                         </div>
-                        <div class="col-md-9">
-                            <div class="col-md-4">
-                                <input type="submit" id="submit-bio" value="Enter Information"/>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="add_form">
-                                    <!--{% csrf_token %}-->
-                                    <a href="javascript:;" class="add_employment">add more</a>
+            {#                <!--{{cv_employ.company_description}}-->#}
+                            <fieldset>
+
+                                <div class="clearfix"></div>
+                                <div class="col-md-9">
+                                    <div class="col-md-4">
+                                        <div class="mt_10">
+                                            <a href="javascript:;" class="employment_info main_btn">Add</a>
+                                        </div>
+        {#                                <input type="submit" id="submit-bio" value="Enter Information"/>#}
+                                    </div>
+
+                                </div>
+                            </fieldset>
+
+
+                    </form>
+                </div>
+                <div class="col-md-12 list_details">
+                     <div class="list_education" {% if is_exist %} style="display:block;" {% endif %}>
+                            <div class="list_education_head">
+                                <div class="col-md-4">
+                                    Company Name
+                                </div>
+                                <div class="col-md-4">
+                                    Company Work Title
+                                </div>
+                                <div class="col-md-4 user_employment_action">
+                                    Actions
                                 </div>
                             </div>
+                            {% if is_exist %}
+                                {% for user in employment_user %}
+                                    <div class="user_employment_{{ user.id }}">
+                                        <div class="col-md-4">
+                                            <strong>{{ user.company_name }}</strong>
+                                        </div>
+                                        <div class="col-md-4">
+                                            {{ user.company_worktitle }}
+                                        </div>
+                                        <div class="col-md-4 user_employment_action">
+        {#                                    <span>#}
+        {#                                        <a value="{{ user.id }}" href="javascript:;" class="user_company_edit">#}
+        {#                                            Edit#}
+        {#                                        </a>#}
+        {#                                    </span>#}
+                                            <span>
+                                                <a value="{{ user.id }}" href="javascript:;" class="user_company_delete">
+                                                    Delete
+                                                </a>
+                                            </span>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            <div class="clearfix"></div>
+                            {% endif %}
+                            <div class="company_bio_appended">
+
+                            </div>
+                     </div>
+                </div>
+                <div class="clearfix"></div>
+                <hr>
+                <h3>
+                Education History
+                </h3>
+
+                <div class="user-info-box">
+                    <form id="add_edu_form" action="">
+                        {% csrf_token %}
+                        <fieldset>
+                                <div class="col-md-12">
+                                    <div class="col-md-6">
+                                       {{ edu.user_institute }}
+                                    </div>
+                                    <div class="col-md-6">
+                                        {{ edu.user_degree }}
+                                    </div>
+                                </div>
+                        </fieldset>
+                        <fieldset>
+                                <div class="col-md-12">
+                                    <div class="col-md-6">
+                                        {{ edu.degree_from }}
+                                    </div>
+                                    <div class="col-md-6">
+                                        {{ edu.degree_to }}
+                                    </div>
+                                </div>
+                        </fieldset>
+                        <fieldset>
+                            <div class="col-md-9">
+                                <div class="col-md-4">
+                                     <div class="mt_10">
+                                            <a href="javascript:;" class="education_info main_btn">Add</a>
+                                     </div>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </fieldset>
+                    </form>
+
+                </div>
+                <div class="col-md-12 list_details">
+                    {% if is_exist_education %}
+                            <div class="list_education_head">
+                                <div class="col-md-4">
+                                    Education Institute
+                                </div>
+                                <div class="col-md-4">
+                                    Education Degree
+                                </div>
+                                <div class="col-md-4 user_employment_action">
+                                    Actions
+                                </div>
+                            </div>
+                            {% for user in education_user %}
+                                <div class="user_education_{{ user.id }}">
+                                    <div class="col-md-4">
+                                         <strong>{{ user.user_institute }}</strong>
+                                    </div>
+                                    <div class="col-md-4">
+                                        {{ user.user_degree }}
+                                    </div>
+                                    <div class="col-md-4 user_education_action">
+    {#                                    <span>#}
+    {#                                        <a value="{{ user.id }}" href="javascript:;" class="user_company_edit">#}
+    {#                                            Edit#}
+    {#                                        </a>#}
+    {#                                    </span>#}
+                                        <span>
+                                            <a value="{{ user.id }}" href="javascript:;" class="user_education_delete">
+                                                Delete
+                                            </a>
+                                        </span>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        <div class="clearfix"></div>
+                    {% endif %}
+                        <div class="user_education_append">
                         </div>
-                    </fieldset>
-
-            </form>
-
-
+                </div>
             {% endif %}
+            <div class="clearfix"></div>
+            <div class="col-md-12" >
+                <div class="mt_10">
+                    <a href="javascript:;" style="float:right;" class="complete_profile main_btn">
+                        Complete Profile
+                    </a>
+                </div>
+            </div>
+            <div class="clearfix"></div>
 
         </div>
     </div>
 </div>
-
-
-<a href="/accounts/logout">Log out</a>
+    </div>
+    </section>
 {% endblock %}
 
 {% block custom_scripts %}
+    <script>
+        $('#id_company_from, #id_company_to').datepicker({
+            startDate: '-3d'
+        })
+    </script>
 {% endblock %}

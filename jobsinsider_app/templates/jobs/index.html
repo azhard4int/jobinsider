@@ -107,7 +107,7 @@
                             </div>
                             <div class="col-md-7">
                                 <h4>
-                                    Job Company
+                                    {{ job_detail.company }}
                                     <span class="job_location">{{ job_detail.country }}</span>
                                     <span class="job_location_bg">{{ job_detail.cities }}</span>
                                 </h4>
@@ -120,7 +120,6 @@
                                     <a href="{% url 'job_details' job_detail.id %}">
                                         View Job Details
                                     </a>
-
                                 </div>
                                 <div class="apply_btn">
                                     {% if user_status == 0 %}

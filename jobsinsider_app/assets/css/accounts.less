@@ -376,7 +376,7 @@ section.c_email{
 
 section.core_content{
   .email_box{
-    margin-top:-110px;
+    //margin-top:-110px;
     padding:20px;
 
     background:#fff;
@@ -406,13 +406,30 @@ section.core_content{
   color:#fff;
   background: #69d169;
 }
-
-
-//User profile creation dahsboard
-.header_top_menu{
-  background:#fff;
-  border-bottom:1px solid #f8f4ff;
+.guider_steps{
+  marign:0 auto;
+  display:block;
 }
+.guider{
+  padding:20px 0 10px;
+  ul.guider_list{
+    display: inline-block;
+    li{
+      display: inline-block;
+      list-style-type: square;
+      height:8px;
+      width:8px;
+      border-radius:8px;
+      background: #888888;
+      margin:0 4px;
+    }
+  }
+}
+.guider_active{
+  background: #3b3b3b !important;
+}
+
+
 
 .nav_head_top{
   padding-bottom: 0;
@@ -571,9 +588,9 @@ section.core_content{
 #bio_form{
   input{
     background: #fdfdfd;
-    width:70%;
+    width:100%;
     font-family: 'proxima_nova_regular', arial, sans-serif !important;
-    margin:7px 0;
+    //margin:7px 0;
     border-radius:0 !important;
   }
   input:focus{
@@ -584,10 +601,11 @@ section.core_content{
     background: #fdfdfd;
           font-family: 'proxima_nova_regular', arial, sans-serif !important;
           border-radius:0 !important;
-    width:70%;
-    max-width:70%;
+    width:100%;
+    max-width:100%;
     height:120px;
     max-height:300px;
+    padding:5px 10px;
   }
   textarea:focus
   {
@@ -595,7 +613,7 @@ section.core_content{
 
   }
   select{
-    width:70%;
+    width:100%;
     background: #fdfdfd;
     padding:5px 5px;
     margin-top: 5px;
@@ -678,7 +696,7 @@ section.core_content{
     border:none;
   }
 }
-#add_bio_employment{
+#add_bio_employment, #add_edu_form{
  input{
         background: #fdfdfd;
           font-family: 'proxima_nova_regular', arial, sans-serif !important;
@@ -690,10 +708,6 @@ section.core_content{
   }
 }
 
-
-
-
-
 //working on the top navigation bar
 
 .user_initials{
@@ -703,3 +717,100 @@ section.core_content{
   background: #9d79cc;
 }
 
+
+// re-starting work
+
+
+//User profile creation dahsboard
+.header_top_menu{
+  background:#fff;
+  border-bottom:1px solid #f8f4ff;
+}
+.profile_box{
+  padding: 20px;
+    background: #fff;
+    border-radius: 2px;
+    border: 1px solid #6c4c97;
+  h3{
+    font-size:20px;
+    margin:0;
+    padding-bottom:20px;
+  }
+  h2{
+    font-size:28px;
+    margin:0;
+    padding-bottom:20px;
+  }
+  .ta-center{
+    text-align: center;
+  }
+}
+.basic_user_settings_next{
+  display: none;
+
+}
+.next_btn, .prev_btn, .user_bio_btn {
+  float:right;
+  padding:8px 15px;
+  background:#6c4c97;
+  color:#fff;
+  border:none;
+  a{
+    text-decoration: none;
+    color:#fff;
+  }
+  a:hover{
+    text-decoration: none;
+    color:#fff;
+  }
+}
+.next_btn:hover{
+  text-decoration: none;
+    color:#fff;
+}
+.user_bio_btn{
+  float:left !important;
+}
+
+.user_biography_btn{
+  float:right;
+}
+#id_user_zipcode{
+  margin-top:10px;
+}
+
+//cv selection page/
+
+.cv_resume_upload{
+  text-align: center;
+  margin:0 auto;
+  a{
+    text-align: center;
+    padding:10px 25px;
+    background: #996ed7;
+    color:#fff;
+    font-size:18px;
+    .transition;
+
+  }
+  a:hover{
+    background: #a778eb;
+    text-decoration: none;
+    color:#fff;
+  }
+}
+.list_education{
+  display: none;
+}
+.user-info-box{
+  padding:10px 0;
+  background-color: #eaf4fb;
+  //border: 1px solid #54a1de;
+}
+.list_details{
+  padding:15px 0;
+}
+.user_education_action, .user_employment_action{
+  float:right !important;
+  text-align: center !important;
+}

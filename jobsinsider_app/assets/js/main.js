@@ -19,6 +19,43 @@ $('.display_user_settings').on('click', function(event)
 
 });
 
+$('.next_btn').on('click', function(event)
+{
+    event.preventDefault();
+    if($('#id_user_portrait').val()=='')
+    {
+        alert('Please upload your profile picture.');
+    }
+    if($('#id_user_title, #id_user_overview, #id_user_portrait').val()=='')
+    {
+        $('#id_user_title, #id_user_portrait').focus();
+        $('#id_user_title, #id_user_portrait').css('border-color', 'red');
+    }
+    else{
+        $('.basic_user_settings').hide('fast');
+        $('.basic_user_settings_next').show('fast');
+    }
+
+    return false;
+});
+$('#id_user_title, #id_user_overview, #id_user_zipcode, #id_user_phone_no,' +
+    ' #id_company_name, #id_company_location, #id_company_worktitle, ' +
+    '#id_company_role, #id_company_from,#id_company_to, ' +
+    '#id_user_institute, #id_user_degree, #id_company_name, ' +
+    '#id_your_role, #id_company_url, #id_company_industry').keyup(function(event)
+{
+
+    $(this).css('border-color', '#ccc');
+    return false;
+});
+
+$('.prev_btn').on('click', function(event)
+{
+    event.preventDefault();
+    $('.basic_user_settings').show('fast');
+    $('.basic_user_settings_next').hide('fast');
+    return false;
+});
 
 $(document).ready(function()
 {

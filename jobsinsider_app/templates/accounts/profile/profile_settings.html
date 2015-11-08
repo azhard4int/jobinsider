@@ -1,0 +1,90 @@
+{% extends "base_dasboard.html" %}
+    <title>{% block title %}Dashboard{% endblock %}</title>
+        {% if user.is_authenticated %}
+            {% block authenticate_user %} {{ user.first_name|slice:":1" }} {{ user.last_name|slice:":1" }}{%  endblock %}
+        {% endif %}
+{% block body_content %}
+    {% include 'base_dashboard_core.html' %}
+
+
+    <div class="container user_profile">
+        <div class="row">
+            <div class="col-md-12 nopad-lr">
+                <div class="col-md-3">
+                    <h4>
+                        Settings
+                    </h4>
+                    <ul class="setting_main">
+                        <li><a href="{% url 'user_profile' %}" >Personal Information</a></li>
+                        <li><a href="{% url 'user_change_password' %}"  >Change Password</a></li>
+                        <li><a href="{% url 'profile' %}" >Profile Preview</a></li>
+                        <li><a href="{% url 'profile_settings' %}" class="active" >Profile Settings</a></li>
+                        <li><a href="javascript:;">User CV</a></li>
+                    </ul>
+                     <h4>
+                        Billing
+                    </h4>
+                    <ul class="setting_main">
+                        <li><a href="javascript:;">Billing Information</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-9 user_profile_details nopad-lr">
+                    <span class="error_main"></span>
+                    <div class="clearfix"></div>
+                    <span class="success_main">
+                    </span>
+                    <!-- stylizing the stuff for the profile page onwards -->
+                    <div class="clearfix"></div>
+                        <div class="col-md-3">
+                            <div class="profile_picture">
+                                <img src="{{ user.portrait }}" alt="profile picture">
+                            </div>
+                         </div>
+                         <div class="col-md-9">
+                             <h3>
+                                 {{ user.first_name }} {{ user.last_name }}
+                             </h3>
+                             <p>{{ user.overview }}</p>
+                            <div class="user_location_buttons">
+                                <span>
+                                    {{ user.country }}
+                                </span>
+                                <span>
+                                    {{ user.city }}
+                                </span>
+                            </div>
+                         </div>
+                    <div class="clearfix"></div>
+                    <hr>
+                    <h4>
+                        Your Employment
+                    </h4>
+                    {% for employment in user_employment %}
+                        <p>
+                        Worked in {{ employment.company_name }} as {{ employment.company_worktitle }} - {{ employment.company_from }} to {{ employment.company_to }}
+                        </p>
+
+                        <textarea>
+                        {{ employment.company_description }}
+                        </textarea>
+                    {% endfor %}
+                    <hr>
+                    <h4>
+                        Your Education
+                    </h4>
+
+                    {% for education in user_education %}
+                         {{ education.user_degree }}
+                         <br>
+                         {{ education.user_institute }} in {{ education.degree_from }} to {{ education.degree_to }}
+
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block custom_scripts %}
+    <script src="//tinymce.cachefly.net/4.2/tinymce.min.js"></script>
+    <script>tinymce.init({selector:'textarea'});</script>
+{% endblock %}
