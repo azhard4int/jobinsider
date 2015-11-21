@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 from core import models as core_models
+from users import models as users_models
 
 # Create your models here.
 class CompanyProfileManager(models.Manager):
@@ -78,7 +79,7 @@ class Employment(models.Model):
     )
 
     def __unicode__(self):
-        return (self.experience_name)
+        return (self.employment_name)
 
 class AdvertisementManager(models.Manager):
     def posted(self, user_id):
@@ -160,6 +161,17 @@ class AdvertisementApplied(models.Model):
     """Applied people links"""
     advertisement = models.ForeignKey(Advertisement, default=None)
     user = models.ForeignKey(User, default=None)
+    # location = models.ForeignKey(users_models.UserLocation, default=None)
+    is_shortlisted = models.BooleanField(default=False)
+    applied_date = models.DateTimeField(default=None)
+
+    def __unicode__(self):
+        return unicode(self.advertisement)
+
+class ShortlistedCandidates(models.Model):
+    advertisement = models.ForeignKey(Advertisement, default=None)
+    user = models.ForeignKey(User, default=None)
+    shortlisted_date = models.DateTimeField(default=None)
 
     def __unicode__(self):
         return unicode(self.advertisement)
@@ -196,6 +208,64 @@ class AdvertisementSettings(models.Model):
         default=False
     )
     advertisement = models.OneToOneField(Advertisement, default=None)
+
+
+class AdvertisementAnalytics(models.Model):
+    advertisement = models.ForeignKey(Advertisement)
+    user_agent = models.CharField(
+        default=None,
+        max_length=255
+    )
+    user_agent_family = models.CharField(
+        default=None,
+        max_length=255
+    )
+    user_agent_version = models.CharField(
+        default=None,
+        max_length=255
+    )
+    remote_address = models.CharField(
+        default=None,
+        max_length=255
+    )
+    os_family = models.CharField(
+        default=None,
+        max_length=255
+    )
+    os_version = models.CharField(
+        default=None,
+        max_length=255
+    )
+    total_visitors = models.CharField(
+        default=None,
+        max_length=255
+    )
+    unique_visitors = models.CharField(
+        default=None,
+        max_length=255
+    )
+
+    #Gender: 0 for male and 1 for female
+    is_gender = models.IntegerField(
+        default=0,
+    )
+    post_date = models.DateField(
+        default=None,
+    )
+    country_short = models.CharField(
+        default=None,
+        max_length=255
+    )
+    country_long = models.CharField(
+        default=None,
+        max_length=255
+    )
+    visitor_gender = models.IntegerField(
+        default=2,
+    )
+
+    def __unicode__(self):
+        return unicode(self.advertisement)
 
 
 

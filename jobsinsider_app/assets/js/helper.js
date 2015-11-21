@@ -36,7 +36,22 @@ function date_input(input_value)
 
 
 }
-
+function message_display( message, is_status )
+{
+    $('.notify_message').show();
+    if(is_status==1)
+    {
+        $('.notify_message').addClass('message_success');
+        $('.message_success h4 span').html(message);
+    }
+    else{
+        $('.notify_message').addClass('message_errors');
+        $('.message_errors h4 span').html(message)
+    }
+    setTimeout(function() {
+        $('.notify_message').fadeOut('fast');
+    },8000);
+}
 
 // to get the field value by name
 

@@ -1,0 +1,137 @@
+{% extends "base_dasboard.html" %}
+    <title>{% block title %}Applied Candidates{% endblock %}</title>
+        {% if user.is_authenticated %}
+            {% block authenticate_user %} {{ user.first_name|slice:":1" }} {{ user.last_name|slice:":1" }}{%  endblock %}
+        {% endif %}
+{% block header_company_nav %}
+    <a href="{% url 'company_profile' %}">Account Settings</a>
+    <a href="{% url 'logout' %}">Logout</a>
+{% endblock %}
+{% block body_content %}
+    <div class="clearfix"></div>
+    <section id="company">
+        <div class="container">
+            <div class="col-md-12">
+                <div class="col-md-4">
+
+                    <h3>
+                        Applied Candidates
+                    </h3>
+
+                </div>
+                <div class="col-md-8">
+                    <div class="cp_nav">
+                        <ul>
+                            <li><a href="{% url 'job_advertisement' %}">Create Advertisement</a></li>
+                            <li><a href="{% url 'posted_jobs' %}">Posted Jobs</a></li>
+                            <li><a href="">Shortlisted People</a></li>
+                            <li><a href="{% url 'favorite' %}">Favorite CV</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="main_container">
+        <div class="container">
+            <div class="col-md-12 applied__user__box">
+            {% if user_main %}
+
+                    <div class="col-md-9 ">
+
+                        <div class="applied__user">
+                            <div class="col-md-2">
+                                <img class="user__profile" src="{{ MEDIA_URL }}userprofile/{{ user_bio.user_portrait_filename }}" alt="">
+                            </div>
+                            <div class="col-md-7">
+                                <h3>
+                                    {{ user_main.first_name }} {{ user_main.last_name }}
+                                    {%   if user_bio.user_gender == 1 %}
+                                        <span class="user__gender">Female</span>
+                                    {% else %}
+                                        <span class="user__gender">Male</span>
+                                    {% endif %}
+
+                                </h3>
+                              <div class="clearfix"></div>
+                                <div class="location__details">
+                                    <span class="user__gender">{{ user_location.user_city }}</span>
+                                    <span class="user__gender">{{ user_location.user_country}}</span>
+                                </div>
+                                <p>
+                                    {{ user_bio.user_overview|truncatewords:25 }}
+                                </p>
+
+                                    {% for employ in  user_employment%}
+                                             <h4>
+                                                <img class="user__education" src="{{ STATIC_URL }}img/employee_16.png" alt="">{{ employ.company_worktitle}} at {{ employ.company_name }} <span class="user__date">({{ employ.company_from|date:"M Y"}} - {{ employ.company_to|date:"M Y" }})</span>
+                                             </h4>
+                                    {% endfor %}
+
+
+                                {% for educate in  user_education%}
+                                             <h4>
+                                                 <img class="user__education" src="{{ STATIC_URL }}img/college_16.png" alt="">{{ educate.user_degree }} from {{ educate.user_institute }}<span class="user__date">({{ educate.degree_from|date:"M Y"}} - {{ educate.degree_to|date:"M Y" }})</span>
+                                             </h4>
+                                    {% endfor %}
+                                <h4>
+                                </h4>
+
+
+                            </div>
+
+                            <div class="col-md-3 user__actions">
+
+                                <a href="{% url 'candidate' user_bio.user_id %}" class="job_apply_btn view__detail">Send Message</a>
+                                <a href="javascript:;" class="job_apply_btn shorlist__candidate">Add a Note</a>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-3 ">
+                        <div class="user__filters">
+                            <h3>
+                                Additional Options
+                            </h3>
+    {#                        <input type="radio" name="" id="countries" ><label for="countries" >Pakistan</label>#}
+                        </div>
+
+                    </div>
+            {% else %}
+                <span class="empty_data favorite_empty">
+                        No one applied to the job yet. You will be notified as soon as someone apply to it.
+                </span>
+            {% endif %}
+            <div class="col-md-9 user_cv_data">
+                <div class="all_data">
+                <h3>
+                   Your Resume Information
+                </h3>
+                    {% if user_cv.user_cv_builder_status == 0 %}
+                    <iframe src="/company/pdf/{{ candidate_id }}" frameborder="0" width="100%" height="600px;"></iframe>
+                    {% endif %}
+                </div>
+            </div>
+
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+{% block custom_scripts %}
+{#    <script>#}
+{#        $.ajax(#}
+{#                {#}
+{#                    url:'/company/pdf/2/',#}
+{#                    type:'GET',#}
+{#                    success:function(m)#}
+{#                    {#}
+{#                        $('.all_data').html(m);#}
+{#                    }#}
+{#                }#}
+{#        )#}
+{#    </script>#}
+{% endblock %}

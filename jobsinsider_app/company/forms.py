@@ -21,7 +21,7 @@ class CompanyProfileForm(forms.ModelForm):
     company_intro = forms.Textarea()
     company_url = forms.URLField(
         widget=forms.TextInput(attrs={
-            'placeholder':'Company Indusry',
+            'placeholder':'Company URL',
             'class':'form-control',
         })
         )
@@ -70,6 +70,7 @@ class JobAdvertisementForm(forms.ModelForm):
         widget=forms.TextInput(attrs={
             'placeholder':'Company Industry',
             'class':'form-control',
+            'data-validate': 'required,alphaNumeric'
         })
     )
 
@@ -77,6 +78,7 @@ class JobAdvertisementForm(forms.ModelForm):
         widget=forms.TextInput(attrs={
             'placeholder':'Total Positions',
             'class':'form-control',
+            'data-validate': 'required,number'
         })
     )
     job_description = forms.CharField(
@@ -144,11 +146,13 @@ class JobAdvertisementForm(forms.ModelForm):
     salary_from = forms.IntegerField(
         widget=forms.TextInput(attrs={
             'class':'form-control',
+            'data-validate': 'required,number'
         })
     )
     salary_to = forms.IntegerField(
         widget=forms.TextInput(attrs={
             'class':'form-control',
+            'data-validate': 'required,number'
         })
     )
     # category = models.ForeignKey(core_models.Categories)

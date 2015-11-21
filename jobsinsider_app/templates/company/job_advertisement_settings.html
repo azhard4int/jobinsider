@@ -18,7 +18,7 @@
                     <div class="col-xs-6 title_links">
                         <div class="nav_job">
                             <ul>
-                                <li><a href="">Posted Jobs</a></li>
+                                <li><a href="{% url 'posted_jobs' %}">Posted Jobs</a></li>
                                 <li><a href="">View Candidates</a></li>
                             </ul>
                         </div>
@@ -83,7 +83,7 @@
 
 
                                     <input type="hidden" name="job_id" class="job_id" value="{{ last_id }}">
-                                    <input type="button" value="Save" name="_settings" class="job_ad_settings">
+                                    <input type="button" value="Save" name="_settings" class="job_ad_settings main__button">
 
                                 </form>
                         </div>

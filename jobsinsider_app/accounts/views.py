@@ -49,12 +49,13 @@ def register(request):
 
         if user_form.is_valid() and userprofile_form.is_valid():
             result = User.objects.filter(email=request.POST['email']).exists()
+            print result
             if result is True:
                 error = {'status': STATUS_EXIST}
-
+                print result
                 return HttpResponse(
-                    json.dumps(error),
-                    content_type="application/json")
+                    json.dumps(error)
+                )
 
             else:
                 user = user_form.save(commit=False)
@@ -83,7 +84,12 @@ def register(request):
                 sendemail_ = email.EmailFunc('activateaccount', **listvalue)
                 sendemail_.generic_email()
                 status = {'status': STATUS_SUCCESS}
-                return HttpResponseRedirect('/accounts/confirm-email/')
+                return HttpResponse(json.dumps(
+                     {
+                        'status': True
+                     }
+                ))
+                #return HttpResponseRedirect('/accounts/confirm-email/')
                 # return HttpResponse(
                 #     json.dumps(status),
                 #     content_type="application/json")

@@ -1,0 +1,283 @@
+{% extends "base_dasboard.html" %}
+    <title>{% block title %}Dashboard{% endblock %}</title>
+        {% if user.is_authenticated %}
+            {% block authenticate_user %} {{ user.first_name|slice:":1" }} {{ user.last_name|slice:":1" }}{%  endblock %}
+        {% endif %}
+{% block header_company_nav %}
+    <a href="{% url 'company_profile' %}">Account Settings</a>
+    <a href="{% url 'logout' %}">Logout</a>
+{% endblock %}
+{% block body_content %}
+    <div class="clearfix"></div>
+    <section id="company">
+        <div class="container">
+            <div class="col-md-12">
+                <div class="col-md-4">
+
+                    <h3>
+                        Analytics
+                    </h3>
+
+                </div>
+                <div class="col-md-8">
+                    <div class="cp_nav">
+                        <ul>
+                            <li><a href="{% url 'job_advertisement' %}">Create Advertisement</a></li>
+                            <li><a href="{% url 'posted_jobs' %}">Posted Jobs</a></li>
+                            <li><a href="">Shortlisted People</a></li>
+                            <li><a href="{% url 'favorite' %}">Favorite CV</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="main_content">
+        <div class="container">
+            <div class="col-md-8 nopad-lr">
+{#                <div id="container_browser">#}
+{##}
+{#                </div>#}
+                <div id="container_list" class="week_visitors">
+
+                </div>
+            </div>
+            <div class="col-md-4 visitors">
+                <div class="col-md-12 visitors_stats">
+                    <h3>
+                        Total Visitors
+                    </h3>
+                    <h2>
+                        0
+                    </h2>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="col-md-12 visitors_stats">
+                    <h3>Total Unique Visitors</h3>
+                    <h2>
+                        0
+                    </h2>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+
+            <!-- Visitors Browsers -->
+
+            <div class="col-md-4 " >
+{#                <div id="browsers_list" ></div>#}
+                <div class="browsers_list browsers">
+                    <div class="col-md-2">
+                        <p class="browser_main">
+                            <img src="{{ STATIC_URL }}img/chrome.png" alt="">
+                        </p>
+                    </div>
+                    <div class="col-md-10">
+                        <h3>
+                                0 Visitor
+                        </h3>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-md-2">
+                        <p class="browser_main">
+                            <img src="{{ STATIC_URL }}img/i_e.png" alt="">
+                        </p>
+                    </div>
+                    <div class="col-md-10">
+                        <h3>
+                                0 Visitor
+                        </h3>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-md-2">
+                        <p class="browser_main">
+                            <img src="{{ STATIC_URL }}img/firefox.png" alt="">
+                        </p>
+                    </div>
+                    <div class="col-md-10">
+                        <h3>
+                              0 Visitor
+                        </h3>
+                    </div>
+                        <div class="clearfix"></div>
+                        <div class="col-md-2">
+                            <p class="browser_main">
+                                <img src="{{ STATIC_URL }}img/safari.png" alt="">
+                            </p>
+                        </div>
+                        <div class="col-md-10">
+                            <h3>
+                                   0 Visitor
+                            </h3>
+                        </div>
+                        <div class="clearfix"></div>
+                                <div class="col-md-2">
+                                    <p class="browser_main">
+                                        <img src="{{ STATIC_URL }}img/opera.png" alt="">
+                                    </p>
+                                </div>
+                                <div class="col-md-10">
+                                    <h3>
+                                            0 Visitor
+                                    </h3>
+                                </div>
+                                <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <!-- Visitors Operating System-->
+            <div class="col-md-4 ">
+                <div class="browsers_list operating_system">
+                    <div class="col-md-2">
+                        <p class="browser_main">
+                            <img src="{{ STATIC_URL }}img/windows.png" alt="">
+                        </p>
+                    </div>
+                    <div class="col-md-10">
+                            <h3>
+                                 0 Visitor
+                            </h3>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-md-2">
+                        <p class="browser_main">
+                            <img src="{{ STATIC_URL }}img/ubuntu.png" alt="">
+                        </p>
+                    </div>
+                    <div class="col-md-10">
+                        <h3>
+                            0 Visitor
+                        </h3>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-md-2">
+                        <p class="browser_main">
+                            <img src="{{ STATIC_URL }}img/linux.png" alt="">
+                        </p>
+                    </div>
+                    <div class="col-md-10">
+                        <h3>
+                            0 Visitor
+                        </h3>
+                    </div>
+                        <div class="clearfix"></div>
+                        <div class="col-md-2">
+                            <p class="browser_main">
+                                <img src="{{ STATIC_URL }}img/mac.png" alt="">
+                            </p>
+                        </div>
+                        <div class="col-md-10">
+                            <h3>
+                                0 Visitor
+                            </h3>
+                        </div>
+                        <div class="clearfix"></div>
+{#                                <div class="col-md-2">#}
+{#                                    <p class="browser_main">#}
+{#                                        <img src="{{ STATIC_URL }}img/opera.png" alt="">#}
+{#                                    </p>#}
+{#                                </div>#}
+{#                                <div class="col-md-10">#}
+{#                                    <h3>#}
+{#                                    </h3>#}
+{#                                </div>#}
+                                <div class="clearfix"></div>
+                </div>
+
+
+{#                <div id="operating_system">#}
+
+{#                </div>#}
+            </div>
+                <div class="col-md-4">
+                    <div class="countries_visitors">
+
+                           <span class="empty_data">No Statistics Available For Countries</span>
+                            <div class="clearfix"></div>
+
+
+                    </div>
+{#                    <div id="visitors_countries">#}
+{##}
+{#                    </div>#}
+                </div>
+
+        </div>
+
+    </section>
+
+{% endblock %}
+
+{% block custom_scripts %}
+    <script src="/assets/js/plugins/highcharts/highcharts.js"></script>
+    <script>
+    //loading the chart for the stats
+    $(function () {
+    $('#container_list').highcharts({
+        chart: {
+            type: 'area'
+        },
+        title: {
+            text: 'Past 7 Days Visitors - You have no advertisement statistics'
+        },
+        xAxis: {
+            categories: [
+                '0',
+                '0',
+                '0',
+                '0',
+                '0',
+                '0',
+                '0',
+                '0'
+            ],
+            tickmarkPlacement: 'on',
+            title: {
+                enabled: false
+            }
+        },
+        yAxis: {
+            title: {
+                text: 'Visitors'
+            },
+            labels: {
+                formatter: function () {
+                    return this.value;
+                }
+            }
+        },
+        tooltip: {
+            shared: true,
+            valueSuffix: ''
+        },
+        plotOptions: {
+            area: {
+                stacking: 'normal',
+                lineColor: '#553771',
+                lineWidth: 1,
+                marker: {
+                    lineWidth: 2,
+                    lineColor: '#fff'
+                }
+            }
+        },
+        series: [{
+            name: 'Visitors',
+            data: [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            color: '#744B9B'
+        }]
+    });
+});
+</script>
+
+{% endblock %}

@@ -123,6 +123,10 @@ class SearchView():
         data = accounts_models.UserProfile.objects.filter(user_id=id)[0]
         return data.user_status
 
+    def is_user_company(self, id):
+        data = accounts_models.UserProfile.objects.filter(user_id=id)[0]
+        return data.company_profile_status
+
     def paginate_data(self, data, page):
         paginator = Paginator(data, 1)
         try:

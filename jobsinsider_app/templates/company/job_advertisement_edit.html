@@ -8,21 +8,30 @@
     <a href="/accounts/logout/">Logout</a>
 {% endblock %}
 {% block body_content %}
+    <div class="notify_message">
+        <h4>
+            <span>
+
+            </span>
+        </h4>
+    </div>
      <section id="company">
         <div class="container">
             <div class="col-md-12">
-                <div class="col-md-5">
+                <div class="col-md-2">
 
                     <h3>
                         Edit Job Advertisement
                     </h3>
 
                 </div>
-                <div class="col-md-7">
+                <div class="col-md-10">
                     <div class="cp_nav">
                         <ul>
                             <li><a href="{% url 'job_advertisement' %}">Create Advertisement</a></li>
+                            <li><a href="{% url 'test_template' %}">Evaluation Test</a></li>
                             <li><a href="{% url 'posted_jobs' %}">Posted Jobs</a></li>
+
                             <li><a href="">Shortlisted People</a></li>
                             <li><a href="{% url 'favorite' %}">Favorite CV</a></li>
                         </ul>
@@ -88,7 +97,7 @@
                                                     {{ job_form.category }}
                                                 </div>
                                                 <div class="col-md-6 nopad-lr">
-                                                    <label for="">Education Category</label><br>
+                                                    <label for="">Degree Level</label><br>
                                                     {{ job_form.education }}
                                                 </div>
 
@@ -110,8 +119,8 @@
                                             <input type="hidden" name="jobid_value" value="{{ jobid }}" class="jobid_value">
                                             {{ job_form.job_description }}
                                         </div>
-                                        <input type="button" value="Edit Job Details" name="_edit" class="job_advertisement_edit">
-                                        <input type="button" value="Preview" name="_preview" class="job_advertisement">
+                                        <input type="button" value="Edit Job Details" name="_edit" class="job_advertisement_edit main__button">
+{#                                        <input type="button" value="Preview" name="_preview" class="job_advertisement">#}
                                     </form>
                             </div>
                     </div>
@@ -146,7 +155,7 @@
 {% block custom_scripts %}
 {#<script type="text/javascript" src="/assets/js/tiny_mce/tiny_mce.js"></script>#}
 {#<script type="text/javascript" src="{% url "tinymce-js" "createad" %}"></script>#}
-    <script src="//tinymce.cachefly.net/4.2/tinymce.min.js"></script>
+    <script src="/assets/js/plugins/tinymce/tinymce.min.js"></script>
     <script src="/assets/js/plugins/chosen/chosen.jquery.js"></script>
     <script>tinymce.init({selector:'textarea'});</script>
 {#    <script>tinyMCE.init({#}

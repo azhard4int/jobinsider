@@ -34,6 +34,7 @@ urlpatterns = [
     url(r'^company/', include('company.urls')),
     url(r'^jobs/', include('jobs.urls')),
     url(r'^api/', include('api.urls')),
+    url(r'^evaluation/', include('evaluation.urls')),
     url(r'^tinymce/', include('tinymce.urls')),
     # url(r'^ajax-upload/', include('ajax_upload.urls')),
 

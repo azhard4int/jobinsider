@@ -1,0 +1,67 @@
+<!-- Modal -->
+<div class = "modal fade" id = "previewtest" tabindex = "-1" role = "dialog"
+   aria-labelledby = "myModalLabel" aria-hidden = "true">
+   
+   <div class = "modal-dialog modal-lg">
+      <div class = "modal-content">
+         
+         <div class = "modal-header">
+            <button type = "button" class = "close" data-dismiss = "modal" aria-hidden = "true">
+                  &times;
+            </button>
+            
+            <h3 class = "modal-title" id = "myModalLabel">
+               Test
+            </h3>
+
+             <center><h5 id="headingtop1"></h5></center>
+             <center><h5 id="headingtop2"></h5></center>
+         </div>
+         
+         <div class = "modal-body">
+
+
+
+
+        <form class="form-horizontal" id="next_question_form">
+          {% csrf_token %}
+            <div class="panel panel-default">
+             <div class="panel-body"><h4 id="headingtest"></h4></div>
+               </div>
+        <fieldset>
+         <div class="form-group" id="removeoption">
+       <label class="col-xs-3 control-label" >Options</label>
+          <div class="col-xs-9">
+            <div class="radio">
+             <label>
+            <input id="current_question_id" name="current_question_id" value="" type="hidden">
+                 <input id="current_answer" name="current_answer" value="" type="hidden">
+                 <input id="test_id" name="test_id" value="" type="hidden">
+
+               </label>
+                 </div>
+
+
+              </div>
+               </div>
+                </fieldset>
+
+
+
+
+         <div class = "modal-footer">
+            <button type = "button" class = "btn btn-default" data-dismiss = "modal">
+               Close
+            </button>
+            
+            <button type = "submit" class="btn btn-default" id ="next_button">
+               Next Question
+            </button>
+         </div>
+   </form>
+      </div><!-- /.modal-content -->
+   </div><!-- /.modal-dialog -->
+  
+</div><!-- /.modal -->
+
+    </div>

@@ -1,0 +1,54 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+
+    <link rel="stylesheet" href="{% static "/assets/css/bootstrap.min.css" %}"/>
+
+    <link rel="stylesheet" href="{% static "/assets/css/evaluation.css" %}"/>
+    <script src='{% static "/assets/js/jquery-1.11.3.min.js" %}'></script>
+    <script src='{% static "/assets/js/bootstrap.min.js" %}'></script>
+</head>
+<body>
+<div class="wrapper">
+
+          <button type="submit" class = "btn btn-info" id="examplebutton" value="hello_omer_123" name="testing" onclick="window.location.href='/evaluation/'">
+              Back
+</button>
+</div>
+
+<div class="wrapper1">
+    <div class="table-responsive" id="maintable">
+<table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Question</th>
+                <th>Correct Answer</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                {% for o in query %}
+                <td>{{ o.evaluation_question }}</td>
+                <td>{{ o.evaluation_question_answer }}</td>
+{#                    <td><button value="{{o.pk}}"  class="editbutton" class="btn btn-info btn-sm" data-toggle="modal" data-target="#editmodal" type="button">Edit</button></td>#}
+{#                    <td><button value="{{o.id}}"  class="add_button btn btn-info" data-toggle="modal" data-target="#question_modal" type="button">Add Questions</button></td>#}
+                    <td><button value="{{o.id}}"  class="editquestion btn btn-info"  data-toggle="modal" data-target="#neweditmodal" type="button">Edit</button></td>
+                    <td><button value= "{{o.id}}"  type="button" class="delete btn btn-info" >Delete</button></td>
+
+
+            </tr>
+{% endfor %}
+        </tbody>
+    </table>
+
+</div>
+
+</div>
+{% include "evaluation_edit_question_modal.html" %}
+ <script src='{% static "/assets/js/evaluation_question_edit.js" %}'></script>
+</body>
+</html>

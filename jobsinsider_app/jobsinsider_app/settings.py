@@ -47,9 +47,10 @@ INSTALLED_APPS = (
     'users',
     'private',
     'company',
+    'evaluation',
     'bootstrap3',
     'redactor',
-    'tinymce'
+    'tinymce',
     # 'ajax_upload'
     )
 
@@ -115,6 +116,18 @@ TEMP_DIRECTORY_Company = [
 TEMP_DIRECTORY_JOBS = [
     'templates/jobs',
 ]
+# Evlauation
+TEMP_DIRECTORY_EVALUATION = [
+    'templates/evaluation',
+]
+
+TEMP_DIRECTORY_ANALYTICS = [
+    'templates/company/analytics',
+]
+
+TEMP_DIRECTORY_CANDIDATES = [
+    'templates/company/candidates',
+]
 
 
 TEMPLATES = [
@@ -131,6 +144,9 @@ TEMPLATES = [
             BASE_DIR.join(TEMP_DIRECTORY_Dashboard_DYNAMIC),
             BASE_DIR.join(TEMP_DIRECTORY_Company),
             BASE_DIR.join(TEMP_DIRECTORY_JOBS),
+            BASE_DIR.join(TEMP_DIRECTORY_EVALUATION),
+            BASE_DIR.join(TEMP_DIRECTORY_ANALYTICS),
+            BASE_DIR.join(TEMP_DIRECTORY_CANDIDATES),
         ),
         'APP_DIRS': True,
         'OPTIONS': {

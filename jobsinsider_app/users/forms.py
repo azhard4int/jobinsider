@@ -23,7 +23,12 @@ class UserBioInfo(forms.ModelForm):
     user_language_pre = forms.ChoiceField(
         choices=choices
     )
-
+    user_gender = forms.ChoiceField(
+        choices=(
+            ('0', 'Male',),
+            ('1', 'Female',),
+        )
+    )
     class Meta:
         model = UserBio
         fields = {

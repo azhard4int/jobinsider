@@ -54,7 +54,10 @@ class UserBio(models.Model):
     user_overview = models.TextField(blank=True)
     user_bio_status = models.BooleanField(default=0)
     user_portrait = models.ImageField(upload_to=directory_path)
+    user_portrait_filename = models.CharField(default=None, max_length=255,
+                                              blank=True, null=True)
     user_language_pre = models.CharField(default=None, max_length=255)
+    user_gender = models.IntegerField(default=None)
     # Professional_Title
     # English Proficiency (It will have select box)
 
@@ -71,14 +74,14 @@ class UserLocation(models.Model):
     """
     user = models.OneToOneField(User)
     user_address = models.TextField(blank=True, max_length=255)
-    user_city = models.CharField(blank=True, max_length=255)
-    user_country = models.CharField(blank=True, max_length=255)
+    user_city = models.ForeignKey(coremodels.Cities) #models.CharField(blank=True, max_length=255)
+    user_country = models.ForeignKey(coremodels.Countries) #models.CharField(blank=True, max_length=255)
     user_zipcode = models.CharField(blank=True, max_length=255)
     user_phone_no = models.CharField(blank=True, max_length=255)
     user_location_status = models.BooleanField(default=0)
 
     def __unicode__(self):
-        return unicode(self)
+        return unicode(self.user)
 
 
 class UserCV(models.Model):

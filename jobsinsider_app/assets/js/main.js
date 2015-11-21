@@ -42,7 +42,8 @@ $('#id_user_title, #id_user_overview, #id_user_zipcode, #id_user_phone_no,' +
     ' #id_company_name, #id_company_location, #id_company_worktitle, ' +
     '#id_company_role, #id_company_from,#id_company_to, ' +
     '#id_user_institute, #id_user_degree, #id_company_name, ' +
-    '#id_your_role, #id_company_url, #id_company_industry').keyup(function(event)
+    '#id_your_role, #id_company_url, #id_company_industry,' +
+    '#id_job_title, #id_job_position, #id_salary_from, #id_salary_to').keyup(function(event)
 {
 
     $(this).css('border-color', '#ccc');
@@ -609,3 +610,55 @@ $('.countries_select_box').change(function(event)
 });
 
 //shortlisting candidates
+
+$('.shorlist__candidate').on('click', function(e){
+    e.preventDefault();
+    var job_id = $('.job__advert__id').attr('value');
+    $.ajax({
+        url:'/company/shortlist/' + $(this).attr('value') + "/" +  job_id + "/",
+        type: 'POST',
+        data: {
+            csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value
+        },
+        success:function(m){
+            var resp = JSON.parse(m);
+            console.log(resp);
+            if(resp.status==true){
+                console.log('hoa');
+                message_display('Candidate Added to Shortlisted Category', 1);
+            }
+
+        },
+        error:function(m){
+            message_display('Something Went Wrong, Please try again', 0);
+        }
+
+    });
+    return false;
+})
+
+$('.shorlist__candidate__remove').on('click', function(e){
+    e.preventDefault();
+    var job_id = $('.job__advert__id').attr('value');
+    $.ajax({
+        url:'/company/shortlist_remove/' + $(this).attr('value') + "/" +  job_id + "/",
+        type: 'POST',
+        data: {
+            csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value
+        },
+        success:function(m){
+            var resp = JSON.parse(m);
+            console.log(resp);
+            if(resp.status==true){
+                console.log('hoa');
+                message_display('Candidate Removed from Shortlisted Category', 1);
+            }
+
+        },
+        error:function(m){
+            message_display('Something Went Wrong, Please try again', 0);
+        }
+
+    });
+    return false;
+})

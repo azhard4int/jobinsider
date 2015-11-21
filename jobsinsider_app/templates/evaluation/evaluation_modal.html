@@ -1,0 +1,98 @@
+<!-- Modal -->
+<div class = "modal fade" id = "add_evaluation" tabindex = "-1" role = "dialog"
+   aria-labelledby = "myModalLabel" aria-hidden = "true">
+   
+   <div class = "modal-dialog modal-md">
+      <div class = "modal-content">
+         
+         <div class = "modal-header">
+            <button type = "button" class = "close" data-dismiss = "modal" aria-hidden = "true">
+                  &times;
+            </button>
+            
+            <h4 class = "modal-title" id = "myModalLabel">
+               New Evaluation Test Template
+            </h4>
+         </div>
+         
+         <div class = "modal-body">
+
+         <form class = "form-horizontal" role = "form" id="add_evaluation">
+         {% csrf_token %}
+   <div class = "form-group">
+      <label for = "eva_title" class = "col-sm-3 control-label">Evaluation Title</label>
+
+      <div class = "col-sm-9">
+         <input type = "text" class = "form-control" id = "eva_title" name = "evaluation_name" placeholder = "Evaluation Title">
+      </div>
+   </div>
+
+   <div class="form-group">
+        <label class="col-sm-3 control-label">Description</label>
+        <div class="col-sm-9">
+            <textarea class="form-control" id="eva_description" name="evaluation_description" name="content" rows="5" style="resize: vertical;"></textarea>
+        </div>
+        <div class="col-xs-5 messageContainer"></div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-3 control-label">Rules</label>
+        <div class="col-sm-9">
+            <textarea class="form-control" id="eva_rules" name="evaluation_rules"  rows="5" style="resize: vertical;"></textarea>
+        </div>
+        <div class="col-xs-5 messageContainer"></div>
+    </div>
+
+     <div class = "form-group">
+      <label for = "eva_cat" class = "col-sm-3 control-label">Catagory</label>
+
+      <div class = "col-sm-9">
+         <input type = "text" class = "form-control" id = "eva_cat" name = "evaluation_catagory" placeholder = "Type Catagory">
+      </div>
+   </div>
+
+             <div class = "form-group">
+      <label for = "eva_type" id="" class = "col-sm-3 control-label">Type</label>
+
+      <div class = "col-sm-9">
+
+  <select class="form-control" id="eva_type" name="evaluation_type">
+    <option value="0">MCQ</option>
+    <option value="1">TRUE/FALSE</option>
+
+  </select>
+      </div>
+   </div>
+<div class = "form-group">
+      <label for = "eva_number" class = "col-sm-3 control-label">Total Questions</label>
+
+      <div class = "col-sm-9">
+         <input type = "text" class = "form-control" id = "eva_number" name = "evaluation_questions" placeholder = "Total Number of Questions">
+      </div>
+   </div>
+
+             <div class = "form-group">
+      <label for = "eva_number" class = "col-sm-2 control-label"></label>
+
+      <div class = "col-sm-10">
+         <h4 class="eva_heading_status"></h4>
+      </div>
+   </div>
+
+         
+         <div class = "modal-footer">
+            <button type = "button" class = "btn btn-default" data-dismiss = "modal">
+               Close
+            </button>
+            
+            <button type = "submit" class = "btn btn-primary">
+               Create Template
+            </button>
+         </div>
+   </form>
+      </div><!-- /.modal-content -->
+   </div><!-- /.modal-dialog -->
+  
+</div><!-- /.modal -->
+
+    </div>

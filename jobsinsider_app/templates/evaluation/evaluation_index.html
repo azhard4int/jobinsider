@@ -1,0 +1,138 @@
+{% extends "base_dasboard.html" %}
+    <title>{% block title %}Dashboard{% endblock %}</title>
+        {% if user.is_authenticated %}
+            {% block authenticate_user %} {{ user.first_name|slice:":1" }} {{ user.last_name|slice:":1" }}{%  endblock %}
+        {% endif %}
+{% block header_company_nav %}
+    <a href="{% url 'company_profile' %}">Account Settings</a>
+    <a href="{% url 'logout' %}">Logout</a>
+{% endblock %}
+{% block body_content %}
+    <div class="notify_message">
+        <h4>
+            <span>
+
+            </span>
+        </h4>
+    </div>
+    <div class="clearfix"></div>
+    <section id="company">
+        <div class="container">
+            <div class="col-md-12">
+                <div class="col-md-2">
+
+                    <h3>
+                        Evaluation
+                    </h3>
+
+                </div>
+                <div class="col-md-10">
+                    <div class="cp_nav">
+                        <ul>
+                            <li><a href="{% url 'job_advertisement' %}">Create Advertisement</a></li>
+                            <li><a href="{% url 'test_template' %}">Evaluation Test</a></li>
+                            <li><a href="{% url 'posted_jobs' %}">Posted Jobs</a></li>
+                            <li><a href="">Shortlisted People</a></li>
+                            <li><a href="{% url 'favorite' %}">Favorite CV</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container evaluation_test_main">
+        {% for evaluate in evaluation %}
+
+             <div class="col-md-3 col-lg-3" id="evaluation_test_box_{{ evaluate.pk }}">
+                    <div class="evaluation_test_box" ">
+                        <h4>
+                            {{ evaluate.evaluation_name }}
+                            {% if evaluate.evaluation_status == 0 %}
+                            <span class="is_pending">
+                                Pending
+                            </span>
+                            {% elif evaluate.evaluation_status  == 1 %}
+                                <span class="is_approved">
+                                    Approved
+                                </span>
+                            {% else %}
+                                <span class="is_rejected">
+                                    Rejected
+                                </span>
+
+                            {% endif %}
+
+                        </h4>
+                        <div class="clearfix"></div>
+                        <p>Category: {{ evaluate.evaluation_catagory }}
+                        <br>
+                        Type:
+                            {% if evaluate.evaluation_type == 0 %}
+                                MCQ
+                            {% elif evaluate.evaluation_type == 1 %}
+                             True/False
+                            {% endif %}
+                            <br>
+                            Total Questions: {{ evaluate.evaluation_total_questions }}
+                        </p>
+                        <div class="evaluation_actions">
+                            <div class="col-md-4">
+                                <div class="dropdown">
+                                        <button value="{{evaluate.pk}}" id="dropdown" class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown">Edit
+                                        <span class="caret"></span></button>
+                                          <ul class="dropdown-menu">
+                                              <li>
+                                                <a class="editbutton" data-target="#editmodal" data-toggle="modal" href="#editmodal">Edit Template</a>
+                                              </li>
+                                              <li>
+                                                <a href="/evaluation/testing/sample/{{ evaluate.pk }}">Edit Questions</a>
+                                              </li>
+                                              <li>
+                                                <a href="javascript:;" value="{{evaluate.pk}}"  class="add_button" data-toggle="modal" data-target="#question_modal" >
+                                                    Add Questions
+                                                </a>
+                                              </li>
+                                              <li>
+                                                  <a href="javascript:;" value="{{evaluate.pk}}"  class="previewtest"  data-toggle="modal" data-target="" >
+                                                        Preview
+                                                  </a>
+                                              </li>
+                                          </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <button value= "{{evaluate.pk}}"  type="button" class="delete btn btn-info" >Delete</button>
+                            </div>
+                        </div>
+                    </div>
+             </div>
+
+
+
+
+{#                    <td><button value="{{o.pk}}"  class="editbutton" class="btn btn-info btn-sm" data-toggle="modal" data-target="#editmodal" type="button">Edit</button></td>#}
+
+        {% endfor %}
+
+        <div class="col-md-3 col-lg-3">
+            <div class="evaluation_test_box add_more_evaluation_test">
+                <a href="javascript:;"  data-toggle = "modal" data-target = "#add_evaluation">
+                    <img src="{{ STATIC_URL }}img/add.png" alt="">
+                </a>
+            </div>
+        </div>
+{#        <div class="evaluation_btn">#}
+{#            <a href=""></a>#}
+{#        </div>#}
+
+    </div>
+{% include "evaluation_modal.html" %}
+{% include "evaluation_question_modal.html" %}
+{% include "evaluation_editmodal.html" %}
+{% include "evaluation_testmodal.html" %}
+{% endblock %}
+
+{% block custom_scripts %}
+ <script src='/assets/js/evaluation.js'></script>
+{% endblock %}

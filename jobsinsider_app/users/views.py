@@ -176,19 +176,29 @@ class UserInfo(View):
                 print User.objects.filter(id=request.user.id)
                 # UserBio(commit=False)
                 try:
-                    user_bio = UserBio()
-                    user_bio.user = User.objects.filter(id=request.user.id)[0]
-                    user_bio.user_bio_status = 1
-                    user_bio.user_portrait = request.FILES['user_portrait']
-                    user_bio.user_title = request.POST['user_title']
-                    user_bio.user_overview = request.POST['user_overview']
-                    user_bio.user_language_pre = request.POST['user_language_pre']
-                    ret = user_bio.save()
+                    print request.FILES
+                    print request.POST['user_title'],
+                    print request.FILES['user_portrait'].name
+                    print User.objects.filter(id=request.user.id)[0]
+
+
+                    user_bio=UserBio(
+                        user=User.objects.filter(id=request.user.id)[0],
+                        user_bio_status=1,
+                        user_portrait=request.FILES['user_portrait'],
+                        user_title=request.POST['user_title'],
+                        user_overview=request.POST['user_overview'],
+                        user_language_pre=request.POST['user_language_pre'],
+                        user_gender=request.POST['user_gender'],
+                        user_portrait_filename = str(request.FILES['user_portrait'].name),
+                    ).save()
+                    # user_bio.
+
                     # storing user location details
                     user_location = UserLocation(
                         user_address = request.POST['user_address'],
-                        user_city = request.POST['user_city'],
-                        user_country = request.POST['user_country'],
+                        user_city_id = request.POST['user_city'],
+                        user_country_id = request.POST['user_country'],
                         user_zipcode = request.POST['user_zipcode'],
                         user_phone_no = request.POST['user_phone_no'],
                         user_location_status = 1,
@@ -197,6 +207,7 @@ class UserInfo(View):
                     )
                     user_location.save()
                 except IntegrityError:
+                    # print e
                     return HttpResponse(json.dumps({'status': True}))
 
                 return HttpResponse(json.dumps({'status': True}))
@@ -314,7 +325,7 @@ class AddUserEmployment(View):
                     'edu': eduform,
                 }
             )
-        if user_cv.user_cv_emp_status == 1 and user_cv.user_cv_builder==0:
+        if user_cv.user_cv_emp_status == 1: #and user_cv.user_cv_builder==0
                 return HttpResponseRedirect('/user/dashboard/')
 
     @method_decorator(login_required)
@@ -537,9 +548,10 @@ class ProfileUser(View):
         employment_data =UserEmployment.objects.filter(user_id=request.user.id)
         portrait = str(data.userbio.user_portrait)
         portrait = portrait[portrait.find('/media'):]
-        country = core_models.Countries.objects.filter(id=data.userlocation.user_country)[0]
-        city = core_models.Cities.objects.filter(id=data.userlocation.user_city)[0]
+        #country = core_models.Countries.objects.filter(id=data.userlocation.user_country)[0]
+        #city = core_models.Cities.objects.filter(id=data.userlocation.user_city)[0]
         education = UserEducation.objects.filter(user_id=request.user.id)
+
         main = {
             'first_name': data.first_name,
             'last_name': data.last_name,
@@ -548,8 +560,8 @@ class ProfileUser(View):
             'contact': data.userlocation.user_phone_no,
             'address': data.userlocation.user_address,
             'portrait': portrait,
-            'country': country.country_name,
-            'city': city.city_name
+            'country': data.userlocation.user_country,
+            'city': data.userlocation.user_city
         }
         print main
         return render(request, 'profile.html', {
@@ -566,8 +578,8 @@ class ProfileSettings(View):
         employment_data =UserEmployment.objects.filter(user_id=request.user.id)
         portrait = str(data.userbio.user_portrait)
         portrait = portrait[portrait.find('/media'):]
-        country = core_models.Countries.objects.filter(id=data.userlocation.user_country)[0]
-        city = core_models.Cities.objects.filter(id=data.userlocation.user_city)[0]
+        # country = core_models.Countries.objects.filter(id=data.userlocation.user_country)[0]
+        # city = core_models.Cities.objects.filter(id=data.userlocation.user_city)[0]
         education = UserEducation.objects.filter(user_id=request.user.id)
 
 
@@ -579,8 +591,8 @@ class ProfileSettings(View):
             'contact': data.userlocation.user_phone_no,
             'address': data.userlocation.user_address,
             'portrait': portrait,
-            'country': country.country_name,
-            'city': city.city_name
+            'country': data.userlocation.user_country,
+            'city': data.userlocation.user_city,
         }
         print main
         return render(request, 'profile_settings.html', {

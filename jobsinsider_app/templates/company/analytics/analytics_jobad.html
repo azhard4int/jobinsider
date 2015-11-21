@@ -1,0 +1,548 @@
+{% extends "base_dasboard.html" %}
+    <title>{% block title %}Analytics Job Advertisement{% endblock %}</title>
+        {% if user.is_authenticated %}
+            {% block authenticate_user %} {{ user.first_name|slice:":1" }} {{ user.last_name|slice:":1" }}{%  endblock %}
+        {% endif %}
+{% block header_company_nav %}
+    <a href="{% url 'company_profile' %}">Account Settings</a>
+    <a href="{% url 'logout' %}">Logout</a>
+{% endblock %}
+{% block body_content %}
+    <div class="clearfix"></div>
+    <section id="company">
+        <div class="container">
+            <div class="col-md-12">
+                <div class="col-md-4">
+
+                    <h3>
+                        Analytics
+                    </h3>
+
+                </div>
+                <div class="col-md-8">
+                    <div class="cp_nav">
+                        <ul>
+                            <li><a href="{% url 'job_advertisement' %}">Create Advertisement</a></li>
+                            <li><a href="{% url 'posted_jobs' %}">Posted Jobs</a></li>
+                            <li><a href="">Shortlisted People</a></li>
+                            <li><a href="{% url 'favorite' %}">Favorite CV</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="main_content">
+        <div class="container">
+            <div class="col-md-8 nopad-lr">
+{#                <div id="container_browser">#}
+{##}
+{#                </div>#}
+                <div id="container_list" class="week_visitors">
+
+                </div>
+            </div>
+            <div class="col-md-4 visitors">
+                <div class="col-md-12 visitors_stats">
+                    <h3>
+                        Total Visitors
+                    </h3>
+                    <h2>
+                        {{ total_visitors }}
+                    </h2>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="col-md-12 visitors_stats">
+                    <h3>Total Unique Visitors</h3>
+                    <h2>
+                        {{ total_unique_visitors }}
+                    </h2>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="col-md-12 visitors_stats">
+                    <h3>Gender</h3>
+                    <div class="col-md-4">
+                        <span>
+                            <img src="{{ STATIC_URL }}img/man.png" alt="Male Visitors">
+                        </span>
+                        <h4 class="gender_heading">
+
+                            {{ male.visitors }}
+                        </h4>
+                    </div>
+                    <div class="col-md-4">
+                        <span>
+                            <img src="{{ STATIC_URL }}img/woman.png" alt="Female  Visitors">
+                        </span>
+                        <h4 class="gender_heading">
+                            {{ female.visitors }}
+                        </h4>
+                    </div>
+                    <div class="col-md-4">
+                        <span>
+                            <img src="{{ STATIC_URL }}img/unknown.png" alt="Male Visitors">
+                        </span>
+                        <h4 class="gender_heading">
+                            {{ unknown.visitors }}
+                        </h4>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+
+            <!-- Visitors Browsers -->
+
+            <div class="col-md-4 " >
+{#                <div id="browsers_list" ></div>#}
+                <div class="browsers_list browsers">
+                    <div class="col-md-2">
+                        <p class="browser_main">
+                            <img src="{{ STATIC_URL }}img/chrome.png" alt="">
+                        </p>
+                    </div>
+                    <div class="col-md-10">
+                        <h3>
+                                {{ chrome.visitors }} Visitors
+                            </h3>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-md-2">
+                        <p class="browser_main">
+                            <img src="{{ STATIC_URL }}img/i_e.png" alt="">
+                        </p>
+                    </div>
+                    <div class="col-md-10">
+                        <h3>
+                               {{ internet_explorer.visitors }}
+                                     {% if internet_explorer.visitors == 0 %}
+                                            Visitors
+                                        {% else %}
+                                            Visitors
+                                        {% endif %}
+                            </h3>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-md-2">
+                        <p class="browser_main">
+                            <img src="{{ STATIC_URL }}img/firefox.png" alt="">
+                        </p>
+                    </div>
+                    <div class="col-md-10">
+                        <h3>
+                               {{ firefox.visitors }}
+                                  {% if firefox.visitors == 0 %}
+                                            Visitors
+                                        {% else %}
+                                            Visitors
+                                        {% endif %}
+                        </h3>
+                    </div>
+                        <div class="clearfix"></div>
+                        <div class="col-md-2">
+                            <p class="browser_main">
+                                <img src="{{ STATIC_URL }}img/safari.png" alt="">
+                            </p>
+                        </div>
+                        <div class="col-md-10">
+                            <h3>
+                                    {{ safari.visitors }}
+                                     {% if safari.visitors == 0 %}
+                                            Visitors
+                                        {% else %}
+                                            Visitors
+                                        {% endif %}
+                            </h3>
+                        </div>
+                        <div class="clearfix"></div>
+                                <div class="col-md-2">
+                                    <p class="browser_main">
+                                        <img src="{{ STATIC_URL }}img/opera.png" alt="">
+                                    </p>
+                                </div>
+                                <div class="col-md-10">
+                                    <h3>
+                                            {{ opera.visitors }}
+                                        {% if opera.visitors == 0 %}
+                                            Visitors
+                                        {% else %}
+                                            Visitors
+                                        {% endif %}
+                                    </h3>
+                                </div>
+                                <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <!-- Visitors Operating System-->
+            <div class="col-md-4 ">
+                <div class="browsers_list operating_system">
+                    <div class="col-md-2">
+                        <p class="browser_main">
+                            <img src="{{ STATIC_URL }}img/windows.png" alt="">
+                        </p>
+                    </div>
+                    <div class="col-md-10">
+                            <h3>
+                            {{ windows.visitors }} Visitors
+                            </h3>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-md-2">
+                        <p class="browser_main">
+                            <img src="{{ STATIC_URL }}img/ubuntu.png" alt="">
+                        </p>
+                    </div>
+                    <div class="col-md-10">
+                        <h3>
+                            {{ ubuntu.visitors }} Visitors
+                        </h3>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-md-2">
+                        <p class="browser_main">
+                            <img src="{{ STATIC_URL }}img/linux.png" alt="">
+                        </p>
+                    </div>
+                    <div class="col-md-10">
+                        <h3>
+                            {{ linux.visitors }} Visitors
+                        </h3>
+                    </div>
+                        <div class="clearfix"></div>
+                        <div class="col-md-2">
+                            <p class="browser_main">
+                                <img src="{{ STATIC_URL }}img/mac.png" alt="">
+                            </p>
+                        </div>
+                        <div class="col-md-10">
+                            <h3>
+                                {{ mac.visitors }} Visitors
+                            </h3>
+                        </div>
+                        <div class="clearfix"></div>
+{#                                <div class="col-md-2">#}
+{#                                    <p class="browser_main">#}
+{#                                        <img src="{{ STATIC_URL }}img/opera.png" alt="">#}
+{#                                    </p>#}
+{#                                </div>#}
+{#                                <div class="col-md-10">#}
+{#                                    <h3>#}
+{#                                    </h3>#}
+{#                                </div>#}
+                                <div class="clearfix"></div>
+                </div>
+
+
+{#                <div id="operating_system">#}
+
+{#                </div>#}
+            </div>
+                <div class="col-md-4">
+                    <div class="countries_visitors">
+                        <ul>
+                            {% for country_visitor in country_visitors %}
+                                    <li>
+                                        {{ country_visitor.country_long  }}
+                                        <span>{{ country_visitor.total_country_visitors }}</span>
+                                    </li>
+                            {% endfor %}
+                            <div class="clearfix"></div>
+                        </ul>
+
+
+                    </div>
+{#                    <div id="visitors_countries">#}
+{##}
+{#                    </div>#}
+                </div>
+
+        </div>
+
+    </section>
+    {%  for data in seven_days %}
+        {{ data.post_date }}
+    {% endfor %}
+
+
+{% endblock %}
+
+
+{% block custom_scripts %}
+    <script src="/assets/js/plugins/highcharts/highcharts.js"></script>
+    <script>
+        $(function () {
+        $('#browsers_list').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false,
+                type: 'pie'
+            },
+            title: {
+                text: 'Visitors Browsers'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                        style: {
+                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                        }
+                    }
+                }
+            },
+            series: [{
+                name: 'Visitors Percentage',
+                colorByPoint: true,
+                data: [
+
+                ]
+            }]
+        });
+    });
+    //operating system
+
+    $(function () {
+        $('#operating_system').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false,
+                type: 'pie'
+            },
+            title: {
+                text: 'Visitors Operating System'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                        style: {
+                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                        }
+                    }
+                }
+            },
+            series: [{
+                name: 'Visitors Percentage',
+                colorByPoint: true,
+                data: [
+                            {% for operatingsystem in operating_system %}
+                                {
+                                    name: '{{ operatingsystem.os_family  }}',
+                                    y: {{ operatingsystem.total_operating_system }}
+                                },
+                            {% endfor %}
+                ]
+            }]
+        });
+    });
+
+        //visitors countries
+    $(function () {
+        $('#visitors_countries').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false,
+                type: 'pie'
+            },
+            title: {
+                text: 'Visitors Countries'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                        style: {
+                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                        }
+                    }
+                }
+            },
+            series: [{
+                name: 'Visitors Percentage',
+                colorByPoint: true,
+                data: [
+                            {% for country_visitor in country_visitors %}
+                                {
+                                    name: '{{ country_visitor.country_long  }}',
+                                    y: {{ country_visitor.total_country_visitors }}
+                                },
+                            {% endfor %}
+                ]
+            }]
+        });
+    });
+    //loading the chart for the stats
+    $(function () {
+    $('#container_list').highcharts({
+        chart: {
+            type: 'area'
+        },
+        title: {
+            text: 'Past 7 Days Visitors'
+        },
+        xAxis: {
+            categories: [
+                '{{ visitors_data.seventh.date|date }}',
+                '{{ visitors_data.sixth.date|date }}',
+                '{{ visitors_data.fifth.date|date }}',
+                '{{ visitors_data.fourth.date|date }}',
+                '{{ visitors_data.third.date|date }}',
+                '{{ visitors_data.second.date|date }}',
+                '{{ visitors_data.first.date|date }}',
+                '{{ visitors_data.today.date|date }}'
+            ],
+            tickmarkPlacement: 'on',
+            title: {
+                enabled: false
+            }
+        },
+        yAxis: {
+            title: {
+                text: 'Visitors'
+            },
+            labels: {
+                formatter: function () {
+                    return this.value;
+                }
+            }
+        },
+        tooltip: {
+            shared: true,
+            valueSuffix: ''
+        },
+        plotOptions: {
+            area: {
+                stacking: 'normal',
+                lineColor: '#553771',
+                lineWidth: 1,
+                marker: {
+                    lineWidth: 2,
+                    lineColor: '#fff'
+                }
+            }
+        },
+        series: [{
+            name: 'Visitors',
+            data: [
+                {{ visitors_data.seventh.visitors }},
+                {{ visitors_data.sixth.visitors }},
+                {{ visitors_data.fifth.visitors }},
+                {{ visitors_data.fourth.visitors }},
+                {{ visitors_data.third.visitors }},
+                {{ visitors_data.second.visitors }},
+                {{ visitors_data.first.visitors }},
+                {{ visitors_data.today.visitors }}
+            ],
+            color: '#744B9B'
+        }]
+    });
+});
+
+
+    //visitors brwosers
+
+    $(function () {
+    // Create the chart
+    $('#container_browser').highcharts({
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Browser Visitors'
+        },
+        xAxis: {
+            type: 'category'
+        },
+        yAxis: {
+            title: {
+                text: 'Percentage Visitors Come From'
+            }
+
+        },
+        legend: {
+            enabled: false
+        },
+        plotOptions: {
+            series: {
+                borderWidth: 0,
+                dataLabels: {
+                    enabled: true,
+                    format: '{point.y:.1f}%'
+                }
+            }
+        },
+
+        tooltip: {
+            headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+            pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.1f}%</b> of total<br/>'
+        },
+
+        series: [{
+            name: 'Brands',
+            colorByPoint: true,
+            data: [
+                {% for browser in visitors_browser %}
+                    {
+                        name: '{{ browser.user_agent_family  }}',
+                        y: {{ browser.total_user_agent_family }}
+                    },
+                {% endfor %}
+
+
+{#                {#}
+{#                name: 'Microsoft Internet Explorer',#}
+{#                y: 56.33,#}
+{#                drilldown: 'Microsoft Internet Explorer'#}
+{#            }, {#}
+{#                name: 'Chrome',#}
+{#                y: 24.03,#}
+{#                drilldown: 'Chrome'#}
+{#            }, {#}
+{#                name: 'Firefox',#}
+{#                y: 10.38,#}
+{#                drilldown: 'Firefox'#}
+{#            }, {#}
+{#                name: 'Safari',#}
+{#                y: 4.77,#}
+{#                drilldown: 'Safari'#}
+{#            }, {#}
+{#                name: 'Opera',#}
+{#                y: 0.91,#}
+{#                drilldown: 'Opera'#}
+{#            }, {#}
+{#                name: 'Proprietary or Undetectable',#}
+{#                y: 0.2,#}
+{#                drilldown: null#}
+{#            }#}
+            ]
+        }],
+
+
+    });
+});
+    </script>
+
+
+{% endblock %}

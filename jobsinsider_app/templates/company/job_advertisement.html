@@ -8,20 +8,27 @@
     <a href="{% url 'logout' %}">Logout</a>
 {% endblock %}
 {% block body_content %}
-    <section class="header_top_menu">
+
+    <section id="company">
         <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="col-xs-6 title_job">
-                        <h3>Job > <span style="color:#8949aa;">Create New</span></h3>
-                    </div>
-                    <div class="col-xs-6 title_links">
-                        <div class="nav_job">
-                            <ul>
-                                <li><a href="{% url 'posted_jobs' %}">Posted Jobs</a></li>
-                                <li><a href="">View Candidates</a></li>
-                            </ul>
-                        </div>
+            <div class="col-md-12">
+                <div class="col-md-2">
+
+                    <h3>
+                        Job > <span style="color:#8949aa;">Create</span>
+                    </h3>
+
+                </div>
+                <div class="col-md-10">
+                    <div class="cp_nav">
+                        <ul>
+                            <li><a href="{% url 'job_advertisement' %}">Create Advertisement</a></li>
+                            <li><a href="{% url 'test_template' %}">Evaluation Test</a></li>
+                            <li><a href="{% url 'posted_jobs' %}">Posted Jobs</a></li>
+
+                            <li><a href="">Shortlisted People</a></li>
+                            <li><a href="{% url 'favorite' %}">Favorite CV</a></li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -111,7 +118,7 @@
                                                 {{ job_form.category }}
                                             </div>
                                             <div class="col-md-6 nopad-lr">
-                                                <label for="">Industry Category</label><br>
+                                                <label for="">Degree Level</label><br>
                                                 {{ job_form.education }}
                                             </div>
 
@@ -133,8 +140,8 @@
 
                                         {{ job_form.job_description }}
                                     </div>
-                                    <input type="button" value="Save" name="_save" class="job_advertisement">
-                                    <input type="button" value="Preview" name="_preview" class="job_advertisement">
+                                    <input type="button" value="Save Job" name="_save" class="job_advertisement main__button">
+{#                                    <input type="button" value="Preview" name="_preview" class="job_advertisement">#}
                                 </form>
                         </div>
                 </div>
@@ -149,8 +156,8 @@
 {% block custom_scripts %}
 {#<script type="text/javascript" src="/assets/js/tiny_mce/tiny_mce.js"></script>#}
 {#<script type="text/javascript" src="{% url "tinymce-js" "createad" %}"></script>#}
-    <script src="//tinymce.cachefly.net/4.2/tinymce.min.js"></script>
-{#    <script src="/assets/js/plugins/tinymce/tinymce.min.js"></script>#}
+{#    <script src="//tinymce.cachefly.net/4.2/tinymce.min.js"></script>#}
+    <script src="/assets/js/plugins/tinymce/tinymce.min.js"></script>
     <script src="/assets/js/plugins/chosen/chosen.jquery.js"></script>
     <script>tinymce.init({selector:'textarea'});</script>
      <script type="text/javascript">

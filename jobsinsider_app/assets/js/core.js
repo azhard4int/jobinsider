@@ -101,7 +101,12 @@ function register_account()
             data: $('#register_form').serialize(),
             success: function(json)
             {
-                console.log(json);
+                resp = JSON.parse(json);
+                if(resp.status==true)
+                {
+                    console.log('registered');
+                    message_display('Verification Link has been Emailed to You!', 1)
+                }
             },
             error: function(json)
             {
@@ -1022,7 +1027,7 @@ $('.company_detail').on('click', function(e){
                 resp = JSON.parse(m);
                 if(resp.status==true)
                 {
-                    window.location.href = '/company/dashboard/'
+                    window.location.href = '/company/index/'
                 }
                 else{
                     $('error_m').html('Some Error Incurred');
@@ -1077,34 +1082,60 @@ $('.change_company_password').on('click', function(e){
 
 $('.job_advertisement').on('click', function(event)
 {
-    var formElement = document.querySelector('form');
-    var form_data = $('#jobadvert_form').serialize();// new FormData(formElement);
-    var job_description = (tinyMCE.activeEditor.getContent({format : 'raw'}));
-    var csrfmdi = document.getElementsByName('csrfmiddlewaretoken')[0].value;
-    $.ajax(
-        {
-            url:'/company/create-job/',
-            type:'POST',
-            data:{
-                'form_val': form_data,
-                'csrfmiddlewaretoken': csrfmdi,
-                'description': job_description
-            },
-            success:function(m)
+
+
+    if($('#id_job_title').val()=='')
+    {
+        //, #id_job_position, #id_salary_from, #id_salary_to
+            $('#id_job_title').focus();
+            $('#id_job_title').css('border-color', 'red');
+            exit;
+    }
+    else if($('#id_job_position').val()=='')
+    {
+        $('#id_job_position').focus();
+        $('#id_job_position').css('border-color', 'red');
+
+    }
+    else if($('#id_salary_from').val()=='')
+    {
+        $('#id_salary_from').focus();
+        $('#id_salary_from').css('border-color', 'red');
+    }
+    else if($('#id_salary_to').val()=='')
+    {
+        $('#id_salary_to').focus();
+        $('#id_salary_to').css('border-color', 'red');
+    }
+    else{
+        var formElement = document.querySelector('form');
+        var form_data = $('#jobadvert_form').serialize();// new FormData(formElement);
+        var job_description = (tinyMCE.activeEditor.getContent({format : 'raw'}));
+        var csrfmdi = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+        $.ajax(
             {
-                resp = JSON.parse(m);
-                if(resp.status==true)
+                url:'/company/create-job/',
+                type:'POST',
+                data:{
+                    'form_val': form_data,
+                    'csrfmiddlewaretoken': csrfmdi,
+                    'description': job_description
+                },
+                success:function(m)
                 {
-                    window.location.href= '/company/settings-job/'+ resp.last_inserted;
+                    resp = JSON.parse(m);
+                    if(resp.status==true)
+                    {
+                        window.location.href= '/company/settings-job/'+ resp.last_inserted;
+                    }
+                },
+                error:function(m)
+                {
+
                 }
-            },
-            error:function(m)
-            {
-
             }
-        }
-    );
-
+        );
+    }
     return false;
 });
 
@@ -1140,7 +1171,7 @@ $('.job_ad_settings').on('click', function(e)
         is_apply_by = 1;
     }
     date_value = $('.apply_by_datevalue').val();
-    alert(date_value);
+    //alert(date_value);
     $.ajax(
         {
             url:'/company/settings-job/' + $('.job_id').attr('value'),
@@ -1228,7 +1259,7 @@ $('.job_advertisement_edit').on('click', function(event)
     var job_description = (tinyMCE.activeEditor.getContent({format : 'raw'}));
     var csrfmdi = document.getElementsByName('csrfmiddlewaretoken')[0].value;
     var id_value = $('.jobid_value').attr('value');
-    alert(id_value);
+    //alert(id_value);
     $.ajax(
         {
             url:'/company/job/edit/' + id_value,
@@ -1241,9 +1272,11 @@ $('.job_advertisement_edit').on('click', function(event)
             success:function(m)
             {
                 resp = JSON.parse(m);
+                console.log(resp);
                 if(resp.status==true)
                 {
-                    window.location.href= '/company/settings-job/'+ resp.last_inserted;
+                    message_display('Job Edited Successfully', 1)
+                    //window.location.href= '/company/settings-job/'+ resp.last_inserted;
                 }
             },
             error:function(m)
@@ -1272,7 +1305,12 @@ $('.apply_job').on('click', function(event)
             },
             success:function(data)
             {
-
+                resp = JSON.parse(data);
+                console.log(resp);
+                if(resp.status==true)
+                {
+                    message_display(resp.response, 1)
+                }
             },
             error:function(data)
             {
@@ -1299,7 +1337,16 @@ $('.add_favorite').on('click', function(event)
             },
             success:function(data)
             {
+                resp = JSON.parse(data);
+                console.log(resp);
+                if(resp.status==true)
+                {
+                    message_display(resp.response, 1);
+                    console.log($(this).parent());
+                    $(this).removeClass('add_favorite');
+                    $(this).addClass('remove_favorite_job');
 
+                }
             },
             error:function(data)
             {
@@ -1325,7 +1372,15 @@ $('.remove_favorite_job').on('click', function(event)
             },
             success:function(data)
             {
+                resp = JSON.parse(data);
+                console.log(resp);
+                if(resp.status==true)
+                {
+                    message_display(resp.response, 1)
+                    $(this).removeClass('remove_favorite_job');
+                    $(this).addClass('add_favorite');
 
+                }
             },
             error:function(data)
             {

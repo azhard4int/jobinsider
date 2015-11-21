@@ -1,0 +1,654 @@
+from django.shortcuts import render
+from django.utils.decorators import method_decorator
+from django.views.generic import View
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect, HttpResponse
+from .models import *
+from django.contrib.auth import login as login_session
+from django.utils import timezone
+from django.contrib.auth import authenticate, logout, login
+from django.core import serializers
+from django.db.models import Count
+from accounts import models as accounts_models
+from users import models as user_models
+from accounts import models as acc_mod
+from core.decoraters import is_company
+from accounts import forms as accountsform
+import models as evaluation_models
+from datetime import datetime
+from urlparse import urlparse, parse_qs
+from django.db.models import Avg, Min, Max
+
+
+import models
+import simplejson as json
+import addons
+
+@login_required()
+@is_company
+def evaluation(request):
+    return HttpResponseRedirect('/evaluation/')
+
+# def toevaluation(request):
+#     return HttpResponseRedirect('/get-evaluation-test-questions/')
+
+
+class EvaluationTestTemplate(View):
+    @method_decorator(login_required)
+    @method_decorator(is_company)
+    def get(self, request):
+         query = models.evaluation_test_template.objects.filter(user_id=request.user.id)
+         if query:
+                 return render(request, 'evaluation_index.html', {'evaluation': query})
+         else:
+                 return render(request, 'evaluation_index.html')
+
+
+
+    @method_decorator(is_company)
+    def post(self, request):
+
+        print request.POST
+
+        try:
+           query=models.evaluation_test_template(
+                evaluation_name=request.POST['evaluation_name'],
+                evaluation_description=request.POST['evaluation_description'],
+                evaluation_catagory=request.POST['evaluation_catagory'],
+                evaluation_rules=request.POST['evaluation_rules'],
+                evaluation_status=0,
+                evaluation_type=int(request.POST['evaluation_type']),
+                evaluation_total_questions=int(request.POST['evaluation_questions']),
+                user_id=request.user.id
+
+            )
+           query.save()
+           obj = models.evaluation_test_template.objects.latest('id')
+
+           whole = {
+               'evaluation_id':obj.id,
+               'evaluation_name':request.POST['evaluation_name'],
+               'evaluation_catagory':request.POST['evaluation_catagory'],
+               'evaluation_status':0,
+               'evaluation_type':(request.POST['evaluation_type']),
+               'evaluation_total_questions':(request.POST['evaluation_questions'])
+           }
+
+           if query:
+                 return HttpResponse(json.dumps({'status': whole}))
+           else:
+                 return HttpResponse(json.dumps({'status': 'False'}))
+
+        except Exception as e:
+            print e
+            return HttpResponse(json.dumps({'status': 'Err'}))
+
+
+
+class AddQuestions(View):
+      @method_decorator(is_company)
+      def get(self, request):
+        try:
+            numberq = models.evaluation_test_template.objects.filter(id=request.GET['test_template_id'])
+            count = models.evaluation_test_questions.objects.filter(evaluation_test_template_id=request.GET['test_template_id']).count()
+            wholelist={
+
+                'total_questions':numberq[0].evaluation_total_questions,
+                'question_count':count
+             }
+
+
+            if (count or count==0) and numberq:
+                 return HttpResponse(json.dumps({'status': wholelist}))
+            else:
+                 return HttpResponse(json.dumps({'status': 'False'}))
+        except Exception as e:
+            print e
+            return HttpResponse(json.dumps({'status': 'Err'}))
+
+      @method_decorator(is_company)
+      def post(self, request):
+        try:
+            numberq = models.evaluation_test_template.objects.filter(id=request.POST['id_evaluation'])
+            count = models.evaluation_test_questions.objects.filter(evaluation_test_template_id=request.POST['id_evaluation']).count()
+
+            if count < numberq[0].evaluation_total_questions:
+                object = models.evaluation_test_questions(
+
+
+                evaluation_question = request.POST['question'],
+                evaluation_question_answer = request.POST['correct_answer'],
+                evaluation_test_template_id = request.POST['id_evaluation']
+
+                 ).save()
+
+
+                obj = models.evaluation_test_questions.objects.latest('id')
+
+                try:
+
+                    option1 = models.evaluation_test_answer(
+                    evaluation_question_option = request.POST['option1'],
+                    evaluation_test_template_id = request.POST['id_evaluation'],
+                    evaluation_test_questions_id = obj.id
+
+                  ).save()
+
+                except Exception as e:
+                       print e
+
+                try:
+
+                    option2 = models.evaluation_test_answer(
+                    evaluation_question_option = request.POST['option2'],
+                    evaluation_test_template_id = request.POST['id_evaluation'],
+                    evaluation_test_questions_id = obj.id
+
+                ).save()
+
+                except Exception as e:
+                       print e
+
+                try:
+
+                    option3 = models.evaluation_test_answer(
+                    evaluation_question_option = request.POST['option3'],
+                    evaluation_test_template_id = request.POST['id_evaluation'],
+                    evaluation_test_questions_id = obj.id
+
+                ).save()
+
+                except Exception as e:
+                       print e
+                try:
+
+                    option4 = models.evaluation_test_answer(
+                    evaluation_question_option = request.POST['option4'],
+                    evaluation_test_template_id = request.POST['id_evaluation'],
+                    evaluation_test_questions_id = obj.id
+
+                ).save()
+
+                except Exception as e:
+                       print e
+
+                try:
+
+                    option5 = models.evaluation_test_answer(
+                    evaluation_question_option = request.POST['option5'],
+                    evaluation_test_template_id = request.POST['id_evaluation'],
+                    evaluation_test_questions_id = obj.id
+
+                ).save()
+
+                except Exception as e:
+                       print e
+
+
+            else:
+
+                return HttpResponse(json.dumps({'status': 'False'}))
+
+            return HttpResponse(json.dumps({'status': 'True'}))
+
+
+        except Exception as e:
+            print e
+            return HttpResponse(json.dumps({'status': 'Err'}))
+
+
+
+class Evaluation_Edit_Test(View):
+
+    @method_decorator(is_company)
+    def get(self, request):
+         try:
+
+             query = models.evaluation_test_template.objects.filter(id=request.GET['id'], user_id=request.user.id)
+             list= {
+                 'id':query[0].id,
+                 'evaluation_name':query[0].evaluation_name,
+                 'evaluation_description':query[0].evaluation_description,
+                 'evaluation_rules':query[0].evaluation_rules,
+                 'evaluation_catagory':query[0].evaluation_catagory,
+                 'evaluation_type':query[0].evaluation_type,
+                 'evaluation_total_questions':query[0].evaluation_total_questions
+
+              }
+             if query:
+                return HttpResponse(json.dumps({'status': list}))
+             else:
+                 return render(request, 'Error')
+
+         except Exception as e:
+            print e
+
+         return HttpResponse(json.dumps({'status': 'Err'}))
+
+
+    @method_decorator(is_company)
+    def post(self, request):
+        try:
+            query = models.evaluation_test_template.objects.filter(id=request.POST['evaluation_test_template_id'],user_id=request.user.id).update(
+            evaluation_name=request.POST['edit_eva_title'],
+            evaluation_description=request.POST['edit_eva_description'],
+            evaluation_catagory=request.POST['edit_eva_cat'],
+            evaluation_rules=request.POST['edit_eva_rules'],
+            evaluation_type=int(request.POST['edit_eva_type']),
+            evaluation_total_questions=int(request.POST['edit_eva_number'])
+
+            )
+            if query:
+                 return HttpResponse(json.dumps({'status': 'True'}))
+            else:
+                 return HttpResponse(json.dumps({'status': 'Error'}))
+
+        except Exception as e:
+                print e
+
+        return HttpResponse(json.dumps({'status': 'Err'}))
+
+class Evaluation_Delete_Test(View):
+
+    @method_decorator(is_company)
+    def post(self, request):
+         try:
+            query = models.evaluation_test_template.objects.filter(id=request.POST['id'],user_id=request.user.id).delete()
+            return HttpResponse(json.dumps({'status': True}))
+         except Exception as e:
+            print e
+            return HttpResponse(json.dumps({'status': 'Error'}))
+
+         return HttpResponse(json.dumps({'status': 'Err'}))
+
+
+
+
+#Whole TEST
+
+total_marks=0
+class Get_Evaluation_Test_Questions(View):
+
+    first_question = 0
+    def get(self, request):
+         try:
+            global total_marks
+            total_marks=0
+
+            query=models.evaluation_test_questions.objects.filter(evaluation_test_template_id=request.GET['id'])
+            query2 = models.evaluation_test_answer.objects.filter(evaluation_test_questions_id=query[0].id,evaluation_test_template_id=request.GET['id'])
+
+            global first_question
+            first_question= query[0].id
+
+            newquery=serializers.serialize('json', query2)
+            length=len(query2)
+
+            if query and query2:
+                 return HttpResponse(json.dumps({'test_id':request.GET['id'],
+                                                 'question_id':query[0].id,
+                                                 'question': query[0].evaluation_question,
+                                                 'length':length,
+                                                 'options':newquery}))
+            else:
+                 return HttpResponse(json.dumps({'status': 'Error'}))
+
+         except Exception as e:
+            return HttpResponse(json.dumps({'status': 'Error'}))
+
+
+
+
+
+
+
+    def post(self, request):
+          try:
+              # here calling the result function and passing the answer,question_id and evaluation test id
+              cal_reult=result(request.POST['current_answer'],request.POST['test_id'],request.POST['current_question_id'])
+              print request.POST['current_answer']
+
+
+
+              # to get the next question from the database
+              next_question_id = get_next(request.POST['current_question_id'],request.POST['test_id'])
+
+              # this if condidtion is to stop the test from repeat
+              if first_question != next_question_id:
+                  if next_question_id==0 or next_question_id== None:
+                        count = models.evaluation_test_questions.objects.filter(
+                            evaluation_test_template_id=request.POST['test_id']
+                        ).count()
+                        return HttpResponse(json.dumps({'status': 'Test is Finished','questions':count,'final_marks':cal_reult}))
+
+
+
+                  query=models.evaluation_test_questions.objects.filter(id=next_question_id,evaluation_test_template_id=request.POST['test_id'])
+                  query2 = models.evaluation_test_answer.objects.filter(evaluation_test_questions_id=query[0].id,evaluation_test_template_id=request.POST['test_id'])
+                  newquery=serializers.serialize('json', query2)
+                  length=len(query2)
+
+
+
+                  if query and query2:
+                       return HttpResponse(json.dumps({'test_id':request.POST['test_id'],
+                                                 'question_id':query[0].id,
+                                                 'question': query[0].evaluation_question,
+                                                 'length':length,
+                                                 'options':newquery}))
+              else:
+                   return HttpResponse(json.dumps({'status': 'Test is Finished'}))
+
+          except Exception as e:
+            return HttpResponse(json.dumps({'status': 'Err'}))
+
+# Global functions
+# this is for getting the next question id
+def get_next(curr_id,test_id):
+    try:
+        ret = models.evaluation_test_questions.objects.filter(id__gt=curr_id,evaluation_test_template_id=test_id).order_by("id")[0:1].get().id
+    except ret.DoesNotExist:
+        # ret = evaluation_test_questions.objects.aggregate(Min("id"))['id__min']
+        ret = 0
+    return ret
+
+
+# this is for callculating result
+def result(user_answer,test_id,question_id):
+    try:
+        answer = query=models.evaluation_test_questions.objects.filter(id=int(question_id),evaluation_test_template_id=int(test_id))
+        if user_answer == answer[0].evaluation_question_answer:
+            global total_marks
+            total_marks=total_marks+1
+        return total_marks
+    except Exception as e:
+            return HttpResponse(json.dumps({'status': 'Err'}))
+
+
+def edit_evaluation_question(request,id):
+    try:
+         query=models.evaluation_test_questions.objects.filter(evaluation_test_template_id=id)
+         if query:
+            return render(request, 'evaluation_edit_questions.html',{'query':query})
+
+         else:return render(request, 'evaluation_edit_questions.html')
+
+
+    except Exception as e:
+            return render(request, 'evaluation_edit_questions.html')
+
+
+
+class Edit_Question(View):
+
+
+    def get(self,request):
+        try:
+            questionquery=models.evaluation_test_questions.objects.filter(id=request.GET['id'])
+            query=models.evaluation_test_answer.objects.filter(evaluation_test_questions_id=request.GET['id'])
+            length=len(query)
+
+            list= {
+
+                 'question':questionquery[0].evaluation_question,
+                 'answer':questionquery[0].evaluation_question_answer
+            }
+
+
+
+
+            newquery=serializers.serialize('json', query)
+
+            return HttpResponse(json.dumps({'length':length,'status': newquery,'qesans':list}))
+
+        except Exception as e:
+            return HttpResponse(json.dumps({'status': 'Err'}))
+
+
+
+    def post(self,request):
+
+       try:
+
+
+           main = models.evaluation_test_questions.objects.filter(id=request.POST['question_id'])
+           question_id = request.POST['question_id']
+           template_id = main[0].evaluation_test_template_id
+
+
+
+
+           try:
+
+              query = models.evaluation_test_questions.objects.filter(id=request.POST['question_id']).update(
+                    evaluation_question=request.POST['question'],
+                    evaluation_question_answer=request.POST['correctanswer']
+                    )
+
+           except Exception as e:
+                       print e
+#updating option1
+
+           try:
+
+                if request.POST['option2_id']:
+                   option1 = models.evaluation_test_answer.objects.filter(id=request.POST['option1_id']).update(
+                    evaluation_question_option=request.POST['option1']
+                    )
+
+
+
+
+
+           except Exception as e:
+                       print e
+
+#adding option1
+           try:
+                    try:
+                        query1 = models.evaluation_test_answer.objects.filter(id=request.POST['option1_id'])
+                    except Exception as e:
+                        if request.POST['option1']:
+                          option1 = models.evaluation_test_answer(
+                    evaluation_question_option = request.POST['option1'],
+                    evaluation_test_template_id = template_id,
+                    evaluation_test_questions_id = question_id
+
+                  ).save()
+
+           except Exception as e:
+                       print e
+
+
+
+#updating option 2
+           try:
+                  if request.POST['option2_id']:
+                     option2 = models.evaluation_test_answer.objects.filter(id=request.POST['option2_id']).update(
+                    evaluation_question_option=request.POST['option2']
+                    )
+
+           except Exception as e:
+                       print e
+#adding option 2
+
+           try:
+                    try:
+                        query2 = models.evaluation_test_answer.objects.filter(id=request.POST['option2_id'])
+                    except Exception as e:
+                     if request.POST['option2']:
+                       option2 = models.evaluation_test_answer(
+                    evaluation_question_option = request.POST['option2'],
+                    evaluation_test_template_id = template_id,
+                    evaluation_test_questions_id = question_id
+
+                  ).save()
+
+
+           except Exception as e:
+                       print e
+
+
+#updating option 3
+           try:
+                   if request.POST['option3_id']:
+                       option3 = models.evaluation_test_answer.objects.filter(id=request.POST['option3_id']).update(
+                    evaluation_question_option=request.POST['option3']
+                    )
+
+
+
+           except Exception as e:
+                       print e
+#adding option 3
+
+           try:
+
+
+
+                    try:
+                        query3 = models.evaluation_test_answer.objects.filter(id=request.POST['option3_id'])
+                    except Exception as e:
+                        print "adding new entry to the data base option3"
+                        if request.POST['option3']:
+                           option3 = models.evaluation_test_answer(
+                    evaluation_question_option = request.POST['option3'],
+                    evaluation_test_template_id = template_id,
+                    evaluation_test_questions_id = question_id
+
+                  ).save()
+                    print "option 3 is saved"
+
+           except Exception as e:
+                       print e
+
+#updating option 4
+           try:
+
+                if request.POST['option4_id']:
+                    option4 = models.evaluation_test_answer.objects.filter(id=request.POST['option4_id']).update(
+                    evaluation_question_option=request.POST['option4']
+                    )
+
+           except Exception as e:
+                       print e
+#adding option 4
+
+           try:
+
+
+                    try:
+                        query4 = models.evaluation_test_answer.objects.filter(id=request.POST['option4_id'])
+                    except Exception as e:
+                        if request.POST['option4']:
+                           option4 = models.evaluation_test_answer(
+                    evaluation_question_option = request.POST['option4'],
+                    evaluation_test_template_id = template_id,
+                    evaluation_test_questions_id = question_id
+
+                  ).save()
+
+           except Exception as e:
+                       print e
+
+
+#updating option 5
+           try:
+                 if request.POST['option5_id']:
+                    option5 = models.evaluation_test_answer.objects.filter(id=request.POST['option5_id']).update(
+                    evaluation_question_option=request.POST['option5']
+                    )
+
+           except Exception as e:
+                       print e
+#adding option 5
+           try:
+                    try:
+                           query5 = models.evaluation_test_answer.objects.filter(id=request.POST['option5_id'])
+                    except Exception as e:
+
+                        if request.POST['option5']:
+                           option5 = models.evaluation_test_answer(
+                    evaluation_question_option = request.POST['option5'],
+                    evaluation_test_template_id = template_id,
+                    evaluation_test_questions_id = question_id
+
+                  ).save()
+
+           except Exception as e:
+                       print e
+
+           try:
+                    if not request.POST['option1']:
+                            option1 = models.evaluation_test_answer.objects.filter(id=request.POST['option1_id']).delete()
+                            print 'option1 deleted'
+
+
+           except Exception as e:
+                               print e
+
+           try:
+                    if not request.POST['option2']:
+                            option2 = models.evaluation_test_answer.objects.filter(id=request.POST['option2_id']).delete()
+                            print 'option2 deleted'
+
+           except Exception as e:
+                               print e
+
+           try:
+                    if not request.POST['option3']:
+                            option3 = models.evaluation_test_answer.objects.filter(id=request.POST['option3_id']).delete()
+                            print "option 3 is delete"
+
+           except Exception as e:
+                               print e
+
+           try:
+                    if not request.POST['option4']:
+                            option4 = models.evaluation_test_answer.objects.filter(id=request.POST['option4_id']).delete()
+                            print 'option4 deleted'
+
+           except Exception as e:
+                               print e
+
+           try:
+                    if not request.POST['option5']:
+                            option5 = models.evaluation_test_answer.objects.filter(id=request.POST['option4_id']).delete()
+                            print 'option5 deleted'
+
+           except Exception as e:
+                               print e
+
+
+
+           if query or option1 or option2 or option3 or option4 or option5:
+            return HttpResponse(json.dumps({'status': 'True'}))
+           else:
+            return HttpResponse(json.dumps({'status': 'False'}))
+
+
+       except Exception as e:
+            return HttpResponse(json.dumps({'status': 'Err'}))
+
+
+class Delete_Question(View):
+
+
+    def get(self,request):
+        try:
+           query = models.evaluation_test_answer.objects.filter(id=request.GET['id']).delete()
+           if query:
+               return HttpResponse(json.dumps({'status': 'True'}))
+           else:
+               return HttpResponse(json.dumps({'status': 'False'}))
+        except Exception as e:
+            return HttpResponse(json.dumps({'status': 'Err'}))
+
+    def post(self,request):
+         try:
+            questionquery=models.evaluation_test_questions.objects.filter(id=request.POST['id']).delete()
+            if questionquery:
+                return HttpResponse(json.dumps({'status': 'True'}))
+         except Exception as e:
+                        return HttpResponse(json.dumps({'status': 'Error'}))
+         return HttpResponse(json.dumps({'status': 'True'}))

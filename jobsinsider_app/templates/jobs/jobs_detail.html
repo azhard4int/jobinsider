@@ -4,6 +4,13 @@
             {% block authenticate_user %} {{ user.first_name|slice:":1" }}{{ user.last_name|slice:":1" }}{%  endblock %}
         {% endif %}
 {% block body_content %}
+    <div class="notify_message">
+        <h4>
+            <span>
+
+            </span>
+        </h4>
+    </div>
     <section class="header_top_menu">
         <div class="container">
             <div class="row">
@@ -75,9 +82,48 @@
                 </div>
             </div>
 
-            <div class="col-lg-9 col-md-9">
-                dasdas
+            <div class="col-lg-9 col-md-9 job_detailed_view nopad-lr">
+                <div class="feature_block">
+
+                        <div class="col-md-4 feature_job_stats">
+                            POSITIONS: {{ job.job_position}}
+                        </div>
+                        <div class="col-md-4 feature_job_stats">
+                            SALARY: {{ job.salary_from}} PKR  - {{ job.salary_to }} PKR
+                        </div>
+                        <div class="col-md-4 feature_job_stats">
+                            DEGREE LEVEL: {{ job.degree_level }}
+                        </div>
+                        <div class="col-md-4 feature_job_stats">
+                            EXPERIENCE LEVEL: {{ job.experience }}
+                        </div>
+                        <div class="col-md-4 feature_job_stats">
+                            EMPLOYMENT LEVEL: {{ job.employment }}
+                        </div>
+
+                </div>
+                <div class="clearfix"></div>
+                <div class="job_detail_description">
+                    {{ job.job_description|safe }}
+                </div>
+                <div class="clearfix"></div>
+                <div class="col-md-4 job_description_btn">
+                    {% if user_status %}
+                        {% if not is_applied %}
+                            {% if not is_company %}
+                                <a href="javascript:;" value="{{ job.id }}" class="job_apply_btn apply_job">Apply Job</a>
+                            {% endif %}
+                        {% else %}
+                            <a href="javascript:;" class="job_apply_btn">Applied</a>
+                        {% endif %}
+                    {% else %}
+                        <a href="/accounts/register" value="{{ job.id }}" class="job_apply_btn apply_job">Sign Up to Apply</a>
+                    {% endif %}
+                </div>
+                <div class="clearfix"></div>
+
             </div>
+
             <div class="col-lg-3 col-md-3">
 
             </div>

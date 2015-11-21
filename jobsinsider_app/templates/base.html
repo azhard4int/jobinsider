@@ -17,7 +17,13 @@
 
 </head>
 <body>
+<div class="notify_message">
+        <h4>
+            <span>
 
+            </span>
+        </h4>
+    </div>
 <div class="top_border"></div>
 {% block nav_content %}
     <header class="top_layout">
@@ -89,6 +95,7 @@
 {% block scripts_block %}
     <script src='{% static "/assets/js/jquery-1.11.3.min.js" %}'></script>
     <script src='{% static "/assets/js/main.js" %}'></script>
+    <script src='{% static "/assets/js/helper.js" %}'></script>
     <script src='{% static "/assets/js/core.js" %}'></script>
     <!--<script src='{% static "/assets/plugins/dropzone/dropzone.js" %}'></script>-->
     {% bootstrap_javascript %}

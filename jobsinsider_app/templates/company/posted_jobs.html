@@ -13,22 +13,30 @@
 {% endblock %}
 {% block body_content %}
 
+    <div class="notify_message">
+        <h4>
+            <span>
+
+            </span>
+        </h4>
+    </div>
 
 <div class="clearfix"></div>
     <section id="company">
         <div class="container">
             <div class="col-md-12">
-                <div class="col-md-4">
+                <div class="col-md-2">
 
                     <h3>
                        Posted Jobs
                     </h3>
 
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-10">
                     <div class="cp_nav">
                         <ul>
                             <li><a href="{% url 'job_advertisement' %}">Create Advertisement</a></li>
+                            <li><a href="{% url 'test_template' %}">Evaluation Test</a></li>
                             <li><a href="{% url 'posted_jobs' %}">Posted Jobs</a></li>
                             <li><a href="">Shortlisted People</a></li>
                             <li><a href="{% url 'favorite' %}">Favorite CV</a></li>
@@ -112,13 +120,13 @@
                                         </div>
                                         <ul class="dropdown_menu_actions menu_id_{{ job.id }}">
                                                 <li>
-                                                    <a href="/company/job/edit/{{ job.id }}" >Edit Job Details</a>
+                                                    <a href="{%  url 'job_advertisement_edit' job.id %}" >Edit Job Details</a>
                                                 </li>
                                                 <li>
-                                                    <a href="">Applied Candidates</a>
+                                                    <a href="{% url 'applied_candidates' job.id %}">Applied Candidates</a>
                                                 </li>
                                                 <li>
-                                                    <a href="">View Analytics</a>
+                                                    <a href="{% url 'analytics_view' job.id%}">View Analytics</a>
                                                 </li>
                                                 <li>
                                                     <a href="javascript:;" class="delete_job_menu" value="{{ job.id }}">Delete Job</a>

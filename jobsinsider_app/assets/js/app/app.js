@@ -142,7 +142,6 @@ app.controller('leftfilters', function($http, $scope)
         if(this.categoriesID[value])
         {
             this.categories_id.push(value);
-            alert(this.categories_id)
             this.getfilteredResults();
         }
         else{

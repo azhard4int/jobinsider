@@ -35,27 +35,30 @@
                                     <li>
                                         <a href="/jobs/index">Jobs</a>
                                     </li>
-                                    {% if not body_status %}
+
+{#                                    {% if body_status %}#}
                                         <li>
                                             <a href="{% url 'favorite' %}">Favorite Jobs</a>
                                         </li>
                                         <li>
                                             <a href="{% url 'applied' %}">Applied </a>
                                         </li>
-                                    {% endif %}
+{#                                    {% endif %}#}
                                 {% else %}
                                     <li>
-                                        <a href="{% url 'register_account' %}">Search Jobs</a>
+                                        <a href="{% url 'search' %}">Jobs</a>
                                     </li>
-                                    <li>
-                                        <a href="{% url 'register_account' %}">View Profiles</a>
-                                    </li>
+{#                                    <li>#}
+{#                                        <a href="{% url 'register_account' %}">View Profiles</a>#}
+{#                                    </li>#}
                                 {% endif %}
                             </ul>
                         </div>
                         <div class="user_actions"><!--user_profile_detail-->
                                 <div class=""><!--user_profile_detail-->
+                                   {% if not body_status == 2 %}
                                     <ul class="dashboard_s0_nav_main">
+
                                         <li>
                                             <a href=""><i class="fa fa-inbox fa-lg"></i></a>
                                         </li>
@@ -63,6 +66,7 @@
                                             <a href=""><i class="fa fa-bell-o fa-lg"></i></a>
                                         </li>
                                         <li >
+
                                             <a class="display_user_settings"  href=""><span class="user_initials">{% block authenticate_user %}Welcome  Username {%  endblock %}</span></a>
                                             <div class="user_profile_settings">
                                                 <div class="links_block">
@@ -74,6 +78,7 @@
                                             </div>
                                         </li>
                                     </ul>
+                                {% endif %}
                                 </div>
                         </div>
                     </div>
@@ -90,10 +95,11 @@
 {% block body_content %} {% endblock %}
 {% block scripts_block %}
     <script src='{% static "/assets/js/jquery-2.1.4.min.js" %}'></script>
+    <script src='{% static "/assets/js/plugins/verifyjs/verify.notify.min.js" %}'></script>
     <script src='{% static "/assets/js/plugins/bootstrap/bootstrap.min.js" %}'></script>
     <script src='{% static "/assets/js/plugins/bootstrap-datepicker.js" %}'></script>
-    <script src='{% static "/assets/js/main.js" %}'></script>
     <script src='{% static "/assets/js/helper.js" %}'></script>
+    <script src='{% static "/assets/js/main.js" %}'></script>
     <script src='{% static "/assets/js/core.js" %}'></script>
 {% endblock %}
 {% block custom_scripts %}

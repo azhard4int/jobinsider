@@ -17,25 +17,28 @@
                                     {{ job_detail.company }}
                                     <span class="job_location">{{ job_detail.country }}</span>
                                     <span class="job_location_bg">{{ job_detail.cities }}</span>
+                                    <span class="job_category">
+                                        {{ job_detail.category }}
+                                    </span>
                                 </h4>
                                 <h1>{{ job_detail.job_title }}</h1>
                                 <p>{{ job_detail.job_description|safe|truncatewords:15 }}</p>
 
                             </div>
                             <div class="col-md-3">
-                                <div class="preview_btn">
-                                    <a href="{% url 'job_details' job_detail.id %}">
-                                        View Job Details
-                                    </a>
-
-                                </div>
+{#                                <div class="preview_btn">#}
+{#                                    <a href="{% url 'job_details' job_detail.id %}">#}
+{#                                        View Job Details#}
+{#                                    </a>#}
+{##}
+{#                                </div>#}
                                 <div class="apply_btn">
                                     {% if user_status == 0 %}
-                                    <a href="">
-                                        Apply Job
+                                    <a href="{% url 'job_details' job_detail.id %}">
+                                         View Job Details
                                     </a>
                                     {% else %}
-                                        <a href="">
+                                        <a href="{% url 'register_account' %}">
                                             Sign up
                                         </a>
                                     {% endif %}
