@@ -1,6 +1,6 @@
 {% load staticfiles %}
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/html">
 <head lang="en">
     <meta charset="UTF-8">
     <title>{% block title %} {% endblock %}</title>
@@ -14,6 +14,8 @@
             <link rel="stylesheet"  href="{% static "/assets/css/chosen/chosen.css" %}"/>
             <link rel="stylesheet"  href="{% static "/assets/css/plugins/bootstrap/bootstrap.min.css" %}"/>
             <link rel="stylesheet"  href="{% static "/assets/js/plugins/bootstrap_datepicker/css/bootstrap-material-datetimepicker.css" %}"/>
+{#            <link rel="stylesheet"  href="{% static "/assets/css/plugins/bootstrap-material-design/material.min.css" %}"/>#}
+            <link rel="stylesheet"  href="{% static "/assets/css/plugins/bootstrap-material-design/icon.css" %}"/>
 
         {% endblock %}
 </head>
@@ -100,7 +102,9 @@
     <script src='{% static "/assets/js/plugins/verifyjs/verify.notify.min.js" %}'></script>
     <script src='{% static "/assets/js/plugins/bootstrap/bootstrap.min.js" %}'></script>
     <script src='{% static "/assets/js/plugins/bootstrap-datepicker.js" %}'></script>
-    <script src="{% static "/assets/js/plugins/bootstrap_datepicker/js/bootstrap-material-datetimepicker.js" %}"/>
+    <script src='{% static "/assets/js/plugins/moment/min/moment.min.js" %}'></script>
+    <script src='{% static "/assets/js/plugins/moment/min/moment-with-locales.min.js" %}'></script>
+    <script src='{% static "/assets/js/plugins/bootstrap_datepicker/js/bootstrap-material-datetimepicker.js" %}'></script>
     <script src='{% static "/assets/js/helper.js" %}'></script>
     <script src='{% static "/assets/js/main.js" %}'></script>
     <script src='{% static "/assets/js/core.js" %}'></script>

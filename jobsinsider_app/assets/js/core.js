@@ -1390,3 +1390,19 @@ $('.remove_favorite_job').on('click', function(event)
     );
     return false;
 });
+
+$('#interview_time, #interview_time_to').bootstrapMaterialDatePicker({
+    date: false,
+    time: true,
+    shortTime: true,
+    format: 'HH:mm'
+});
+$('.interview_date').bootstrapMaterialDatePicker({
+    time: false,
+    format : 'YYYY-MM-DD',
+    minDate : new Date()
+});
+
+
+
+

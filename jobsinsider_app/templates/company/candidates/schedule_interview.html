@@ -38,14 +38,14 @@
             {% if user_main %}
 
                     <div class="col-md-12 ">
-                    <div class="col-md-1 nopad-lr schedule_interview__col">
-                        <img src="{{ STATIC_URL }}img/calendar-icons.png" alt="Calendar">
-                    </div>
-                    <div class="col-md-11 nopad-lr schedule_interview_content">
 
+                        <div class="col-md-12 nopad-lr schedule_interview_content">
+                        <div class="schedule_interview__col">
+                            <img src="{{ STATIC_URL }}img/calendar-icons.png" alt="Calendar">
+                        </div>
 
-
-                        <div class="applied__user">
+                        {% csrf_token %}
+                        <div class="applied__user schedule_interview_sec">
                             <div class="col-md-9 nopad-lr">
                                 <h3>
                                     <span class="headline_interview">Interview with</span> <span class="user__name">{{ user_main.first_name }} {{ user_main.last_name }}</span>
@@ -55,8 +55,11 @@
                                      <div class="col-md-2 nopad-lr">
                                          <label class="schedule_interview_label">From</label>
                                      </div>
-                                     <div class="col-md-10 nopad-lr">
-                                         <input type="text" name="from_interview_date" class="form-control interview_date">
+                                     <div class="col-md-6 nopad-lr">
+                                         <input type="text" name="from_interview_date" placeholder="Date" class="form-control interview_date from_interview_date">
+                                     </div>
+                                     <div class="col-md-4">
+                                         <input type="text" name="from_interview_date" id="interview_time" placeholder="Time" class="form-control from_interview_time">
                                      </div>
 
                                  </div>
@@ -64,44 +67,98 @@
                                      <div class="col-md-2 nopad-lr">
                                          <label class="schedule_interview_label">To</label>
                                      </div>
-                                     <div class="col-md-10 nopad-lr">
-                                         <input type="text" name="from_interview_date" class="form-control interview_date">
+                                     <div class="col-md-6 nopad-lr">
+                                         <input type="text" name="from_interview_date" placeholder="Date" class="form-control interview_date to_interview_date">
+                                     </div>
+                                     <div class="col-md-4 ">
+                                         <input type="text" name="from_interview_date" id="interview_time_to" placeholder="Time" class="form-control from_interview_time">
                                      </div>
 
                                  </div>
-                            </div>
 
+                                <div class="clearfix"></div>
+                                <div class="col-md-12">
+                                    <h3 style="padding-left:0; margin-left:0;">Invitation Message</h3>
+                                    <textarea name="" class="form-control" id="interview_message"></textarea>
+                                </div>
+                            </div>
                             <div class="col-md-3 user__actions">
 
-                                <a href="{% url 'candidate' user_bio.user_id %}" class="job_apply_btn view__detail">Send Message</a>
-                                <a href="javascript:;" class="job_apply_btn shorlist__candidate">Add a Note</a>
+                                <a href="{% url 'candidate' user_bio.user_id %}" class="job_apply_btn view__detail">Send Invitation</a>
+{#                                <a href="javascript:;" class="job_apply_btn shorlist__candidate">Add a Note</a>#}
                             </div>
                             <div class="clearfix"></div>
+                            <hr>
+
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="schedule_interview__col">
+                            <img src="{{ STATIC_URL }}img/user_rename.png" alt="User Profile">
+                        </div>
+                        <div class="applied__user schedule_interview_sec">
+                             <h3>
+                                    <span class="headline_interview">Personal Profile</span>
+                             </h3>
+                              <div class="applied__user">
+                                <div class="col-md-2">
+                                 <img class="user__profile" src="{{ MEDIA_URL }}userprofile/{{ user_bio.user_portrait_filename }}" alt="">
+                                </div>
+                              <div class="col-md-9">
+                                  <h3>
+                                    {{ user_main.first_name }} {{ user_main.last_name }}
+                                    {%   if user_bio.user_gender == 1 %}
+                                        <span class="user__gender">Female</span>
+                                    {% else %}
+                                        <span class="user__gender">Male</span>
+                                    {% endif %}
+
+                                  </h3>
+                                    <div class="clearfix"></div>
+                                    <div class="location__details">
+                                        <span class="user__gender">{{ user_location.user_city }}</span>
+                                        <span class="user__gender">{{ user_location.user_country}}</span>
+                                    </div>
+                                    <p>
+                                        {{ user_bio.user_overview|truncatewords:25 }}
+                                    </p>
+
+                                    {% for employ in  user_employment%}
+                                             <h4>
+                                                <img class="user__education" src="{{ STATIC_URL }}img/employee_16.png" alt="">{{ employ.company_worktitle}} at {{ employ.company_name }} <span class="user__date">({{ employ.company_from|date:"M Y"}} - {{ employ.company_to|date:"M Y" }})</span>
+                                             </h4>
+                                    {% endfor %}
+
+
+                                    {% for educate in  user_education%}
+                                        <h4>
+                                            <img class="user__education" src="{{ STATIC_URL }}img/college_16.png" alt="">{{ educate.user_degree }} from {{ educate.user_institute }}<span class="user__date">({{ educate.degree_from|date:"M Y"}} - {{ educate.degree_to|date:"M Y" }})</span>
+                                        </h4>
+                                    {% endfor %}
+                            </div>
+                            <div class="clearfix"></div>
+
+                         </div>
                         </div>
 
+
+
+
                      </div>
+                    <div class="clearfix"></div>
                     </div>
             {% else %}
                 <span class="empty_data favorite_empty">
                         No one applied to the job yet. You will be notified as soon as someone apply to it.
                 </span>
             {% endif %}
-            <div class="col-md-9 user_cv_data">
-                <div class="all_data">
-                <h3>
-                   Your Resume Information
-                </h3>
-                    {% if user_cv.user_cv_builder_status == 0 %}
-                    <iframe src="/company/pdf/{{ candidate_id }}" frameborder="0" width="100%" height="600px;"></iframe>
-                    {% endif %}
-                </div>
-            </div>
-
             </div>
         </div>
     </section>
 
 {% endblock %}
 {% block custom_scripts %}
+    <script>
+    </script>
+
 
 {% endblock %}
