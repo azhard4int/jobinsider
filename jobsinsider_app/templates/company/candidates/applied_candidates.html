@@ -24,7 +24,6 @@
                         <ul>
                             <li><a href="{% url 'job_advertisement' %}">Create Advertisement</a></li>
                             <li><a href="{% url 'posted_jobs' %}">Posted Jobs</a></li>
-                            <li><a href="">Shortlisted People</a></li>
                             <li><a href="{% url 'favorite' %}">Favorite CV</a></li>
                         </ul>
                     </div>
@@ -37,7 +36,7 @@
         <div class="container">
             <div class="col-md-12 applied__user__box">
             {% csrf_token %}
-            {% if data %}
+            {% if data_count != 0 %}
                 <input type="hidden" class="job__advert__id" value="{{ job_id }}">
 
                     <div class="col-md-9 ">

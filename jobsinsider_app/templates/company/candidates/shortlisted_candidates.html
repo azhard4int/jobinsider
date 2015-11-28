@@ -24,7 +24,6 @@
                         <ul>
                             <li><a href="{% url 'job_advertisement' %}">Create Advertisement</a></li>
                             <li><a href="{% url 'posted_jobs' %}">Posted Jobs</a></li>
-                            <li><a href="">Shortlisted People</a></li>
                             <li><a href="{% url 'favorite' %}">Favorite CV</a></li>
                         </ul>
                     </div>
@@ -37,7 +36,7 @@
         <div class="container">
             <div class="col-md-12 applied__user__box">
             {% csrf_token %}
-            {% if data %}
+            {% if data_count != 0 %}
                 <input type="hidden" class="job__advert__id" value="{{ job_id }}">
 
                     <div class="col-md-9 ">
@@ -87,13 +86,9 @@
 
                             </div>
                             <div class="col-md-3 user__actions">
-
                                 <a href="{% url 'candidate' details.user_id %}" class="job_apply_btn view__detail">View Detail Profile</a>
-                                {% if details.is_shortlisted == False %}
-                                    <a href="javascript:;" value="{{ details.user_id }}" class="job_apply_btn shorlist__candidate">Shortlist Candidate</a>
-                                {% else %}
-                                    <a href="javascript:;" value="{{ details.user_id }}" class="job_apply_btn shorlist__candidate__remove">Remove Candidate Shortlist</a>
-                                {% endif %}
+                                <a href="{% url 'schedule_interview' details.user_id %}" class="job_apply_btn schedule__interview__candidate">Schedule Interview</a>
+                                <a href="javascript:;" value="{{ details.user_id }}" class="job_apply_btn shorlist__candidate__remove">Remove Shortlist</a>
                             </div>
                             <div class="clearfix"></div>
                         </div>
@@ -111,7 +106,7 @@
                     </div>
             {% else %}
                 <span class="empty_data favorite_empty">
-                        No one applied to the job yet. You will be notified as soon as someone apply to it.
+                        You have not shortlisted any candidate yet. Shortlist your candidate in order to interview them.
                 </span>
             {% endif %}
             </div>

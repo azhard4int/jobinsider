@@ -1,0 +1,107 @@
+{% extends "base_dasboard.html" %}
+    <title>{% block title %}Applied Candidates{% endblock %}</title>
+        {% if user.is_authenticated %}
+            {% block authenticate_user %} {{ user.first_name|slice:":1" }} {{ user.last_name|slice:":1" }}{%  endblock %}
+        {% endif %}
+{% block header_company_nav %}
+    <a href="{% url 'company_profile' %}">Account Settings</a>
+    <a href="{% url 'logout' %}">Logout</a>
+{% endblock %}
+{% block body_content %}
+    <div class="clearfix"></div>
+    <section id="company">
+        <div class="container">
+            <div class="col-md-12">
+                <div class="col-md-4">
+
+                    <h3>
+                        Shortlist Candidate
+                    </h3>
+
+                </div>
+                <div class="col-md-8">
+                    <div class="cp_nav">
+                        <ul>
+                            <li><a href="{% url 'job_advertisement' %}">Create Advertisement</a></li>
+                            <li><a href="{% url 'posted_jobs' %}">Posted Jobs</a></li>
+                            <li><a href="{% url 'favorite' %}">Favorite CV</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="main_container">
+        <div class="container">
+            <div class="col-md-12 applied__user__box">
+            {% if user_main %}
+
+                    <div class="col-md-12 ">
+                    <div class="col-md-1 nopad-lr schedule_interview__col">
+                        <img src="{{ STATIC_URL }}img/calendar-icons.png" alt="Calendar">
+                    </div>
+                    <div class="col-md-11 nopad-lr schedule_interview_content">
+
+
+
+                        <div class="applied__user">
+                            <div class="col-md-9 nopad-lr">
+                                <h3>
+                                    <span class="headline_interview">Interview with</span> <span class="user__name">{{ user_main.first_name }} {{ user_main.last_name }}</span>
+                                </h3>
+                              <div class="clearfix"></div>
+                                 <div class="col-md-6">
+                                     <div class="col-md-2 nopad-lr">
+                                         <label class="schedule_interview_label">From</label>
+                                     </div>
+                                     <div class="col-md-10 nopad-lr">
+                                         <input type="text" name="from_interview_date" class="form-control interview_date">
+                                     </div>
+
+                                 </div>
+                                 <div class="col-md-6">
+                                     <div class="col-md-2 nopad-lr">
+                                         <label class="schedule_interview_label">To</label>
+                                     </div>
+                                     <div class="col-md-10 nopad-lr">
+                                         <input type="text" name="from_interview_date" class="form-control interview_date">
+                                     </div>
+
+                                 </div>
+                            </div>
+
+                            <div class="col-md-3 user__actions">
+
+                                <a href="{% url 'candidate' user_bio.user_id %}" class="job_apply_btn view__detail">Send Message</a>
+                                <a href="javascript:;" class="job_apply_btn shorlist__candidate">Add a Note</a>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+
+                     </div>
+                    </div>
+            {% else %}
+                <span class="empty_data favorite_empty">
+                        No one applied to the job yet. You will be notified as soon as someone apply to it.
+                </span>
+            {% endif %}
+            <div class="col-md-9 user_cv_data">
+                <div class="all_data">
+                <h3>
+                   Your Resume Information
+                </h3>
+                    {% if user_cv.user_cv_builder_status == 0 %}
+                    <iframe src="/company/pdf/{{ candidate_id }}" frameborder="0" width="100%" height="600px;"></iframe>
+                    {% endif %}
+                </div>
+            </div>
+
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+{% block custom_scripts %}
+
+{% endblock %}

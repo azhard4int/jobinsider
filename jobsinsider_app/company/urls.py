@@ -21,6 +21,8 @@ urlpatterns = patterns(
     url(r'^candidates/(?P<job_id>[0-9]+)/$', AppliedCandidates.as_view(), name='applied_candidates'),
     url(r'^candidate/(?P<candidate_id>[0-9]+)/$', Candidate.as_view(), name='candidate'),
     url(r'^pdf/(?P<candidate_id>[0-9]+)/$', pdf_render, name='pdf_render'),
+    url(r'^shortlisted_candidates/(?P<job_id>[0-9]+)/$', ListShortlisted.as_view(), name='shortlisted_candidates'),
+    url(r'^schedule_interview/(?P<candidate_id>[0-9]+)/$', ScheduleInterview.as_view(), name='schedule_interview'),
     url(r'^shortlist/(?P<candidate_id>[0-9]+)/(?P<job_id>[0-9]+)/$', Shortlisted.as_view(), name='shortlisted'),
     url(r'^shortlist_remove/(?P<candidate_id>[0-9]+)/(?P<job_id>[0-9]+)/$', shortlist_remove, name='shortlisted_remove'),
     # url(r'^tinymce/', include('tinymce.urls')),

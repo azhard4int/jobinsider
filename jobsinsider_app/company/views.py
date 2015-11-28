@@ -381,12 +381,13 @@ class AppliedCandidates(View):
             SELECT * FROM company_advertisementapplied join users_usereducation on users_usereducation .user_id = company_advertisementapplied.user_id
             where advertisement_id={0}""".format(job_id)
         )
-
+        list_total = int(len(list(data)))
         return render(request, 'applied_candidates.html', {
             'data': data,
             'employment': user_employment,
             'education': user_education,
-            'job_id': job_id
+            'job_id': job_id,
+            'data_count': list_total
         })
 
 
@@ -424,6 +425,52 @@ def shortlist_remove(request, candidate_id, job_id):
         'status': True
     }))
 
+class ListShortlisted(View):
+    @method_decorator(login_required)
+    @method_decorator(is_company)
+    def get(self, request, job_id):
+        """
+        :param request:
+        :param job_id:
+        :return:
+        """
+        data = ShortlistedCandidates.objects.raw(
+            """
+            SELECT *
+            FROM company_shortlistedcandidates join users_userlocation on users_userlocation.user_id=company_shortlistedcandidates.user_id
+            join users_userbio on users_userbio.user_id=company_shortlistedcandidates.user_id join  users_usereducation on
+            users_usereducation.user_id = company_shortlistedcandidates.user_id join users_useremployment on
+            users_useremployment.user_id = company_shortlistedcandidates.user_id join auth_user
+            on auth_user.id = company_shortlistedcandidates.user_id join core_cities on users_userlocation.user_city_id = core_cities.id
+            join core_countries on users_userlocation.user_country_id = core_countries.id where advertisement_id={0}
+            group by auth_user.id
+            """.format(job_id)
+
+        )
+        user_employment = AdvertisementApplied.objects.raw(
+            """
+            SELECT * FROM company_shortlistedcandidates join users_useremployment on users_useremployment.user_id = company_shortlistedcandidates.user_id
+            where advertisement_id={0}
+
+            """.format(job_id)
+        )
+        user_education =  AdvertisementApplied.objects.raw("""
+            SELECT * FROM company_shortlistedcandidates join users_usereducation on users_usereducation .user_id = company_shortlistedcandidates.user_id
+            where advertisement_id={0}""".format(job_id)
+        )
+        list_total = int(len(list(data)))
+
+
+        return render(request, 'shortlisted_candidates.html', {
+            'data': data,
+            'employment': user_employment,
+            'education': user_education,
+            'job_id': job_id,
+            'data_count': list_total
+        })
+
+
+
 class Candidate(View):
     @method_decorator(login_required)
     @method_decorator(is_company)
@@ -438,22 +485,31 @@ class Candidate(View):
         user_education_data = users_models.UserEducation.objects.filter(user_id=candidate_id)
         user_employment_data = users_models.UserEmployment.objects.filter(user_id=candidate_id)
         user_cv_data = users_models.UserCV.objects.filter(user_id=candidate_id)[0]
-
-        # data = AdvertisementApplied.objects.raw(
-        #         """
-        #         SELECT *
-        #         FROM company_advertisementapplied join users_userlocation on users_userlocation.user_id=company_advertisementapplied.user_id
-        #         join users_userbio on users_userbio.user_id=company_advertisementapplied.user_id join  users_usereducation on
-        #         users_usereducation.user_id = company_advertisementapplied.user_id join users_useremployment on
-        #         users_useremployment.user_id = company_advertisementapplied.user_id join auth_user
-        #         on auth_user.id = company_advertisementapplied.user_id join core_cities on users_userlocation.user_city_id = core_cities.id
-        #         join core_countries on users_userlocation.user_country_id = core_countries.id where auth_user.id={0}
-        #
-        #         """.format(candidate_id)
-        #     )
-        print user_location_data, user_bio_data, user_main_data, user_education_data, user_employment_data
-        print user_main_data.first_name
         return render(request, 'candidate.html', {
+            'candidate_id': candidate_id,
+            'user_bio': user_bio_data,
+            'user_location': user_location_data,
+            'user_main': user_main_data,
+            'user_education': user_education_data,
+            'user_employment': user_employment_data,
+            'user_cv': user_cv_data
+        })
+
+class ScheduleInterview(View):
+    @method_decorator(login_required)
+    @method_decorator(is_company)
+    def get(self, request, candidate_id):
+        user_bio_data = users_models.UserBio.objects.filter(
+            user_id=candidate_id
+        )[0]
+        user_location_data = users_models.UserLocation.objects.filter(
+            user_id=candidate_id
+        )[0]
+        user_main_data = User.objects.filter(id=candidate_id)[0]
+        user_education_data = users_models.UserEducation.objects.filter(user_id=candidate_id)
+        user_employment_data = users_models.UserEmployment.objects.filter(user_id=candidate_id)
+        user_cv_data = users_models.UserCV.objects.filter(user_id=candidate_id)[0]
+        return render(request, 'schedule_interview.html', {
             'candidate_id': candidate_id,
             'user_bio': user_bio_data,
             'user_location': user_location_data,

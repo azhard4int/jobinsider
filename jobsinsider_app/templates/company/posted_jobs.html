@@ -38,7 +38,6 @@
                             <li><a href="{% url 'job_advertisement' %}">Create Advertisement</a></li>
                             <li><a href="{% url 'test_template' %}">Evaluation Test</a></li>
                             <li><a href="{% url 'posted_jobs' %}">Posted Jobs</a></li>
-                            <li><a href="">Shortlisted People</a></li>
                             <li><a href="{% url 'favorite' %}">Favorite CV</a></li>
                         </ul>
                     </div>
@@ -124,6 +123,9 @@
                                                 </li>
                                                 <li>
                                                     <a href="{% url 'applied_candidates' job.id %}">Applied Candidates</a>
+                                                </li>
+                                                <li>
+                                                    <a href="{% url 'shortlisted_candidates' job.id %}">Shortlisted Candidates</a>
                                                 </li>
                                                 <li>
                                                     <a href="{% url 'analytics_view' job.id%}">View Analytics</a>
