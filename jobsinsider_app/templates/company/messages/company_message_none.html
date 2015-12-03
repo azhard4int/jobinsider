@@ -1,0 +1,113 @@
+{% extends "base_dasboard.html" %}
+
+{#{% extends 'company_core.html' %}#}
+<title>{% block title %}Dashboard{% endblock %}</title>
+{% if user.is_authenticated %}
+    {% block authenticate_user %} {{ user.first_name|slice:":1" }}{{ user.last_name|slice:":1" }}{%  endblock %}
+{% endif %}
+{% block body_content %}
+
+
+<div class="clearfix"></div>
+{#    <section id="company">#}
+{#        <div class="container">#}
+{#            <div class="col-md-12">#}
+{#                <div class="col-md-2">#}
+{##}
+{#                    <h3 style="padding-left:0;margin-left:0;">#}
+{#                        Message#}
+{#                    </h3>#}
+{##}
+{#                </div>#}
+{#                <div class="col-md-10">#}
+{#                    <div class="cp_nav">#}
+{#                        <ul>#}
+{#                            <li><a href="{% url 'job_advertisement' %}">Create Advertisement</a></li>#}
+{#                            <li><a href="{% url 'test_template' %}">Evaluation Test</a></li>#}
+{#                            <li><a href="{% url 'posted_jobs' %}">Posted Jobs</a></li>#}
+{#                            <li><a href="{% url 'favorite' %}">Favorite CV</a></li>#}
+{#                        </ul>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#    </section>#}
+
+{#    {% block company_dash %}#}
+
+{#    {% endblock %}#}
+
+    <section id="company_message">
+        <div class="container-fluid nopad-lr">
+                <div class="col-md-3 nopad-lr left_users">
+                    <h3>Users</h3>
+                    <div class="list_users">
+                        {% csrf_token %}
+                        <h4 class="no_user_found">No User Found</h4>
+
+                    </div>
+                </div>
+
+                <div class="col-md-9 nopad-lr users_message">
+{#                    <div class="message_details">#}
+{#                        #}
+{#                    </div>#}
+                <div class="message_main_data">
+                    <div class="clearfix"></div>
+                        <div class="col-md-4">
+                            <h3>
+
+                            </h3>
+                        </div>
+                        <div class="col-md-4">
+                            <h3>
+                                No Message
+                            </h3>
+                        </div>
+
+                        <div class="col-md-4 timestamp_message">
+                            <p>
+{#                                Last Message: Timestamp#}
+                            </p>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="chatbox_model u_relative">
+                        <div class="top_region_messages">
+                            <div class="u_message">
+
+                                <h3>
+                                    You have not send any message, please send a message before you can see more messages over here.
+                                </h3>
+
+                            </div>
+                        </div>
+                        </div>
+                </div>
+
+                        <div class="clearfix"></div>
+                        <div class="col-md-12 conversation_box">
+                            <div class="conversation_box_message">
+
+                                <div class="composer_editor" contenteditable="true">
+
+                                </div>
+                                <div class="actions_composer">
+                                        <div class="col-md-8">
+
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="action_reply">
+                                                <a href="javascript:;" class="send_composed_message" value="{{ candidate_id }}">Send Message</a>
+                                            </div>
+                                        </div>
+                                </div>
+                                <div class="clearfix"></div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+        </div>
+    </section>
+{% endblock %}

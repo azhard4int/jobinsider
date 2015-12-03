@@ -401,18 +401,18 @@ div.remove_favorite_btn a:hover {
   color: #fafafa;
 }
 #company_message {
-  padding: 20px 0;
+  background: #fafafa;
 }
 .left_users h3 {
-  padding: 6px 0;
+  padding: 7px 0;
   text-align: center;
   margin: 0;
-  background: #6055a2;
+  background: #86849C;
   color: #fff;
   font-size: 20px;
 }
 .list_users {
-  height: 450px;
+  height: 90vh;
   overflow-y: scroll;
   overflow-x: hidden;
 }
@@ -423,11 +423,16 @@ div.remove_favorite_btn a:hover {
   background: #fff;
   border-bottom: 1px solid #e7e7e7;
   padding: 20px 0 20px 10px;
+  cursor: pointer;
+  transition: all ease-in-out 0.2s;
+  -webkit-transition: all ease-in-out 0.2s;
+  -o-transition: all ease-in-out 0.2s;
+  -ms-transition: all ease-in-out 0.2s;
 }
 .user_icon span {
   font-size: 18px;
   color: #fff;
-  background: #dbc1d5;
+  background: #BDBDBD;
   padding: 10px 10px;
   border-radius: 20px;
 }
@@ -473,13 +478,8 @@ div.remove_favorite_btn a:hover {
   font-size: 20px;
 }
 .users_message .chatbox_model {
-  border-top: 1px solid #dcdcdc;
-  background: #f5f5f5;
-  height: 450px;
-  overflow-y: scroll;
-  overflow-x: hidden;
-  margin-left: -15px;
-  width: 103.5%;
+  background: #FBFBFB;
+  width: 100%;
 }
 .timestamp_message {
   padding-top: 7px;
@@ -490,6 +490,9 @@ div.remove_favorite_btn a:hover {
 }
 .u_absolute {
   position: absolute;
+}
+.conversation_box {
+  background: #FBFBFB;
 }
 .conversation_box_message {
   margin: 10px 10px;
@@ -503,7 +506,7 @@ div.remove_favorite_btn a:hover {
 }
 .conversation_box_message .composer_editor {
   padding: 5px 10px;
-  min-height: 74px;
+  min-height: 94px;
 }
 .conversation_box_message .composer_editor:focus {
   border: none !important;
@@ -524,7 +527,7 @@ div.remove_favorite_btn a:hover {
   border-radius: 20px;
   text-decoration: none;
   padding: 5px 10px;
-  min-height: 74px;
+  min-height: 94px;
 }
 .conversation_box_message .action_reply a:hover {
   background: #62c262;
@@ -544,9 +547,11 @@ div.remove_favorite_btn a:hover {
   box-shadow: 0 0 0 transparent;
   transition: box-shadow linear 0.04s, border-color linear 0.2s;
   padding: 10px 20px;
+  margin-bottom: 10px;
 }
 .u_message .from_s_side {
   padding: 10px 0;
+  margin-right: 40px;
 }
 .u_message .from_s_side .s_user {
   float: right !important;
@@ -571,10 +576,13 @@ div.remove_favorite_btn a:hover {
 .fus span,
 .s_user span {
   background: #fff;
+  border: 1px solid #EFEFEF;
   padding: 20px 15px;
 }
 .top_region_messages {
   padding: 20px 0;
+  height: 440px;
+  overflow-y: scroll;
 }
 .ji-popup {
   filter: url('data:image/svg+xml;utf8,<svg height="0" xmlns="http://www.w3.org/2000/svg"><filter id="svgBlur" x="-5%" y="-5%" width="110%" height="110%"><feGaussianBlur in="SourceGraphic" stdDeviation="5"/></filter></svg>#svgBlur');
@@ -1084,4 +1092,70 @@ div.remove_favorite_btn a:hover {
 }
 .mce-container {
   border-right: 1px solid #fafafa !important;
+}
+.job_expand_data {
+  position: absolute;
+  float: right;
+  padding-left: 200px;
+  margin-top: -38px;
+}
+.job_expand_main {
+  margin-left: -15px;
+  background: #fafafa;
+  padding-left: 15px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-top: 0;
+}
+#sendMessage {
+  margin-top: 50px;
+}
+.modal-content {
+  border-radius: 0 !important;
+}
+.modal-header {
+  background: #fafafa;
+}
+.main_content_message {
+  padding: 5px 5px;
+  min-height: 150px;
+  border-radius: 0;
+}
+.main_content_message:focus {
+  border: none !important;
+  border: 0 !important;
+}
+.main__message {
+  padding-bottom: 0 !important;
+  padding-top: 0 !important;
+}
+.main__message textarea {
+  border-radius: 0 !important;
+}
+.main__message textarea:focus {
+  border: 0 !important;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6) !important;
+}
+.main_text input[type=text] {
+  border-radius: 0 !important;
+  margin: 10px 0;
+}
+.left_active_message:hover,
+.is_active_message {
+  background: #fafafa !important;
+}
+.sender_side_date,
+.receiver_side_date {
+  color: #696969;
+  padding-top: 5px;
+  font-size: 11px;
+}
+.sender_side_date {
+  float: right !important;
+}
+.no_user_found {
+  padding-left: 20px;
+}
+.schedule_interview_name {
+  width: 40% !important;
 }

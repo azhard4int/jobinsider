@@ -1,0 +1,348 @@
+{% extends "base_dasboard.html" %}
+
+{#{% extends 'company_core.html' %}#}
+<title>{% block title %}Dashboard{% endblock %}</title>
+{% if user.is_authenticated %}
+    {% block authenticate_user %} {{ user.first_name|slice:":1" }}{{ user.last_name|slice:":1" }}{%  endblock %}
+{% endif %}
+{% block body_content %}
+
+
+<div class="clearfix"></div>
+{#    <section id="company">#}
+{#        <div class="container">#}
+{#            <div class="col-md-12">#}
+{#                <div class="col-md-2">#}
+{##}
+{#                    <h3 style="padding-left:0;margin-left:0;">#}
+{#                        Message#}
+{#                    </h3>#}
+{##}
+{#                </div>#}
+{#                <div class="col-md-10">#}
+{#                    <div class="cp_nav">#}
+{#                        <ul>#}
+{#                            <li><a href="{% url 'job_advertisement' %}">Create Advertisement</a></li>#}
+{#                            <li><a href="{% url 'test_template' %}">Evaluation Test</a></li>#}
+{#                            <li><a href="{% url 'posted_jobs' %}">Posted Jobs</a></li>#}
+{#                            <li><a href="{% url 'favorite' %}">Favorite CV</a></li>#}
+{#                        </ul>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#    </section>#}
+
+{#    {% block company_dash %}#}
+
+{#    {% endblock %}#}
+
+    <section id="company_message">
+        <div class="container-fluid nopad-lr">
+                <div class="col-md-3 nopad-lr left_users">
+                    <h3>Users</h3>
+                    <div class="list_users">
+                        <div class="col-md-12">
+                             <div class="user_pic">
+                                <div class="col-md-3 nopad-lr">
+                                     <div class="user_icon">
+                                        <span>
+                                            CK
+                                        </span>
+                                    </div>
+                                </div>
+                                 <div class="col-md-9 nopad-lr user_name">
+                                     <span>
+                                         Cordell
+                                     </span>
+                                 </div>
+                                 <div class="clearfix"></div>
+                                 <div class="col-md-12  last_message">
+                                    <span>
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aperiam deleniti,
+                                    </span>
+                                 </div>
+                                 <div class="clearfix"></div>
+                             </div>
+                        </div>
+
+    {#                    second user#}
+
+                        <div class="user_pic user_active">
+                            <div class="col-md-3">
+                                 <div class="user_icon">
+                                    <span>
+                                        CK
+                                    </span>
+                                </div>
+                            </div>
+                             <div class="col-md-9 user_name">
+                                 <span>
+                                     Cordell
+                                 </span>
+                             </div>
+                             <div class="clearfix"></div>
+                             <div class="col-md-12 last_message">
+                                <span>
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aperiam deleniti,
+                                </span>
+                             </div>
+                             <div class="clearfix"></div>
+                         </div>
+
+    {#                    third user#}
+
+                        <div class="user_pic">
+                            <div class="col-md-3">
+                                 <div class="user_icon">
+                                    <span>
+                                        CK
+                                    </span>
+                                </div>
+                            </div>
+                             <div class="col-md-9 user_name">
+                                 <span>
+                                     Cordell
+                                 </span>
+                             </div>
+                             <div class="clearfix"></div>
+                             <div class="col-md-12 last_message">
+                                <span>
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aperiam deleniti,
+                                </span>
+                             </div>
+                             <div class="clearfix"></div>
+                         </div>
+
+{#                        4th user#}
+
+                        <div class="user_pic">
+                            <div class="col-md-3">
+                                 <div class="user_icon">
+                                    <span>
+                                        CK
+                                    </span>
+                                </div>
+                            </div>
+                             <div class="col-md-9 user_name">
+                                 <span>
+                                     Cordell
+                                 </span>
+                             </div>
+                             <div class="clearfix"></div>
+                             <div class="col-md-12 last_message">
+                                <span>
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aperiam deleniti,
+                                </span>
+                             </div>
+                             <div class="clearfix"></div>
+                         </div>
+
+{#                        5th user#}
+                        <div class="user_pic user_active">
+                            <div class="col-md-3">
+                                 <div class="user_icon">
+                                    <span>
+                                        CK
+                                    </span>
+                                </div>
+                            </div>
+                             <div class="col-md-9 user_name">
+                                 <span>
+                                     Cordell
+                                 </span>
+                             </div>
+                             <div class="clearfix"></div>
+                             <div class="col-md-12 last_message">
+                                <span>
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aperiam deleniti,
+                                </span>
+                             </div>
+                             <div class="clearfix"></div>
+                         </div>
+                        <div class="user_pic user_active">
+                            <div class="col-md-3">
+                                 <div class="user_icon">
+                                    <span>
+                                        CK
+                                    </span>
+                                </div>
+                            </div>
+                             <div class="col-md-9 user_name">
+                                 <span>
+                                     Cordell
+                                 </span>
+                             </div>
+                             <div class="clearfix"></div>
+                             <div class="col-md-12 last_message">
+                                <span>
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aperiam deleniti,
+                                </span>
+                             </div>
+                             <div class="clearfix"></div>
+                         </div>
+                        <div class="user_pic user_active">
+                            <div class="col-md-3">
+                                 <div class="user_icon">
+                                    <span>
+                                        CK
+                                    </span>
+                                </div>
+                            </div>
+                             <div class="col-md-9 user_name">
+                                 <span>
+                                     Cordell
+                                 </span>
+                             </div>
+                             <div class="clearfix"></div>
+                             <div class="col-md-12 last_message">
+                                <span>
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aperiam deleniti,
+                                </span>
+                             </div>
+                             <div class="clearfix"></div>
+                         </div>
+                        <div class="user_pic user_active">
+                            <div class="col-md-3">
+                                 <div class="user_icon">
+                                    <span>
+                                        CK
+                                    </span>
+                                </div>
+                            </div>
+                             <div class="col-md-9 user_name">
+                                 <span>
+                                     Cordell
+                                 </span>
+                             </div>
+                             <div class="clearfix"></div>
+                             <div class="col-md-12 last_message">
+                                <span>
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aperiam deleniti,
+                                </span>
+                             </div>
+                             <div class="clearfix"></div>
+                         </div>
+                    </div>
+                </div>
+
+                <div class="col-md-9 nopad-lr users_message">
+{#                    <div class="message_details">#}
+{#                        #}
+{#                    </div>#}
+
+                    <div class="clearfix"></div>
+                        <div class="col-md-4">
+                            <h3>
+
+                            </h3>
+                        </div>
+                        <div class="col-md-4">
+                            <h3>
+                                Cordell
+                            </h3>
+                        </div>
+
+                        <div class="col-md-4 timestamp_message">
+                            <p>
+                                Last Message: Timestamp
+                            </p>
+                        </div>
+                    <div class="clearfix"></div>
+                    <div class="chatbox_model u_relative">
+                        <div class="top_region_messages">
+                            <div class="u_message">
+                                <div class="from_user_side">
+
+                                    <div class="col-md-1 fus">
+                                            <span>
+                                                CK
+                                            </span>
+                                    </div>
+                                    <div class="col-md-6 us_box">
+                                        div.colLorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium aliquam amet asperiores culpa cum dicta eveniet expedita fugiat fugit harum nam, nesciunt odio, officia quas rerum sunt ullam voluptates voluptatibus
+                                    </div>
+
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="from_user_side">
+
+                                    <div class="col-md-1 fus">
+                                            <span>
+                                                CK
+                                            </span>
+                                    </div>
+                                    <div class="col-md-6 us_box">
+                                        div.colLorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium aliquam amet asperiores culpa cum dicta eveniet expedita fugiat fugit harum nam, nesciunt odio, officia quas rerum sunt ullam voluptates voluptatibus
+                                    </div>
+
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="from_user_side">
+
+                                    <div class="col-md-1 fus">
+                                            <span>
+                                                CK
+                                            </span>
+                                    </div>
+                                    <div class="col-md-6 us_box">
+                                        div.colLorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium aliquam amet asperiores culpa cum dicta eveniet expedita fugiat fugit harum nam, nesciunt odio, officia quas rerum sunt ullam voluptates voluptatibus
+                                    </div>
+
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="from_user_side">
+
+                                    <div class="col-md-1 fus">
+                                            <span>
+                                                CK
+                                            </span>
+                                    </div>
+                                    <div class="col-md-6 us_box">
+                                        div.colLorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium aliquam amet asperiores culpa cum dicta eveniet expedita fugiat fugit harum nam, nesciunt odio, officia quas rerum sunt ullam voluptates voluptatibus
+                                    </div>
+
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="from_s_side">
+                                    <div class="s_side">
+                                        <div class="col-md-1 s_user">
+                                            <span>
+                                                CK
+                                            </span>
+                                        </div>
+                                        <div class="col-md-6 us_box">
+                                            div.colLorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium aliquam amet asperiores culpa cum dicta eveniet expedita fugiat fugit harum nam, nesciunt odio, officia quas rerum sunt ullam voluptates voluptatibus
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="col-md-12">
+                            <div class="conversation_box_message">
+
+                                <div class="composer_editor" contenteditable="true">
+
+                                </div>
+                                <div class="actions_composer">
+                                        <div class="col-md-8">
+
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="action_reply">
+                                                <a href="javascript:;">Reply</a>
+                                            </div>
+                                        </div>
+                                </div>
+                                <div class="clearfix"></div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+        </div>
+    </section>
+{% endblock %}

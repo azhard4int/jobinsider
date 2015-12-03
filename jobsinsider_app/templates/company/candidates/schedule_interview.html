@@ -45,6 +45,8 @@
                         </div>
 
                         {% csrf_token %}
+                            <input type="hidden" value="{{ job_id }}" class="job_id_value">
+                            <input type="hidden" value="{{ candidate_id }}" class="candidate_id_value">
                         <div class="applied__user schedule_interview_sec">
                             <div class="col-md-9 nopad-lr">
                                 <h3>
@@ -71,7 +73,7 @@
                                          <input type="text" name="from_interview_date" placeholder="Date" class="form-control interview_date to_interview_date">
                                      </div>
                                      <div class="col-md-4 ">
-                                         <input type="text" name="from_interview_date" id="interview_time_to" placeholder="Time" class="form-control from_interview_time">
+                                         <input type="text" name="from_interview_date" id="interview_time_to" placeholder="Time" class="form-control to_interview_time">
                                      </div>
 
                                  </div>
@@ -84,7 +86,7 @@
                             </div>
                             <div class="col-md-3 user__actions">
 
-                                <a href="{% url 'candidate' user_bio.user_id %}" class="job_apply_btn view__detail">Send Invitation</a>
+                                <a href="javascript:;" class="job_apply_btn send_invitation">Send Invitation</a>
 {#                                <a href="javascript:;" class="job_apply_btn shorlist__candidate">Add a Note</a>#}
                             </div>
                             <div class="clearfix"></div>

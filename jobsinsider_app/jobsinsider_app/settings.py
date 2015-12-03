@@ -129,6 +129,13 @@ TEMP_DIRECTORY_CANDIDATES = [
     'templates/company/candidates',
 ]
 
+TEMP_DIRECTORY_MESSAGES = [
+    'templates/company/messages',
+]
+TEMP_DIRECTORY_USERMESSAGES = [
+    'templates/accounts/usermessages',
+]
+
 
 TEMPLATES = [
     {
@@ -147,6 +154,8 @@ TEMPLATES = [
             BASE_DIR.join(TEMP_DIRECTORY_EVALUATION),
             BASE_DIR.join(TEMP_DIRECTORY_ANALYTICS),
             BASE_DIR.join(TEMP_DIRECTORY_CANDIDATES),
+            BASE_DIR.join(TEMP_DIRECTORY_MESSAGES),
+            BASE_DIR.join(TEMP_DIRECTORY_USERMESSAGES),
         ),
         'APP_DIRS': True,
         'OPTIONS': {

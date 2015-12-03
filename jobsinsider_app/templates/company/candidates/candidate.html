@@ -8,6 +8,32 @@
     <a href="{% url 'logout' %}">Logout</a>
 {% endblock %}
 {% block body_content %}
+
+    <!-- Modal -->
+    <div class="modal fade modal-md" id="sendMessage" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Send Message</h4>
+          </div>
+          <div class="modal-body main__message ">
+              <form class="sendMessageForm">
+                  {% csrf_token %}
+                  <input type="hidden" name="candidate_id" value="{{ candidate_id }}">
+                 <div class="main_text">
+                     <input type="text" name="subject_message" placeholder="Subject" class="form-control">
+                 </div>
+                     <textarea class="main_content_message form-control" name="content_message" placeholder="Enter Your Message"></textarea>
+              </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn apply_btn send_message_btn ">Send Message</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="clearfix"></div>
     <section id="company">
         <div class="container">
@@ -82,8 +108,8 @@
 
                             <div class="col-md-3 user__actions">
 
-                                <a href="{% url 'candidate' user_bio.user_id %}" class="job_apply_btn view__detail">Send Message</a>
-                                <a href="javascript:;" class="job_apply_btn shorlist__candidate">Add a Note</a>
+                                <a href="javascript:;" data-toggle="modal" data-target="#sendMessage"class="job_apply_btn view__detail">Send Message</a>
+{#                                <a href="javascript:;" class="job_apply_btn shorlist__candidate">Add a Note</a>#}
                             </div>
                             <div class="clearfix"></div>
                         </div>

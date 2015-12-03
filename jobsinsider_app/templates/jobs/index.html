@@ -28,11 +28,11 @@
         <div class="container jobs_search" ng-controller="rootCtrl">
             <div ng-controller="leftfilters">
                 <div class="col-md-3 jobsearch_left_filter" >
-                    <h3>
+                    <h3 class="job_expand_main">
                         Categories
                     </h3>
                     <ul>
-                        <a href="javascript:;" ng-click="isCategories();">Expand</a>
+                        <a class="job_expand_data" href="javascript:;" ng-click="isCategories();">Expand</a>
                        <div class="" ng-if="is_categories!=false">
                             <li ng-repeat="cat in categories">
                                <input ng-change="categoriesInsert(cat.pk)" ng-model="categoriesID[cat.pk]" type="checkbox" id="category<<cat.pk>>">
@@ -41,11 +41,11 @@
                         </div>
                         {#employment filters#}
                     </ul>
-                    <h3>
+                    <h3 class="job_expand_main">
                         Employment Type
                     </h3>
                     <ul>
-                        <a href="javascript:;" ng-click="isEmployment();">Expand</a>
+                        <a class="job_expand_data" href="javascript:;" ng-click="isEmployment();">Expand</a>
 
                         <div ng-if="is_employment!=false">
                             <li ng-repeat="emp in employment">
@@ -55,10 +55,10 @@
                         </div>
                         {#education filters#}
                     </ul>
-                    <h3>Education Type</h3>
+                    <h3 class="job_expand_main">Education Type</h3>
                     <ul>
 
-                        <a href="javascript:;" ng-click="isEducation();">Expand</a>
+                        <a class="job_expand_data" href="javascript:;" ng-click="isEducation();">Expand</a>
                         <div ng-if="is_education!=false">
 
                         <li ng-repeat="edu in education">
@@ -71,12 +71,12 @@
                         {#experience filters#}
 
                     </ul>
-                    <h3>
+                    <h3 class="job_expand_main">
                         Experience Type
                     </h3>
                     <ul>
 
-                        <a href="javascript:;" ng-click="isExperience();">Expand</a>
+                        <a class="job_expand_data" href="javascript:;" ng-click="isExperience();">Expand</a>
                         <div ng-if="is_experience!=false">
                         <li ng-repeat="exp in experience">
                                <input ng-change="experienceInsert(exp.pk)" ng-model="experienceID[exp.pk]" type="checkbox" id="experience<<exp.pk>>">

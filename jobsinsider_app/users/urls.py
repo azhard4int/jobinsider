@@ -23,6 +23,8 @@ urlpatterns = patterns(
     url(r'^u/$', Profile.as_view(), name='user_profile'),     # (?P<username>[A-Za-z0-9]+)/
     url(r'^u/changepassword/$', ProfileChangePassword.as_view(), name='user_change_password'),
     url(r'^u/profile/$', ProfileUser.as_view(), name='profile'),
-    url(r'^u/profile_settings/$', ProfileSettings.as_view(), name='profile_settings')
+    url(r'^u/profile_settings/$', ProfileSettings.as_view(), name='profile_settings'),
+    url(r'^messages/$', UserMessages.as_view(), name='user_messages')
+
 
 )

@@ -1,0 +1,172 @@
+{% extends "base_dasboard.html" %}
+
+{#{% extends 'company_core.html' %}#}
+<title>{% block title %}Dashboard{% endblock %}</title>
+{% if user.is_authenticated %}
+    {% block authenticate_user %} {{ user.first_name|slice:":1" }}{{ user.last_name|slice:":1" }}{%  endblock %}
+{% endif %}
+{% block body_content %}
+
+
+<div class="clearfix"></div>
+{#    <section id="company">#}
+{#        <div class="container">#}
+{#            <div class="col-md-12">#}
+{#                <div class="col-md-2">#}
+{##}
+{#                    <h3 style="padding-left:0;margin-left:0;">#}
+{#                        Message#}
+{#                    </h3>#}
+{##}
+{#                </div>#}
+{#                <div class="col-md-10">#}
+{#                    <div class="cp_nav">#}
+{#                        <ul>#}
+{#                            <li><a href="{% url 'job_advertisement' %}">Create Advertisement</a></li>#}
+{#                            <li><a href="{% url 'test_template' %}">Evaluation Test</a></li>#}
+{#                            <li><a href="{% url 'posted_jobs' %}">Posted Jobs</a></li>#}
+{#                            <li><a href="{% url 'favorite' %}">Favorite CV</a></li>#}
+{#                        </ul>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#    </section>#}
+
+{#    {% block company_dash %}#}
+
+{#    {% endblock %}#}
+
+    <section id="company_message">
+        <div class="container-fluid nopad-lr">
+                <div class="col-md-3 nopad-lr left_users">
+                    <h3>Users</h3>
+                    <div class="list_users">
+                        {% csrf_token %}
+                        {% for list_user in list %}
+                        <div class="col-md-12 nopad-lr ">
+                             <div class="user_pic left_active_message" value="{{ list_user.receiver_id }}">
+                                <div class="col-md-3 nopad-lr">
+                                     <div class="user_icon">
+                                        <span>
+                                            {{ list_user.first_name|slice:":1" }}{{ list_user.last_name|slice:":1" }}
+                                        </span>
+                                    </div>
+                                </div>
+                                 <div class="col-md-9 nopad-lr user_name">
+                                     <span>
+                                         {{ list_user.first_name }} {{ list_user.last_name }}
+                                     </span>
+                                 </div>
+                                 <div class="clearfix"></div>
+                                 <div class="col-md-12  last_message">
+                                    <span>
+                                        {{ list_user.message_body }}
+                                    </span>
+                                 </div>
+                                 <div class="clearfix"></div>
+                             </div>
+                        </div>
+                        {% endfor %}
+
+                    </div>
+                </div>
+
+                <div class="col-md-9 nopad-lr users_message">
+{#                    <div class="message_details">#}
+{#                        #}
+{#                    </div>#}
+                <div class="message_main_data">
+                    <div class="clearfix"></div>
+                        <div class="col-md-4">
+                            <h3>
+
+                            </h3>
+                        </div>
+                        <div class="col-md-4">
+                            <h3>
+                                {{ sender_side_name }}
+                            </h3>
+                        </div>
+
+                        <div class="col-md-4 timestamp_message">
+                            <p>
+{#                                Last Message: Timestamp#}
+                            </p>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="chatbox_model u_relative">
+                        <div class="top_region_messages">
+                            <div class="u_message">
+
+                                {% for message in message_data %}
+                                    {% if message.sender_id == sender_id%}
+                                        <div class="from_s_side">
+                                                <div class="s_side">
+                                                    <div class="col-md-1 s_user">
+                                                        <span>
+                                                            {{ message.sender.first_name|slice:"1" }}{{ message.sender.last_name|slice:"1" }}
+                                                        </span>
+                                                    </div>
+                                                    <div class="col-md-9 nopad-lr ">
+                                                        <div class="us_box">{{ message.message_body }}</div>
+                                                        <div class="clearfix"></div>
+                                                        <span class="sender_side_date">{{ message.date_send|timesince }}</span>
+
+                                                    </div>
+                                                </div>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                    {% elif message.receiver_id == sender_id %}
+                                        <div class="from_user_side">
+
+                                            <div class="col-md-1 fus">
+                                                    <span>
+                                                        {{message.sender.first_name|slice:"1" }}{{ message.sender.last_name|slice:"1" }}
+                                                    </span>
+                                                <br>
+                                            </div>
+                                            <div class="col-md-7 nopad-lr">
+                                                <div class="us_box">
+                                                    {{ message.message_body }}
+                                                </div>
+                                                <span class="receiver_side_date">{{ message.date_send|timesince }}</span>
+
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                        </div>
+                </div>
+
+                        <div class="clearfix"></div>
+                        <div class="col-md-12 conversation_box">
+                            <div class="conversation_box_message">
+
+                                <div class="composer_editor" contenteditable="true">
+
+                                </div>
+                                <div class="actions_composer">
+                                        <div class="col-md-8">
+
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="action_reply">
+                                                <a href="javascript:;" class="send_composed_message" value="{{ candidate_id }}">Send Message</a>
+                                            </div>
+                                        </div>
+                                </div>
+                                <div class="clearfix"></div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+        </div>
+    </section>
+{% endblock %}

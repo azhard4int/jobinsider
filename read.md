@@ -5,3 +5,4 @@ pip install django-passwords
 pip install django-redactoreditor
 pip install pyyaml ua-parser user-agents
 pip install ip2location
+pip install django-uuid-upload-path

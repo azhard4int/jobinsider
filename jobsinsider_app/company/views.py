@@ -8,6 +8,7 @@ from django.utils import timezone
 from django.db.models import Count
 from django.core import serializers
 from django.core.serializers.json import DjangoJSONEncoder
+from django.template.loader import render_to_string
 
 from accounts import models as acc_mod
 from core.decoraters import is_company
@@ -16,6 +17,7 @@ from datetime import datetime, timedelta
 from urlparse import urlparse, parse_qs
 from user_agents import parse
 from forms import *
+from itertools import chain
 import simplejson as json
 
 
@@ -44,12 +46,16 @@ class Company_dashboard(View):
             advertisement=Advertisement.admanager.filter(company_user_id=request.user.id),
         ).count()
         jobs_details = Advertisement.admanager.posted(request.user.id).order_by('-submission_date')[:5]
+        schedule_interviews = ShortlistedCandidates.objects.filter(
+            advertisement__company_user_id=request.user.id
+        ).prefetch_related('advertisement')
         return render(request, 'company_dashboard.html', {
             'body_status': status,
             'profile_form': company_profile,
             'posted_jobs': posted_jobs,
             'job_details': jobs_details,
-            'total_applications': total_applications
+            'total_applications': total_applications,
+            'total_schedule': schedule_interviews
         })
     def post(self, request):
         CompanyProfile(
@@ -346,13 +352,80 @@ class CompanyAdd(View):
         :return:
         """
 
-class Messages(View):
+class MessagesView(View):
     @method_decorator(login_required)
+    @method_decorator(is_company)
     def get(self, request):
-        print Advertisement.admanager.get_queryset()
-        return render(request, 'company_message.html')
+        list_users = Messages.objects.raw(
+            """
+             SELECT * from company_messages join auth_user ON auth_user.id = company_messages.receiver_id
+             where sender_id={0}
+             group by auth_user.id order by company_messages.date_send
+            """.format(request.user.id)
+        )
+        # print list_users[0].message_body
+        try:
+            print list_users[0] # To check if the user exists or not
+        except IndexError:
+            return render(request, 'company_message_none.html')
+
+        data = get_messages(list_users[0].receiver_id,request.user.id)
+        return render(
+            request,
+            'company_message.html',
+            {
+                'list': list_users,
+                'message_data': data['all_data_sort'],
+                'sender_side_name': data['server_side_name'],
+                'sender_id': request.user.id,
+                'candidate_id': list_users[0].receiver_id
+
+            }
+        )
+
+    def post(self, request):
+        data = []
+        try:
+            data = get_messages(request.POST['candidate_id'],request.user.id)
+        except IndexError:
+            return HttpResponse(json.dumps({'success': False}))
+        html =  render_to_string('company_message_dynamic.html', {
+            'message_data': data['all_data_sort'],
+            'sender_side_name': data['server_side_name'],
+            'sender_id': request.user.id
+        })
+        return HttpResponse(html)
 
 
+
+def get_messages(candidate_id, user_id):
+        data_sender_side = Messages.objects.filter(
+            sender_id=user_id,
+            receiver_id=candidate_id
+        ).prefetch_related(
+            'sender'
+        ).order_by('date_send') #Sender messages to the receiver
+        print data_sender_side
+        data_receiver_side = Messages.objects.filter(
+            sender_id=candidate_id,
+            receiver_id=user_id
+        ).prefetch_related(
+            'receiver'
+        ).order_by('date_send') # Which receiver sends the message to the sender
+        print data_receiver_side
+        # merging the two models instances
+        if data_receiver_side:
+            all_data_sort = sorted(chain(data_sender_side, data_receiver_side),
+                                   key=lambda message_data: message_data.date_send, reverse=False)
+        else:
+            all_data_sort = sorted(data_sender_side, key=lambda message_data: message_data.date_send, reverse=False)
+        # receiver sending the message to the sender.
+        sender_side_name = data_sender_side[0].receiver.first_name + " " + data_sender_side[0].receiver.last_name
+        data_value = {
+            'all_data_sort': all_data_sort,
+            'server_side_name': sender_side_name
+        }
+        return data_value
 class AppliedCandidates(View):
     @method_decorator(login_required)
     @method_decorator(is_company)
@@ -498,7 +571,7 @@ class Candidate(View):
 class ScheduleInterview(View):
     @method_decorator(login_required)
     @method_decorator(is_company)
-    def get(self, request, candidate_id):
+    def get(self, request, candidate_id, job_id):
         user_bio_data = users_models.UserBio.objects.filter(
             user_id=candidate_id
         )[0]
@@ -516,8 +589,72 @@ class ScheduleInterview(View):
             'user_main': user_main_data,
             'user_education': user_education_data,
             'user_employment': user_employment_data,
-            'user_cv': user_cv_data
+            'user_cv': user_cv_data,
+            'job_id': job_id
         })
+    def post(self, request, candidate_id, job_id):
+        print request.POST
+        date_str_from = request.POST['from_date'] + " " +  request.POST['from_time']
+        date_str_to = request.POST['to_date'] + " " +  request.POST['to_time']
+        from_full_date = datetime.strptime(date_str_from,'%Y-%m-%d %H:%M')
+        to_full_date = datetime.strptime(date_str_to,'%Y-%m-%d %H:%M')
+        from_time = datetime.strptime(request.POST['from_time'], '%H:%M')
+        to_time = datetime.strptime(request.POST['to_time'], '%H:%M')
+
+        ShortlistedCandidates.objects.filter(
+            user_id=candidate_id
+        ).update(
+            from_date=from_full_date,
+            to_date=to_full_date,
+            from_only_date=request.POST['from_date'],
+            to_only_date=request.POST['to_date'],
+            from_time=from_time,
+            to_time=to_time,
+            invitation_message=request.POST['invitation'],
+            is_interview=True
+        )
+        return HttpResponse(
+            json.dumps(
+                {
+                    'status': True
+                }
+            )
+        )
+
+class SendMessage(View):
+    def get(self, request):
+        print 'ola'
+    def post(self, request):
+        Messages(
+            message_title=request.POST['subject_message'],
+            receiver_id=int(request.POST['candidate_id']),
+            sender_id=request.user.id,
+            message_body=request.POST['content_message'],
+            date_send=datetime.now()
+        ).save()
+        return HttpResponse(
+            json.dumps({
+                'status': True
+            })
+        )
+
+class ComposedSend(View):
+    def get(self, request):
+        print 'ola'
+    def post(self, request):
+        Messages(
+            message_title=request.POST['subject_message'],
+            receiver_id=int(request.POST['candidate_id']),
+            sender_id=request.user.id,
+            message_body=request.POST['content_message'],
+            date_send=datetime.now()
+        ).save()
+        obj = Messages.objects.latest('id')
+        print obj
+        html = render_to_string('company_message_send.html', {'message': obj} )
+        return HttpResponse(
+            html
+        )
 
 def pdf_render(request, candidate_id):
     user_cv = users_models.UserCV.objects.filter(user_id=candidate_id)[0]

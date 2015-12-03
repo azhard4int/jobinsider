@@ -1,0 +1,15 @@
+<div class="from_s_side">
+    <div class="s_side">
+        <div class="col-md-1 s_user">
+            <span>
+                {{ message.sender.first_name|slice:"1" }}{{ message.sender.last_name|slice:"1" }}
+            </span>
+        </div>
+        <div class="col-md-9 nopad-lr ">
+            <div class="us_box">{{ message.message_body }}</div>
+            <div class="clearfix"></div>
+            <span class="sender_side_date">{{ message.date_send|timesince }}</span>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+</div>

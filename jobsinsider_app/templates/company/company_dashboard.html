@@ -173,32 +173,40 @@
                     <div class="clearfix"></div>
                         <table width="100%;">
                             <thead>
-                                <th>
+                                <th style="width:40% !important;">
                                     Job Title
                                 </th>
-                                <th>
+                                <th style="width: 28% !important;">
                                     Date
                                 </th>
                                 <th>
-                                    Status
+                                    Candidate Name
                                 </th>
 
                             </thead>
                         </table>
                         <div class="my_job_box">
-                        <div class="job_list">
-                            <h5>Ahmad Ali</h5>
-                        </div>
-                        <div class="job_status">
-                            <span >After 4 Hours</span>
+                        {% if total_schedule %}
+                            {% for schedule in total_schedule %}
+                            <div class="job_list schedule_interview_name">
+                                <h5>{{ schedule}}</h5>
+                            </div>
+                            <div class="job_status">
+                                <span >{{ schedule.shortlisted_date}}</span>
+                            </div>
+                                <div class="job_status">
+                                    <span >{{ schedule.user.first_name }}</span>
+                                </div>
 
-                        </div>
-                        <div class="clearfix"></div>
-                            <span class="empty_data">
-                                There is no job advertisement has been created yet.
-                            </span>
                             <div class="clearfix"></div>
-                    </div>
+                            {% endfor %}
+                        {% else %}
+                                <span class="empty_data">
+                                    There is no job advertisement has been created yet.
+                                </span>
+                                <div class="clearfix"></div>
+                        {% endif %}
+                        </div>
     {#                ending job here#}
                 </div>
             </div>

@@ -661,4 +661,106 @@ $('.shorlist__candidate__remove').on('click', function(e){
 
     });
     return false;
-})
+});
+$('.send_invitation').on('click', function(event)
+{
+    event.preventDefault();
+    var invitation_message = $('#interview_message').val();
+    var from_date = $('.from_interview_date').val();
+    var from_time = $('.from_interview_time').val();
+    var to_date = $('.to_interview_date').val();
+    var to_time = $('.to_interview_time').val();
+    var job_id = $('.job_id_value').val();
+    var candidate_id = $('.candidate_id_value').val();
+    $.ajax(
+        {
+            url: '/company/schedule_interview/'+ candidate_id+ '/' + job_id + '/',
+            type:'POST',
+            data:{
+                csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
+                'from_date': from_date,
+                'from_time': from_time,
+                'to_date':to_date,
+                'to_time': to_time,
+                'invitation': invitation_message
+            },
+            succes:function(m)
+            {
+
+            },
+            error:function(m)
+            {
+
+            }
+        }
+    );
+    return false;
+});
+$('.send_message_btn').on('click', function(e)
+{
+    e.preventDefault();
+    $.ajax({
+        url: '/company/message/',
+        type:'POST',
+        data: $('.sendMessageForm').serialize(),
+        success:function(m)
+        {
+            console.log(m)
+        },
+        error:function(m){
+            console.log(m)
+        }
+
+    });
+    return false;
+});
+$('.left_active_message').on('click', function(e)
+{
+    e.preventDefault();
+    $('.send_composed_message').attr('value', $(this).attr('value'));
+    $.ajax(
+        {
+            url:'/company/messages/',
+            type:'POST',
+            data:{
+                csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
+                candidate_id: $(this).attr('value')
+            },
+            success:function(m)
+            {
+                $('.message_main_data').html(m);
+            },
+            error:function(m)
+            {
+                $('.message_main_data').html('');
+            }
+        }
+    );
+    return false;
+});
+$('.send_composed_message').on('click', function(e)
+{
+    e.preventDefault();
+    $.ajax({
+        url: '/company/composedmessage/',
+        type:'POST',
+        data: {
+            csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
+            candidate_id: $(this).attr('value'),
+            subject_message: '',
+            content_message:$('.composer_editor').text()
+        },
+        success:function(m)
+        {
+            $('.u_message').append(m);
+            var elem = document.getElementsByClassName('u_message');
+            elem.scrollTop = elem.scrollHeight;
+            $('.composer_editor').html('');
+        },
+        error:function(m){
+            console.log(m)
+        }
+
+    });
+    return false;
+});

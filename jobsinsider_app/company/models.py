@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 
 from core import models as core_models
 from users import models as users_models
+from datetime import datetime
 
 # Create your models here.
 class CompanyProfileManager(models.Manager):
@@ -172,9 +173,30 @@ class ShortlistedCandidates(models.Model):
     advertisement = models.ForeignKey(Advertisement, default=None)
     user = models.ForeignKey(User, default=None)
     shortlisted_date = models.DateTimeField(default=None)
+    is_interview = models.BooleanField(default=False)
+    from_date = models.DateTimeField(default=None,blank=True, null=True)
+    to_date = models.DateTimeField(default=None,blank=True, null=True)
+    from_only_date = models.DateField(default=None, blank=True, null=True)
+    to_only_date = models.DateField(default=None, blank=True, null=True)
+    from_time = models.TimeField(default=None, blank=True, null=True)
+    to_time = models.TimeField(default=None, blank=True, null=True)
+    invitation_message = models.TextField(blank=True, default=None, null=True)
 
     def __unicode__(self):
         return unicode(self.advertisement)
+
+
+class Messages(models.Model):
+    message_type = models.IntegerField(default=0, null=True)
+    sender= models.ForeignKey(User, related_name='%(class)s_sender_id')
+    receiver = models.ForeignKey(User, related_name='%(class)s_receiver_id')
+    status_read = models.BooleanField(default=False)
+    message_title = models.CharField(default=None,null=True, max_length=255)
+    message_body = models.TextField(null=True)
+    date_send = models.DateTimeField(null=True, default=None)
+
+    def __unicode__(self):
+        return unicode(self.message_title)
 
 
 class AdvertisementFavorite(models.Model):

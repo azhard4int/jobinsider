@@ -19,6 +19,9 @@ from accounts import forms as accountsform
 from company import models as company_models
 from core.decoraters import *
 from core import models as core_models
+from datetime import datetime
+from itertools import chain
+import logging
 
 # Create your views here.
 @login_required
@@ -601,4 +604,129 @@ class ProfileSettings(View):
             'user_education': education
         })
 
+class UserMessages(View):
+    @method_decorator(login_required())
+    @method_decorator(is_job_seeker)
+    def get(self, request):
+        print request.user.id
+        list_users = company_models.Messages.objects.raw(
+            """
+             SELECT * from company_messages join auth_user ON auth_user.id = company_messages.sender_id
+             where receiver_id={0}
+             group by auth_user.id order by company_messages.date_send
+            """.format(request.user.id)
+        )
+        # print list_users[0].message_body
+        try:
+            print list_users[0] # To check if the user exists or not
+            print list_users[0].receiver_id
+        except IndexError:
+            return render(request, 'user_message_none.html')
 
+        if list_users[0].receiver_id == request.user.id:
+            candidate_id = list_users[0].sender_id
+        else:
+            candidate_id = list_users[0].receiver_id
+        print candidate_id, request.user.id
+        data = get_user_messages(candidate_id,request.user.id)
+        return render(
+            request,
+            'user_message.html',
+            {
+                'list': list_users,
+                'message_data': data['all_data_sort'],
+                'sender_side_name': data['server_side_name'],
+                'sender_id': request.user.id,
+                'candidate_id': candidate_id
+            }
+        )
+
+
+    def post(self, request):
+        """
+
+        """
+
+class UserSendMessage(View):
+    def get(self, request):
+        print 'ola'
+    def post(self, request):
+        company_models.Messages(
+            message_title=request.POST['subject_message'],
+            receiver_id=int(request.POST['candidate_id']),
+            sender_id=request.user.id,
+            message_body=request.POST['content_message'],
+            date_send=datetime.now()
+        ).save()
+        return HttpResponse(
+            json.dumps({
+                'status': True
+            })
+        )
+
+class UserComposedSend(View):
+    def get(self, request):
+        print 'ola'
+    def post(self, request):
+        company_models.Messages(
+            message_title=request.POST['subject_message'],
+            receiver_id=int(request.POST['candidate_id']),
+            sender_id=request.user.id,
+            message_body=request.POST['content_message'],
+            date_send=datetime.now()
+        ).save()
+        obj = company_models.Messages.objects.latest('id')
+        print obj
+        html = render_to_string('company_message_send.html', {'message': obj} )
+        return HttpResponse(
+            html
+        )
+
+def get_user_messages(candidate_id, user_id):
+        data_sender_side = company_models.Messages.objects.filter(
+            sender_id=user_id,
+            receiver_id=candidate_id
+        ).prefetch_related(
+            'sender'
+        ).order_by('date_send') # Sender messages to the receiver
+        print data_sender_side
+        data_receiver_side = company_models.Messages.objects.filter(
+            sender_id=candidate_id,
+            receiver_id=user_id
+        ).prefetch_related(
+            'receiver'
+        ).order_by('date_send') # Which receiver sends the message to the sender
+        print data_receiver_side
+        # merging the two models instances
+        if data_receiver_side:
+            if data_sender_side:
+                # Both sender and receiver side is available
+                all_data_sort = sorted(chain(
+                    data_sender_side, data_receiver_side
+                ),key=lambda message_data: message_data.date_send, reverse=False)
+            else:
+                # If the data sender side is empty
+                all_data_sort = sorted(
+                data_receiver_side,
+                key=lambda message_data: message_data.date_send,
+                reverse=False
+            )
+
+        else:
+            # if the data receiver type is empty
+            all_data_sort = sorted(
+                data_sender_side,
+                key=lambda message_data: message_data.date_send,
+                reverse=False
+            )
+        # receiver sending the message to the sender.
+        # If the data sender is empty then use the data receiver
+        if data_sender_side:
+            sender_side_name = data_sender_side[0].receiver.first_name + " " + data_sender_side[0].receiver.last_name
+        else:
+            sender_side_name = data_receiver_side[0].sender.first_name + " " + data_receiver_side[0].sender.last_name
+        data_value = {
+            'all_data_sort': all_data_sort,
+            'server_side_name': sender_side_name
+        }
+        return data_value
