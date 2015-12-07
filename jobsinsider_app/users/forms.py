@@ -205,7 +205,7 @@ class ProfileSettingsForm(forms.ModelForm):
     cities = core_model.Cities.objects.all()
     choices_cities= [(ab.id, (ab.city_name)) for ab in cities]
 
-    country = forms.ChoiceField(
+    user_country = forms.ChoiceField(
             choices=choices_countries,
             widget=forms.Select(
                 attrs={
@@ -215,7 +215,7 @@ class ProfileSettingsForm(forms.ModelForm):
             )
         )
 
-    cities = forms.ChoiceField(
+    user_city = forms.ChoiceField(
             choices=choices_cities,
             widget=forms.Select(
                 attrs={
@@ -226,9 +226,15 @@ class ProfileSettingsForm(forms.ModelForm):
             )
     )
 
-
+    class Meta:
+        model = UserLocation
+        fields = {
+            'user_city',
+            'user_country'
+           }
 
 
 class AdAlertForm(forms.ModelForm):
     categories = core_model.Categories.objects.filter(category_status=1).all()
     categories_choices = [(ab.id, str(ab.category_name)) for ab in categories]
+

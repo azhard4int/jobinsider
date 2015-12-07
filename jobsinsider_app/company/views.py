@@ -5,10 +5,12 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth import login as login_session
 from django.utils import timezone
-from django.db.models import Count
+from django.db.models import Count, Prefetch
 from django.core import serializers
 from django.core.serializers.json import DjangoJSONEncoder
 from django.template.loader import render_to_string
+from django.template import RequestContext
+
 
 from accounts import models as acc_mod
 from core.decoraters import is_company
@@ -18,6 +20,9 @@ from urlparse import urlparse, parse_qs
 from user_agents import parse
 from forms import *
 from itertools import chain
+from core import email
+from models import AppliedCandidatesFilter
+
 import simplejson as json
 
 
@@ -55,7 +60,8 @@ class Company_dashboard(View):
             'posted_jobs': posted_jobs,
             'job_details': jobs_details,
             'total_applications': total_applications,
-            'total_schedule': schedule_interviews
+            'total_schedule': schedule_interviews,
+            'user_is_company': True
         })
     def post(self, request):
         CompanyProfile(
@@ -83,7 +89,7 @@ class CompanyListing(View):
     @method_decorator(is_company)
     def get(self, request):
         list = CompanyProfile.objects.filter(user_id=request.user.id)
-        return render(request, 'companies.html', {'companies': list})
+        return render(request, 'companies.html', {'companies': list, 'user_is_company': True})
 
     @method_decorator(login_required)
     @method_decorator(is_company)
@@ -99,7 +105,7 @@ class CompanyPassword(View):
     @method_decorator(is_company)
     def get(self, request):
         change_password = accountsform.ChangeProfilePassword()
-        return render(request, 'company_change_password.html', {'cp': change_password})
+        return render(request, 'company_change_password.html', {'cp': change_password, 'user_is_company': True})
 
     @method_decorator(login_required)
     @method_decorator(is_company)
@@ -135,7 +141,7 @@ class CompanyProfileView(View):
 
 
         })
-        return render(request, 'company_profile.html', {'user_profile': user_basic})
+        return render(request, 'company_profile.html', {'user_profile': user_basic, 'user_is_company': True})
 
     @method_decorator(login_required)
     @method_decorator(is_company)
@@ -161,7 +167,8 @@ class CompanyJobAd(View):
             'job_advertisement.html',
             {
                 'job_form': jobad,
-                'body_status': status
+                'body_status': status,
+                'user_is_company': True
             }
         )
 
@@ -172,25 +179,55 @@ class CompanyJobAd(View):
             get_company_name = CompanyProfile.objects.filter(
                 user_id=request.user.id
             )[0].company_name
-            Advertisement(
-                job_title=parameters['job_title'][0],
-                job_position=parameters['job_position'][0],
-                job_description=request.POST['description'],
-                employment_id=parameters['employment'][0],
-                experience_id=parameters['experience'][0],
-                category_id=parameters['category'][0],
-                country_id=parameters['country'][0],
-                cities_id=parameters['cities'][0],
-                salary_from=parameters['salary_from'][0],
-                salary_to=parameters['salary_to'][0],
-                degree_level_id=parameters['education'][0],
-                submission_date=datetime.now(),
-                company_user_id=request.user.id,
-                company = get_company_name
-            ).save()
+            if request.POST['evaluation_id'] == '0':
+                #This is for the non evaluation id
+                Advertisement(
+                    salary_currency=request.POST['salary_currency'],
+                    job_title=parameters['job_title'][0],
+                    job_position=parameters['job_position'][0],
+                    job_description=request.POST['description'],
+                    employment_id=parameters['employment'][0],
+                    experience_id=parameters['experience'][0],
+                    category_id=parameters['category'][0],
+                    country_id=parameters['country'][0],
+                    cities_id=parameters['cities'][0],
+                    salary_from=parameters['salary_from'][0],
+                    salary_to=parameters['salary_to'][0],
+                    degree_level_id=parameters['education'][0],
+                    submission_date=datetime.now(),
+                    company_user_id=request.user.id,
+                    company = get_company_name,
+                    is_evaluation_test=False
+                ).save()
+            else:
+                #This is for the evaluation id
+                evaluation_id = request.POST['evaluation_id']
+                Advertisement(
+                    salary_currency=request.POST['salary_currency'],
+                    job_title=parameters['job_title'][0],
+                    job_position=parameters['job_position'][0],
+                    job_description=request.POST['description'],
+                    employment_id=parameters['employment'][0],
+                    experience_id=parameters['experience'][0],
+                    category_id=parameters['category'][0],
+                    country_id=parameters['country'][0],
+                    cities_id=parameters['cities'][0],
+                    salary_from=parameters['salary_from'][0],
+                    salary_to=parameters['salary_to'][0],
+                    degree_level_id=parameters['education'][0],
+                    submission_date=datetime.now(),
+                    company_user_id=request.user.id,
+                    company = get_company_name,
+                    evaluation_test_id=evaluation_id,
+                    is_evaluation_test=True
+
+                ).save()
 
             resp['status']= True    # when the query succeed.
             resp['last_inserted'] = Advertisement.admanager.latest('id').id
+            # Advertisement.admanager.filter(id=resp['last_inserted']).update(
+            #     salary_currency=request.POST['salary_currency'],
+            # )
 
         except Exception as e:
             print e
@@ -205,8 +242,9 @@ class CompanyAdEdit(View):
                 'category'
             ).prefetch_related(
             'country'
-            ).prefetch_related('cities')
+            ).prefetch_related('cities').prefetch_related('evaluation_test')
             print data[0].category
+
             jobad = JobAdvertisementForm(initial={
                 'job_title': data[0].job_title,
                 'job_position':data[0].job_position,
@@ -233,27 +271,49 @@ class CompanyAdEdit(View):
             'job_form': jobad,
             'jobid': job_id,
             'job_approval_status': data[0].job_approval_status,
-            'body_status': status
+            'body_status': status,
+            'evaluation_test_status': data[0].evaluation_test_id,
+            'evaluation': data[0].evaluation_test_id,
+            'user_is_company': True
         })
     def post(self, request, job_id):
         parameters = parse_qs(request.POST['form_val'])
         resp = {}
-        Advertisement.admanager.filter(id=job_id, company_user_id=request.user.id).update(
-                job_title=parameters['job_title'][0],
-                job_position=parameters['job_position'][0],
-                job_description=request.POST['description'],
-                employment_id=parameters['employment'][0],
-                experience_id=parameters['experience'][0],
-                category_id=parameters['category'][0],
-                country_id=parameters['country'][0],
-                cities_id=parameters['cities'][0],
-                salary_from=parameters['salary_from'][0],
-                salary_to=parameters['salary_to'][0],
-                degree_level_id=parameters['education'][0],
-                # submission_date=datetime.now(),
-
-            )
-
+        if request.POST['evaluation_id'] == '0':
+            Advertisement.admanager.filter(id=job_id, company_user_id=request.user.id).update(
+                    job_title=parameters['job_title'][0],
+                    job_position=parameters['job_position'][0],
+                    job_description=request.POST['description'],
+                    employment_id=parameters['employment'][0],
+                    experience_id=parameters['experience'][0],
+                    category_id=parameters['category'][0],
+                    country_id=parameters['country'][0],
+                    cities_id=parameters['cities'][0],
+                    salary_from=parameters['salary_from'][0],
+                    salary_to=parameters['salary_to'][0],
+                    salary_currency=parameters['salary_currency'][0],
+                    degree_level_id=parameters['education'][0],
+                    is_evaluation_test=False
+                    # submission_date=datetime.now(),
+                    )
+        else:
+            Advertisement.admanager.filter(id=job_id, company_user_id=request.user.id).update(
+                    job_title=parameters['job_title'][0],
+                    job_position=parameters['job_position'][0],
+                    job_description=request.POST['description'],
+                    employment_id=parameters['employment'][0],
+                    experience_id=parameters['experience'][0],
+                    category_id=parameters['category'][0],
+                    country_id=parameters['country'][0],
+                    cities_id=parameters['cities'][0],
+                    salary_from=parameters['salary_from'][0],
+                    salary_to=parameters['salary_to'][0],
+                    salary_currency=parameters['salary_currency'][0],
+                    degree_level_id=parameters['education'][0],
+                    evaluation_test_id=request.POST['evaluation_id'],
+                    is_evaluation_test=True
+                    # submission_date=datetime.now(),
+                    )
         resp['status']= True    # when the query succeed.
         return HttpResponse(json.dumps(resp))
 
@@ -268,7 +328,8 @@ class CompanyAdSettings(View):
             'job_advertisement_settings.html',
             {
                 'last_id': last_id,
-                'body_status': status
+                'body_status': status,
+                'user_is_company': True
             }
         )
 
@@ -307,9 +368,19 @@ class CompanyJobAdFinalize(View):
             request,
             'review_job_advertisement.html',
             {
-                'body_status': is_body_status(request)
+                'body_status': is_body_status(request),
+                'user_is_company': True
              }
         )
+
+
+class CompanyEvaluation(View):
+    def post(self, request):
+        evaluation = evaluation_models.evaluation_test_template.objects.filter(
+            user_id=request.user.id,evaluation_status=1)
+        return HttpResponse(serializers.serialize('json', evaluation))
+
+
 class Posted_jobs(View):
     """
     List all the posted jobs
@@ -323,7 +394,8 @@ class Posted_jobs(View):
             'posted_jobs.html',
             {
                 'posted_jobs': list,
-                'body_status': is_body_status(request)
+                'body_status': is_body_status(request),
+                'user_is_company': True
             }
         )
 
@@ -367,7 +439,7 @@ class MessagesView(View):
         try:
             print list_users[0] # To check if the user exists or not
         except IndexError:
-            return render(request, 'company_message_none.html')
+            return render(request, 'company_message_none.html', {'user_is_company': True})
 
         data = get_messages(list_users[0].receiver_id,request.user.id)
         return render(
@@ -378,7 +450,8 @@ class MessagesView(View):
                 'message_data': data['all_data_sort'],
                 'sender_side_name': data['server_side_name'],
                 'sender_id': request.user.id,
-                'candidate_id': list_users[0].receiver_id
+                'candidate_id': list_users[0].receiver_id,
+                'user_is_company': True
 
             }
         )
@@ -392,7 +465,8 @@ class MessagesView(View):
         html =  render_to_string('company_message_dynamic.html', {
             'message_data': data['all_data_sort'],
             'sender_side_name': data['server_side_name'],
-            'sender_id': request.user.id
+            'sender_id': request.user.id,
+            'user_is_company': True
         })
         return HttpResponse(html)
 
@@ -426,6 +500,8 @@ def get_messages(candidate_id, user_id):
             'server_side_name': sender_side_name
         }
         return data_value
+
+
 class AppliedCandidates(View):
     @method_decorator(login_required)
     @method_decorator(is_company)
@@ -454,15 +530,94 @@ class AppliedCandidates(View):
             SELECT * FROM company_advertisementapplied join users_usereducation on users_usereducation .user_id = company_advertisementapplied.user_id
             where advertisement_id={0}""".format(job_id)
         )
+        # Previous one
+
+        """
+        applied_country_users = AdvertisementApplied.objects.raw(""" """
+        SELECT count(country_name) as total_per_country, company_advertisementapplied.id,  country_name, company_advertisement.country_id as country_value FROM company_advertisementapplied join
+        company_advertisement on company_advertisementapplied.advertisement_id=company_advertisement.id
+        join core_countries on core_countries.id = company_advertisement.country_id where
+        company_advertisementapplied.advertisement_id={0} group by country_name"""""".format(job_id))
+        """
+
+        applied_country_users = AdvertisementApplied.objects.raw("""
+        SELECT count(country_name) as total_per_country, company_advertisementapplied.id,  country_name,
+        users_userlocation.user_country_id as country_value FROM company_advertisementapplied join users_userlocation
+        on company_advertisementapplied.user_id=users_userlocation.user_id join core_countries on
+        users_userlocation.user_country_id = core_countries.id where company_advertisementapplied.advertisement_id={0}
+        group by country_name""".format(job_id))
+
+        # Previous one
+        """
+          SELECT company_advertisementapplied.id, count(*) as total_per_city, city_name,company_advertisement.cities_id
+           as city_value, country_name FROM company_advertisementapplied join company_advertisement on
+            company_advertisementapplied.advertisement_id=company_advertisement.id join core_countries on
+            core_countries.id = company_advertisement.country_id join core_cities on
+            core_cities.id = company_advertisement.cities_id where company_advertisementapplied.advertisement_id={0}
+            group by city_name"""
+
+
+        applied_cities_users = AdvertisementApplied.objects.raw(
+            """
+            SELECT company_advertisementapplied.id, count(*) as total_per_city, city_name,users_userlocation.user_city_id
+            as city_value, country_name FROM company_advertisementapplied join users_userlocation on
+            company_advertisementapplied.user_id=users_userlocation.user_id join core_countries on
+            users_userlocation.user_country_id = core_countries.id join core_cities on
+            users_userlocation.user_city_id = core_cities.id where company_advertisementapplied.advertisement_id={0}
+            group by city_name
+            """.format(job_id)
+        )
+        applied_gender_users = AdvertisementApplied.objects.raw(
+            """
+            SELECT count(*) as type, user_gender, company_advertisementapplied.id  FROM `company_advertisementapplied` join users_userbio on
+            company_advertisementapplied.user_id = users_userbio.user_id where company_advertisementapplied.advertisement_id = {0}
+            group by user_gender
+            """.format(job_id)
+        )
         list_total = int(len(list(data)))
         return render(request, 'applied_candidates.html', {
             'data': data,
             'employment': user_employment,
             'education': user_education,
             'job_id': job_id,
-            'data_count': list_total
+            'data_count': list_total,
+            'applied_country_user': applied_country_users,
+            'applied_cities_user': applied_cities_users,
+            'applied_gender_user': applied_gender_users,
+            'user_is_company': True
         })
 
+
+def applied_country(request):
+    if request.method == 'POST':
+        applied = AppliedCandidatesFilter(request.POST['job_id'], country_id=request.POST['country_id'])
+        html = render_to_string('applied_candidate_dynamic.html', {
+            'data': applied.candidates_list(),
+            'education': applied.candidates_education(),
+            'employment': applied.candidates_employment()
+        }, context_instance=RequestContext(request))
+        return HttpResponse(html)
+
+
+def applied_city(request):
+    if request.method == 'POST':
+        applied = AppliedCandidatesFilter(request.POST['job_id'],city_id=request.POST['city_id'])
+        html = render_to_string('applied_candidate_dynamic.html', {
+            'data': applied.candidates_list(),
+            'education': applied.candidates_education(),
+            'employment': applied.candidates_employment()
+        }, context_instance=RequestContext(request))
+        return HttpResponse(html)
+
+def applied_gender(request):
+    if request.method == 'POST':
+        applied = AppliedCandidatesFilter(request.POST['job_id'],gender=request.POST['gender'])
+        html = render_to_string('applied_candidate_dynamic.html', {
+            'data': applied.candidates_list(),
+            'education': applied.candidates_education(),
+            'employment': applied.candidates_employment()
+        }, context_instance=RequestContext(request))
+        return HttpResponse(html)
 
 class Shortlisted(View):
     def post(self, request, candidate_id, job_id ):
@@ -539,7 +694,8 @@ class ListShortlisted(View):
             'employment': user_employment,
             'education': user_education,
             'job_id': job_id,
-            'data_count': list_total
+            'data_count': list_total,
+            'user_is_company': True
         })
 
 
@@ -565,7 +721,8 @@ class Candidate(View):
             'user_main': user_main_data,
             'user_education': user_education_data,
             'user_employment': user_employment_data,
-            'user_cv': user_cv_data
+            'user_cv': user_cv_data,
+            'user_is_company': True
         })
 
 class ScheduleInterview(View):
@@ -582,7 +739,7 @@ class ScheduleInterview(View):
         user_education_data = users_models.UserEducation.objects.filter(user_id=candidate_id)
         user_employment_data = users_models.UserEmployment.objects.filter(user_id=candidate_id)
         user_cv_data = users_models.UserCV.objects.filter(user_id=candidate_id)[0]
-        return render(request, 'schedule_interview.html', {
+        return render(request, 'schedule_interview_candidate.html', {
             'candidate_id': candidate_id,
             'user_bio': user_bio_data,
             'user_location': user_location_data,
@@ -590,7 +747,8 @@ class ScheduleInterview(View):
             'user_education': user_education_data,
             'user_employment': user_employment_data,
             'user_cv': user_cv_data,
-            'job_id': job_id
+            'job_id': job_id,
+            'user_is_company': True
         })
     def post(self, request, candidate_id, job_id):
         print request.POST
@@ -613,6 +771,16 @@ class ScheduleInterview(View):
             invitation_message=request.POST['invitation'],
             is_interview=True
         )
+        #for email values
+
+        listvalue = {
+            'tosend': User.objects.filter(id=candidate_id)[0].email,
+            'username': User.objects.filter(id=candidate_id)[0].username,
+            'first_name': User.objects.filter(id=candidate_id)[0].first_name,
+            'message': request.POST['invitation']
+        }
+        sendemail_ = email.EmailFunc('schedule_interview', **listvalue)
+        sendemail_.generic_email()
         return HttpResponse(
             json.dumps(
                 {
@@ -651,7 +819,7 @@ class ComposedSend(View):
         ).save()
         obj = Messages.objects.latest('id')
         print obj
-        html = render_to_string('company_message_send.html', {'message': obj} )
+        html = render_to_string('company_message_send.html', {'message': obj, 'user_is_company': True})
         return HttpResponse(
             html
         )
@@ -662,13 +830,13 @@ def pdf_render(request, candidate_id):
     if str(user_cv.user_cv_file).__contains__('.pdf'):
         with open(str(user_cv.user_cv_file), 'rb') as pdf:
             response = HttpResponse(pdf.read(),content_type='application/pdf')
-            response['Content-Disposition'] = 'filename=crowfoot_ERD_name.pdf'
+            response['Content-Disposition'] = 'filename={0}'.format(user_cv.user_cv_title)
             return response
         pdf.closed
     else:
         with open(str(user_cv.user_cv_file), 'rb') as doc_x:
             response = HttpResponse(doc_x.read(),content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
-            response['Content-Disposition'] = 'filename=crowfoot_ERD_name.doc'
+            response['Content-Disposition'] = 'filename={0}'.format(user_cv.user_cv_title)
             return response
         doc_x.closed
 
@@ -804,13 +972,17 @@ def analytics(request, job_id):
                     'chrome': chrome,
                     'male': male,
                     'female':female,
-                    'unknown': unknown
+                    'unknown': unknown,
+                    'user_is_company': True
                 }
             )
     except:
         return render(
             request,
-            'no_analytics.html'
+            'no_analytics.html',
+            {
+               'user_is_company': True
+            }
         )
 
 

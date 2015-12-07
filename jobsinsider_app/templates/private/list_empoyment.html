@@ -6,33 +6,33 @@
 {% block body_content %}
 
     <!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">New Skill</h4>
-      </div>
-        <form action="" id="add_exp_type_form"> <!-- using the same form for posting but different url routing -->
-              <div class="modal-body">
-                  <div class="info">
-
-                  </div>
-                <div class="container">
-                    <div class="col-md-12">
-                        {% csrf_token %}
-                        {{ emp.employment_name}}
-                    </div>
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" id="employment_type" class="btn btn-primary add_exp_type">Save changes</button>
-              </div>
-        </form>
-    </div>
-  </div>
-</div>
+{#<div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">#}
+{#  <div class="modal-dialog" role="document">#}
+{#    <div class="modal-content">#}
+{#      <div class="modal-header">#}
+{#        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>#}
+{#        <h4 class="modal-title" id="myModalLabel">New Skill testing 123</h4>#}
+{#      </div>#}
+{#        <form action="" id="add_exp_type_form"> <!-- using the same form for posting but different url routing -->#}
+{#              <div class="modal-body">#}
+{#                  <div class="info">#}
+{##}
+{#                  </div>#}
+{#                <div class="container">#}
+{#                    <div class="col-md-4">#}
+{#                        {% csrf_token %}#}
+{#                        {{ emp.employment_name}}#}
+{#                    </div>#}
+{#                </div>#}
+{#              </div>#}
+{#              <div class="modal-footer">#}
+{#                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>#}
+{#                <button type="button" id="employment_type" class="btn btn-primary add_exp_type">Save changes</button>#}
+{#              </div>#}
+{#        </form>#}
+{#    </div>#}
+{#  </div>#}
+{#</div>#}
 
     <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
           <div class="modal-dialog" role="document">
@@ -47,7 +47,7 @@
 
                           </div>
                         <div class="container">
-                            <div class="col-md-12">
+                            <div class="col-md-4">
                                 {% csrf_token %}
                                 <input type="hidden" name="status" value="1">
                                 <input type="hidden" name="experience_id" class="education_id_value">
@@ -65,7 +65,7 @@
 </div>
 
     <div class="container">
-        <div class="col-md-12">
+        <div class="col-md-8">
             <input type="button" data-toggle="modal" data-target="#myModal"  value="Add Education Type" >
         </div>
     </div>
@@ -73,7 +73,7 @@
 
 <div class="container" style="z-index:0;">
     <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-8">
     <div class="display_message"></div>
     <table width="100%;">
         <thead class="categories_head">

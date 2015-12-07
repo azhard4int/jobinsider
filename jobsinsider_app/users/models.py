@@ -5,6 +5,9 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.conf import settings
 
+
+from datetime import datetime
+
 # Create your models here.
 
 class UserSkillsManager(models.Manager):
@@ -150,3 +153,13 @@ class UserEducation(models.Model):
         blank=True,
         default=None
     )
+
+
+class JobAlert(models.Model):
+    user = models.ForeignKey(User)
+    is_status = models.BooleanField(default=True,blank=True)
+    category = models.ForeignKey(coremodels.Categories)
+    added_date = models.DateTimeField(default=datetime.now(), null=True)
+
+    def __unicode__(self):
+        return unicode(self.user)

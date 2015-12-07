@@ -5,16 +5,32 @@
 
 {% block body_content %}
 
+
+
+
+
+
+
+
+
+
+
+
+
+
     <!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+<div class = "modal fade" id = "myModal" tabindex = "-1" role = "dialog"
+   aria-labelledby = "myModalLabel" aria-hidden = "true">
+
+   <div class = "modal-dialog modal-md">
+      <div class = "modal-content">
+
+         <div class = "modal-header">
+           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" id="myModalLabel">New Skill</h4>
-      </div>
-        <form action="" id="add_edu_type_form">
-              <div class="modal-body">
+         </div>
+
+         <div class = "modal-body">
                   <div class="info">
 
                   </div>
@@ -47,7 +63,7 @@
 
                           </div>
                         <div class="container">
-                            <div class="col-md-12">
+                            <div class="col-md-4">
                                 {% csrf_token %}
                                 <input type="hidden" name="status" value="1">
                                 <input type="hidden" name="education_id" class="education_id_value">
@@ -73,7 +89,7 @@
 
 <div class="container" style="z-index:0 !important;">
     <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-8">
     <div class="display_message"></div>
     <table width="100%;" style="z-index:0 !important;">
         <thead class="categories_head">

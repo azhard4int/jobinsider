@@ -38,9 +38,15 @@
                                          View Job Details
                                     </a>
                                     {% else %}
-                                        <a href="{% url 'register_account' %}">
-                                            Sign up
+                                        {% if company_status == 1 %}
+                                        <a href="{% url 'job_details' job_detail.id %}">
+                                             View Job Details
                                         </a>
+                                        {% else %}
+                                            <a href="{% url 'register_account' %}">
+                                            Sign up
+                                            </a>
+                                        {% endif %}
                                     {% endif %}
                                 </div>
 

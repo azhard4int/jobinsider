@@ -13,15 +13,20 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import  method_decorator
 from django.contrib.auth import login as login_session
 from django.core import serializers
+from django.core.exceptions import MultipleObjectsReturned
+
+import logging
+import os
 
 from accounts import models as accountsmodels
 from accounts import forms as accountsform
 from company import models as company_models
 from core.decoraters import *
 from core import models as core_models
+from core import email
 from datetime import datetime
 from itertools import chain
-import logging
+
 
 # Create your views here.
 @login_required
@@ -80,13 +85,15 @@ class UserDashboard(View):
         favorite_jobs = company_models.AdvertisementFavorite.objects.filter(
             user_id=request.user.id
         ).count()
+        get_categories = core_models.Categories.objects.get_all()
         return render(
             request,
             'profile_dashboard.html',
             {
                 'job_detail': jobs_details,
                 'applied_jobs': applied_jobs,
-                'favorite_jobs': favorite_jobs
+                'favorite_jobs': favorite_jobs,
+                'categories': get_categories
             }
         )
 
@@ -158,6 +165,7 @@ def cities(request):
     else:
         raise Http404
 
+
 class UserInfo(View):
     """
     This section includes the user biography and CV builder.
@@ -183,8 +191,6 @@ class UserInfo(View):
                     print request.POST['user_title'],
                     print request.FILES['user_portrait'].name
                     print User.objects.filter(id=request.user.id)[0]
-
-
                     user_bio=UserBio(
                         user=User.objects.filter(id=request.user.id)[0],
                         user_bio_status=1,
@@ -196,7 +202,6 @@ class UserInfo(View):
                         user_portrait_filename = str(request.FILES['user_portrait'].name),
                     ).save()
                     # user_bio.
-
                     # storing user location details
                     user_location = UserLocation(
                         user_address = request.POST['user_address'],
@@ -212,7 +217,6 @@ class UserInfo(View):
                 except IntegrityError:
                     # print e
                     return HttpResponse(json.dumps({'status': True}))
-
                 return HttpResponse(json.dumps({'status': True}))
 
 
@@ -249,12 +253,9 @@ class UserCVUpload(View):
                 userCVobj.user_cv_file = request.FILES['user_cv_file']
                 userCVobj.user = User.objects.filter(id=request.user.id)[0]
                 userCVobj.save()
-                accountsmodels.UserProfile.objects.filter(
-                    user_id=request.user.id
-                ).update(
-                    user_cv_status=1
-                )
+                accountsmodels.UserProfile.objects.filter(user_id=request.user.id).update(user_cv_status=1)
                 return HttpResponse(json.dumps({'status': True}))
+
 
 @login_required()
 def is_cv_builder(request):
@@ -267,16 +268,9 @@ def is_cv_builder(request):
             user_cv_builder=1
         ).save()
 
-        accountsmodels.UserProfile.objects.filter(
-                    user_id=request.user.id
-                ).update(
-            user_cv_status=1
-        )
-        return HttpResponse(
-            json.dumps(
-                {'status': True}
-            )
-        )
+        accountsmodels.UserProfile.objects.filter(user_id=request.user.id).update(user_cv_status=1)
+        return HttpResponse(json.dumps({'status': True}))
+
 
 def AddCVEmployment(request):
     """
@@ -426,6 +420,7 @@ class EducationUpdate(View):
         EduForm = EducationForm()
         return render(request, 'profile_education.html', {'edu': EduForm})
 
+
 @login_required()
 def remove_employment(request, emp_id):
     UserEmployment.objects.filter(
@@ -436,6 +431,7 @@ def remove_employment(request, emp_id):
         'status': True
     }))
 
+
 @login_required()
 def remove_education(request, edu_id):
     UserEducation.objects.filter(
@@ -445,6 +441,7 @@ def remove_education(request, edu_id):
     return HttpResponse(json.dumps({
         'status': True
     }))
+
 
 @login_required()
 def complete_profile(request):
@@ -542,7 +539,6 @@ class ProfileChangePassword(View):
                 return HttpResponse(json.dumps({'status':-3}))
 
 
-
 class ProfileUser(View):
     @method_decorator(login_required)
     @method_decorator(is_job_seeker)
@@ -573,7 +569,11 @@ class ProfileUser(View):
             'user_education': education
         })
 
+
 class ProfileSettings(View):
+    """
+    To update the basic profile details of a user over here.
+    """
     @method_decorator(login_required)
     @method_decorator(is_job_seeker)
     def get(self, request):
@@ -586,6 +586,84 @@ class ProfileSettings(View):
         education = UserEducation.objects.filter(user_id=request.user.id)
 
 
+        main={
+            'first_name': data.first_name,
+            'last_name': data.last_name,
+            'overview': data.userbio.user_overview,
+            'email': data.email,
+            'contact': data.userlocation.user_phone_no,
+            'address': data.userlocation.user_address,
+            'portrait': portrait,
+            'country': data.userlocation.user_country,
+            'city': data.userlocation.user_city,
+        }
+        print data.userlocation.user_city_id
+        locationForm = ProfileSettingsForm(initial={
+            'user_city':data.userlocation.user_city_id,
+            'user_country':data.userlocation.user_country_id,
+
+        })
+        userBioForm = UserBioInfo()
+
+        return render(request, 'profile_settings.html', {
+            'user': main,
+            'user_employment': employment_data,
+            'user_education': education,
+            'locationForm': locationForm,
+            'userBio': userBioForm,
+            'user_cv_status': data.usercv.user_cv_builder_status
+        })
+
+    def post(self, request):
+        if request.POST and request.FILES:
+            self.update_biography(request)
+            directory_path = str(settings.MEDIA_ROOT + "/userprofile/")
+            user_value = UserBio.objects.filter(
+                user_id=request.user.id
+            )[0]
+            user_value.user_portrait=request.FILES['user_portrait']
+            user_value.user_portrait_filename = str(request.FILES['user_portrait'].name)
+            user_value.save()
+            return HttpResponse(json.dumps({'status':True}))
+
+        elif request.POST:
+            self.update_biography(request)
+            return HttpResponse(json.dumps({'status':True}))
+
+    def update_biography(self, request):
+        """
+        Updating the user bio details except for the image.
+        :param request:
+        :return:
+        """
+        user_update = User.objects.filter(id=request.user.id).update(
+            first_name=request.POST['first_name'],
+            last_name=request.POST['last_name'],
+        )
+        location_update = UserLocation.objects.filter(
+                user_id=request.user.id
+        ).update(
+            user_country=request.POST['user_country'],
+            user_city=request.POST['user_city']
+        )
+        userbio_update = UserBio.objects.filter(
+            user_id=request.user.id
+        ).update(
+            user_overview=request.POST['user_profile_overview']
+        )
+
+
+class ProfileSettingsEducation(View):
+    @method_decorator(login_required)
+    @method_decorator(is_job_seeker)
+    def get(self, request):
+        data = User.objects.prefetch_related('userbio','usercv','userskills', 'userlocation').get(id=request.user.id)
+        employment_data =UserEmployment.objects.filter(user_id=request.user.id)
+        portrait = str(data.userbio.user_portrait)
+        portrait = portrait[portrait.find('/media'):]
+        # country = core_models.Countries.objects.filter(id=data.userlocation.user_country)[0]
+        # city = core_models.Cities.objects.filter(id=data.userlocation.user_city)[0]
+        education = UserEducation.objects.filter(user_id=request.user.id)
         main = {
             'first_name': data.first_name,
             'last_name': data.last_name,
@@ -597,12 +675,106 @@ class ProfileSettings(View):
             'country': data.userlocation.user_country,
             'city': data.userlocation.user_city,
         }
-        print main
-        return render(request, 'profile_settings.html', {
+        eduform = EducationForm()
+        return render(request, 'profile_settings_education.html', {
             'user': main,
             'user_employment': employment_data,
-            'user_education': education
+            'user_education': education,
+            'edu': eduform,
+            'user_cv_status': data.usercv.user_cv_builder_status
+
         })
+
+    def post(self, request):
+        data = UserEducation.objects.filter(user_id=request.user.id, id=request.POST['education_id'])[0]
+        education_data = {
+            'user_institute': data.user_institute,
+            'user_degree': data.user_degree,
+            'degree_from': str(data.degree_from),
+            'degree_to': str(data.degree_to),
+            # 'company_description': data.company_description,
+        }
+        return HttpResponse(json.dumps({'data': education_data}))
+
+
+def edit_education_description(request):
+    data = UserEducation.objects.filter(id=request.POST['education_id']).update(
+        user_institute=request.POST['user_institute'],
+        user_degree=request.POST['user_degree'],
+        degree_from=request.POST['degree_from'],
+        degree_to=request.POST['degree_to']
+    )
+    return HttpResponse(json.dumps({'status':True}))
+
+
+def delete_education_description(request):
+    data = UserEducation.objects.filter(user_id=request.user.id, id=request.POST['education_id']).delete()
+    return HttpResponse(json.dumps({'status':True}))
+
+
+class ProfileSettingsEmployment(View):
+    @method_decorator(login_required)
+    @method_decorator(is_job_seeker)
+    def get(self, request):
+        data = User.objects.prefetch_related('userbio','usercv','userskills', 'userlocation').get(id=request.user.id)
+        employment_data =UserEmployment.objects.filter(user_id=request.user.id)
+        portrait = str(data.userbio.user_portrait)
+        portrait = portrait[portrait.find('/media'):]
+        education = UserEducation.objects.filter(user_id=request.user.id)
+        cvemploy = InitialEmploymentForm()
+        return render(request, 'profile_settings_employment.html', {
+            'user_employment': employment_data,
+            'user_education': education,
+            'cv_employ': cvemploy,
+            'user_cv_status': data.usercv.user_cv_builder_status
+        })
+
+    def post(self, request):
+        data = UserEmployment.objects.filter(user_id=request.user.id, id=request.POST['employment_id'])[0]
+        employee_data = {
+            'company_name': data.company_name,
+            'company_work_title': data.company_worktitle,
+            'company_from': str(data.company_from),
+            'company_to': str(data.company_to),
+            'company_description': data.company_description,
+        }
+        return HttpResponse(json.dumps({'data': employee_data}))
+
+
+def edit_company_description(request):
+    data = UserEmployment.objects.filter(id=request.POST['job_employment_id']).update(
+        company_worktitle=request.POST['company_worktitle'],
+        company_name=request.POST['company_name'],
+        company_to=request.POST['company_to'],
+        company_from=request.POST['company_from']
+    )
+    return HttpResponse(json.dumps({'status':True}))
+
+
+def delete_company_description(request):
+    data = UserEmployment.objects.filter(user_id=request.user.id, id=request.POST['employment_id']).delete()
+    return HttpResponse(json.dumps({'status':True}))
+
+
+class ProfileSettingsResume(View):
+    @method_decorator(login_required)
+    @method_decorator(is_job_seeker)
+    def get(self, request):
+        user_cv = UserCV.objects.filter(user_id=request.user.id)[0]
+        return render(request, 'profile_settings_resume.html',{
+            'user_cv':user_cv,
+            'user_cv_status': user_cv.user_cv_builder_status
+        })
+
+    def post(self, request):
+        if request.FILES:
+            get_user = UserCV.objects.filter(user_id=request.user.id)[0]
+            get_user.user_cv_title = request.FILES['resume_file'].name
+            get_user.user_cv_file = request.FILES['resume_file']
+            get_user.save()
+            return HttpResponse(json.dumps({'status':True}));
+        else:
+            return HttpResponseRedirect('/user/u/profile_settings/resume/')
 
 class UserMessages(View):
     @method_decorator(login_required())
@@ -647,6 +819,7 @@ class UserMessages(View):
 
         """
 
+
 class UserSendMessage(View):
     def get(self, request):
         print 'ola'
@@ -663,6 +836,7 @@ class UserSendMessage(View):
                 'status': True
             })
         )
+
 
 class UserComposedSend(View):
     def get(self, request):
@@ -681,6 +855,7 @@ class UserComposedSend(View):
         return HttpResponse(
             html
         )
+
 
 def get_user_messages(candidate_id, user_id):
         data_sender_side = company_models.Messages.objects.filter(
@@ -730,3 +905,34 @@ def get_user_messages(candidate_id, user_id):
             'server_side_name': sender_side_name
         }
         return data_value
+
+
+# Job alert section
+
+class JobAlertView(View):
+    def get(self, request):
+        """
+
+        :param request:
+        :return:
+        """
+
+    def post(self, request):
+        try:
+            data = JobAlert.objects.get_or_create(user_id=request.user.id, category_id=request.POST['category_id'])
+            get_category_name = core_models.Categories.objects.getinfo(request.POST['category_id'])
+
+            if data[1]:
+                listvalue = {
+                    'tosend': User.objects.filter(id=request.user.id)[0].email,
+                    'username': User.objects.filter(id=request.user.id)[0].username,
+                    'first_name': User.objects.filter(id=request.user.id)[0].first_name,
+                    'message': get_category_name[0].category_name
+                }
+                sendemail_ = email.EmailFunc('job_alert_email', **listvalue)
+                sendemail_.generic_email()
+                return HttpResponse(json.dumps({'status':True}))
+            else:
+                return HttpResponse(json.dumps({'status':False}))
+        except MultipleObjectsReturned:
+            return HttpResponse(json.dumps({'status':False}))

@@ -5,6 +5,7 @@
         {% endif %}
 {% block body_content %}
     {% include 'base_dashboard_core.html' %}
+    {% include 'notify_message.html' %}
 
 
     <div class="container user_profile">
@@ -29,64 +30,106 @@
                     </ul>
                 </div>
                 <div class="col-md-9 user_profile_details nopad-lr">
+                    <div class="">
+                        <ul class="user_settings_tabs">
+                            <div class="button_settings">
+                                <a href="{% url 'profile_settings' %}">
+                                    Basic Settings
+                                </a>
+                            </div>
+                            <div class="button_settings employment_btn">
+                                <a href="{% url 'profile_settings_employment' %}">
+                                    Employment
+                                </a>
+                            </div>
+                            <div class="button_settings education_btn">
+                                <a href="javascript:;" class="display_add_employment">
+                                    Add Employment
+                                </a>
+                            </div>
+                            <div class="button_settings education_btn">
+                                <a href="{% url 'profile_settings_education' %}">
+                                    Education
+                                </a>
+                            </div>
+                            <div class="button_settings education_btn">
+                                <a href="javascript:;" class="display_add_education">
+                                    Add Education
+                                </a>
+                            </div>
+                            {% if user_cv_status == 0 %}
+                                <div class="button_settings education_btn">
+                                <a href="{% url 'profile_resume' %}">
+                                    Your Resume
+                                </a>
+                            </div>
+                            {% endif %}
+                        </ul>
+                    </div>
                     <span class="error_main"></span>
                     <div class="clearfix"></div>
                     <span class="success_main">
                     </span>
                     <!-- stylizing the stuff for the profile page onwards -->
                     <div class="clearfix"></div>
+                    <form id="user_profile_settings" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
                         <div class="col-md-3">
                             <div class="profile_picture">
                                 <img src="{{ user.portrait }}" alt="profile picture">
+                                <div class="clearfix"></div>
+                                <div class="" style="margin-top:10px;">
+                                    {{ userBio.user_portrait }}
+{#                                    <input  type="file" name="cover_photo_upload" accept="image/gif,image/jpeg,image/png" href="javascript:;" class="">#}
+{##}
+{#                                    </input>#}
+                                </div>
                             </div>
                          </div>
                          <div class="col-md-9">
                              <h3>
-                                 {{ user.first_name }} {{ user.last_name }}
+                                 <div class="col-md-6 nopad-lr">
+                                    <input type="text" name="first_name" class="form-control" id="" value="{{ user.first_name }}">
+                                 </div>
+
+                                 <div class="col-md-6 nopad-lr">
+                                    <input type="text" name="last_name" class="form-control" id="" value="{{ user.last_name }}">
+                                 </div>
+
+
                              </h3>
-                             <p>{{ user.overview }}</p>
+                             <div class="clearfix">
+
+                             </div>
+                             <div class="col-md-12 nopad-lr">
+                                 <div class="profile_settings_overview">
+                                     <textarea name="user_profile_overview" class="form-control">{{ user.overview }}</textarea>
+                                 </div>
+                             </div>
+
                             <div class="user_location_buttons">
+                                <div class="col-md-6 user_country_pad nopad-lr">
+                                    <span>
+                                        {{ locationForm.user_country }}
+                                    </span>
+                                </div>
+
                                 <span>
-                                    {{ user.country }}
-                                </span>
-                                <span>
-                                    {{ user.city }}
+                                    <div class="user_city_pad col-md-6 nopad-lr">
+                                        {{ locationForm.user_city }}
+                                    </div>
+
                                 </span>
                             </div>
+                             <div class="clearfix"></div>
+                             <div class="profile_changes">
+                                <a href="javascript:;" class="profile_changes_btn primary_btn_color main__button">Save Changings</a>
+                             </div>
                          </div>
-                    <div class="clearfix"></div>
+                            <div class="clearfix"></div>
+                        </form>
                     <div class="user_profile_history">
                         <hr>
-                        <h4>
-                            Your Employment
-                        </h4>
-                        {% for employment in user_employment %}
-                            <p>
-                            Worked in {{ employment.company_name }} as {{ employment.company_worktitle }} - {{ employment.company_from }} to {{ employment.company_to }}
-                            </p>
-
-                            <textarea>
-                            {{ employment.company_description }}
-                            </textarea>
-                            <div class="clearfix"></div>
-                            <div class="company_edit_description">
-                                <a href="javascript:;" class="edit_company_description main__button">Edit Company Description</a>
-                            </div>
-                            <div class="clearfix"></div>
-
-
-                        {% endfor %}
-                        <hr>
-                        <h4>
-                            Your Education
-                        </h4>
-
-                        {% for education in user_education %}
-                             {{ education.user_degree }}
-                             <br>
-                             {{ education.user_institute }} in {{ education.degree_from }} to {{ education.degree_to }}
-
-                        {% endfor %}
                     </div>
                 </div>
             </div>
@@ -94,6 +137,6 @@
     </div>
 {% endblock %}
 {% block custom_scripts %}
-    <script src="{{ STATIC_URL }}js/plugins/tinymce/tinymce.min.js"></script>
-    <script>tinymce.init({selector:'textarea'});</script>
+{#    <script src="{{ STATIC_URL }}js/plugins/tinymce/tinymce.min.js"></script>#}
+{#    <script>tinymce.init({selector:'textarea'});</script>#}
 {% endblock %}

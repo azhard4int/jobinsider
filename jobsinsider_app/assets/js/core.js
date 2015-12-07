@@ -1110,8 +1110,16 @@ $('.job_advertisement').on('click', function(event)
     else{
         var formElement = document.querySelector('form');
         var form_data = $('#jobadvert_form').serialize();// new FormData(formElement);
+        var salary_currency = $('#salary_currency').val();
         var job_description = (tinyMCE.activeEditor.getContent({format : 'raw'}));
         var csrfmdi = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+        if($('#evaluation_test_label').attr('value')==0)
+        {
+            evaluation_id = 0;
+        }
+        else{
+            evaluation_id = $('.evaluation_template').val();
+        }
         $.ajax(
             {
                 url:'/company/create-job/',
@@ -1119,7 +1127,9 @@ $('.job_advertisement').on('click', function(event)
                 data:{
                     'form_val': form_data,
                     'csrfmiddlewaretoken': csrfmdi,
-                    'description': job_description
+                    'description': job_description,
+                    'salary_currency': salary_currency,
+                    'evaluation_id':evaluation_id
                 },
                 success:function(m)
                 {
@@ -1237,12 +1247,14 @@ $('.delete_job_menu').on('click', function(e)
             {
                 var resp = JSON.parse(m);
                 if(resp.status==true){
+                    $('.posted_job_remove_'+get_id).remove();
                     $('html,body').animate({
                             scrollTop: $('.message_details').offset().top},
                         'slow');
 
                     console.log('here');
-                    $('.message_details').html('Job has been deleted successfully!')
+                    //$('.message_details').html('Job has been deleted successfully!')
+                    message_display('Job has been deleted successfully!', 1);
                 }
             }
         }
@@ -1260,6 +1272,13 @@ $('.job_advertisement_edit').on('click', function(event)
     var csrfmdi = document.getElementsByName('csrfmiddlewaretoken')[0].value;
     var id_value = $('.jobid_value').attr('value');
     //alert(id_value);
+    if($('#evaluation_test_label').attr('value')==0)
+        {
+            evaluation_id = 0;
+        }
+        else{
+            evaluation_id = $('.evaluation_template').val();
+        }
     $.ajax(
         {
             url:'/company/job/edit/' + id_value,
@@ -1267,7 +1286,8 @@ $('.job_advertisement_edit').on('click', function(event)
             data:{
                 'form_val': form_data,
                 'csrfmiddlewaretoken': csrfmdi,
-                'description': job_description
+                'description': job_description,
+                evaluation_id:evaluation_id
             },
             success:function(m)
             {

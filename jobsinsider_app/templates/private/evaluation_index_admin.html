@@ -1,0 +1,107 @@
+{% extends "base_admin.html" %}
+<title>{% block title %}Admin Dashboard{% endblock %}</title>
+
+{% block body_content %}
+
+<div class="wrapper">
+<button class = "btn btn-info" onclick="location.href='{{ base_url}}/private/members/evaluation/default'">
+         Default Evaluations
+        </button>
+    <button class = "btn btn-info" onclick="location.href='{{ base_url}}/private/members/evaluation/user'">
+         User Evaluations
+        </button>
+      <button class = "btn btn-info" onclick="location.href='{{ base_url}}/private/members/evaluation/user_pending'">
+         Pending
+        </button>
+
+<button class = "btn btn-info" onclick="location.href='{{ base_url}}/private/members/evaluation/user_rejected'">
+         Rejected
+        </button>
+</div>
+
+<div class="wrapper1">
+    <div class="table-responsive" id="maintable">
+       <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Evaluation</th>
+                <th>Catagory</th>
+                <th>Status</th>
+                <th>Type</th>
+                <th>Questions</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                {% for o in evaluation %}
+                <td>{{ o.evaluation_name }}</td>
+                <td>{{ o.evaluation_catagory }}</td>
+                    {% if o.evaluation_status == 0 %}
+                      <td>Not Approved</td>
+                    {% endif %}
+                    {% if o.evaluation_status == 1 %}
+                     <td>Approved</td>
+                    {% endif %}
+
+                    {% if o.evaluation_type == 0 %}
+                      <td>MCQ</td>
+                    {% endif %}
+                    {% if o.evaluation_type == 1 %}
+                     <td>True/False</td>
+                    {% endif %}
+
+                       <td>{{  o.evaluation_total_questions}}</td>
+
+                      <td><div class="dropdown"><button value="{{o.pk}}" id="dropdown" class="btn btn-info dropdown-toggle btn-sm" type="button" data-toggle="dropdown">Edit
+                      <span class="caret"></span></button>
+                       <ul class="dropdown-menu">
+                       <li><a class="editbutton" data-target="#editmodal" data-toggle="modal" href="#editmodal">Edit Template</a></li>
+                       <li><a href="{{ base_url  }}/private/members/evaluation/edit_question/{{ o.pk }}">Edit Questions</a></li>
+                       <li><a class="add_button" data-target="#question_modal" data-toggle="modal" href="#question_modal">Add Questions</a></li>
+                       <li><a class="delete">Delete</a></li></ul></div></td>
+
+
+{#                    <td><button value="{{o.pk}}"  class="editbutton" class="btn btn-info btn-sm" data-toggle="modal" data-target="#editmodal" type="button">Edit</button></td>#}
+{#                      <td><button value="{{o.pk}}"  class="add_button btn btn-info btn-sm" data-toggle="modal" data-target="#question_modal" type="button">Add Questions</button></td>#}
+                      <td><button value="{{o.pk}}"  class="previewtest btn btn-info btn-sm"  data-toggle="modal" data-target="" type="button">Preview</button></td>
+{#                      <td><button value= "{{o.pk}}"  type="button" class="delete btn btn-info btn-sm" >Delete</button></td>#}
+                      <td><button value= "{{o.pk}}"  type="button" class="approve btn btn-success btn-sm" >Approve</button></td>
+                      <td><button value= "{{o.pk}}"  type="button" class="reject btn btn-danger btn-sm" >Reject</button></td>
+
+                    </tr>
+
+
+                     {% endfor %}
+                      </tbody>
+                    </table>
+    <div class="pagination">
+    <span class="step-links">
+        {% if evaluation.has_previous %}
+            <a href="?page={{ evaluation.previous_page_number }}">Previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ evaluation.number }} of {{ evaluation.paginator.num_pages }}.
+        </span>
+
+        {% if evaluation.has_next %}
+            <a href="?page={{ evaluation.next_page_number }}">Next</a>
+        {% endif %}
+    </span>
+</div>
+
+
+</div>
+</div>
+
+
+{% endblock %}
+
+
+
+
+
+
+
+

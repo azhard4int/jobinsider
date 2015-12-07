@@ -1,0 +1,6 @@
+Hello {{ first_name }},
+
+Your job alert has been set for {{ message }}. You can cancel it anytime by going to settings page.
+
+Regards,
+JobsInsider Support

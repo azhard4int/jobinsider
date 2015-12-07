@@ -1,0 +1,7 @@
+Hello {{ first_name }},
+
+{{message}}
+
+
+Regards,
+JobsInsider Support

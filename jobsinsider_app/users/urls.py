@@ -24,7 +24,13 @@ urlpatterns = patterns(
     url(r'^u/changepassword/$', ProfileChangePassword.as_view(), name='user_change_password'),
     url(r'^u/profile/$', ProfileUser.as_view(), name='profile'),
     url(r'^u/profile_settings/$', ProfileSettings.as_view(), name='profile_settings'),
-    url(r'^messages/$', UserMessages.as_view(), name='user_messages')
-
-
+    url(r'^u/profile_settings/education/$', ProfileSettingsEducation.as_view(), name='profile_settings_education'),
+    url(r'^u/profile_settings/education/edit/$', edit_education_description, name='edit_education_description'),
+    url(r'^u/profile_settings/education/delete/$', delete_education_description, name='delete_education_description'),
+    url(r'^u/profile_settings/employment/$', ProfileSettingsEmployment.as_view(), name='profile_settings_employment'),
+    url(r'^u/profile_settings/employment/edit/$', edit_company_description, name='edit_company_description'),
+    url(r'^u/profile_settings/employment/delete/$', delete_company_description, name='delete_company_description'),
+    url(r'^u/profile_settings/resume/$', ProfileSettingsResume.as_view(), name='profile_resume'),
+    url(r'^messages/$', UserMessages.as_view(), name='user_messages'),
+    url(r'^job_alert/$', JobAlertView.as_view(), name='job_alert')
 )

@@ -62,12 +62,15 @@
                                 <div class=""><!--user_profile_detail-->
                                    {% if not body_status == 2 %}
                                     <ul class="dashboard_s0_nav_main">
+                                        <li>
+                                        {% block header_company_messages %}
+                                            {% if user_is_company %}
+                                                <a href="{% url 'messages' %}"><i class="fa fa-inbox fa-lg"></i></a>
 
-                                        <li>
-                                            <a href=""><i class="fa fa-inbox fa-lg"></i></a>
-                                        </li>
-                                        <li>
-                                            <a href=""><i class="fa fa-bell-o fa-lg"></i></a>
+                                            {% else %}
+                                                <a href="/user/messages/"><i class="fa fa-inbox fa-lg"></i></a>
+                                            {% endif %}
+                                        {% endblock %}
                                         </li>
                                         <li >
 

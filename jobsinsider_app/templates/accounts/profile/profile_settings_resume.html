@@ -1,0 +1,182 @@
+{% extends "base_dasboard.html" %}
+    <title>{% block title %}Dashboard{% endblock %}</title>
+        {% if user.is_authenticated %}
+            {% block authenticate_user %} {{ user.first_name|slice:":1" }} {{ user.last_name|slice:":1" }}{%  endblock %}
+        {% endif %}
+{% block body_content %}
+    {% include 'base_dashboard_core.html' %}
+    {% include 'notify_message.html' %}
+
+
+    <div class="container user_profile">
+        <div class="row">
+            <div class="col-md-12 nopad-lr">
+                <div class="col-md-3">
+                    <h4>
+                        Settings
+                    </h4>
+                    <ul class="setting_main">
+                        <li><a href="{% url 'user_profile' %}" >Personal Information</a></li>
+                        <li><a href="{% url 'user_change_password' %}"  >Change Password</a></li>
+                        <li><a href="{% url 'profile' %}" >Profile Preview</a></li>
+                        <li><a href="{% url 'profile_settings' %}" class="active" >Profile Settings</a></li>
+                        <li><a href="javascript:;">User CV</a></li>
+                    </ul>
+                     <h4>
+                        Billing
+                    </h4>
+                    <ul class="setting_main">
+                        <li><a href="javascript:;">Billing Information</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-9 user_profile_details nopad-lr">
+                    <div class="">
+                        <ul class="user_settings_tabs">
+                            <div class="button_settings">
+                                <a href="{% url 'profile_settings' %}">
+                                    Basic Settings
+                                </a>
+                            </div>
+                            <div class="button_settings employment_btn">
+                                <a href="{% url 'profile_settings_employment' %}">
+                                    Employment
+                                </a>
+                            </div>
+                            <div class="button_settings education_btn">
+                                <a href="javascript:;" class="display_add_employment">
+                                    Add Employment
+                                </a>
+                            </div>
+                            <div class="button_settings education_btn">
+                                <a href="{% url 'profile_settings_education' %}">
+                                    Education
+                                </a>
+                            </div>
+                            <div class="button_settings education_btn">
+                                <a href="javascript:;" class="display_add_education">
+                                    Add Education
+                                </a>
+                            </div>
+                            {% if user_cv_status == 0 %}
+                                <div class="button_settings education_btn">
+                                <a href="{% url 'profile_resume' %}">
+                                    Your Resume
+                                </a>
+                            </div>
+                            {% endif %}
+                        </ul>
+                    </div>
+                    <span class="error_main"></span>
+                    <div class="clearfix"></div>
+                    <span class="success_main">
+                    </span>
+                    <!-- stylizing the stuff for the profile page onwards -->
+                    <div class="user_profile_history">
+                        <h4>
+                            Your Resume
+                        </h4>
+                    <div class="user_resume_box">
+                        <div class="user-info-box">
+                            <form  action="" id="user_resume">
+                            {% csrf_token %}
+                                <div class="close_icon">
+                                    <a href=""><i class="close_resume fa fa-times fa-lg"></i></a>
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="whl">
+                                    <fieldset>
+                                        <div class="col-md-12">
+                                            <div class="col-md-6"><h4 style="margin:0;">Upload your File in .doxc or .pdf format</h4></div>
+                                            <div class="col-md-6">
+                                                <input type="file" accept=".doc, .docx, .pdf" name="resume_file">
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <div class="display_box">
+                                                <div class="col-md-12"><a href="javascript:;" class="main_btn upload_resume_btn">Upload Resume</a></div>
+                                            </div>
+
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    {% if user_cv %}
+                        {% csrf_token %}
+                            <div class="col-md-12 nopad-lr">
+                                <div class="col-md-9 nopad-lr">
+                                    Resume Title
+                                </div>
+
+                                <div class="col-md-3 nopad-lr">
+                                    Actions
+                                </div>
+                        </div>
+
+                            <div class="col-md-12 nopad-lr">
+                                <div class="col-md-9 nopad-lr">
+                                    {{ user_cv.user_cv_title }}
+                                </div>
+                                <div class="col-md-3 nopad-lr">
+                                    <a href="javascript:;" class="update_resume_user" value="{{ user_cv.id }}">Update</a>
+{#                                    <a href="javascript:;" class="delete_employment_details" value="{{ user_cv.id }}">Delete</a>#}
+                                </div>
+                            </div>
+{#                            <textarea>#}
+{#                            {{ employment.company_description }}#}
+{#                            </textarea>#}
+                            <div class="clearfix"></div>
+
+                        <div class="details_employment">
+                            <form action="" id="edit_company_description_form">
+                                {% csrf_token %}
+                                <div class="col-md-6 nopad-lr">
+                                    <input type="text" name="company_name" class="form-control" id="company_name">
+                                </div>
+                                <div class="col-md-6 nopad-lr">
+                                    <input type="text" name="company_worktitle" class="form-control" id="company_worktitle">
+                                </div>
+                                <div class="col-md-6 nopad-lr">
+                                    <input type="text" name="company_from" class="form-control" id="company_from">
+                                </div>
+                                <div class="col-md-6 nopad-lr">
+                                        <input type="text" name="company_to" class="form-control" id="company_to">
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="col-md-12 nopad-lr">
+                                    <textarea class="form-control" id="company_overview" name=""></textarea>
+                                </div>
+                                <div class="clearfix"></div>
+                                    <input type="hidden" class="job_employment_id" name="job_employment_id" value="">
+                                <div class="company_edit_description">
+                                    <a href="javascript:;" value="" class="edit_company_description main__button">Edit Company Description</a>
+                                </div>
+                            </form>
+                        </div>
+
+                    {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block custom_scripts %}
+    <script>
+        $('#company_from').datepicker(
+                {
+                    'format': 'yyyy-mm-dd',
+                     startDate: '0d'
+                }
+        );
+        $('#company_to').datepicker(
+                {
+                    'format': 'yyyy-mm-dd',
+                    startDate: '0d'
+                }
+        );
+    </script>
+
+{#    <script src="{{ STATIC_URL }}js/plugins/tinymce/tinymce.min.js"></script>#}
+{#    <script>tinymce.init({selector:'textarea'});</script>#}
+{% endblock %}

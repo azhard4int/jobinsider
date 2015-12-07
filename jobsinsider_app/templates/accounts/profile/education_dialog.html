@@ -1,0 +1,45 @@
+
+
+        <div class="user_education_form">
+            <div class="user-info-box">
+                <form id="add_edu_form" action="">
+                    {% csrf_token %}
+                    <div class="close_icon">
+                        <a href=""><i class="edu_close_btn fa fa-times fa-lg"></i></a>
+                    </div>
+                    <div class="clearfix"></div>
+                    <fieldset>
+                        <div class="col-md-12">
+                            <div class="col-md-6">
+                                {{ edu.user_institute }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ edu.user_degree }}
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <div class="col-md-12">
+                            <div class="col-md-6">
+                                {{ edu.degree_from }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ edu.degree_to }}
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <div class="col-md-9">
+                            <div class="col-md-4">
+                                <div class="mt_10">
+                                    <a href="javascript:;" class="education_info main_btn">Add</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+
+

@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 
 from core import models as core_models
 from users import models as users_models
+from evaluation import models as evaluation_models
 from datetime import datetime
 
 # Create your models here.
@@ -120,39 +121,18 @@ class Advertisement(models.Model):
     category = models.ForeignKey(core_models.Categories)
     country = models.ForeignKey(core_models.Countries)
     cities = models.ForeignKey(core_models.Cities)
-    salary_from = models.BigIntegerField(
-        default=10000
-    )
-    salary_to = models.BigIntegerField(
-        default=10000
-    )
+    salary_from = models.BigIntegerField(default=10000)
+    salary_to = models.BigIntegerField(default=10000)
     degree_level = models.ForeignKey(core_models.Education)
-    submission_date = models.DateTimeField(
-        default=None,
-        blank=True
-    )
-    approval_date =  models.DateTimeField(
-        default=None,
-        blank=True,
-        null=True
-
-    )
-    job_approval_status = models.PositiveIntegerField(
-        default=0,
-
-    )
-    job_note_user = models.CharField(
-        default=None,
-        max_length=255,
-        blank=True,
-        null=True
-    )
-    is_draft = models.BooleanField(
-        default=False,
-    )
-    total_applied = models.IntegerField(
-        default=0
-    )
+    submission_date = models.DateTimeField(default=None,blank=True)
+    approval_date =  models.DateTimeField(default=None,blank=True,null=True)
+    job_approval_status = models.PositiveIntegerField(default=0,)
+    job_note_user = models.CharField(default=None,max_length=255,blank=True,null=True)
+    is_draft = models.BooleanField(default=False,)
+    total_applied = models.IntegerField(default=0)
+    salary_currency = models.CharField(default='PKR',max_length=255, null=True)
+    evaluation_test = models.ForeignKey(evaluation_models.evaluation_test_template, null=True, blank=True)
+    is_evaluation_test = models.BooleanField(default=False, blank=True)
     admanager = AdvertisementManager()
 
     def __unicode__(self):
@@ -290,4 +270,96 @@ class AdvertisementAnalytics(models.Model):
         return unicode(self.advertisement)
 
 
+class AppliedCandidatesFilter:
 
+    def __init__(self, job_id, city_id=None, country_id=None, gender=None):
+        self.job_id = job_id
+        self.city_id = city_id
+        self.country_id = country_id
+        self.gender = gender
+
+    def candidates_list(self):
+        """
+        In case if the user specifies the country this will render
+        :return:
+        """
+        if self.city_id is not None:
+            if self.gender is None:
+                data = AdvertisementApplied.objects.raw(
+                    """
+                    SELECT * FROM company_advertisementapplied join users_userlocation on
+                    users_userlocation.user_id=company_advertisementapplied.user_id
+                    join users_userbio on users_userbio.user_id=company_advertisementapplied.user_id join
+                    users_usereducation on users_usereducation.user_id = company_advertisementapplied.user_id join
+                    users_useremployment on users_useremployment.user_id = company_advertisementapplied.user_id join
+                    auth_user on auth_user.id = company_advertisementapplied.user_id join core_cities on
+                    users_userlocation.user_city_id = core_cities.id join core_countries on
+                    users_userlocation.user_country_id = core_countries.id where advertisement_id={0} and
+                    users_userlocation.user_city_id={1} group by
+                    auth_user.id
+                    """.format(self.job_id, self.city_id)
+                )
+        if self.country_id is not None:
+            if self.gender is None:
+                data = AdvertisementApplied.objects.raw(
+                    """
+                    SELECT * FROM company_advertisementapplied join users_userlocation on
+                    users_userlocation.user_id=company_advertisementapplied.user_id
+                    join users_userbio on users_userbio.user_id=company_advertisementapplied.user_id join
+                    users_usereducation on users_usereducation.user_id = company_advertisementapplied.user_id join
+                    users_useremployment on users_useremployment.user_id = company_advertisementapplied.user_id join
+                    auth_user on auth_user.id = company_advertisementapplied.user_id join core_cities on
+                    users_userlocation.user_city_id = core_cities.id join core_countries on
+                    users_userlocation.user_country_id = core_countries.id where advertisement_id={0} and
+                    users_userlocation.user_country_id={1} group by
+                    auth_user.id
+                    """.format(self.job_id, self.country_id)
+                )
+            else:
+                data = AdvertisementApplied.objects.raw(
+                    """
+                    SELECT * FROM company_advertisementapplied join users_userlocation on
+                    users_userlocation.user_id=company_advertisementapplied.user_id
+                    join users_userbio on users_userbio.user_id=company_advertisementapplied.user_id join
+                    users_usereducation on users_usereducation.user_id = company_advertisementapplied.user_id join
+                    users_useremployment on users_useremployment.user_id = company_advertisementapplied.user_id join
+                    auth_user on auth_user.id = company_advertisementapplied.user_id join core_cities on
+                    users_userlocation.user_city_id = core_cities.id join core_countries on
+                    users_userlocation.user_country_id = core_countries.id where advertisement_id={0} and
+                    users_userlocation.user_country_id={1}  and users_userbio.user_gender={2} group by
+                    auth_user.id
+                    """.format(self.job_id, self.country_id, self.gender)
+                )
+
+        if self.gender is not None:
+            data = AdvertisementApplied.objects.raw(
+                """
+                SELECT * FROM company_advertisementapplied join users_userlocation on
+                users_userlocation.user_id=company_advertisementapplied.user_id
+                join users_userbio on users_userbio.user_id=company_advertisementapplied.user_id join
+                users_usereducation on users_usereducation.user_id = company_advertisementapplied.user_id join
+                users_useremployment on users_useremployment.user_id = company_advertisementapplied.user_id join
+                auth_user on auth_user.id = company_advertisementapplied.user_id join core_cities on
+                users_userlocation.user_city_id = core_cities.id join core_countries on
+                users_userlocation.user_country_id = core_countries.id where advertisement_id={0} and
+                users_userbio.user_gender={1} group by
+                auth_user.id
+                """.format(self.job_id, self.gender)
+            )
+        return data
+
+    def candidates_employment(self):
+        user_employment = AdvertisementApplied.objects.raw(
+                """SELECT * FROM company_advertisementapplied join users_useremployment on users_useremployment.user_id = company_advertisementapplied.user_id
+                where advertisement_id={0}
+
+                """.format(self.job_id)
+            )
+        return user_employment
+
+    def candidates_education(self):
+        user_education =  AdvertisementApplied.objects.raw("""
+            SELECT * FROM company_advertisementapplied join users_usereducation on users_usereducation .user_id = company_advertisementapplied.user_id
+            where advertisement_id={0}""".format(self.job_id)
+        )
+        return user_education

@@ -83,7 +83,7 @@
                             {% csrf_token %}
                                 {% for job in posted_jobs %}
 
-                                <tr>
+                                <tr class="posted_job_remove_{{ job.id }}">
                                     <td>
                                         <h5>{{ job.job_title }}</h5>
                                         <div class="clearfix"></div>

@@ -8,6 +8,7 @@
     <a href="{% url 'logout' %}">Logout</a>
 {% endblock %}
 {% block body_content %}
+    {% include 'notify_message.html' %}
     <div class="clearfix"></div>
     <section id="company">
         <div class="container">

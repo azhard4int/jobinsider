@@ -1,0 +1,120 @@
+<div class="modal fade" id="user_editmodal" role="dialog">
+     <div class="modal-dialog modal-lg">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" class="close_re">&times;</button>
+          <h4 class="modal-title modalheading"></h4>
+        </div>
+        <div class="modal-body">
+
+            <!--form starting from here-->
+
+            <form class="form-horizontal" role="form" id="update_form" method="post">
+
+
+                {% csrf_token %}
+
+
+      <div class="form-group">
+      <label class="control-label col-sm-2" for="pwd">Name</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="n1" placeholder="Enter First Name">
+      </div>
+    </div>
+
+
+
+      <div class="form-group">
+      <label class="control-label col-sm-2" for="pwd">Last Name</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="l1" placeholder=" Enter Last Name">
+      </div>
+    </div>
+
+
+      <div class="form-group">
+      <label class="control-label col-sm-2" for="email">Email:</label>
+      <div class="col-sm-10">
+        <input type="email" class="form-control" id="e1" placeholder="Enter email">
+      </div>
+    </div>
+
+      <div class="form-group">
+      <label class="control-label col-sm-2" for="pwd">Username</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="u1" placeholder="Enter Username">
+      </div>
+    </div>
+
+                <div class="form-group">
+        <label class="control-label col-sm-2">User Type</label>
+        <div class="col-xs-5 selectContainer">
+            <select class="form-control" name="size" id="status_user">
+                <option value="0">Job Seeker</option>
+                <option value="1">Company</option>
+
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-sm-2">Account Status</label>
+        <div class="col-xs-5 selectContainer">
+            <select class="form-control" name="size" id="combostatus">
+                <option value="1">Active</option>
+                <option value="0">Disable</option>
+
+            </select>
+        </div>
+    </div>
+
+
+                <div class="form-group">
+        <label class="control-label col-sm-2">Super User</label>
+        <div class="col-xs-5 selectContainer">
+            <select class="form-control" name="size" id="combo10" class="selectionsu">
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+
+            </select>
+        </div>
+    </div>
+
+
+
+                 <div class="form-group">
+        <label class="control-label col-sm-2">Staff</label>
+        <div class="col-xs-5 selectContainer">
+            <select class="form-control" name="size" id="combo11" class="selectionsta">
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+
+            </select>
+        </div>
+    </div>
+                <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-default">Update</button>
+            </div>
+             </div>
+
+
+
+            </form>
+<div class="wrapper">
+        <div class="modal-footer">
+
+
+            <div class="col-sm-offset-2 col-sm-10">
+                <h5 class="message_display"></h5>
+               <button type="button" class="btn btn-default" data-dismiss="modal" class="close_re">Close</button>
+            </div>
+        </div>
+</div>
+
+        </div>
+      </div>
+        </div>
+          </div>

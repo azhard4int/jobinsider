@@ -7,7 +7,7 @@
 {% endif %}slice:":2"
 {% block body_content %}
     {% include 'base_dashboard_core.html' %}
-
+    {% include 'notify_message.html' %}
 
 
     <section id="has_user">
@@ -121,15 +121,16 @@
                         Want to keep yourself updated from the latest jobs? Select category from below.
                     </p>
                     <div class="category_alert">
-                        <select name="" id="" class="form-control">
-                            <option value="">
-
-                            </option>
+                    {% csrf_token %}
+                        <select name="category_job_alert" id="category_job_alert" class="form-control">
+                            {% for data in categories %}
+                                <option value="{{ data.id }}">{{ data.category_name }}</option>
+                            {% endfor %}
                         </select>
                     </div>
 
                     <div class="job_alert_btn">
-                        <a href="javascript:;">Add Me</a>
+                        <a href="javascript:;" class="alert_user_job">Add Me</a>
 
                     </div>
 

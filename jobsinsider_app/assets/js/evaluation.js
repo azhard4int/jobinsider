@@ -369,6 +369,8 @@ $('.previewtest').on('click', function(event)
          get_id=$(this).attr('value');
          $("div").remove("#removeoptions");
 
+         try{
+
     $.ajax(
         {
             url: '/evaluation/get-evaluation-test-questions/',
@@ -395,7 +397,14 @@ $('.previewtest').on('click', function(event)
         }
         }
     );
+             } catch(e){
+
+
+
+}
 });
+
+
 $('#next_button').on('click', function(event)
      {
          event.preventDefault();
@@ -412,10 +421,17 @@ $('#next_button').on('click', function(event)
             success:function(response)
             {
              var data = jQuery.parseJSON(response);
-                console.log(data.final_marks);
+                console.log(data);
                 if(data.status =="Test is Finished"){
 
+
+                    $("button").remove("#next_button");
+                    $("label").remove("#remove_label");
                 $('#headingtest').text("Test is Finished and You got "+data.final_marks+" out of "+data.questions);
+
+
+
+
                 }
                 if(data.status =="Test is incomplete"){
                   $('#headingtest').text("Test is incomplete");

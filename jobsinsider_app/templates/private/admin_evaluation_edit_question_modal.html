@@ -1,0 +1,132 @@
+<div class = "modal fade" id ="neweditmodal" tabindex = "-1" role = "dialog"
+   aria-labelledby = "myModalLabel" aria-hidden = "true">
+
+   <div class = "modal-dialog modal-lg">
+      <div class = "modal-content">
+
+         <div class = "modal-header">
+            <button type = "button" class = "close" data-dismiss = "modal" aria-hidden = "true">
+                  &times;
+            </button>
+            
+            <h4 class = "modal-title" id = "myModalLabel">
+               Add Questions
+            </h4>
+
+             <center><h5 id="admin_headingtop1"></h5></center>
+             <center><h5 id="admin_headingtop2"></h5></center>
+         </div>
+         
+         <div class = "modal-body">
+
+         <form class = "form-horizontal" role = "form" id="admin_update_question">
+         {% csrf_token %}
+   <div class = "form-group">
+       <input type="hidden" value="" name="question_id" id="admin_idofquestion">
+       <input type="hidden" value="" name="correctanswer" id="admin_answerofquestion">
+       <input type="hidden" value="" name="admin_option1_id" id="admin_option1_id">
+       <input type="hidden" value="" name="admin_option2_id" id="admin_option2_id">
+       <input type="hidden" value="" name="admin_option3_id" id="admin_option3_id">
+       <input type="hidden" value="" name="admin_option4_id" id="admin_option4_id">
+       <input type="hidden" value="" name="admin_option5_id" id="admin_option5_id">
+
+
+      <label for = "eva_title" class = "col-sm-2 control-label">Question</label>
+
+      <div class = "col-sm-10">
+         <input type = "text" class = "form-control" name="question" id = "admin_question" placeholder = "Type Question">
+      </div>
+   </div>
+
+
+
+
+
+              <div class = "form-group"  >
+      <label for = "eva_title" class = "col-sm-2 control-label">Option 1</label>
+
+      <div class = "col-sm-10">
+         <input type = "text" class = "form-control" name="option1" id = "admin_option1" placeholder = "option">
+      </div>
+      </div>
+
+                <div class = "form-group"  >
+      <label for = "eva_title" class = "col-sm-2 control-label">Option 2</label>
+
+      <div class = "col-sm-10">
+         <input type = "text" class = "form-control" name="option2" id = "admin_option2" placeholder = "option">
+      </div>
+      </div>
+
+             <div class = "form-group" id = "admin_lastchild" >
+      <label for = "eva_title"  class = "col-sm-2 control-label"></label>
+                 </div>
+
+       <div class = "form-group">
+      <label for = "eva_title" class = "col-sm-2 control-label">Choose Correct Answer</label>
+
+      <div class = "col-sm-10">
+
+         <div class="form-group btn-group col-sm-10" data-toggle="buttons" id="admin_inserthere">
+                 <label class="btn btn-default">
+                <input type="radio" name="radio" id="radio1" value=1> Option 1
+               </label>
+                 <label class="btn btn-default">
+               <input type="radio" name="radio" id="radio2" value=2> Option 2
+               </label>
+{#               <label type="hidden" class="btn btn-primary" id="inserthere"></label>#}
+              </div>
+        </div>
+       </div>
+
+
+             <div class = "form-group"  >
+      <label for = "eva_title" class = "col-sm-2 control-label">Correct Answer</label>
+
+      <div class = "col-sm-10">
+          <h4 id="admin_correctanswer"></h4>
+
+      </div>
+      </div>
+
+
+   <div class = "form-group">
+      <label for = "eva_title"  class = "col-sm-2 control-label"></label>
+
+
+      <div class = "btn-group col-sm-4">
+         <button type = "button" class="btn btn-default" id = "admin_addoptions">Add Option</button>
+
+
+
+                     <button type = "button" class="btn btn-default" id = "admin_removeoptions">Remove</button>
+
+      </div>
+
+                     <div class = "col-sm-6">
+                     <h4 id="heading3"></h4>
+
+                   </div>
+
+
+         </div>
+         <div class = "modal-footer">
+            <button type = "button" class = "btn btn-default" data-dismiss = "modal">
+               Close
+            </button>
+
+             <button type = "button" class = "btn btn-default" id ="reset" >
+               Reset
+             </button>
+            
+            <button type = "submit" class="btn btn-default" id ="update_question_button">
+               Update Question
+            </button>
+         </div>
+   </form>
+      </div><!-- /.modal-content -->
+   </div><!-- /.modal-dialog -->
+  
+</div><!-- /.modal -->
+
+    </div>

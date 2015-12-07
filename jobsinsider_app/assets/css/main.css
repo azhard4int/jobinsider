@@ -257,7 +257,6 @@ div.remove_favorite_btn a:hover {
 }
 .box_alert .category_alert select {
   border-radius: 0;
-  padding: 0 20px;
 }
 .box_alert .job_alert_con {
   padding: 5px 15px;
@@ -983,11 +982,13 @@ div.remove_favorite_btn a:hover {
   margin-bottom: 20px;
 }
 .user__filters h3 {
-  padding-top: 20px;
+  padding-top: 10px;
   margin: 0;
+  background: #f7f7f7;
   padding-left: 20px;
   color: #999999;
   font-size: 20px;
+  padding-bottom: 10px;
 }
 #container_browser,
 #container_list {
@@ -1158,4 +1159,118 @@ div.remove_favorite_btn a:hover {
 }
 .schedule_interview_name {
   width: 40% !important;
+}
+.button_settings {
+  display: inline-block;
+  text-align: center;
+  margin-top: 10px;
+}
+.button_settings a {
+  padding: 10px 20px;
+  color: #242424;
+  border-right: 1px solid #f2eeff;
+  border-bottom: 1px solid #f2eeff;
+  background: #fafafa;
+  text-align: center;
+  transition: all ease-in-out 0.2s;
+  -webkit-transition: all ease-in-out 0.2s;
+  -o-transition: all ease-in-out 0.2s;
+  -ms-transition: all ease-in-out 0.2s;
+}
+.button_settings a:hover {
+  text-decoration: none;
+  color: #000;
+  background: #f0f0f0;
+}
+.employment_btn,
+.education_btn {
+  margin-left: -3px;
+}
+.profile_settings_overview {
+  margin-top: 10px;
+}
+.profile_settings_overview textarea {
+  min-height: 100px;
+}
+.user_city_pad {
+  margin-top: 15px !important;
+  padding-left: 15px !important;
+}
+.user_country_pad {
+  margin-top: 15px !important;
+}
+.image_upload_btn {
+  margin-left: 20px;
+  margin-top: 15px;
+  text-align: center;
+}
+.image_upload_btn a {
+  color: #fff;
+}
+.profile_changes {
+  margin: 20px 0 !important;
+}
+.details_employment,
+.details_education {
+  display: none;
+}
+#company_overview {
+  width: 100%;
+  min-width: 100%;
+  margin-top: 20px;
+  min-height: 150px;
+}
+#company_name,
+#company_worktitle,
+#company_from,
+#company_to,
+#user_institute,
+#user_degree,
+#degree_from,
+#degree_to {
+  margin-top: 10px;
+}
+#company_name,
+#company_from,
+#user_institute,
+#degree_from {
+  margin-right: 10px !important;
+}
+.user_education_form,
+.add_employment_col,
+.user_resume_box {
+  display: none;
+}
+.close_icon {
+  float: right;
+  padding-right: 30px;
+  height: 30px;
+}
+.upload_resume_btn {
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+  color: #fff;
+  padding: 10px 20px;
+}
+.display_box {
+  margin: 0 auto;
+  width: 230px;
+  padding: 20px 0;
+}
+.evaluation_test_selectbox {
+  display: none;
+}
+.countries_applied_list {
+  margin: 10px 0;
+  padding-left: 10px;
+}
+.countries_applied_list label {
+  padding-left: 10px;
+}
+.cities_applied_list {
+  padding-left: 20px;
+}
+.applied_user_gender {
+  padding-left: 10px;
 }

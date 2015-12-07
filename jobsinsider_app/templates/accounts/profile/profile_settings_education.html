@@ -1,0 +1,166 @@
+{% extends "base_dasboard.html" %}
+    <title>{% block title %}Dashboard{% endblock %}</title>
+        {% if user.is_authenticated %}
+            {% block authenticate_user %} {{ user.first_name|slice:":1" }} {{ user.last_name|slice:":1" }}{%  endblock %}
+        {% endif %}
+{% block body_content %}
+    {% include 'base_dashboard_core.html' %}
+    {% include 'notify_message.html' %}
+
+
+    <div class="container user_profile">
+        <div class="row">
+            <div class="col-md-12 nopad-lr">
+                <div class="col-md-3">
+                    <h4>
+                        Settings
+                    </h4>
+                    <ul class="setting_main">
+                        <li><a href="{% url 'user_profile' %}" >Personal Information</a></li>
+                        <li><a href="{% url 'user_change_password' %}"  >Change Password</a></li>
+                        <li><a href="{% url 'profile' %}" >Profile Preview</a></li>
+                        <li><a href="{% url 'profile_settings' %}" class="active" >Profile Settings</a></li>
+                        <li><a href="javascript:;">User CV</a></li>
+                    </ul>
+                     <h4>
+                        Billing
+                    </h4>
+                    <ul class="setting_main">
+                        <li><a href="javascript:;">Billing Information</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-9 user_profile_details nopad-lr">
+                    <div class="">
+                        <ul class="user_settings_tabs">
+                            <div class="button_settings">
+                                <a href="{% url 'profile_settings' %}">
+                                    Basic Settings
+                                </a>
+                            </div>
+                            <div class="button_settings employment_btn">
+                                <a href="{% url 'profile_settings_employment' %}">
+                                    Employment
+                                </a>
+                            </div>
+                            <div class="button_settings education_btn">
+                                <a href="javascript:;" class="display_add_employment">
+                                    Add Employment
+                                </a>
+                            </div>
+                            <div class="button_settings education_btn">
+                                <a href="{% url 'profile_settings_education' %}">
+                                    Education
+                                </a>
+                            </div>
+                            <div class="button_settings education_btn">
+                                <a href="javascript:;" class="display_add_education">
+                                    Add Education
+                                </a>
+                            </div>
+                            {% if user_cv_status == 0 %}
+                                <div class="button_settings education_btn">
+                                <a href="{% url 'profile_resume' %}">
+                                    Your Resume
+                                </a>
+                            </div>
+                            {% endif %}
+                        </ul>
+                    </div>
+                    <span class="error_main"></span>
+                    <div class="clearfix"></div>
+                    <span class="success_main">
+                    </span>
+
+                    <!-- stylizing the stuff for the profile page onwards -->
+                    <div class="user_profile_history">
+                        <h4>
+                            Your Education
+                        </h4>
+                        {% include 'education_dialog.html' %}
+                        {% if user_education %}
+                        {% csrf_token %}
+                            <div class="col-md-12 nopad-lr">
+                                <div class="col-md-3 nopad-lr">
+                                    Education Degree
+                                </div>
+                                <div class="col-md-3 nopad-lr">
+                                    Institute
+                                </div>
+                                <div class="col-md-3 nopad-lr">
+                                    Time-Period
+                                </div>
+                                <div class="col-md-3 nopad-lr">
+                                    Actions
+                                </div>
+                        </div>
+                        {% for education in user_education %}
+                            <div class="col-md-12 nopad-lr">
+                                <div class="col-md-3 nopad-lr">
+                                    {{ education.user_degree  }}
+                                </div>
+                                <div class="col-md-3 nopad-lr">
+                                    {{ education.user_institute }}
+                                </div>
+                                <div class="col-md-3 nopad-lr">
+                                    {{ education.degree_from }} - {{ education.degree_to }}
+                                </div>
+                                <div class="col-md-3 nopad-lr">
+                                    <a href="javascript:;" class="edit_education_details" value="{{ education.id }}">Edit</a>
+                                    <a href="javascript:;" class="delete_education_details" value="{{ education.id }}">Delete</a>
+                                </div>
+                            </div>
+{#                            <textarea>#}
+{#                            {{ employment.company_description }}#}
+{#                            </textarea>#}
+                            <div class="clearfix"></div>
+
+
+
+                        {% endfor %}
+                        <div class="details_education">
+                            <form action="" id="edit_education_description_form">
+                                {% csrf_token %}
+                                <div class="col-md-6 nopad-lr">
+                                    <input type="text" name="user_institute" class="form-control" id="user_institute">
+                                </div>
+                                <div class="col-md-6 nopad-lr">
+                                    <input type="text" name="user_degree" class="form-control" id="user_degree">
+                                </div>
+                                <div class="col-md-6 nopad-lr">
+                                    <input type="text" name="degree_from" class="form-control" id="degree_from">
+                                </div>
+                                <div class="col-md-6 nopad-lr">
+                                        <input type="text" name="degree_to" class="form-control" id="degree_to">
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="clearfix"></div>
+                                    <input type="hidden" class="education_id" name="education_id" value="">
+                                <div class="company_edit_description">
+                                    <a href="javascript:;" value="" class="edit_education_description main__button">Edit Education </a>
+                                </div>
+                            </form>
+                        </div>
+                    {% endif %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block custom_scripts %}
+      <script>
+        $('#degree_from').datepicker(
+                {
+                    'format': 'yyyy-mm-dd',
+                     startDate: '0d'
+                }
+        );
+        $('#degree_to').datepicker(
+                {
+                    'format': 'yyyy-mm-dd',
+                    startDate: '0d'
+                }
+        );
+    </script>
+{% endblock %}

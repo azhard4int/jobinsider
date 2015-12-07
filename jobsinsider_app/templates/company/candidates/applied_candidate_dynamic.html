@@ -1,0 +1,57 @@
+{%  for details in data %}
+                        <div class="applied__user">
+                            <div class="col-md-2">
+                                <img class="user__profile" src="{{ MEDIA_URL }}userprofile/{{ details.user_portrait_filename }}" alt="">
+                            </div>
+                            <div class="col-md-7">
+                                <h3>
+                                    {{ details.first_name }} {{ details.last_name }}
+                                    {%   if details.user_gender == 1 %}
+                                        <span class="user__gender">Female</span>
+                                    {% else %}
+                                        <span class="user__gender">Male</span>
+                                    {% endif %}
+
+                                </h3>
+                                <div class="clearfix"></div>
+                                <div class="location__details">
+                                    <span class="user__gender">{{ details.city_name }}</span>
+                                    <span class="user__gender">{{ details.country_name }}</span>
+                                </div>
+                                <p>
+                                    {{ user_main.user_overview|truncatewords:25 }}
+                                </p>
+
+                                    {% for employ in  employment%}
+                                        {% if details.user_id == employ.user_id  %}
+                                             <h4>
+                                                <img class="user__education" src="{{ STATIC_URL }}img/employee_16.png" alt="">{{ employ.company_worktitle}} at {{ employ.company_name }} <span class="user__date">({{ employ.company_from|date:"M Y"}} - {{ employ.company_to|date:"M Y" }})</span>
+                                             </h4>
+                                        {% endif %}
+                                    {% endfor %}
+
+
+                                {% for educate in  education%}
+                                        {% if details.user_id == educate.user_id  %}
+                                             <h4>
+                                                 <img class="user__education" src="{{ STATIC_URL }}img/college_16.png" alt="">{{ educate.user_degree }} from {{ educate.user_institute }}<span class="user__date">({{ educate.degree_from|date:"M Y"}} - {{ educate.degree_to|date:"M Y" }})</span>
+                                             </h4>
+                                        {% endif %}
+                                    {% endfor %}
+                                <h4>
+                                </h4>
+
+
+                            </div>
+                            <div class="col-md-3 user__actions">
+
+                                <a href="{% url 'candidate' details.user_id %}" class="job_apply_btn view__detail">View Detail Profile</a>
+                                {% if details.is_shortlisted == False %}
+                                    <a href="javascript:;" value="{{ details.user_id }}" class="job_apply_btn shorlist__candidate">Shortlist Candidate</a>
+                                {% else %}
+                                    <a href="javascript:;" value="{{ details.user_id }}" class="job_apply_btn shorlist__candidate__remove">Remove Candidate Shortlist</a>
+                                {% endif %}
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        {% endfor %}

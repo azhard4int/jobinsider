@@ -684,9 +684,13 @@ $('.send_invitation').on('click', function(event)
                 'to_time': to_time,
                 'invitation': invitation_message
             },
-            succes:function(m)
+            success:function(m)
             {
-
+                var resp = JSON.parse(m);
+                if(resp.status==true)
+                {
+                    message_display('Invitation Sent Successfully', 1);
+                }
             },
             error:function(m)
             {
@@ -762,5 +766,469 @@ $('.send_composed_message').on('click', function(e)
         }
 
     });
+    return false;
+});
+$('.profile_settings_overview').hover(function(e)
+{
+    e.preventDefault();
+    return false;
+});
+
+//profile changes button
+$('.profile_changes_btn').on('click', function(e)
+{
+    e.preventDefault();
+    var data = new FormData($('#user_profile_settings').get(0));
+    $.ajax(
+        {
+            url: '/user/u/profile_settings/',
+            type: 'POST',
+            data:data,
+            cache:false,
+            processData: false,
+            contentType: false,
+            success:function(m)
+            {
+                resp = JSON.parse(m);
+                console.log(resp);
+                if(resp.status==true)
+                {
+                    message_display('Settings Saved Successfully!', 1)
+                }
+            },
+            error:function(m)
+            {
+                message_display('Something went wrong, Notify administrators!', 0)
+            }
+        }
+    );
+    return false;
+});
+
+//edit user settings page - employment details
+
+$('.edit_employment_details').on('click', function(e)
+{
+    e.preventDefault();
+    var employment_id = $(this).attr('value');
+    $('.edit_company_description').attr('value',employment_id);
+    $('.job_employment_id').attr('value',employment_id);
+
+    $.ajax(
+        {
+            url: '/user/u/profile_settings/employment/',
+            type: 'POST',
+            data: {
+                csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
+                employment_id:employment_id
+            },
+            success:function(m)
+            {
+                resp = JSON.parse(m);
+                $('#company_name').attr('value', resp.data.company_name);
+                $('#company_worktitle').attr('value', resp.data.company_work_title);
+                $('#company_from').attr('value', resp.data.company_from);
+                $('#company_to').attr('value', resp.data.company_to);
+                $('#company_overview').text(resp.data.company_description);
+
+                $('.details_employment').show();
+            },
+            error:function(m)
+            {
+
+            }
+        }
+    );
+    return false;
+});
+
+//posting the edited data for employment
+
+$('.edit_company_description').on('click', function(e)
+{
+    e.preventDefault();
+    $.ajax(
+        {
+            url: '/user/u/profile_settings/employment/edit/',
+            type: 'POST',
+            data: $('#edit_company_description_form').serialize(),
+            success:function(m)
+            {
+                resp = JSON.parse(m);
+                if(resp.status==true)
+                {
+                    message_display('Employment Details Successfully Updated!', 1)
+                }
+            },
+            error:function(m)
+            {
+
+            }
+
+        }
+    );
+    return false;
+});
+
+//delete employment details
+
+$('.delete_employment_details').on('click', function(e)
+{
+    e.preventDefault();
+    var employment_id = $(this).attr('value');
+    $.ajax(
+        {
+            url: '/user/u/profile_settings/employment/delete/',
+            type: 'POST',
+            data: {
+                csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
+                employment_id:employment_id
+            },
+            success:function(m)
+            {
+                resp = JSON.parse(m);
+                if(resp.status==true) {
+                    message_display('Employment Details Deleted Successfully!', 1)
+                }
+            },
+            error:function(m)
+            {
+            }
+        });
+});
+
+//get user education details and show form
+$('.edit_education_details').on('click', function(e)
+{
+    e.preventDefault();
+    var education_id = $(this).attr('value');
+    $('.education_id').attr('value',education_id);
+
+    $.ajax(
+        {
+            url: '/user/u/profile_settings/education/',
+            type: 'POST',
+            data: {
+                csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
+                education_id:education_id
+            },
+            success:function(m)
+            {
+                resp = JSON.parse(m);
+                $('#user_institute').attr('value', resp.data.user_institute);
+                $('#user_degree').attr('value', resp.data.user_degree);
+                $('#degree_from').attr('value', resp.data.degree_from);
+                $('#degree_to').attr('value', resp.data.degree_to);
+                //$('#company_overview').text(resp.data.company_description);
+                //
+                $('.details_education').show();
+            },
+            error:function(m)
+            {
+
+            }
+        }
+    );
+    return false;
+});
+
+
+//edit user education details
+
+$('.edit_education_description').on('click', function(e)
+{
+    e.preventDefault();
+    $.ajax(
+        {
+            url: '/user/u/profile_settings/education/edit/',
+            type: 'POST',
+            data: $('#edit_education_description_form').serialize(),
+            success:function(m)
+            {
+                resp = JSON.parse(m);
+                if(resp.status==true)
+                {
+                    message_display('Education Details Successfully Updated!', 1)
+                }
+            },
+            error:function(m)
+            {
+
+            }
+
+        }
+    );
+    return false;
+});
+
+//delete education form
+
+$('.delete_education_details').on('click', function(e)
+{
+    e.preventDefault();
+    var education_id = $(this).attr('value');
+    $.ajax(
+        {
+            url: '/user/u/profile_settings/education/delete/',
+            type: 'POST',
+            data: {
+                csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
+                education_id:education_id
+            },
+            success:function(m)
+            {
+                resp = JSON.parse(m);
+                if(resp.status==true) {
+                    message_display('Education Details Deleted Successfully!', 1)
+                }
+            },
+            error:function(m)
+            {
+            }
+        });
+});
+
+
+//add education form in the django
+
+$('.display_add_education').on('click', function(e)
+{
+    e.preventDefault();
+    $('.user_education_form').show();
+    return false;
+});
+$('.edu_close_btn ').on('click', function(e)
+{
+    e.preventDefault();
+    $('.user_education_form').hide();
+    return false;
+});
+$('.display_add_employment').on('click', function(e)
+{
+    e.preventDefault();
+    $('.add_employment_col').show();
+    return false;
+});
+$('.emp_close_btn ').on('click', function(e)
+{
+    e.preventDefault();
+    $('.add_employment_col').hide();
+    return false;
+});
+
+//resume show box
+$('.update_resume_user').on('click', function(e)
+{
+    e.preventDefault();
+    $('.user_resume_box').show();
+    return false;
+});
+
+//resume close box
+$('.close_resume').on('click', function(e)
+{
+    e.preventDefault();
+    $('.user_resume_box').hide();
+    return false;
+});
+
+//resume upload
+
+$('.upload_resume_btn').on('click', function(e)
+{
+    e.preventDefault();
+    var data = new FormData($('#user_resume').get(0));
+    $.ajax(
+        {
+            url: '/user/u/profile_settings/resume/',
+            type: 'POST',
+            data:data,
+            cache:false,
+            processData: false,
+            contentType: false,
+            success:function(m)
+            {
+                resp = JSON.parse(m);
+                console.log(resp);
+                if(resp.status==true)
+                {
+                    message_display('Settings Saved Successfully!', 1)
+                }
+            },
+            error:function(m)
+            {
+                message_display('Something went wrong, Notify administrators!', 0)
+            }
+        }
+    );
+    return false;
+});
+
+
+//evaluation test display
+
+
+$('#evaluation_test_label').change(function(e){
+    e.preventDefault();
+
+    if(this.checked)
+    {
+        this.value = 1;
+        //$('.apply_datepicker').show();
+        $.ajax(
+            {
+                url: '/company/create-job/evaluation/',
+                type: 'POST',
+                data: {
+                    "csrfmiddlewaretoken": document.getElementsByName('csrfmiddlewaretoken')[0].value,
+
+                },
+                success:function(m)
+                {
+                    var resp = JSON.parse(m);
+                    var html = '<select name="evaluation_template" style="margin-left:-15px;" class="evaluation_template form-control">"';
+                    for(var i=0; i<resp.length; i++)
+                    {
+
+                        html+='<option value="'+ resp[i].pk + '">' + resp[i].fields.evaluation_name + '</option>';
+                    }
+                    html+='</select>';
+                    $('.evaluation_test_selectbox').html(html);
+                    $('.evaluation_test_selectbox').show();
+
+                },
+                error:function(m)
+                {
+
+                }
+            }
+        )
+    }
+    else{
+        this.value = 0;
+        $('.evaluation_test_selectbox').hide();
+    }
+    return false;
+});
+
+//for the applied filters
+
+var applied_candidates = function()
+{
+    var countries =  null;
+    var gender = null;
+};
+applied_candidates.by_countries = function(country_id)
+{
+    this.countries = country_id;
+    var jobid = $('.job__advert__id').attr('value');
+    console.log(jobid);
+    $.ajax({
+        url:'/company/candidates/applied/',
+        type:'POST',
+        data:{
+            "csrfmiddlewaretoken": document.getElementsByName('csrfmiddlewaretoken')[0].value,
+            'country_id': this.countries,
+            'job_id': jobid
+        },
+        success: this.extract,
+        errors:this.is_error
+    })
+};
+applied_candidates.by_cities = function(e, city_id)
+{
+    var cities = [];
+    if($(e.checked))
+    {
+        if( $.inArray(city_id, this.cities) == -1)
+        {
+            cities.push(city_id);
+            city_id = cities[0];
+            var jobid = $('.job__advert__id').attr('value');
+            $.ajax(
+                {
+                    url: '/company/candidates/applied_city/',
+                    type: 'POST',
+                    data: {
+                        "csrfmiddlewaretoken": document.getElementsByName('csrfmiddlewaretoken')[0].value,
+                        'city_id': city_id,
+                        'job_id': jobid,
+                        'country_id': this.countries,
+
+                    },
+                    success: this.extract,
+                    errors:this.is_error
+                });
+        }
+    }
+    else
+    {
+        if( $.inArray(city_id, this.cities) != -1)
+        {
+            cities.pop(city_id);
+        }
+    }
+
+};
+applied_candidates.by_gender = function(gender){
+    this.gender = gender;
+    var jobid = $('.job__advert__id').attr('value');
+    $.ajax(
+        {
+            url: '/company/candidates/applied_gender/',
+            type: 'POST',
+            data: {
+                "csrfmiddlewaretoken": document.getElementsByName('csrfmiddlewaretoken')[0].value,
+                'gender': this.gender,
+                'job_id': jobid,
+                'country_id': this.countries,
+            },
+            success: this.extract,
+            errors:this.is_error
+        });
+}
+
+applied_candidates.extract = function(m)
+{
+    $('.applied_candidate_listview').html(m);
+}
+applied_candidates.is_error = function(m)
+{
+}
+
+
+//job alert poriton
+$('.alert_user_job').on('click', function(e)
+{
+    e.preventDefault();
+    var category_id = $('#category_job_alert').val();
+    $.ajax(
+        {
+            url: '/user/job_alert/',
+            type: 'POST',
+            data:{
+                "csrfmiddlewaretoken": document.getElementsByName('csrfmiddlewaretoken')[0].value,
+                'category_id': category_id
+            },
+            success:function(m)
+            {
+                resp = JSON.parse(m);
+                if(resp.status==true)
+                {
+                    message_display('Job alert has been added successfully!', 1)
+                }
+                else{
+                    message_display('Job alert already exists!', 0)
+                }
+
+            },
+            error:function(m)
+            {
+                message_display('Something went wrong notify administrators!', 0)
+            }
+
+
+        }
+    );
     return false;
 });

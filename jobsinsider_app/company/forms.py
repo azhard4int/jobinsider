@@ -75,7 +75,7 @@ class JobAdvertisementForm(forms.ModelForm):
     )
 
     job_position = forms.IntegerField(
-        widget=forms.TextInput(attrs={
+        widget=forms.NumberInput(attrs={
             'placeholder':'Total Positions',
             'class':'form-control',
             'data-validate': 'required,number'
@@ -144,17 +144,20 @@ class JobAdvertisementForm(forms.ModelForm):
     )
 
     salary_from = forms.IntegerField(
-        widget=forms.TextInput(attrs={
+        widget=forms.NumberInput(attrs={
             'class':'form-control',
-            'data-validate': 'required,number'
+            'data-validate': 'required,number',
+
         })
     )
     salary_to = forms.IntegerField(
-        widget=forms.TextInput(attrs={
+        widget=forms.NumberInput(attrs={
             'class':'form-control',
-            'data-validate': 'required,number'
+            'data-validate': 'required,number',
+
         })
     )
+
     # category = models.ForeignKey(core_models.Categories)
     # salary_from = models.BigIntegerField(
     #     default=10000

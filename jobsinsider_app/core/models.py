@@ -30,6 +30,9 @@ class CategoriesManager(models.Manager):
         else:
             return False
 
+    def get_all(self):
+        all = self.all()
+        return all
 
 class Categories(models.Model):
 

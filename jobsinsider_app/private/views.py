@@ -6,12 +6,20 @@ from django.views.generic import View
 from django.utils.decorators import method_decorator
 from .forms import *
 from .models import *
+from django.db import models
 from django.core import serializers
 from django.template import context, loader
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
+from evaluation.models import *
 from core import models as modeinsert
 from company import models as company_model
+
+from django.db import models
+from accounts import models as accounts_models
+from users import models as user_models
+from django.db.models.query import RawQuerySet
 
 import simplejson as json
 from datetime import *
@@ -52,6 +60,7 @@ def members_view(request):
     """
     user = UsersAccounts()
     user_accounts = user.list_all()
+    print user_accounts
     return render(request, 'list.html', {'listusers': user_accounts})
 
 
@@ -222,11 +231,58 @@ def logout_view(request):
     logout(request)
     return HttpResponseRedirect('http://127.0.0.1:8000/accounts/login/')
 
-
+from itertools import chain
 @login_required()
 def users_view(request):
-    table = User.objects.all()
-    return render(request, 'users_view.html', {'table': table})
+
+    # table2 = User.objects.filter(userprofile__user_id=x)
+    # table2 = accounts_models.UserProfile.objects.all().prefetch_related('user_id')
+    # table = User.objects.filter(id=table2)
+    # print table
+    query = "SELECT * From auth_user JOIN accounts_userprofile on auth_user.id=accounts_userprofile.user_id"
+    table =  User.objects.raw(query)
+
+
+    paginator = Paginator((list(table)), 25) # Show 25 contacts per page
+
+    page = request.GET.get('page')
+    try:
+        table = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        table = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        table = paginator.page(paginator.num_pages)
+
+    # return render_to_response('list.html', {"contacts": contacts})
+
+
+    return render(request, 'users_view.html',{'table':table})
+
+
+class User_View(View):
+
+    def get(self,request):
+        query = "SELECT * From auth_user JOIN accounts_userprofile on auth_user.id=accounts_userprofile.user_id"
+        table =  User.objects.raw(query)
+
+
+        paginator = Paginator((list(table)), 25) # Show 25 contacts per page
+
+        page = request.GET.get('page')
+        try:
+           table = paginator.page(page)
+        except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+           table = paginator.page(1)
+        except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+            table = paginator.page(paginator.num_pages)
+
+    # return render_to_response('list.html', {"contacts": contacts})
+        return render(request, 'users_view.html',{'table':table})
+
 
 
 @login_required()
@@ -258,7 +314,19 @@ def user_update(request):
         superuser = request.POST['is_superuser']
 
         data = User.objects.filter(id=request.POST['id']).update(username=username,first_name=first_name,last_name=last_name,email=email,is_active=int(is_active), is_staff=int(staff),is_superuser=int(superuser))
-        #data = User.objects.filter(id=request.POST['id']).update()
+
+        try:
+           data2 = accounts_models.UserProfile.objects.filter(user_id=request.POST['id']).update(user_status=request.POST['profile_status'])
+
+           if not data2:
+            data3 = accounts_models.UserProfile(user_id=request.POST['id'], user_status=request.POST['profile_status'])
+            data3.save()
+
+        except Exception as ae:
+            data3 = accounts_models.UserProfile(user_id=request.POST['id'], user_status=request.POST['profile_status'])
+            data3.save()
+
+
     if data:
         return HttpResponse(json.dumps({'status': 'True'}))
     else:
@@ -273,11 +341,13 @@ def user_add(request):
         username = request.POST['username']
         email = request.POST['email']
         password = 123456789
+        status= request.POST['profile_status']
     if User.objects.filter(email=request.POST['email']).exists() or User.objects.filter(username=request.POST['username']).exists() is True:
         return HttpResponse(json.dumps({'status': 'Email or user exist'}))
     else:
         data = User(username=username,first_name=first_name,last_name=last_name,email=email,password = password)
         data.save()
+
 
     result = User.objects.get(email=email)
 
@@ -288,8 +358,10 @@ def user_add(request):
       'username': result.username,
       'email': result.email,
       'active' : result.is_active
-
     }
+    #this is for adding userprofile and updating user_status
+    data2 = accounts_models.UserProfile(user_id=result.id, user_status=status)
+    data2.save()
 
     if data and result:
         return HttpResponse(json.dumps({'status': 'True','info': whole}))
@@ -328,9 +400,6 @@ def user_search(request):
                  return HttpResponse(json.dumps({'user_info': wholedata}))
             except Exception as e:
                  print e
-
-
-
             try:
               email123=User.objects.filter(email=value)
               wholedata = serializers.serialize('json', email123)
@@ -338,9 +407,6 @@ def user_search(request):
                  return HttpResponse(json.dumps({'user_info': wholedata}))
             except Exception as ae:
                print ae
-
-
-
             try:
               lastname=User.objects.filter(last_name=value)
               wholedata = serializers.serialize('json', lastname)
@@ -369,6 +435,7 @@ def get_id(request):
 def allusers(request):
          try:
             data=User.objects.all().order_by('-date_joined')
+
             wholedata = serializers.serialize('json', data)
             if data:
                 return HttpResponse(json.dumps({'user_info': wholedata}))
@@ -377,29 +444,155 @@ def allusers(request):
 
 
 
-                 activeusers
+
+
 
 @login_required()
 def activeusers(request):
-         try:
-            data=User.objects.filter(is_active=1)
-            wholedata = serializers.serialize('json', data)
-            if data:
-                return HttpResponse(json.dumps({'user_info': wholedata}))
-         except Exception as e:
-                 print e
-
-
+        query = "SELECT * From auth_user JOIN accounts_userprofile on auth_user.id=accounts_userprofile.user_id Where auth_user.is_active=1"
+        table =  User.objects.raw(query)
+        table2 = pagination_table(request.GET.get('page'),table)
+        return render(request, 'users_view.html',{'table':table2})
 
 @login_required()
 def nonactiveusers(request):
+        try:
+            query = "SELECT * From auth_user JOIN accounts_userprofile on auth_user.id=accounts_userprofile.user_id Where auth_user.is_active=0 ORDER BY date_joined"
+            table =  User.objects.raw(query)
+            # data=User.objects.filter(is_active=0).order_by('date_joined')
+            table2 = pagination_table(request.GET.get('page'),table)
+
+            if table and table2:
+                return render(request, 'users_view.html',{'table':table2})
+
+        except Exception as e:
+               return HttpResponse(json.dumps({'status': 'False'}))
+
+
+
+@login_required()
+def getprofilestatus(request):
+
+    if request.method=='POST':
+       value = request.POST['id']
+    try:
+        data=accounts_models.UserProfile.objects.get(user_id=value)
+        wholedata = {
+             'user_status':data.user_status
+
+            }
+        if data:
+           return HttpResponse(json.dumps({'user_info': wholedata}))
+        else:
+            return HttpResponse(json.dumps({'status': 'False'}))
+
+    except Exception as e:
+          return HttpResponse(json.dumps({'user_info': 'Notdefined'}))
+
+@login_required()
+def companyfilter(request):
          try:
-            data=User.objects.filter(is_active=0).order_by('date_joined')
-            wholedata = serializers.serialize('json', data)
-            if data:
-                return HttpResponse(json.dumps({'user_info': wholedata}))
+            # data=User.objects.all().filter(userprofile__user_status=0)
+            query = "SELECT * From auth_user JOIN accounts_userprofile on auth_user.id=accounts_userprofile.user_id Where accounts_userprofile.user_status=1 ORDER BY date_joined"
+            table =  User.objects.raw(query)
+            # data=User.objects.filter(is_active=0).order_by('date_joined')
+            table2 = pagination_table(request.GET.get('page'),table)
+
+            if table and table2:
+                return render(request, 'users_view.html',{'table':table2})
+
          except Exception as e:
-                 print e
+               return HttpResponse(json.dumps({'status': 'False'}))
+
+
+
+
+
+@login_required()
+def job_seekerfilter(request):
+         try:
+            # data=User.objects.all().filter(userprofile__user_status=0)
+            query = "SELECT * From auth_user JOIN accounts_userprofile on auth_user.id=accounts_userprofile.user_id Where accounts_userprofile.user_status=0 ORDER BY date_joined"
+            table =  User.objects.raw(query)
+            # data=User.objects.filter(is_active=0).order_by('date_joined')
+            table2 = pagination_table(request.GET.get('page'),table)
+
+            if table and table2:
+                return render(request, 'users_view.html',{'table':table2})
+
+         except Exception as e:
+               return HttpResponse(json.dumps({'status': 'False'}))
+# @login_required()
+# def job_seekerfilter(request):
+#          try:
+#             # data=User.objects.select_related('userbio').get(id=98)
+#             # data=User.objects.select_related('userbio').get(id=98)
+#             # data=User.objects.all().prefetch_related('userbio')
+#             # data = User.objects.prefetch_related('userbio__userskill'). get(id=98)
+#             #  data = User.objects.select_related('userbio','userskills').get(id=98)
+#
+#             # data = User.objects.filter(id=98).prefetch_related('userbio')
+#             #  data =
+#             # data= User_models.useremployment.objects.get(id=98)
+#             hell=User.objects.prefetch_related('userbio','usercv','userlocation','userskills').get(id=98)
+#             data=user_models.UserEmployment.objects.get(user_id=98)
+#             print data.company_name
+#             print hell.userbio.user_id
+#             print hell.usercv.user_id
+#
+#
+#             # data = User.objects.select_related('useremployment').get(id=98)
+#             # data = User.objects.select_related('useremployment').filter(user_id=98)
+#
+#
+#             # print data.useremployment.user_id
+#             # print data.userskills
+#             # print data.userbio.user_id
+#             # print data.usercv.user_id
+#             # print data.useremployment.user_address
+#
+#             # wholedata = serializers.serialize('json', data)
+#             # if data:
+#             #     return HttpResponse(json.dumps({'user_info': wholedata}))
+#             # else:
+#             #     return HttpResponse(json.dumps({'status': 'False'}))
+#             if data:
+#                     return HttpResponse(json.dumps({'user_info': 'True'}))
+#             else:
+#                    return HttpResponse(json.dumps({'status': 'False'}))
+#          except Exception as e:
+#                  print "Error aagaya hai manhoos"
+
+
+@login_required()
+def profile_full(request):
+   if request.method=='POST':
+     value = request.POST['id']
+     try:
+        hell=User.objects.prefetch_related('userbio','usercv','userlocation','userskills').get(id=value)
+        hell2=user_models.UserEmployment.objects.get(user_id=value)
+        picture =str(hell.userbio.user_portrait)
+        wholedata = {
+            'name' : hell.first_name,
+            'last':hell.last_name,
+            'email':hell.email,
+            'contact':hell.userlocation.user_phone_no,
+            'address':hell.userlocation.user_address,
+            'exp':hell2.company_name,
+            'pic':picture
+
+
+
+        }
+        print wholedata
+        if hell and hell2:
+           return HttpResponse(json.dumps({'user_info': wholedata}))
+        else:
+            return HttpResponse(json.dumps({'status': 'False'}))
+     except Exception as e:
+           return HttpResponse(json.dumps({'status': 'False'}))
+
+
 
 @login_required()
 def skill_add(request):
@@ -536,3 +729,203 @@ def employment_edit(request):
                 employment_name=request.POST['edit_employment_name']
             )
             return HttpResponse(json.dumps({'emp_id':True}))
+
+
+#evaluation part starts from here------------------------>
+
+def evaluation_index(request):
+    try:
+       table = evaluation_test_template.objects.filter(evaluation_status=0).exclude(user_id=14)
+       table2 = pagination_table(request.GET.get('page'),table)
+
+       if table and table2:
+           return render(request, 'evaluation_index_admin.html',{'evaluation':table2})
+       else:
+           return render(request, 'evaluation_index_admin.html',{'status':'Falses'})
+
+    except Exception as e:
+               return HttpResponse(json.dumps({'status': 'Err'}))
+
+
+def evaluation_default(request):
+    try:
+       table = evaluation_test_template.objects.filter(user_id=14)
+       table2 = pagination_table(request.GET.get('page'),table)
+
+       if table and table2:
+           return render(request, 'evaluation_index_admin_default.html',{'evaluation':table2})
+       else:
+           return render(request, 'evaluation_index_admin_default.html',{'status':'False'})
+
+    except Exception as e:
+               return HttpResponse(json.dumps({'status': 'Err'}))
+
+
+def evaluation_user(request):
+    try:
+       table = evaluation_test_template.objects.filter(evaluation_status=1).exclude(user_id=14)
+       table2 = pagination_table(request.GET.get('page'),table)
+
+       if table and table2:
+           return render(request, 'evaluation_index_admin_approved.html',{'evaluation':table2})
+       else:
+           return render(request, 'evaluation_index_admin_approved.html',{'status':'False'})
+
+    except Exception as e:
+               return HttpResponse(json.dumps({'status': 'Err'}))
+
+def evaluation_user_pending(request):
+    try:
+       table = evaluation_test_template.objects.filter(evaluation_status=0).exclude(user_id=14)
+       table2 = pagination_table(request.GET.get('page'),table)
+
+       if table and table2:
+           return render(request, 'evaluation_index_admin.html',{'evaluation':table2})
+       else:
+           return render(request, 'evaluation_index_admin.html',{'status':'False'})
+
+    except Exception as e:
+               return HttpResponse(json.dumps({'status': 'Err'}))
+
+
+def evaluation_user_approved(request):
+    try:
+       table = evaluation_test_template.objects.filter(evaluation_status=1).exclude(user_id=14)
+       table2 = pagination_table(request.GET.get('page'),table)
+
+       if table and table2:
+           return render(request, 'evaluation_index_admin.html',{'evaluation':table2})
+       else:
+           return render(request, 'evaluation_index_admin.html',{'status':'False'})
+
+    except Exception as e:
+               return HttpResponse(json.dumps({'status': 'Err'}))
+
+def evaluation_user_rejected(request):
+    try:
+       table = evaluation_test_template.objects.filter(evaluation_status=2).exclude(user_id=14)
+       table2 = pagination_table(request.GET.get('page'),table)
+
+       if table and table2:
+           return render(request, 'evaluation_index_admin_rejected.html',{'evaluation':table2})
+       else:
+           return render(request, 'evaluation_index_admin_rejected.html',{'status':'False'})
+
+    except Exception as e:
+               return HttpResponse(json.dumps({'status': 'Err'}))
+
+def edit_evaluation_question(request,id):
+    try:
+         query=evaluation_test_questions.objects.filter(evaluation_test_template_id=id)
+         if query:
+            return render(request, 'evaluation_edit_questions_admin.html',{'query':query})
+
+         else:return render(request, 'evaluation_edit_questions_admin.html')
+
+
+    except Exception as e:
+            return render(request, 'evaluation_edit_questions_admin.html')
+
+
+def addtemplate(request):
+
+        try:
+           query=evaluation_test_template(
+                evaluation_name=request.POST['evaluation_name'],
+                evaluation_description=request.POST['evaluation_description'],
+                evaluation_catagory=request.POST['evaluation_catagory'],
+                evaluation_rules=request.POST['evaluation_rules'],
+                evaluation_status=1,
+                evaluation_type=int(request.POST['evaluation_type']),
+                evaluation_total_questions=int(request.POST['evaluation_questions']),
+                user_id=14
+
+            )
+           query.save()
+           obj = evaluation_test_template.objects.latest('id')
+
+           whole = {
+               'evaluation_id':obj.id,
+               'evaluation_name':request.POST['evaluation_name'],
+               'evaluation_catagory':request.POST['evaluation_catagory'],
+               'evaluation_status':0,
+               'evaluation_type':(request.POST['evaluation_type']),
+               'evaluation_total_questions':(request.POST['evaluation_questions'])
+           }
+
+           if query:
+                 return HttpResponse(json.dumps({'status': whole}))
+           else:
+                 return HttpResponse(json.dumps({'status': 'False'}))
+
+        except Exception as e:
+            print e
+            return HttpResponse(json.dumps({'status': 'Err'}))
+
+
+
+
+def approve_evaulation(request):
+    try:
+        query = evaluation_test_template.objects.filter(id=request.POST['id']).update(evaluation_status=1)
+
+        if query:
+             return HttpResponse(json.dumps({'status': 'True'}))
+        else:
+             return HttpResponse(json.dumps({'status': 'False'}))
+
+    except Exception as e:
+            print e
+            return HttpResponse(json.dumps({'status': 'Err'}))
+
+
+def reject_evaulation(request):
+    try:
+        query = evaluation_test_template.objects.filter(id=request.POST['id']).update(evaluation_status=2)
+
+        if query:
+             return HttpResponse(json.dumps({'status': 'True'}))
+        else:
+             return HttpResponse(json.dumps({'status': 'False'}))
+
+    except Exception as e:
+            print e
+            return HttpResponse(json.dumps({'status': 'Err'}))
+
+
+
+def edit_user_template_by_admin(request):
+         try:
+            
+             query = evaluation_test_template.objects.filter(id=request.GET['id'])
+             list= {
+                 'id':query[0].id,
+                 'evaluation_name':query[0].evaluation_name,
+                 'evaluation_description':query[0].evaluation_description,
+                 'evaluation_rules':query[0].evaluation_rules,
+                 'evaluation_catagory':query[0].evaluation_catagory,
+                 'evaluation_type':query[0].evaluation_type,
+                 'evaluation_total_questions':query[0].evaluation_total_questions
+
+              }
+             if query:
+                return HttpResponse(json.dumps({'status': list}))
+             else:
+                 return render(request, 'Error')
+         except Exception as e:
+            print e
+
+         return HttpResponse(json.dumps({'status': 'Err'}))
+
+def pagination_table(page,table):
+        paginator = Paginator((list(table)), 6) # Show 25 contacts per page
+
+        try:
+           table = paginator.page(page)
+        except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+           table = paginator.page(1)
+        except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+            table = paginator.page(paginator.num_pages)
+        return table

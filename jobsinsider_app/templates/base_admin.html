@@ -7,55 +7,161 @@
     <title>{% block title %} {% endblock %}</title>
     {% block style_block %}
         <link rel="stylesheet" href="{% static "/assets/css/main.css" %}"/>
-        <link rel="stylesheet" href="{% static "/assets/css/admin.css" %}"/>
+        <link rel="stylesheet" href="{% static "/assets/css/admin2.css" %}"/>
+        <link rel="stylesheet" href="{% static "/assets/css/table.css" %}"/>
+        <link rel="stylesheet" href="{% static "/assets/css/evaluation.css" %}"/>
     {% bootstrap_css %}
     {% endblock %}
 
 </head>
 <body>
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
-        {% block admin_nav %}
-        <nav class="">
-            <ul class="admin_nav">
-                <li><a href="/private/members/users/">Users</a></li>
-                <li><a href="/private/members/categories">Categories</a></li>
-                <li><a class="dropdown_parent" href="javascript:;">Companies</a>
+<div class="absolute-wrapper">
+<div class="row">
 
-                    <ul class="dropdown_menu_list">
-                        <li>
-                            <a href="/private/members/experience">Experience</a>
-                        </li>
-                        <li>
-                            <a href="/private/members/employment">Employment Type</a>
-                        </li>
-                        <li><a href="/private/members/education">Education List</a></li>
-                    </ul>
-                </li>
-                <li><a href="#">Advertisements</a></li>
-                <li><a href="#">Evaluation Tests</a></li>
-                <li><a href="/private/members/logout">Logout</a></li>
-            </ul>
+     {% block admin_nav %}
+    <div class="side-menu">
 
-        </nav>
+    <nav class="navbar navbar-default" role="navigation">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+        <div class="brand-wrapper">
+            <!-- Hamburger -->
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
 
-        {% endblock %}
+            <!-- Brand -->
+            <div class="brand-name-wrapper">
+                <a class="navbar-brand" href="#">
+                    JobPortal
+                </a>
+            </div>
+
+            <!-- Search -->
+            <a data-toggle="collapse" href="#search" class="btn btn-default" id="search-trigger">
+                <span class="glyphicon glyphicon-search"></span>
+            </a>
+
+            <!-- Search body -->
+            <div id="search" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <form class="navbar-form" role="search">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search">
+                        </div>
+                        <button type="submit" class="btn btn-default "><span class="glyphicon glyphicon-ok"></span></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Main Menu -->
+    <div class="side-menu-container">
+        <ul class="nav navbar-nav">
+
+            <li><a href="/private/members/users/"><span class="glyphicon glyphicon-user"></span> User</a></li>
+            <li class="active"><a href="/private/members/categories"><span class="glyphicon glyphicon-plane"></span> Categories</a></li>
+
+            <!-- Dropdown-->
+            <li class="panel panel-default" id="dropdown">
+                <a data-toggle="collapse" href="#dropdown-lvl1">
+                    <span class="glyphicon glyphicon-user"></span> Companies <span class="caret"></span>
+                </a>
+
+                <!-- Dropdown level 1 -->
+                <div id="dropdown-lvl1" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <ul class="nav navbar-nav">
+                            <li><a href="/private/members/experience">Experience</a></li>
+                            <li><a href="/private/members/employment">Employment Type</a></li>
+                            <li><a href="/private/members/education">Education List</a></li>
+
+
+
+                        </ul>
+                    </div>
+                </div>
+            </li>
+
+            <li><a href="#"><span class="glyphicon glyphicon-signal"></span> Advertisements</a></li>
+
+              <li class="panel panel-default" id="dropdown">
+                <a data-toggle="collapse" href="#dropdown-lvl2">
+                    <span class="glyphicon glyphicon-user"></span> Evaluation <span class="caret"></span>
+                </a>
+
+                <!-- Dropdown level 1 -->
+                <div id="dropdown-lvl2" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <ul class="nav navbar-nav">
+                            <li><a href="/private/members/evaluation/">View All Templates</a></li>
+                            <li class="eva_add_template"><a href="#">Add Template</a></li>
+{#                            <li><a href="/private/members/education">Education List</a></li>#}
+
+
+
+                        </ul>
+                    </div>
+                </div>
+            </li>
+
+            <li><a href="/private/members/evaluation/"><span class="glyphicon glyphicon-signal"></span> Evaluation</a></li>
+            <li><a href="/private/members/logout"><span class="glyphicon glyphicon-signal"></span> Logout</a></li>
+
+        </ul>
+    </div><!-- /.navbar-collapse -->
+</nav>
+         </div>
+    {% endblock %}
+
+
+
+
+
+
+
+ <div class="container-fluid">
+        <div class="side-body">
+
+
+           <h1> Admin DashBoard </h1>
+           <pre> Nofication Messages here </pre>
+             {% block body_content %}
+
+              {% endblock %}
+
+           </div>
         </div>
     </div>
+
+
 </div>
+{% include "user_addmodal.html" %}
+{% include "user_editmodal.html" %}
+{% include "evaluation_modal.html" %}
+{% include "evaluation_question_modal.html" %}
+{% include "evaluation_editmodal.html" %}
+{% include "evaluation_testmodal.html" %}
+{% include "admin_evaluation_edit_question_modal.html" %}
 
-{% block body_content %}
-
-{% endblock %}
 
 {% block scripts_block %}
     <script src='{% static "/assets/js/jquery-1.11.3.min.js" %}'></script>
     <script src='{% static "/assets/js/main.js" %}'></script>
     <script src='{% static "/assets/js/core.js" %}'></script>
+    <script src='{% static "/assets/js/adminmain.js" %}'></script>
+    <script src='{% static "/assets/js/ajaxfile.js" %}'></script>
+    <script src='{% static "/assets/js/evaluation_admin.js" %}'></script>
+    <script src='{% static "/assets/js/evaluation_question_edit_admin.js" %}'></script>
     {% bootstrap_javascript %}
 {% endblock %}
+
 </body>
 
 </html>

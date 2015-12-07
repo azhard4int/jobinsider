@@ -90,7 +90,7 @@
                                 {% if details.is_interview == False %}
                                     <a href="{% url 'schedule_interview' details.user_id job_id %}" class="job_apply_btn schedule__interview__candidate">Schedule Interview</a>
                                 {% else %}
-                                    <a href="javascript:;" class="job_apply_btn schedule__interview__candidate">Scheduled Already</a>
+                                    <a href="{% url 'schedule_interview' details.user_id job_id %}" class="job_apply_btn schedule__interview__candidate">Reschedule Interview</a>
                                 {% endif %}
                                 <a href="javascript:;" value="{{ details.user_id }}" class="job_apply_btn shorlist__candidate__remove">Remove Shortlist</a>
                             </div>

@@ -8,6 +8,7 @@
     <a href="{% url 'logout' %}">Logout</a>
 {% endblock %}
 {% block body_content %}
+    {% include 'notify_message.html' %}
     <div class="clearfix"></div>
     <section id="company">
         <div class="container">
@@ -39,7 +40,7 @@
             {% if data_count != 0 %}
                 <input type="hidden" class="job__advert__id" value="{{ job_id }}">
 
-                    <div class="col-md-9 ">
+                    <div class="col-md-9 applied_candidate_listview">
                      {%  for details in data %}
                         <div class="applied__user">
                             <div class="col-md-2">
@@ -104,9 +105,35 @@
                             <h3>
                                 Country Filter
                             </h3>
-    {#                        <input type="radio" name="" id="countries" ><label for="countries" >Pakistan</label>#}
+                            <div class="countries_applied_list">
+                                {% for data in applied_country_user %}
+                                    <input class="applied_user_country" onchange="applied_candidates.by_countries({{ data.country_value }})" type="radio" name="applied_user_country" value="{{ data.country_value }}" id="user_country_{{ data.country_name}} "><label for="user_country_{{ data.country_name}} ">{{ data.country_name}} ({{ data.total_per_country }})</label>
+                                    <div class="cities_applied_list">
+                                        {% for data_city in applied_cities_user %}
+                                            {% if data_city.country_name == data.country_name %}
+                                                <input class="applied_user_city" onchange="applied_candidates.by_cities(this,{{ data_city.city_value }})" type="checkbox" name="applied_user_city[]" value="{{ data_city.city_value }}" id="user_city_{{ data_city.city_value }}"><label for="user_city_{{ data_city.city_value }}">{{ data_city.city_name}} ({{ data_city.total_per_city }})</label>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <h3>
+                                Gender
+                            </h3>
+                                {% for data in applied_gender_user %}
+                                    <div class="applied_user_gender">
+                                        <input type="checkbox" name="applied_user_gender[]" onchange="applied_candidates.by_gender({{ data.user_gender }})" value="{{ data.user_gender }}" id="user_city_{{ data.user_gender }}">
+                                        <label for="user_city_{{ data.user_gender }}">
+                                            {% if data.user_gender == 0 %}
+                                                Male ({{ data.type}})
+                                            {% else %}
+                                                Female ({{ data.type}})
+                                            {% endif %}
+                                        </label>
+                                    </div>
+                                {% endfor %}
+{#                            {{ applied_country_user.advertisement.country }}#}
                         </div>
-
                     </div>
             {% else %}
                 <span class="empty_data favorite_empty">

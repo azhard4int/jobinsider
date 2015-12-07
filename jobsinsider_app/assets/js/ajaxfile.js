@@ -1,7 +1,6 @@
-
  var over123;
  $(document).on('click', '.button123' ,function(event) {
-       //e.preventDefault();
+        //e.preventDefault();
         event.preventDefault();
         $('.message_display').text(' ');
            // Find the row
@@ -29,16 +28,16 @@
                  for(keya in data)
 
                  {
-                     $(".modal-title").text(data[keya].firstname+" "+ data[keya].lastname);
+                     $(".modalheading").text(data[keya].firstname+" "+ data[keya].lastname);
                      $('#n1').attr('value',data[keya].firstname);
                      $('#l1').attr('value',data[keya].lastname);
                      $('#u1').attr('value',data[keya].username);
                      $('#e1').attr('value',data[keya].email);
 
                      if(data[keya].status == true){
-                         $('#combo1').val('1');
+                         $('#combostatus').val('1');
 
-                     } else $('#combo1').val('0');
+                     } else $('#combostatus').val('0');
 
                      if(data[keya].staff == true){
                          $('#combo11').val('1');
@@ -51,6 +50,12 @@
                          $('#combo10').val('1');
 
                      } else $('#combo10').val('0');
+
+                     profile_status = profilestatus(over123);
+
+                     if(profile_status==0){
+                         $('#status_user').val('0');
+                     }else  $('#status_user').val('1');
 
                  }
 
@@ -74,9 +79,10 @@
            lastname =$('#l1').val();
            username1 =$('#u1').val();
            email = $('#e1').val();
-           status =  parseInt($('select').val());
+           status =  parseInt($('#combostatus').val());
            staff =  parseInt($('#combo11').val());
            superuser = parseInt($('#combo10').val());
+           profile = parseInt($('#status_user').val());
         $.ajax({
         url: '/private/members/users/edit_profile/update_user/',
         type: 'POST',
@@ -89,6 +95,7 @@
             'is_active': status,
             'is_staff': staff,
             'is_superuser': superuser,
+            'profile_status':profile,
             "csrfmiddlewaretoken": document.getElementsByName('csrfmiddlewaretoken')[0].value
 
         },
@@ -122,16 +129,21 @@
        {
           $('.message_display_add').text(' ');
            $('.message_display_add').show();
+           $('.modal-title').text("Add User");
+
+
            event.preventDefault();
 
            name = $('#n11').val();
            lastname =$('#l11').val();
            username123 =$('#u11').val();
            email = $('#e11').val();
+           profile = $('#user_status_profile').val();
 
            status =  parseInt($('combo09').val());
            staff =  parseInt($('#combo101').val());
            superuser = parseInt($('#combo111').val());
+           profile_status = parseInt($('user_status_profile'));
 
         $.ajax({
             url: '/private/members/users/edit_profile/add_user/',
@@ -142,6 +154,7 @@
                 'last_name': lastname,
                 'username': username123,
                 'email': email,
+                'profile_status' :profile,
                 "csrfmiddlewaretoken": document.getElementsByName('csrfmiddlewaretoken')[0].value
 
             },
@@ -152,10 +165,22 @@
 
                 try {
                     if (data.info.id != undefined) {
-                        edit_button = '<td><button value= "' + data.info.id + '"  class="button123" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal" type="button">Edit</button></td>';
-                        profile_button = '<button type="button">Profile</button>';
-                        delete_button = '<td><button value= "' + data.info.id + '" type="button" class="delete" >Delete</button></td>';
-                        newline = '<tr><td> ' + data.info.id + ' </td> <td> ' + data.info.username + '</td> <td> ' + data.info.firstname + '</td> <td> ' + data.info.lastname + '</td> <td> ' + data.info.email + '</td> <td> True </td>' + edit_button + '<td>' + profile_button + '</td>' + delete_button + '</tr>';
+
+                         var usertype;
+                               if(profile_status == 0){
+
+                                   usertype = "Job Seeker"
+                               } else usertype = "Company"
+
+
+
+
+                        edit_button = '<td><button value= "' + data.info.id + '"  class="button123 btn btn-info btn-sm" data-toggle="modal" data-target="#myModal" type="button">Edit</button></td>';
+                        profile_button = '<td><button value= "' + data.info.id + '" type="button" class="profile btn btn-info btn-sm" >Profile</button></td>';
+                        delete_button = '<td><button value= "' + data.info.id + '" type="button" class="delete btn btn-info btn-sm" >Delete</button></td>';
+                        newline = '<tr><td> ' + data.info.id + ' </td> <td> ' + data.info.username + '</td> <td> ' + data.info.firstname + '</td> <td> ' + data.info.lastname + '</td> <td> ' + data.info.email + '</td> <td> ' + data.info.active +' </td><td> '+ usertype +' </td> ' + edit_button + ' ' + profile_button + ' ' + delete_button + '</tr>';
+
+                        //newline = '<tr><td> ' + data.info.id + ' </td> <td> ' + data.info.username + '</td> <td> ' + data.info.firstname + '</td> <td> ' + data.info.lastname + '</td> <td> ' + data.info.email + '</td> <td> '+ data.info.active +' </td> '+ usertype +' ' + edit_button + '<td>'+ profile_button + '</td>' + delete_button + '</tr>';
 
 
                        // $('.table > tbody:first').append(newline);
@@ -184,6 +209,7 @@
         });
     return false;
 });
+
 
 $('.close_re').click(function() {
     location.reload();
@@ -287,55 +313,60 @@ $('.close_re').click(function() {
                });
                return false;
 
-           } else alert("type kar")
+           }
+     else
+           {
+            message_display('Please enter the keyword in the search field', 0)
+           }
 
 
 
 });
 
 
- $(document).on('click', '#allusers', function () {
-
-
-     event.preventDefault();
-     id = $(this).val();
-     $.ajax({
-         url: '/private/members/users/edit_profile/allusers/',
-         type: 'POST',
-         data: {
-             "csrfmiddlewaretoken": document.getElementsByName('csrfmiddlewaretoken')[0].value
-
-         },
-
-success: function (data) {
-                       var aap = jQuery.parseJSON(data);
-
-                       try {
-                           $(".table").find("tr:gt(0)").remove();
-                           var lens = (Object.keys(aap.user_info).length);
-
-                           tableappend(aap,lens);
-
-                       }
-                       catch(e){
-
-                       }
-
-
-
-
-
-
-
-                   },
-         error: function (response) {
-
-         }
-     });
-     return false;
-
-
-});
+// $(document).on('click', '#allusers', function () {
+//
+//
+//     event.preventDefault();
+//     $.ajax({
+//         url: '/private/members/users/edit_profile/allusers/',
+//         type: 'POST',
+//         data: {
+//             "csrfmiddlewaretoken": document.getElementsByName('csrfmiddlewaretoken')[0].value
+//
+//         },
+//
+//               success: function (data) {
+//                       var aap = jQuery.parseJSON(data);
+//                       console.log(aap);
+//
+//
+//                       try {
+//                           $(".table").find("tr:gt(0)").remove();
+//                           var lens = (Object.keys(aap.user_info).length);
+//
+//                           tableappend(aap,lens);
+//
+//                       }
+//                       catch(e){
+//
+//                       }
+//
+//
+//
+//
+//
+//
+//
+//                   },
+//         error: function (response) {
+//
+//         }
+//     });
+//     return false;
+//
+//
+//});
 
 
 $(document).on('click', '#active', function () {
@@ -383,89 +414,89 @@ success: function (data) {
 
 
 
-$(document).on('click', '#disable', function () {
+//$(document).on('click', '#disable', function () {
+//
+//
+//     event.preventDefault();
+//     $.ajax({
+//         url: '/private/members/users/edit_profile/nonactiveusers/',
+//         type: 'POST',
+//         data: {
+//             "csrfmiddlewaretoken": document.getElementsByName('csrfmiddlewaretoken')[0].value
+//
+//         },
+//
+//success: function (data) {
+//                       var aap = jQuery.parseJSON(data);
+//
+//                       try {
+//                           $(".table").find("tr:gt(0)").remove();
+//                           var lens = (Object.keys(aap.user_info).length);
+//
+//                           tableappend(aap,lens);
+//
+//                       }
+//                       catch(e){
+//
+//                       }
+//
+//
+//
+//
+//
+//
+//
+//                   },
+//         error: function (response) {
+//
+//         }
+//     });
+//     return false;
+//
+//
+//});
 
-
-     event.preventDefault();
-     $.ajax({
-         url: '/private/members/users/edit_profile/nonactiveusers/',
-         type: 'POST',
-         data: {
-             "csrfmiddlewaretoken": document.getElementsByName('csrfmiddlewaretoken')[0].value
-
-         },
-
-success: function (data) {
-                       var aap = jQuery.parseJSON(data);
-
-                       try {
-                           $(".table").find("tr:gt(0)").remove();
-                           var lens = (Object.keys(aap.user_info).length);
-
-                           tableappend(aap,lens);
-
-                       }
-                       catch(e){
-
-                       }
-
-
-
-
-
-
-
-                   },
-         error: function (response) {
-
-         }
-     });
-     return false;
-
-
-});
-
-$(document).ready(function() {
-
-     event.preventDefault();
-     $.ajax({
-         url: '/private/members/users/edit_profile/allusers/',
-         type: 'POST',
-         data: {
-             "csrfmiddlewaretoken": document.getElementsByName('csrfmiddlewaretoken')[0].value
-
-         },
-
-   success: function (data) {
-                       var aap = jQuery.parseJSON(data);
-
-                       try {
-                           $(".table").find("tr:gt(0)").remove();
-                           var lens = (Object.keys(aap.user_info).length);
-
-                           tableappend(aap,lens);
-
-                       }
-                       catch(e){
-
-                       }
-
-
-
-
-
-
-
-                   },
-         error: function (response) {
-
-         }
-     });
-     return false;
-
-});
-
-
+//$(document).ready(function() {
+//
+//     event.preventDefault();
+//     $.ajax({
+//         url: '/private/members/users/edit_profile/allusers/',
+//         type: 'POST',
+//         data: {
+//             "csrfmiddlewaretoken": document.getElementsByName('csrfmiddlewaretoken')[0].value
+//
+//         },
+//
+//   success: function (data) {
+//                       var aap = jQuery.parseJSON(data);
+//
+//                       try {
+//                           $(".table").find("tr:gt(0)").remove();
+//                           var lens = (Object.keys(aap.user_info).length);
+//
+//                           tableappend(aap,lens);
+//
+//                       }
+//                       catch(e){
+//
+//                       }
+//
+//
+//
+//
+//
+//
+//
+//                   },
+//         error: function (response) {
+//
+//         }
+//     });
+//     return false;
+//
+//});
+//
+//
 
 
 
@@ -506,20 +537,219 @@ $(document).ready(function() {
 
  function tableappend(aap,lens){
 
-                         for (var j = 0; j <= lens; j++) {
-                               var mmore = jQuery.parseJSON(aap.user_info);
-                               value = mmore[j]['fields']['username'];
-                               newvalue = get_id(value);
-                               edit_button = '<td><button value= "' + newvalue + '"  class="button123" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal" type="button">Edit</button></td>';
-                               profile_button = '<button type="button">Profile</button>';
-                               delete_button = '<td><button value= "' + newvalue + '" type="button" class="delete" >Delete</button></td>';
-                                //active = capitalise();
-                               newline = '<tr><td> ' + newvalue + ' </td> <td> ' + mmore[j]['fields']['username'] + '</td> <td> ' + mmore[j]['fields']['first_name'] + '</td> <td> ' + mmore[j]['fields']['last_name'] + '</td> <td> ' + mmore[j]['fields']['email'] + '</td> <td> ' + (mmore[j]['fields']['is_active']) +' </td>' + edit_button + '<td>' + profile_button + '</td>' + delete_button + '</tr>';
-                               $(newline).appendTo('.table > tbody:last').fadeIn('slow');
-
-
-                           }
+     for (var j = 0; j <= lens; j++) {
+         var mmore = jQuery.parseJSON(aap.user_info);
+         value = mmore[j]['fields']['username'];
+         newvalue = get_id(value);
+         profile_status=profilestatus(newvalue);
+         var usertype;
+         if(profile_status == 0){
+             usertype = "Job Seeker"
+         } else usertype = "Company"
+         edit_button = '<td><button value= "' + newvalue + '"  class="button123 btn btn-info btn-sm" data-toggle="modal" data-target="#user_editmodal" type="button">Edit</button></td>';
+         profile_button = '<td><button value= "' + newvalue + '" type="button" class="profile btn btn-info btn-sm" >Profile</button></td>';
+         delete_button = '<td><button value= "' + newvalue + '" type="button" class="delete btn btn-info btn-sm" >Delete</button></td>';
+         //active = capitalise();
+         // newline = '<tr><td> ' + newvalue + ' </td> <td> ' + mmore[j]['fields']['username'] + '</td> <td> ' + mmore[j]['fields']['first_name'] + '</td> <td> ' + mmore[j]['fields']['last_name'] + '</td> <td> ' + mmore[j]['fields']['email'] + '</td> <td> ' + (mmore[j]['fields']['is_active']) +' </td><td> '+ usertype +' </td> ' + edit_button + ' ' + profile_button + ' ' + delete_button + '</tr>';
+         // $(newline).appendTo('.table > tbody:last');
+}
 
  };
+ function profilestatus(value){
 
+     try {
+         $.ajax({
+             url: '/private/members/users/edit_profile/profilestatus/',
+             type: 'POST',
+             async: false,
+             data: {
+                 'id': value,
+                 "csrfmiddlewaretoken": document.getElementsByName('csrfmiddlewaretoken')[0].value
+
+             },
+
+
+             success: function (data) {
+                 console.log(data);
+                 data = JSON.parse(data);
+                 user_status = data.user_info.user_status;
+
+
+
+             },
+
+             error: function (data) {
+
+             }
+
+
+         });
+
+
+     }
+
+      catch(e){
+
+
+      }
+  return user_status;
+ };
+
+//$(document).on('click', '#companynew', function () {
+//
+//
+//     event.preventDefault();
+//     $.ajax({
+//         url: '/private/members/users/edit_profile/companyfilter/',
+//         type: 'POST',
+//         data: {
+//             "csrfmiddlewaretoken": document.getElementsByName('csrfmiddlewaretoken')[0].value
+//
+//         },
+//
+//success: function (data) {
+//                        var aap = jQuery.parseJSON(data);
+//
+//                       try {
+//                           $(".table").find("tr:gt(0)").remove();
+//                           var lens = (Object.keys(aap.user_info).length);
+//
+//                           tableappend(aap,lens);
+//
+//                       }
+//                       catch(e){
+//
+//                       }
+//
+//
+//
+//
+//
+//
+//
+//                   },
+//         error: function (response) {
+//
+//         }
+//     });
+//     return false;
+//
+//
+//
+//});
+
+//
+//
+// $(document).on('click', '#job_seeker', function () {
+//
+//
+//     event.preventDefault();
+//     $.ajax({
+//         url: '/private/members/users/edit_profile/job_seekerfilter/',
+//         type: 'POST',
+//         data: {
+//             "csrfmiddlewaretoken": document.getElementsByName('csrfmiddlewaretoken')[0].value
+//
+//         },
+//
+//success: function (data) {
+//                        var aap = jQuery.parseJSON(data);
+//
+//                       try {
+//                           $(".table").find("tr:gt(0)").remove();
+//                           var lens = (Object.keys(aap.user_info).length);
+//
+//                           tableappend(aap,lens);
+//
+//                       }
+//                       catch(e){
+//
+//                       }
+//
+//
+//
+//
+//
+//
+//
+//                   },
+//         error: function (response) {
+//
+//         }
+//     });
+//     return false;
+//
+//
+//
+//});
+//
+
+
+
+// $(document).on('click', '.profile_button', function () {
+//
+//
+//     event.preventDefault();
+//     valuedata = $(this).val();
+//     console.log(valuedata);
+//     $.ajax({
+//         url: '/private/members/users/edit_profile/profile_full/',
+//         type: 'POST',
+//         data: {
+//             "id":valuedata,
+//             "csrfmiddlewaretoken": document.getElementsByName('csrfmiddlewaretoken')[0].value
+//
+//         },
+//
+//                    success: function (data) {
+//
+//                                   data = JSON.parse(data);
+//                                   console.log(data.user_info);
+//                                   image1 = data.user_info.pic;
+//                                   var res = image1.substr(38);
+//
+//
+//                        $(".circle-image").css('background-image', 'url( "'+ res +'")');
+//                        $("#h44").text(data.user_info.name+" "+ data.user_info.last);
+//                        $('#name1').attr('value',data.user_info.name);
+//                        $('#last1').attr('value',data.user_info.last);
+//                        $('#email1').attr('value',data.user_info.email);
+//                        $('#contact1').attr('value',data.user_info.contact);
+//                        $('#address1').attr('value',data.user_info.address);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//                   },
+//         error: function (response) {
+//
+//         }
+//     });
+//
+//
+//
+//
+//});
+var base_url = 'http://127.0.0.1:8000/';
+
+function getResults(pageValue)
+{
+    console.log(pageValue);
+    $.ajax({
+            'method':'GET',
+            'url': base_url + 'private/members/users/?page='+pageValue,
+            success: function(data)
+              {
+                  $('.table').html(data);
+                  console.log(data)
+              }
+            }
+        )
+
+};
 
