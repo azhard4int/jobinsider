@@ -34,8 +34,8 @@ body{
 
 
 .search{
-   padding-top: 50px;
-   padding-left: 220px;
+   /*padding-top: 50px;*/
+   /*padding-left: 220px;*/
 
 
 
@@ -60,7 +60,8 @@ td{
 
 .buttonset{
 
-   padding-top: 20px;
-   padding-left: 220px;
+   padding: 10px 0;
+   padding-left: 10px;
 
 }
+ #main_container{padding-left:250px;}

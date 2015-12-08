@@ -62,6 +62,14 @@ urlpatterns = patterns(
     url(r'^members/evaluation/add_template/$', addtemplate),
     url(r'^members/evaluation/reject_evaluation/$', reject_evaulation),
     url(r'^members/evaluation/approve_evaluation/$', approve_evaulation),
-    url(r'^members/evaluation/edit_user_template/$',edit_user_template_by_admin)
+    url(r'^members/evaluation/edit_user_template/$',edit_user_template_by_admin),
+    url(r'^members/advertisement/$', list_all_advertisement,name='list_all_advertisement'),
+    url(r'^members/advertisement/edit/$', edit_job_advertisement,name='edit_advertisement'),
+    url(r'^members/advertisement/edit_job/$', edit_job_details,name='edit_job_advertisement'),
+    url(r'^members/advertisement/enable_job/$', enable_job,name='enable_job_advertisement'),
+    url(r'^members/advertisement/disable_job/$', disable_job ,name='disable_job_advertisement'),
+    url(r'^members/advertisement/reject_job/$', reject_job ,name='reject_job_advertisement')
+
+
 )
 

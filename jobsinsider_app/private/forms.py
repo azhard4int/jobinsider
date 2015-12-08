@@ -77,7 +77,7 @@ class EducationForm(forms.ModelForm):
 class ExperienceForm(forms.ModelForm):
     experience_name = forms.CharField(
         widget=forms.TextInput(attrs={
-            'placeholder':'Education Type Name',
+            'placeholder':'Experience Type Name',
             'class':'form-control edu_text',
             'width': '500px'
         })

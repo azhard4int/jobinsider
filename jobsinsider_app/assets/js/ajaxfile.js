@@ -753,3 +753,158 @@ function getResults(pageValue)
 
 };
 
+
+
+$('.edit_advertisement__btn').on('click', function(e)
+{
+    e.preventDefault();
+    var advertisement_id = $(this).attr('value');
+    $.ajax(
+        {
+            type: 'POST',
+            url: '/private/members/advertisement/edit/',
+            data:{
+                'job_id': advertisement_id,
+                "csrfmiddlewaretoken": document.getElementsByName('csrfmiddlewaretoken')[0].value
+            },
+            success: function (m) {
+                $('#editAdvertisement').modal('toggle');
+                $('#editAdvertisement').modal('show');
+                $('#editAdvertisement .modal-body').html(m);
+                tinymce.init({selector:'textarea'});
+            },
+            error: function (m) {
+                
+            }
+        }
+    );
+    return false;
+});
+
+ function btn_save__advertisement()
+
+ {
+     var job_id = $('.job_id_form').attr('value');
+     var form_data = $('#edit_advertisement_form').serialize();// new FormData(formElement);
+     var job_description = (tinyMCE.activeEditor.getContent({format : 'raw'}));
+     var csrfmdi = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+     $.ajax(
+         {
+             url:'/private/members/advertisement/edit_job/',
+                type:'POST',
+                data:{
+                    'form_val': form_data,
+                    'csrfmiddlewaretoken': csrfmdi,
+                    'description': job_description,
+                    job_id: job_id
+                },
+                success:function(m)
+                {
+                    resp = JSON.parse(m);
+                    if(resp.status==true)
+                    {
+                        window.location.reload();
+                        //window.location.href= '/company/settings-job/'+ resp.last_inserted;
+                    }
+                },
+                error:function(m)
+                {
+
+                }
+         }
+     )
+     return false;
+ }
+
+ $('.enable_job_advertisement').on('click',function(e)
+ {
+     e.preventDefault();
+     var job_id = $(this).attr('value');
+     var csrfmdi = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+     $.ajax(
+         {
+             url:'/private/members/advertisement/enable_job/',
+                type:'POST',
+                data:{
+                    'csrfmiddlewaretoken': csrfmdi,
+                    job_id: job_id
+                },
+                success:function(m)
+                {
+                    resp = JSON.parse(m);
+                    if(resp.status==true)
+                    {
+                        window.location.reload();
+                        //window.location.href= '/company/settings-job/'+ resp.last_inserted;
+                    }
+                },
+                error:function(m)
+                {
+
+                }
+         }
+     );
+     return false;
+ });
+
+ $('.disable_job_advertisement').on('click',function(e)
+ {
+     e.preventDefault();
+     var job_id = $(this).attr('value');
+     var csrfmdi = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+     $.ajax(
+         {
+             url:'/private/members/advertisement/disable_job/',
+                type:'POST',
+                data:{
+                    'csrfmiddlewaretoken': csrfmdi,
+                    job_id: job_id
+                },
+                success:function(m)
+                {
+                    resp = JSON.parse(m);
+                    if(resp.status==true)
+                    {
+                        window.location.reload();
+                        //window.location.href= '/company/settings-job/'+ resp.last_inserted;
+                    }
+                },
+                error:function(m)
+                {
+
+                }
+         }
+     );
+     return false;
+ });
+
+  $('.reject_job_advertisement').on('click',function(e)
+ {
+     e.preventDefault();
+     var job_id = $(this).attr('value');
+     var csrfmdi = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+     $.ajax(
+         {
+             url:'/private/members/advertisement/disable_job/',
+                type:'POST',
+                data:{
+                    'csrfmiddlewaretoken': csrfmdi,
+                    job_id: job_id
+                },
+                success:function(m)
+                {
+                    resp = JSON.parse(m);
+                    if(resp.status==true)
+                    {
+                        window.location.reload();
+                        //window.location.href= '/company/settings-job/'+ resp.last_inserted;
+                    }
+                },
+                error:function(m)
+                {
+
+                }
+         }
+     );
+     return false;
+ });
