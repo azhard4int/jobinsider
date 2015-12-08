@@ -136,6 +136,9 @@ TEMP_DIRECTORY_USERMESSAGES = [
     'templates/accounts/usermessages',
 ]
 
+TEMP_DIRECTORY_ADVERTISEMENT_ADMIN = [
+    'templates/private/advertisement_admin',
+]
 
 TEMPLATES = [
     {
@@ -156,6 +159,7 @@ TEMPLATES = [
             BASE_DIR.join(TEMP_DIRECTORY_CANDIDATES),
             BASE_DIR.join(TEMP_DIRECTORY_MESSAGES),
             BASE_DIR.join(TEMP_DIRECTORY_USERMESSAGES),
+            BASE_DIR.join(TEMP_DIRECTORY_ADVERTISEMENT_ADMIN)
         ),
         'APP_DIRS': True,
         'OPTIONS': {

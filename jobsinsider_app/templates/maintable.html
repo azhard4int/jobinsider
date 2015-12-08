@@ -22,7 +22,7 @@
         <td>{{ item.is_active }}</td>
         {% csrf_token %}
         <td><button value="{{ item.id }}" class="button123" data-toggle="modal" data-target="#myModal" type="button">Edit</button></td>
-        <td><button type="button">Profile</button></td>
+{#        <td><button type="button">Profile</button></td>#}
         <td><button class="delete" value="{{ item.id }}" type="button">Delete</button></td>
     </tr>
     {% endfor %}

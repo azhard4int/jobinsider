@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, RequestContext
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth import authenticate, logout, login
 from django.contrib.auth.decorators import login_required
@@ -10,11 +10,14 @@ from django.db import models
 from django.core import serializers
 from django.template import context, loader
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
+from django.template.loader import render_to_string
+from urlparse import urlparse, parse_qs
 
 from evaluation.models import *
 from core import models as modeinsert
 from company import models as company_model
+from company import forms as company_forms
+from advertisement import AdvertisementAdminView
 
 from django.db import models
 from accounts import models as accounts_models
@@ -242,7 +245,7 @@ def users_view(request):
     # print table
     query = "SELECT * From auth_user JOIN accounts_userprofile on auth_user.id=accounts_userprofile.user_id"
     table = User.objects.raw(query)
-    paginator = Paginator((list(table)), 2) # Show 25 contacts per page
+    paginator = Paginator((list(table)),25) # Show 25 contacts per page
     page = request.GET.get('page')
     try:
         table = paginator.page(page)
@@ -263,7 +266,7 @@ class User_View(View):
         table =  User.objects.raw(query)
 
 
-        paginator = Paginator((list(table)), 2) # Show 25 contacts per page
+        paginator = Paginator((list(table)), 25) # Show 25 contacts per page
 
         page = request.GET.get('page')
         try:
@@ -308,7 +311,14 @@ def user_update(request):
         staff = request.POST['is_staff']
         superuser = request.POST['is_superuser']
 
-        data = User.objects.filter(id=request.POST['id']).update(username=username,first_name=first_name,last_name=last_name,email=email,is_active=int(is_active), is_staff=int(staff),is_superuser=int(superuser))
+        data = User.objects.filter(id=request.POST['id']).update(
+            username=username,
+            first_name=first_name,
+            last_name=last_name,
+            email=email,
+            is_active=[True if int(is_active) == 1 else False],
+            is_staff=int(staff),
+            is_superuser=int(superuser))
 
         try:
            data2 = accounts_models.UserProfile.objects.filter(user_id=request.POST['id']).update(user_status=request.POST['profile_status'])
@@ -487,7 +497,7 @@ def companyfilter(request):
             query = "SELECT * From auth_user JOIN accounts_userprofile on auth_user.id=accounts_userprofile.user_id Where accounts_userprofile.user_status=1 ORDER BY date_joined"
             table =  User.objects.raw(query)
             # data=User.objects.filter(is_active=0).order_by('date_joined')
-            table2 = pagi(request.GET.get('page'),table)
+            table2 = pagination_table(request.GET.get('page'),table)
 
             if table and table2:
                 return render(request, 'users_view.html',{'table':table2})
@@ -502,7 +512,7 @@ def job_seekerfilter(request):
             query = "SELECT * From auth_user JOIN accounts_userprofile on auth_user.id=accounts_userprofile.user_id Where accounts_userprofile.user_status=0 ORDER BY date_joined"
             table =  User.objects.raw(query)
             # data=User.objects.filter(is_active=0).order_by('date_joined')
-            table2 = pagi(request.GET.get('page'),table)
+            table2 = pagination_table(request.GET.get('page'),table)
 
             if table and table2:
                 return render(request, 'users_view.html',{'table':table2})
@@ -730,7 +740,7 @@ def evaluation_index(request):
 
 def evaluation_default(request):
     try:
-       table = evaluation_test_template.objects.filter(user_id=14)
+       table = evaluation_test_template.objects.all()
        table2 = pagination_table(request.GET.get('page'),table)
 
        if table and table2:
@@ -743,7 +753,7 @@ def evaluation_default(request):
 
 def evaluation_user(request):
     try:
-       table = evaluation_test_template.objects.filter(evaluation_status=1).exclude(user_id=14)
+       table = evaluation_test_template.objects.filter(evaluation_status=1)
        table2 = pagination_table(request.GET.get('page'),table)
 
        if table and table2:
@@ -756,7 +766,7 @@ def evaluation_user(request):
 
 def evaluation_user_pending(request):
     try:
-       table = evaluation_test_template.objects.filter(evaluation_status=0).exclude(user_id=14)
+       table = evaluation_test_template.objects.filter(evaluation_status=0)
        table2 = pagination_table(request.GET.get('page'),table)
 
        if table and table2:
@@ -769,7 +779,7 @@ def evaluation_user_pending(request):
 
 def evaluation_user_approved(request):
     try:
-       table = evaluation_test_template.objects.filter(evaluation_status=1).exclude(user_id=14)
+       table = evaluation_test_template.objects.filter(evaluation_status=1)
        table2 = pagination_table(request.GET.get('page'),table)
 
        if table and table2:
@@ -782,7 +792,7 @@ def evaluation_user_approved(request):
 
 def evaluation_user_rejected(request):
     try:
-       table = evaluation_test_template.objects.filter(evaluation_status=2).exclude(user_id=14)
+       table = evaluation_test_template.objects.filter(evaluation_status=2)
        table2 = pagination_table(request.GET.get('page'),table)
 
        if table and table2:
@@ -908,3 +918,56 @@ def pagination_table(page,table):
         # If page is out of range (e.g. 9999), deliver last page of results.
             table = paginator.page(paginator.num_pages)
         return table
+
+
+#admin advertisement view
+
+def list_all_advertisement(request):
+    obj = AdvertisementAdminView()
+    data = obj.get_all_jobs()
+    return render(request, 'advertisement_admin.html', {'jobs': data})
+
+
+def edit_job_advertisement(request):
+
+    obj = AdvertisementAdminView(job_id=request.POST['job_id'])
+    data = obj.get_job_preview()
+    form = company_forms.JobAdvertisementForm(initial={
+        'job_title': data.job_title,
+        'job_position':data.job_position,
+        'job_description':data.job_description,
+        'employment':data.employment_id,
+        'experience':data.experience_id,
+        'category':data.category_id,
+        'country':data.country_id,
+        'cities':data.cities_id,
+        'salary_from':data.salary_from,
+        'salary_to':data.salary_to,
+        'education':data.degree_level_id,
+    })
+    html = render_to_string('advertisement_dynamic_edit.html', {'job': form, 'job_value': request.POST['job_id']},
+                            context_instance=RequestContext(request))
+    return HttpResponse(html)
+
+
+def edit_job_details(request):
+    parameters = parse_qs(request.POST['form_val'])
+    resp = {}
+    obj = AdvertisementAdminView()
+    data = obj.update_job_details(parameters, request.POST['description'], request.POST['job_id'])
+    return HttpResponse(json.dumps({'status':True}))
+
+def enable_job(request):
+    obj = AdvertisementAdminView(job_id=request.POST['job_id'])
+    obj.enable_job()
+    return HttpResponse(json.dumps({'status':True}))
+
+def disable_job(request):
+    obj = AdvertisementAdminView(job_id=request.POST['job_id'])
+    obj.disable_job()
+    return HttpResponse(json.dumps({'status':True}))
+
+def reject_job(request):
+    obj = AdvertisementAdminView(job_id=request.POST['job_id'])
+    obj.reject_job()
+    return HttpResponse(json.dumps({'status':True}))

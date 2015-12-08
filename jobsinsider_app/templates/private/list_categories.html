@@ -16,9 +16,7 @@
         <form action="" id="add_new_skill">
               <div class="modal-body">
                   <div class="info">
-
                   </div>
-
                     <div class="col-md-4">
                         {% csrf_token %}
                         <input type="hidden" class="category_value" name="cat_id">
@@ -44,35 +42,33 @@
 
 
 <div class="container" id="main_container">
-    <div class="col-md-6">
+    <div class="col-md-12">
 
     {% if count_category < 20 %}
-        <h2>
-        Add Category
-        </h2>
+
         <form method="post" action="" enctype="multipart/form-data" class="form-horizontal">
             {%csrf_token%}
 
 
-             <div class="form-group">
+             <div class="col-md-3">
            <label for="inputEmail">{{ add_category.category_image.label }}</label>
           {{add_category.category_image}}
             </div>
 
 
 
-             <div class="form-group">
+             <div class="col-md-3">
         <label for="inputEmail">Category Status</label>
         {{add_category.category_status}}
     </div>
 
 
-             <div class="form-group">
+             <div class="col-md-3">
         <label for="inputEmail">Category Name</label>
         {{add_category.category_name}}
     </div>
 
-        <div class="form-group">
+        <div class="col-md-3">
             <input type="submit">
 
     </div>
@@ -83,7 +79,7 @@
 </div>
 
 
-    <div class="col-md-8">
+    <div class="col-md-12">
 
     <div class="clearfix"></div>
         <br>
@@ -97,7 +93,7 @@
             <td>Edit</td>
             <td>Enable/Disable</td>
             <td>Delete</td>
-            <td>Add Skill</td>
+{#            <td>Add Skill</td>#}
             <td>Details</td>
 
         </tr>
@@ -112,7 +108,11 @@
                     {{catvalue.category_name}}
                 </td>
                 <td>
-                    {{catvalue.category_status}}
+                     {% if catvalue.category_status == 1 %}
+                        <span class="approved_is">Active</span>
+                        {% else %}
+                         <span class="not_approved">Inactive</span>
+                     {% endif %}
                 </td>
                 <td>
                     <a class="edit_cat_btn" href="{% url 'cat_view' %}edit/{{catvalue.id}}" value="{{catvalue.id}}">Edit</a>
@@ -132,9 +132,9 @@
                     <a class="delete_cat_btn" href="javascript:;" value="{{catvalue.id}}">Delete</a>
                 </td>
 
-                <td>
-                    <a class="add_category_skill" data-toggle="modal" data-target="#myModal" href="javascript:;" value="{{catvalue.id}}">Add Skill</a>
-                </td>
+{#                <td>#}
+{#                    <a class="add_category_skill" data-toggle="modal" data-target="#myModal" href="javascript:;" value="{{catvalue.id}}">Add Skill</a>#}
+{#                </td>#}
                 <td>
                     <a class="details_cat_btn" href="javascript:;" value="{{catvalue.id}}">Details</a>
                 </td>

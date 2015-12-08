@@ -22,12 +22,12 @@
                         <li><a href="{% url 'profile_settings' %}" class="active" >Profile Settings</a></li>
                         <li><a href="javascript:;">User CV</a></li>
                     </ul>
-                     <h4>
+                    <!-- <h4>
                         Billing
                     </h4>
                     <ul class="setting_main">
                         <li><a href="javascript:;">Billing Information</a></li>
-                    </ul>
+                    </ul>-->
                 </div>
                 <div class="col-md-9 user_profile_details nopad-lr">
                     <div class="">
@@ -42,21 +42,21 @@
                                     Employment
                                 </a>
                             </div>
-                            <div class="button_settings education_btn">
-                                <a href="javascript:;" class="display_add_employment">
-                                    Add Employment
-                                </a>
-                            </div>
+{#                            <div class="button_settings education_btn">#}
+{#                                <a href="javascript:;" class="display_add_employment">#}
+{#                                    Add Employment#}
+{#                                </a>#}
+{#                            </div>#}
                             <div class="button_settings education_btn">
                                 <a href="{% url 'profile_settings_education' %}">
                                     Education
                                 </a>
                             </div>
-                            <div class="button_settings education_btn">
-                                <a href="javascript:;" class="display_add_education">
-                                    Add Education
-                                </a>
-                            </div>
+{#                            <div class="button_settings education_btn">#}
+{#                                <a href="javascript:;" class="display_add_education">#}
+{#                                    Add Education#}
+{#                                </a>#}
+{#                            </div>#}
                             {% if user_cv_status == 0 %}
                                 <div class="button_settings education_btn">
                                 <a href="{% url 'profile_resume' %}">

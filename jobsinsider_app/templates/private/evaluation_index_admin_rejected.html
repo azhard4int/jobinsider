@@ -39,10 +39,10 @@
                 <td>{{ o.evaluation_name }}</td>
                 <td>{{ o.evaluation_catagory }}</td>
                     {% if o.evaluation_status == 0 %}
-                      <td>Not Approved</td>
+                      <td class="not_approved">Not Approved</td>
                     {% endif %}
                     {% if o.evaluation_status == 1 %}
-                     <td>Approved</td>
+                     <td class="approved_is">Approved</td>
                     {% endif %}
                     {% if o.evaluation_status == 2 %}
                      <td>Rejected</td>

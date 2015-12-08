@@ -47,7 +47,7 @@
 
                           </div>
                         <div class="container">
-                            <div class="col-md-4">
+                            <div class="col-md-5">
                                 {% csrf_token %}
                                 <input type="hidden" name="status" value="1">
                                 <input type="hidden" name="experience_id" class="education_id_value">
@@ -65,15 +65,15 @@
 </div>
 
     <div class="container">
-        <div class="col-md-8">
-            <input type="button" data-toggle="modal" data-target="#myModal"  value="Add Education Type" >
+        <div class="col-md-12">
+            <input type="button" data-toggle="modal" data-target="#myModal"  value="Add Employment Type" >
         </div>
     </div>
 
 
 <div class="container" style="z-index:0;">
     <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-12">
     <div class="display_message"></div>
     <table width="100%;">
         <thead class="categories_head">
@@ -96,9 +96,9 @@
                 </td>
                 <td>
                     {% if emp_val.employment_status == True %}
-                        Active
+                        <span class="approved_is">Active</span>
                         {% else %}
-                        InActive
+                        <span class="not_approved">InActive</span>
 
                     {% endif %}
 

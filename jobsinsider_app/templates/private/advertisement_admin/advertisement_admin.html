@@ -1,0 +1,84 @@
+{% extends "base_admin.html" %}
+<title>{% block title %}Admin Dashboard{% endblock %}</title>
+
+
+
+{% block body_content %}
+    {% include 'advertisement_edit_dialog.html' %}
+<div class="container" id="">
+    <div class="col-md-12">
+        <table width="88%;">
+        <thead class="categories_head">
+        <tr>
+            <td>Job Title</td>
+            <td>
+                Company
+            </td>
+            <td>Posted User</td>
+            <td>Submission Date</td>
+            <td>Status</td>'
+            <td>Edit</td>'
+            <td>Enable/Disable</td>
+            <td>Delete</td>
+{#            <td>Add Skill</td>#}
+            <td>Details</td>
+
+        </tr>
+        </thead>
+        <tbody class="categories_table">
+        {% csrf_token %}
+
+        {% for job in jobs%}
+
+            <tr>
+                <td>
+                    {{job.job_title}}
+                </td>
+                <td>{{ job.company}}</td>
+                <td>{{ job.company_user }}</td>
+                <td>{{ job.submission_date }}</td>
+                <td>
+                     {% if job.job_approval_status == 1 %}
+                        <span class="approved_is">Active</span>
+                        {% else %}
+                         <span class="not_approved">Inactive</span>
+                     {% endif %}
+                </td>
+                <td>
+                    <a class="edit_advertisement__btn" data-target="#editAdvertisement" data-toggle="modal" href="javascript:;" value="{{job.id}}">Edit</a>
+                </td>
+
+                {% if job.job_approval_status == 0 %}
+                <td>
+                    <a class="enable_job_advertisement" href="javascript:;" value="{{job.id}}">Approve</a>
+                </td>
+                {% else %}
+                <td>
+                    <a class="disable_job_advertisement" href="javascript:;" value="{{job.id}}">Pending</a>
+                </td>
+                {% endif %}
+
+                <td>
+                    <a class="reject_job_advertisement" href="javascript:;" value="{{job.id}}">Reject</a>
+                </td>
+{#                <td>#}
+{#                    <a class="add_category_skill" data-toggle="modal" data-target="#myModal" href="javascript:;" value="{{catvalue.id}}">Add Skill</a>#}
+{#                </td>#}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+    <!--{% if count_category %}-->
+        <!--this is aesome-->
+    <!--{% endif %}-->
+</div>
+  </div>
+    </div>
+
+
+{% endblock %}
+
+
+</body>
+</html>

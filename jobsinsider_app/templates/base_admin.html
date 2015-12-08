@@ -1,5 +1,4 @@
 {% load staticfiles %}
-{% load bootstrap3 %}
 <!DOCTYPE html>
 <html>
 <head lang="en">
@@ -10,7 +9,7 @@
         <link rel="stylesheet" href="{% static "/assets/css/admin2.css" %}"/>
         <link rel="stylesheet" href="{% static "/assets/css/table.css" %}"/>
         <link rel="stylesheet" href="{% static "/assets/css/evaluation.css" %}"/>
-    {% bootstrap_css %}
+        <link rel="stylesheet"  href="{% static "/assets/css/plugins/bootstrap/bootstrap.min.css" %}"/>
     {% endblock %}
 
 </head>
@@ -89,7 +88,7 @@
                 </div>
             </li>
 
-            <li><a href="#"><span class="glyphicon glyphicon-signal"></span> Advertisements</a></li>
+            <li><a href="{% url 'list_all_advertisement' %}"><span class="glyphicon glyphicon-signal"></span> Advertisements</a></li>
 
               <li class="panel panel-default" id="dropdown">
                 <a data-toggle="collapse" href="#dropdown-lvl2">
@@ -126,11 +125,10 @@
 
 
 
- <div class="container-fluid">
+ <div class="">
         <div class="side-body">
 
 
-           <h1> Admin DashBoard </h1>
            <pre> Nofication Messages here </pre>
              {% block body_content %}
 
@@ -153,13 +151,19 @@
 
 {% block scripts_block %}
     <script src='{% static "/assets/js/jquery-1.11.3.min.js" %}'></script>
+    <script src="/assets/js/plugins/tinymce/tinymce.min.js"></script>
     <script src='{% static "/assets/js/main.js" %}'></script>
     <script src='{% static "/assets/js/core.js" %}'></script>
     <script src='{% static "/assets/js/adminmain.js" %}'></script>
     <script src='{% static "/assets/js/ajaxfile.js" %}'></script>
     <script src='{% static "/assets/js/evaluation_admin.js" %}'></script>
     <script src='{% static "/assets/js/evaluation_question_edit_admin.js" %}'></script>
-    {% bootstrap_javascript %}
+    <script src='{% static "/assets/js/plugins/bootstrap/bootstrap.min.js" %}'></script>
+{#    <script src="/assets/js/plugins/chosen/chosen.jquery.js"></script>#}
+
+{% endblock %}
+{% block custom_scripts %}
+
 {% endblock %}
 
 </body>

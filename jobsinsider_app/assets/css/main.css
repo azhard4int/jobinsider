@@ -1286,3 +1286,28 @@ div.remove_favorite_btn a:hover {
   font-size: 16px;
   color: #580000;
 }
+.not_approved {
+  padding: 6px 10px;
+  background: #580000;
+  border-radius: 4px;
+  color: #fff;
+}
+.approved_is {
+  border-radius: 4px;
+  padding: 6px 10px;
+  background: #54a129;
+  color: #fff;
+}
+.categories_table tr {
+  padding: 10px 0;
+}
+.categories_table tr td {
+  padding: 10px 0;
+}
+.categories_head {
+  background: #d9d9d9;
+  font-weight: bold;
+}
+.categories_head td {
+  padding: 5px 0;
+}
