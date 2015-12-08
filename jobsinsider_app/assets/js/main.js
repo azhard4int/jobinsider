@@ -1232,3 +1232,36 @@ $('.alert_user_job').on('click', function(e)
     );
     return false;
 });
+
+//evaluation test for job
+
+$('.apply_with_evaluation').on('click', function(e)
+{
+    e.preventDefault();
+    var evaluation_test_id  = $(this).data('evaluation-id');
+    $.ajax(
+        {
+            url: '/evaluation/get-evaluation-test-questions/',
+            type: 'GET',
+            data:{
+                'id':evaluation_test_id,
+                "csrfmiddlewaretoken": document.getElementsByName('csrfmiddlewaretoken')[0].value
+            },
+            success:function(response)
+            {
+              var data = jQuery.parseJSON(response);
+                if(data.length==undefined){
+
+                    alert("You have not add any questions to template");
+                     $('#previewtest').modal('hide');
+                }
+                question(data);
+            },
+            error: function(response) {
+             //console.log(response);
+            }
+        }
+    );
+
+    return false;
+})

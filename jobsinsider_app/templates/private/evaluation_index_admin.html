@@ -28,6 +28,7 @@
                 <th>Catagory</th>
                 <th>Status</th>
                 <th>Type</th>
+                <th>Time</th>
                 <th>Questions</th>
 
             </tr>
@@ -50,6 +51,7 @@
                     {% if o.evaluation_type == 1 %}
                      <td>True/False</td>
                     {% endif %}
+                    <td>{{  o.evaluation_time}} min</td>
 
                        <td>{{  o.evaluation_total_questions}}</td>
 

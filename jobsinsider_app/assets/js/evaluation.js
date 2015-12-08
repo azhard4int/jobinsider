@@ -427,11 +427,12 @@ $('#next_button').on('click', function(event)
 
                     $("button").remove("#next_button");
                     $("label").remove("#remove_label");
-                $('#headingtest').text("Test is Finished and You got "+data.final_marks+" out of "+data.questions);
-
-
-
-
+                    $('#headingtest').text("Test is Finished and You got "+data.final_marks+" out of "+data.questions);
+                    setTimeout(
+                      function()
+                      {
+                          evaluation_apply_job(data.final_marks);
+                      }, 3000);
                 }
                 if(data.status =="Test is incomplete"){
                   $('#headingtest').text("Test is incomplete");
@@ -471,9 +472,6 @@ function question(data){
             $("#current_question_id").first().after(newradio);
          w++;
         }
-
-
     }
-
 }
 

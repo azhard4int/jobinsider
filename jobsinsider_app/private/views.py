@@ -232,6 +232,7 @@ def logout_view(request):
     return HttpResponseRedirect('http://127.0.0.1:8000/accounts/login/')
 
 from itertools import chain
+
 @login_required()
 def users_view(request):
 
@@ -240,11 +241,8 @@ def users_view(request):
     # table = User.objects.filter(id=table2)
     # print table
     query = "SELECT * From auth_user JOIN accounts_userprofile on auth_user.id=accounts_userprofile.user_id"
-    table =  User.objects.raw(query)
-
-
-    paginator = Paginator((list(table)), 25) # Show 25 contacts per page
-
+    table = User.objects.raw(query)
+    paginator = Paginator((list(table)), 2) # Show 25 contacts per page
     page = request.GET.get('page')
     try:
         table = paginator.page(page)
@@ -254,10 +252,7 @@ def users_view(request):
     except EmptyPage:
         # If page is out of range (e.g. 9999), deliver last page of results.
         table = paginator.page(paginator.num_pages)
-
     # return render_to_response('list.html', {"contacts": contacts})
-
-
     return render(request, 'users_view.html',{'table':table})
 
 
@@ -268,7 +263,7 @@ class User_View(View):
         table =  User.objects.raw(query)
 
 
-        paginator = Paginator((list(table)), 25) # Show 25 contacts per page
+        paginator = Paginator((list(table)), 2) # Show 25 contacts per page
 
         page = request.GET.get('page')
         try:
@@ -332,7 +327,6 @@ def user_update(request):
     else:
         return HttpResponse(json.dumps({'status': 'False'}))
 
-
 @login_required()
 def user_add(request):
     if request.method=='POST':
@@ -379,8 +373,6 @@ def user_delete(request):
     else:
         return HttpResponse(json.dumps({'status': 'False'}))
 
-
-
 @login_required()
 def user_search(request):
     value = request.POST['value']
@@ -390,8 +382,8 @@ def user_search(request):
               wholedata = serializers.serialize('json', firstname)
               if firstname:
                  return HttpResponse(json.dumps({'user_info': wholedata}))
-            except Exception as hello:
-                     print hello
+            except Exception as e:
+                     print e
 
             try:
               user123=User.objects.filter(username=value)
@@ -400,6 +392,9 @@ def user_search(request):
                  return HttpResponse(json.dumps({'user_info': wholedata}))
             except Exception as e:
                  print e
+
+
+
             try:
               email123=User.objects.filter(email=value)
               wholedata = serializers.serialize('json', email123)
@@ -407,6 +402,9 @@ def user_search(request):
                  return HttpResponse(json.dumps({'user_info': wholedata}))
             except Exception as ae:
                print ae
+
+
+
             try:
               lastname=User.objects.filter(last_name=value)
               wholedata = serializers.serialize('json', lastname)
@@ -417,8 +415,6 @@ def user_search(request):
 
 
     return HttpResponse(json.dumps({'status': 'Not Found'}))
-
-
 
 
 @login_required()
@@ -441,11 +437,6 @@ def allusers(request):
                 return HttpResponse(json.dumps({'user_info': wholedata}))
          except Exception as e:
                  print e
-
-
-
-
-
 
 @login_required()
 def activeusers(request):
@@ -496,17 +487,13 @@ def companyfilter(request):
             query = "SELECT * From auth_user JOIN accounts_userprofile on auth_user.id=accounts_userprofile.user_id Where accounts_userprofile.user_status=1 ORDER BY date_joined"
             table =  User.objects.raw(query)
             # data=User.objects.filter(is_active=0).order_by('date_joined')
-            table2 = pagination_table(request.GET.get('page'),table)
+            table2 = pagi(request.GET.get('page'),table)
 
             if table and table2:
                 return render(request, 'users_view.html',{'table':table2})
 
          except Exception as e:
                return HttpResponse(json.dumps({'status': 'False'}))
-
-
-
-
 
 @login_required()
 def job_seekerfilter(request):
@@ -515,7 +502,7 @@ def job_seekerfilter(request):
             query = "SELECT * From auth_user JOIN accounts_userprofile on auth_user.id=accounts_userprofile.user_id Where accounts_userprofile.user_status=0 ORDER BY date_joined"
             table =  User.objects.raw(query)
             # data=User.objects.filter(is_active=0).order_by('date_joined')
-            table2 = pagination_table(request.GET.get('page'),table)
+            table2 = pagi(request.GET.get('page'),table)
 
             if table and table2:
                 return render(request, 'users_view.html',{'table':table2})
@@ -580,9 +567,6 @@ def profile_full(request):
             'address':hell.userlocation.user_address,
             'exp':hell2.company_name,
             'pic':picture
-
-
-
         }
         print wholedata
         if hell and hell2:
@@ -591,8 +575,6 @@ def profile_full(request):
             return HttpResponse(json.dumps({'status': 'False'}))
      except Exception as e:
            return HttpResponse(json.dumps({'status': 'False'}))
-
-
 
 @login_required()
 def skill_add(request):
@@ -746,7 +728,6 @@ def evaluation_index(request):
     except Exception as e:
                return HttpResponse(json.dumps({'status': 'Err'}))
 
-
 def evaluation_default(request):
     try:
        table = evaluation_test_template.objects.filter(user_id=14)
@@ -759,7 +740,6 @@ def evaluation_default(request):
 
     except Exception as e:
                return HttpResponse(json.dumps({'status': 'Err'}))
-
 
 def evaluation_user(request):
     try:
@@ -786,7 +766,6 @@ def evaluation_user_pending(request):
 
     except Exception as e:
                return HttpResponse(json.dumps({'status': 'Err'}))
-
 
 def evaluation_user_approved(request):
     try:
@@ -828,8 +807,8 @@ def edit_evaluation_question(request,id):
 
 
 def addtemplate(request):
-
         try:
+
            query=evaluation_test_template(
                 evaluation_name=request.POST['evaluation_name'],
                 evaluation_description=request.POST['evaluation_description'],
@@ -837,10 +816,10 @@ def addtemplate(request):
                 evaluation_rules=request.POST['evaluation_rules'],
                 evaluation_status=1,
                 evaluation_type=int(request.POST['evaluation_type']),
+                evaluation_time=int(request.POST['evaluation_time']),
                 evaluation_total_questions=int(request.POST['evaluation_questions']),
                 user_id=14
-
-            )
+           )
            query.save()
            obj = evaluation_test_template.objects.latest('id')
 
@@ -878,7 +857,6 @@ def approve_evaulation(request):
             print e
             return HttpResponse(json.dumps({'status': 'Err'}))
 
-
 def reject_evaulation(request):
     try:
         query = evaluation_test_template.objects.filter(id=request.POST['id']).update(evaluation_status=2)
@@ -896,7 +874,6 @@ def reject_evaulation(request):
 
 def edit_user_template_by_admin(request):
          try:
-            
              query = evaluation_test_template.objects.filter(id=request.GET['id'])
              list= {
                  'id':query[0].id,
@@ -905,6 +882,7 @@ def edit_user_template_by_admin(request):
                  'evaluation_rules':query[0].evaluation_rules,
                  'evaluation_catagory':query[0].evaluation_catagory,
                  'evaluation_type':query[0].evaluation_type,
+                 'evaluation_time':query[0].evaluation_time,
                  'evaluation_total_questions':query[0].evaluation_total_questions
 
               }
@@ -912,6 +890,7 @@ def edit_user_template_by_admin(request):
                 return HttpResponse(json.dumps({'status': list}))
              else:
                  return render(request, 'Error')
+
          except Exception as e:
             print e
 

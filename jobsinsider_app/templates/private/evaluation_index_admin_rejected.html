@@ -28,6 +28,7 @@
                 <th>Catagory</th>
                 <th>Status</th>
                 <th>Type</th>
+                <th>Time</th>
                 <th>Questions</th>
 
             </tr>
@@ -43,6 +44,9 @@
                     {% if o.evaluation_status == 1 %}
                      <td>Approved</td>
                     {% endif %}
+                    {% if o.evaluation_status == 2 %}
+                     <td>Rejected</td>
+                    {% endif %}
 
                     {% if o.evaluation_type == 0 %}
                       <td>MCQ</td>
@@ -51,7 +55,8 @@
                      <td>True/False</td>
                     {% endif %}
 
-                       <td>{{  o.evaluation_total_questions}}</td>
+                       <td>{{  o.evaluation_time}} min</td>
+                    <td>{{  o.evaluation_total_questions}}</td>
 
                       <td><div class="dropdown"><button value="{{o.pk}}" id="dropdown" class="btn btn-info dropdown-toggle btn-sm" type="button" data-toggle="dropdown">Edit
                       <span class="caret"></span></button>

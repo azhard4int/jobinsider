@@ -1274,3 +1274,15 @@ div.remove_favorite_btn a:hover {
 .applied_user_gender {
   padding-left: 10px;
 }
+.evaluation_test_score {
+  text-align: center;
+  padding-left: 0;
+  margin-left: 0;
+}
+.et_score_green {
+  color: #245269;
+}
+.et_score_none {
+  font-size: 16px;
+  color: #580000;
+}

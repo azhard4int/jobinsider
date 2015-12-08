@@ -203,10 +203,13 @@ $('.add_button').on('click', function(event)
             count=0;
             numberofquestion=0;
             event.preventDefault();
-            var test_id = $(this).attr('value');
-            console.log(test_id);
-            test_template_id=$(this).val();
+            //test_template_id=$(this).val();
+
             test_id=$(this).closest(".dropdown").find('#dropdown').val();
+            if(test_id==undefined){
+                test_id=$(this).val();
+            }
+
 
             $('#question').val("");
             $('#answer').val("");
@@ -298,15 +301,22 @@ $('.editbutton').on('click', function(event)
                 {
 
                     var data = jQuery.parseJSON(response);
-                    console.log(data);
+
                     $("#edit_eva_title").val(data.status.evaluation_name);
                     $("#edit_eva_description").val(data.status.evaluation_description);
                     $("#edit_eva_rules").val(data.status.evaluation_rules);
                     $("#edit_eva_cat").val(data.status.evaluation_catagory);
                     if (data.status.evaluation_type == 0) {
-
                        $("#edit_eva_type").val(0);
                    } else eva_type = $("#edit_eva_type").val(1);
+
+
+
+
+                    if(data.status.evaluation_time != 0){
+                        $("#edit_eva_time").val(data.status.evaluation_time);
+                    }
+
                     $("#edit_eva_number").val(data.status.evaluation_total_questions);
                     $("#evaluation_test_template_id").val(data.status.id);
                 },
@@ -342,6 +352,15 @@ $('#updatebutton').on('click', function(event)
 $('.delete').on('click', function(event)
      {
         test_template_id=$(this).closest(".dropdown").find('#dropdown').val();
+
+
+         if(test_template_id==undefined){
+
+             test_template_id=$(this).val();
+
+         }
+
+
         $(this).closest('tr').remove().delay(2000).fadeOut();
         event.preventDefault();
         $.ajax(
@@ -371,8 +390,12 @@ $('.delete').on('click', function(event)
 
 $('.previewtest').on('click', function(event)
      {
+
+
+
          event.preventDefault();
          get_id=$(this).attr('value');
+
          $("div").remove("#removeoptions");
          $("#next_button").show();
          $("#remove_label").show();
@@ -394,11 +417,18 @@ $('.previewtest').on('click', function(event)
 
                 if(data.length==undefined){
 
-                    alert("You have not add any questions to template");
+                     alert("You have not add any questions to template");
                      $('#previewtest').modal('hide');
                 }
+                 if(data.time) {
+                         var fiveMinutes = 60 * data.time,
 
-                 question(data);
+                         display = document.querySelector('#time');
+                         startTimer(fiveMinutes, display);
+
+                         question(data);
+                 }
+
             },
             error: function(response) {
              //console.log(response);
@@ -411,6 +441,52 @@ $('.previewtest').on('click', function(event)
 
 }
 });
+
+
+var helo;
+
+function startTimer(duration, display) {
+    var timer = duration, minutes, seconds;
+    helo=setInterval(function () {
+        minutes = parseInt(timer / 60, 10)
+        seconds = parseInt(timer % 60, 10);
+
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        if(timer>=0) {
+            display.textContent = minutes + ":" + seconds;
+            //$("#time").append(minutes + ":" + seconds);
+        }
+        if (--timer < 0) {
+            //display.stop();
+            //$('#time').hide();
+            $('#time').stop();
+
+            $("#next_button").hide();
+            $("#remove_label").hide();
+            $("div").remove("#removeoptions");
+
+            $('#headingtest').text("Time is up");
+            clearTimeout(helo);
+            //rite uqery to change test
+            //$('#previewtest').modal('hide');
+
+
+        }
+    }, 1000);
+}
+
+
+
+
+
+
+
+
+
+
+
 
 
 $('#next_button').on('click', function(event)
@@ -429,17 +505,16 @@ $('#next_button').on('click', function(event)
             success:function(response)
             {
              var data = jQuery.parseJSON(response);
-                console.log(data);
-                if(data.status =="Test is Finished"){
 
+                if(data.status =="Test is Finished"){
 
                     //$("button").remove("#next_button");
                     //$("label").remove("#remove_label");
                     $("#next_button").hide();
                     $("#remove_label").hide();
                     $('#headingtest').text("Test is Finished and You got "+data.final_marks+" out of "+data.questions);
-
-
+                    clearTimeout(helo);
+                    //$('#time').hide();
 
 
                 }
@@ -458,15 +533,17 @@ $('#next_button').on('click', function(event)
 
 
 
-$('#close_button').on('click', function(event) {
-    //location.reload();
-//$("button").remove("#next_button");
-//    $("label").remove("#remove_label");
+$('#close_button123').on('click', function(event) {
+    clearTimeout(helo);
+
 });
 
 
 
+$('.close').on('click', function(event) {
+    clearTimeout(helo);
 
+});
 
 
 

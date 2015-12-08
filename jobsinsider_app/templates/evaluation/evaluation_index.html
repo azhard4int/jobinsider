@@ -19,19 +19,19 @@
     <section id="company">
         <div class="container">
             <div class="col-md-12">
-                <div class="col-md-2">
+                <div class="col-md-4">
 
                     <h3>
-                        Evaluation
+                        Evaluation Tests
                     </h3>
 
                 </div>
-                <div class="col-md-10">
+                <div class="col-md-8">
                     <div class="cp_nav">
                         <ul>
                             <li><a href="{% url 'job_advertisement' %}">Create Advertisement</a></li>
-                            <li><a href="{% url 'test_template' %}">Evaluation Test</a></li>
                             <li><a href="{% url 'posted_jobs' %}">Posted Jobs</a></li>
+                            <li><a href="">Shortlisted People</a></li>
                             <li><a href="{% url 'favorite' %}">Favorite CV</a></li>
                         </ul>
                     </div>
@@ -44,7 +44,7 @@
         {% for evaluate in evaluation %}
 
              <div class="col-md-3 col-lg-3" id="evaluation_test_box_{{ evaluate.pk }}">
-                    <div class="evaluation_test_box" ">
+                    <div class="evaluation_test_box">
                         <h4>
                             {{ evaluate.evaluation_name }}
                             {% if evaluate.evaluation_status == 0 %}
@@ -85,7 +85,7 @@
                                                 <a class="editbutton" data-target="#editmodal" data-toggle="modal" href="#editmodal">Edit Template</a>
                                               </li>
                                               <li>
-                                                <a href="/evaluation/testing/sample/{{ evaluate.pk }}">Edit Questions</a>
+                                                <a href="testing/sample/{{ evaluate.pk }}">Edit Questions</a>
                                               </li>
                                               <li>
                                                 <a href="javascript:;" value="{{evaluate.pk}}"  class="add_button" data-toggle="modal" data-target="#question_modal" >
@@ -133,5 +133,4 @@
 {% endblock %}
 
 {% block custom_scripts %}
- <script src='/assets/js/evaluation.js'></script>
 {% endblock %}

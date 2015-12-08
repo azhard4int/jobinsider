@@ -1,0 +1,43 @@
+{% extends "base_admin.html" %}
+<title>{% block title %}Admin Dashboard{% endblock %}</title>
+
+{% block body_content %}
+<div class="wrapper">
+
+          <button type="submit" class = "btn btn-info" id="examplebutton" value="hello_omer_123" name="testing" onclick="window.location.href='{{ base_url}}/private/members/evaluation/'">
+              Back
+</button>
+</div>
+
+<div class="wrapper1">
+    <div class="table-responsive" id="question_table">
+<table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Question</th>
+                <th>Correct Answer</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                {% for o in query %}
+                <td>{{ o.evaluation_question }}</td>
+                <td>{{ o.evaluation_question_answer }}</td>
+{#                    <td><button value="{{o.pk}}"  class="editbutton" class="btn btn-info btn-sm" data-toggle="modal" data-target="#editmodal" type="button">Edit</button></td>#}
+{#                    <td><button value="{{o.id}}"  class="add_button btn btn-info" data-toggle="modal" data-target="#question_modal" type="button">Add Questions</button></td>#}
+                    <td><button value="{{o.id}}"  class="editquestion btn btn-info"  data-toggle="modal" data-target="#neweditmodal" type="button">Edit</button></td>
+                    <td><button value= "{{o.id}}"  type="button" class="delete btn btn-info" >Delete</button></td>
+
+
+            </tr>
+{% endfor %}
+        </tbody>
+    </table>
+
+</div>
+
+</div>
+
+
+{% endblock %}

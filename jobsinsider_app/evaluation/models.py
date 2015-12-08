@@ -9,6 +9,7 @@ class evaluation_test_template(models.Model):
     evaluation_catagory = models.CharField(blank=True, max_length=255)
     evaluation_rules = models.CharField(blank=True, max_length=255)
     evaluation_status = models.IntegerField(default=0,blank=True)#Test status 0 appending and 1 approved
+    evaluation_time = models.IntegerField(default=20,blank=True)
     evaluation_type = models.BooleanField(default=0,blank=True)# 0 for True/False and 1 is for MCQ
     evaluation_total_questions = models.IntegerField(default=0)
     user = models.ForeignKey(User)

@@ -574,6 +574,8 @@ class AppliedCandidates(View):
             group by user_gender
             """.format(job_id)
         )
+
+        is_evaluation_test = Advertisement.admanager.filter(id=job_id)[0].is_evaluation_test
         list_total = int(len(list(data)))
         return render(request, 'applied_candidates.html', {
             'data': data,
@@ -584,7 +586,8 @@ class AppliedCandidates(View):
             'applied_country_user': applied_country_users,
             'applied_cities_user': applied_cities_users,
             'applied_gender_user': applied_gender_users,
-            'user_is_company': True
+            'user_is_company': True,
+            'is_evaluation_test': is_evaluation_test
         })
 
 
@@ -594,7 +597,9 @@ def applied_country(request):
         html = render_to_string('applied_candidate_dynamic.html', {
             'data': applied.candidates_list(),
             'education': applied.candidates_education(),
-            'employment': applied.candidates_employment()
+            'employment': applied.candidates_employment(),
+            'is_evaluation_test': Advertisement.admanager.filter(id=request.POST['job_id'])[0].is_evaluation_test
+
         }, context_instance=RequestContext(request))
         return HttpResponse(html)
 
@@ -605,7 +610,8 @@ def applied_city(request):
         html = render_to_string('applied_candidate_dynamic.html', {
             'data': applied.candidates_list(),
             'education': applied.candidates_education(),
-            'employment': applied.candidates_employment()
+            'employment': applied.candidates_employment(),
+            'is_evaluation_test': Advertisement.admanager.filter(id=request.POST['job_id'])[0].is_evaluation_test
         }, context_instance=RequestContext(request))
         return HttpResponse(html)
 
@@ -615,7 +621,8 @@ def applied_gender(request):
         html = render_to_string('applied_candidate_dynamic.html', {
             'data': applied.candidates_list(),
             'education': applied.candidates_education(),
-            'employment': applied.candidates_employment()
+            'employment': applied.candidates_employment(),
+            'is_evaluation_test': Advertisement.admanager.filter(id=request.POST['job_id'])[0].is_evaluation_test
         }, context_instance=RequestContext(request))
         return HttpResponse(html)
 

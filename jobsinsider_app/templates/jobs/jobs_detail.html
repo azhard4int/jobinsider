@@ -4,10 +4,10 @@
             {% block authenticate_user %} {{ user.first_name|slice:":1" }}{{ user.last_name|slice:":1" }}{%  endblock %}
         {% endif %}
 {% block body_content %}
+    {% include 'evaluation_testmodal.html' %}
     <div class="notify_message">
         <h4>
             <span>
-
             </span>
         </h4>
     </div>
@@ -39,6 +39,7 @@
                         {% csrf_token %}
             <div class="col-md-12 col-lg-12 detail_description_head">
                 <div class="col-md-8">
+                    <input type="hidden" name="evaluation_apply_job_e" class="evaluation_apply_job_e" value="{{ job.id }}">
                     <h3>
                         {{ job.job_title }}
                     </h3>
@@ -61,7 +62,11 @@
                     {% if user_status %}
                         {% if not is_applied %}
                             {% if not is_company %}
-                                <a href="javascript:;" value="{{ job.id }}" class="job_apply_btn apply_job">Apply Job</a>
+                                {% if job.is_evaluation_test %}
+                                    <a href="javascript:;" data-evaluation-id="{{ job.evaluation_test_id }}" value="{{ job.id }}" class="job_apply_btn apply_with_evaluation">Apply Job</a>
+                                    {% else %}
+                                    <a href="javascript:;" value="{{ job.id }}" class="job_apply_btn apply_job">Apply Job</a>
+                                {% endif %}
                             {% endif %}
                         {% else %}
                             <a href="javascript:;" class="job_apply_btn">Applied</a>
@@ -111,7 +116,12 @@
                     {% if user_status %}
                         {% if not is_applied %}
                             {% if not is_company %}
-                                <a href="javascript:;" value="{{ job.id }}" class="job_apply_btn apply_job">Apply Job</a>
+                                {% if job.is_evaluation_test %}
+                                    <a href="javascript:;" data-evaluation-id="{{ job.evaluation_test_id }}" value="{{ job.id }}" class="job_apply_btn apply_job">Apply Job</a>
+                                {% else %}
+                                    <a href="javascript:;" value="{{ job.id }}" class="job_apply_btn apply_job">Apply Job</a>
+                                {% endif %}
+
                             {% endif %}
                         {% else %}
                             <a href="javascript:;" class="job_apply_btn">Applied</a>

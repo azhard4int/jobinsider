@@ -202,11 +202,16 @@ class Job_Details(View):
     def post(self, request, job_id):
         """
         """
+        evaluation_score = None
+        try:
+            evaluation_score = request.POST['evaluation_score']
+        except Exception as e:
+            pass
         company_models.AdvertisementApplied(
             user_id = request.user.id,
             advertisement_id = job_id,
-            applied_date = datetime.now()
-
+            applied_date = datetime.now(),
+            evaluation_test_score = (evaluation_score)
         ).save()
         # increment the value of the job advertisement
         total_count = company_models.Advertisement.admanager.applied_user(job_id)

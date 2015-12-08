@@ -1337,9 +1337,41 @@ $('.apply_job').on('click', function(event)
 
             }
         }
-    )
+    );
     return false;
 });
+
+//
+function evaluation_apply_job(evaluation_result)
+{
+    var csrfmdi = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+    var id_value = $('.evaluation_apply_job_e').attr('value');
+    $.ajax(
+        {
+            url:'/jobs/detail/' + id_value + "/",
+            type:'POST',
+            data:{
+                'csrfmiddlewaretoken': csrfmdi,
+                'evaluation_score':evaluation_result
+            },
+            success:function(data)
+            {
+                resp = JSON.parse(data);
+                console.log(resp);
+                if(resp.status==true)
+                {
+                    message_display(resp.response, 1)
+                }
+            },
+            error:function(data)
+            {
+
+            }
+        }
+    );
+    return false;
+};
+
 
 
 $('.add_favorite').on('click', function(event)

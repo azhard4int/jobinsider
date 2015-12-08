@@ -25,17 +25,14 @@ import simplejson as json
 import addons
 
 @login_required()
-@is_company
 def evaluation(request):
     return HttpResponseRedirect('/evaluation/')
 
 # def toevaluation(request):
 #     return HttpResponseRedirect('/get-evaluation-test-questions/')
 
-
 class EvaluationTestTemplate(View):
     @method_decorator(login_required)
-    @method_decorator(is_company)
     def get(self, request):
          query = models.evaluation_test_template.objects.filter(user_id=request.user.id)
          if query:
@@ -45,7 +42,7 @@ class EvaluationTestTemplate(View):
 
 
 
-    @method_decorator(is_company)
+
     def post(self, request):
 
         print request.POST
@@ -58,6 +55,7 @@ class EvaluationTestTemplate(View):
                 evaluation_rules=request.POST['evaluation_rules'],
                 evaluation_status=0,
                 evaluation_type=int(request.POST['evaluation_type']),
+                evaluation_time=int(request.POST['evaluation_time']),
                 evaluation_total_questions=int(request.POST['evaluation_questions']),
                 user_id=request.user.id
 
@@ -86,7 +84,6 @@ class EvaluationTestTemplate(View):
 
 
 class AddQuestions(View):
-      @method_decorator(is_company)
       def get(self, request):
         try:
             numberq = models.evaluation_test_template.objects.filter(id=request.GET['test_template_id'])
@@ -106,7 +103,9 @@ class AddQuestions(View):
             print e
             return HttpResponse(json.dumps({'status': 'Err'}))
 
-      @method_decorator(is_company)
+
+
+
       def post(self, request):
         try:
             numberq = models.evaluation_test_template.objects.filter(id=request.POST['id_evaluation'])
@@ -200,7 +199,7 @@ class AddQuestions(View):
 
 class Evaluation_Edit_Test(View):
 
-    @method_decorator(is_company)
+
     def get(self, request):
          try:
 
@@ -212,9 +211,11 @@ class Evaluation_Edit_Test(View):
                  'evaluation_rules':query[0].evaluation_rules,
                  'evaluation_catagory':query[0].evaluation_catagory,
                  'evaluation_type':query[0].evaluation_type,
+                 'evaluation_time':query[0].evaluation_time,
                  'evaluation_total_questions':query[0].evaluation_total_questions
 
               }
+             print query
              if query:
                 return HttpResponse(json.dumps({'status': list}))
              else:
@@ -226,16 +227,18 @@ class Evaluation_Edit_Test(View):
          return HttpResponse(json.dumps({'status': 'Err'}))
 
 
-    @method_decorator(is_company)
+
     def post(self, request):
         try:
-            query = models.evaluation_test_template.objects.filter(id=request.POST['evaluation_test_template_id'],user_id=request.user.id).update(
+            query = models.evaluation_test_template.objects.filter(id=request.POST['evaluation_test_template_id']).update(
             evaluation_name=request.POST['edit_eva_title'],
             evaluation_description=request.POST['edit_eva_description'],
             evaluation_catagory=request.POST['edit_eva_cat'],
             evaluation_rules=request.POST['edit_eva_rules'],
             evaluation_type=int(request.POST['edit_eva_type']),
+            evaluation_time=int(request.POST['edit_eva_time']),
             evaluation_total_questions=int(request.POST['edit_eva_number'])
+
 
             )
             if query:
@@ -250,7 +253,7 @@ class Evaluation_Edit_Test(View):
 
 class Evaluation_Delete_Test(View):
 
-    @method_decorator(is_company)
+
     def post(self, request):
          try:
             query = models.evaluation_test_template.objects.filter(id=request.POST['id'],user_id=request.user.id).delete()
@@ -277,6 +280,7 @@ class Get_Evaluation_Test_Questions(View):
 
             query=models.evaluation_test_questions.objects.filter(evaluation_test_template_id=request.GET['id'])
             query2 = models.evaluation_test_answer.objects.filter(evaluation_test_questions_id=query[0].id,evaluation_test_template_id=request.GET['id'])
+            query3 = models.evaluation_test_template.objects.filter(id=request.GET['id'])
 
             global first_question
             first_question= query[0].id
@@ -289,48 +293,37 @@ class Get_Evaluation_Test_Questions(View):
                                                  'question_id':query[0].id,
                                                  'question': query[0].evaluation_question,
                                                  'length':length,
-                                                 'options':newquery}))
+                                                 'options':newquery,
+                                                  'time':query3[0].evaluation_time}))
             else:
                  return HttpResponse(json.dumps({'status': 'Error'}))
 
          except Exception as e:
             return HttpResponse(json.dumps({'status': 'Error'}))
 
-
-
-
-
-
-
     def post(self, request):
+
           try:
               # here calling the result function and passing the answer,question_id and evaluation test id
               cal_reult=result(request.POST['current_answer'],request.POST['test_id'],request.POST['current_question_id'])
-              print request.POST['current_answer']
-
-
-
               # to get the next question from the database
               next_question_id = get_next(request.POST['current_question_id'],request.POST['test_id'])
-
               # this if condidtion is to stop the test from repeat
-              if first_question != next_question_id:
-                  if next_question_id==0 or next_question_id== None:
+              # if first_question != next_question_id:
+              if next_question_id== 0:
                         count = models.evaluation_test_questions.objects.filter(
                             evaluation_test_template_id=request.POST['test_id']
                         ).count()
-                        return HttpResponse(json.dumps({'status': 'Test is Finished','questions':count,'final_marks':cal_reult}))
-
-
-
-                  query=models.evaluation_test_questions.objects.filter(id=next_question_id,evaluation_test_template_id=request.POST['test_id'])
-                  query2 = models.evaluation_test_answer.objects.filter(evaluation_test_questions_id=query[0].id,evaluation_test_template_id=request.POST['test_id'])
-                  newquery=serializers.serialize('json', query2)
-                  length=len(query2)
-
-
-
-                  if query and query2:
+                        # print cal_reult
+                        # print count
+                        final_percentage = float((float(cal_reult)/float(count))*100)
+                        #'questions': count
+                        return HttpResponse(json.dumps({'status': 'Test is Finished', 'questions':100,'final_marks':final_percentage }))
+              query=models.evaluation_test_questions.objects.filter(id=next_question_id,evaluation_test_template_id=request.POST['test_id'])
+              query2 = models.evaluation_test_answer.objects.filter(evaluation_test_questions_id=query[0].id,evaluation_test_template_id=request.POST['test_id'])
+              newquery=serializers.serialize('json', query2)
+              length=len(query2)
+              if query and query2:
                        return HttpResponse(json.dumps({'test_id':request.POST['test_id'],
                                                  'question_id':query[0].id,
                                                  'question': query[0].evaluation_question,
@@ -340,14 +333,18 @@ class Get_Evaluation_Test_Questions(View):
                    return HttpResponse(json.dumps({'status': 'Test is Finished'}))
 
           except Exception as e:
-            return HttpResponse(json.dumps({'status': 'Err'}))
+                         return HttpResponse(json.dumps({'status': 'Err'}))
 
 # Global functions
 # this is for getting the next question id
 def get_next(curr_id,test_id):
     try:
         ret = models.evaluation_test_questions.objects.filter(id__gt=curr_id,evaluation_test_template_id=test_id).order_by("id")[0:1].get().id
-    except ret.DoesNotExist:
+        if not ret:
+            ret=0
+            return ret
+
+    except Exception as e:
         # ret = evaluation_test_questions.objects.aggregate(Min("id"))['id__min']
         ret = 0
     return ret
@@ -355,6 +352,7 @@ def get_next(curr_id,test_id):
 
 # this is for callculating result
 def result(user_answer,test_id,question_id):
+
     try:
         answer = query=models.evaluation_test_questions.objects.filter(id=int(question_id),evaluation_test_template_id=int(test_id))
         if user_answer == answer[0].evaluation_question_answer:

@@ -51,6 +51,26 @@
                                 {% else %}
                                     <a href="javascript:;" value="{{ details.user_id }}" class="job_apply_btn shorlist__candidate__remove">Remove Candidate Shortlist</a>
                                 {% endif %}
+                                 {% if is_evaluation_test %}
+                                    <h3 class="evaluation_test_score">
+                                    {% if details.evaluation_test_score %}
+                                        <span class="et_score_green">{{ details.evaluation_test_score|floatformat:"2"  }} % Correct</span>
+                                    {% else %}
+                                        <span class="et_score_none">No Test Given</span>
+                                    {% endif %}
+    {#                                {% if details.evaluation_test_score|floatformat:"0" <= 30 %}#}
+    {#                                    <span style="color:#c80000;">{{ details.evaluation_test_score|floatformat:"0" }}</span>#}
+    {#                                {% elif details.evaluation_test_score|floatformat:"0" > 40 and details.evaluation_test_score < 50 %}#}
+    {#                                    <span style="color:#eebe3e;">{{ details.evaluation_test_score|floatformat:"0" }}</span>#}
+    {#                                {% elif details.evaluation_test_score|floatformat:"0" > 51 and details.evaluation_test_score < 70 %}#}
+    {#                                    <span style="color:#d5ff3a;">{{ details.evaluation_test_score|floatformat:"0" }}</span>#}
+    {#                                {% elif details.evaluation_test_score|floatformat:"0" > 71 and details.evaluation_test_score < 80 %}#}
+    {#                                    <span style="color:#c8ff28;">{{ details.evaluation_test_score|floatformat:"0" }}</span>#}
+    {#                                {% elif details.evaluation_test_score|floatformat:"0" > 81 and details.evaluation_test_score < 100 %}#}
+    {#                                    <span style="color:#26e500;">{{ details.evaluation_test_score|floatformat:"0" }}</span>#}
+    {#                                {% endif %}#}
+                                    </h3>
+                                {% endif %}
                             </div>
                             <div class="clearfix"></div>
                         </div>
