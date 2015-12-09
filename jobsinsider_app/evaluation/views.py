@@ -45,7 +45,7 @@ class EvaluationTestTemplate(View):
 
     def post(self, request):
 
-        print request.POST
+
 
         try:
            query=models.evaluation_test_template(
@@ -69,6 +69,7 @@ class EvaluationTestTemplate(View):
                'evaluation_catagory':request.POST['evaluation_catagory'],
                'evaluation_status':0,
                'evaluation_type':(request.POST['evaluation_type']),
+               'evaluation_time':(request.POST['evaluation_time']),
                'evaluation_total_questions':(request.POST['evaluation_questions'])
            }
 

@@ -1,4 +1,5 @@
 //for adding the evaluation test template to the database.
+var baseUrl = document.location.origin;
 $('#add_evaluation').on('submit', function(event)
        {
         $(".eva_heading_status").text("").show();
@@ -24,10 +25,49 @@ $('#add_evaluation').on('submit', function(event)
                var eva_status;
                if (data.status.evaluation_status == 0) {
 
-                   eva_status = "Not Approved";
+                   eva_status = "Pending";
                } else eva_status = "Approved";
 
-
+                 main_box_eva='<div class="col-md-3 col-lg-3" id="evaluation_test_box_'+data.status.evaluation_id+'">'+
+                     '<div class="evaluation_test_box">'+
+                     '<h4> '+data.status.evaluation_name+''+
+                     '<span class="is_pending">'+eva_status+'</span>'+
+                     '</h4>'+
+                     '<div class="clearfix"></div>'+
+                     '<p>Category:'+data.status.evaluation_catagory+''+
+                     '<br>'+ 'Type: '+eva_type+''+
+                     '<br>'+'Total Questions: '+data.status.evaluation_total_questions+''+
+                     '<br>'+'Time:'+data.status.evaluation_time+''+
+                     '</p>'+
+                     '<div class="evaluation_actions">'+
+                     '<div class="col-md-4">'+
+                     '<div class="dropdown">'+
+                     '<button value="' + data.status.evaluation_id + '" id="dropdown" class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown">Edit'+
+                     '<span class="caret"></span></button>'+
+                     '<ul class="dropdown-menu">'+
+                     '<li>'+
+                     '<a class="editbutton" data-target="#editmodal" data-toggle="modal" href="#editmodal">Edit Template'+
+                     '</li>'+
+                     '<li>'+
+                     '<a href="'+baseUrl+'/evaluation/edit/question-page/' + data.status.evaluation_id + '">Edit Questions'+'</a>'+
+                     '</li>'+
+                      '<li>'+
+                     '<a href="javascript:;" value="' + data.status.evaluation_id + '"  class="add_button" data-toggle="modal" data-target="#question_modal" >Add Questions'+
+                     '</a>'+
+                     '</li>'+
+                     '<li>'+
+                     '<a href="javascript:;" value="' + data.status.evaluation_id + '"  class="previewtest"  data-toggle="modal" data-target="" >Preview'+
+                     '</a>'+
+                     '</li>'+
+                     '</ul>'+
+                     '</div>'+
+                     '</div>'+
+                     '<div class="col-md-4">'+
+                     '<button value= "' + data.status.evaluation_id + '"  type="button" class="delete btn btn-info" >Delete</button>'+
+                     '</div>'+
+                     '</div>'+
+                     '</div>';
+                    $( ".insert_here" ).before(main_box_eva);
 
 
 
@@ -47,7 +87,7 @@ $('#add_evaluation').on('submit', function(event)
                preview_button = '<td><button value= "' + data.status.evaluation_id + '" type="button" class="delete btn btn-info" >Preview</button></td>';
                delete_button = '<td><button value= "' + data.status.evaluation_id + '" type="button" class="delete btn btn-info" >Delete</button></td>';
                newline = '<tr><td> ' + data.status.evaluation_name + '</td> <td> ' + data.status.evaluation_catagory + '</td> <td> ' + eva_status + '</td> <td> ' + eva_type + '</td> <td> ' + data.status.evaluation_total_questions + edit_button + ' ' + profile_button + ' ' + preview_button +' '+ delete_button + '</tr>';
-               $(newline).appendTo('.table > tbody:last').fadeIn('slow');
+
 
                 $('#eva_title').val("");
                 $('#eva_description').val("");
@@ -278,7 +318,8 @@ $('#question_modal').ready(function(){
   });
 //this is for edit button
 
-$('.editbutton').on('click', function(event)
+//$('.editbutton').on('click', function(event)
+$(document).on('click', '.editbutton', function ()
      {
         test_template_id=$(this).closest(".evaluation_actions").find('#dropdown').val();
         event.preventDefault();
@@ -336,7 +377,7 @@ $('#updatebutton').on('click', function(event)
 $('.delete').on('click', function(event)
      {
         test_template_id=$(this).val();
-        $(this).closest('tr').remove().delay(2000).fadeOut();
+        //$("#evaluation_test_box_"+test_template_id).remove();
         event.preventDefault();
         $.ajax(
             {
@@ -352,7 +393,7 @@ $('.delete').on('click', function(event)
                     resp = JSON.parse(response);
                     if(resp.status==true)
                     {
-                        $('#evaluation_test_box_'+test_template_id).remove('fast');
+                        $('#evaluation_test_box_'+test_template_id).remove();
                         message_display('Evaluation Test Deleted Successfully', 1)
                     }
 
@@ -451,6 +492,18 @@ function startTimer(duration, display) {
         }
     }, 1000);
 }
+
+$('#close_button123').on('click', function(event) {
+    clearTimeout(helo);
+
+});
+
+
+
+$('.close').on('click', function(event) {
+    clearTimeout(helo);
+
+});
 
 
 

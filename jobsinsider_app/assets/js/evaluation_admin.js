@@ -1,5 +1,5 @@
 //for adding the evaluation test template to the database.
-$('#add_evaluation').on('submit', function(event)
+$('#admin_add_evaluation').on('submit', function(event)
        {
         $(".eva_heading_status").text("").show();
            event.preventDefault();
@@ -7,7 +7,7 @@ $('#add_evaluation').on('submit', function(event)
         $.ajax({
                 url: '/private/members/evaluation/add_template/',
                 type: 'POST',
-                data:$('form#add_evaluation').serialize(),
+                data:$('form#admin_add_evaluation').serialize(),
 
 
 
@@ -586,7 +586,7 @@ function question(data){
 
 
 $('.eva_add_template').on('click', function(event) {
-        $("#add_evaluation").modal("show");
+        $("#admin_add_evaluation").modal("show");
     }
 );
 

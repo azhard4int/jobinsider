@@ -75,7 +75,7 @@
                             <br>
                             Total Questions: {{ evaluate.evaluation_total_questions }}
                         <br>
-                            Time: {{ evaluate.evaluation_time }}
+                            Time: {{ evaluate.evaluation_time }} Mins
                         </p>
                         <div class="evaluation_actions">
                             <div class="col-md-4">
@@ -116,7 +116,7 @@
 
         {% endfor %}
 
-        <div class="col-md-3 col-lg-3">
+        <div class="col-md-3 col-lg-3 insert_here">
             <div class="evaluation_test_box add_more_evaluation_test">
                 <a href="javascript:;"  data-toggle = "modal" data-target = "#add_evaluation">
                     <img src="{{ STATIC_URL }}img/add.png" alt="">
@@ -135,5 +135,4 @@
 {% endblock %}
 
 {% block custom_scripts %}
- <script src='/assets/js/evaluation.js'></script>
 {% endblock %}
