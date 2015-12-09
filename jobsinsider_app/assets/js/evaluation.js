@@ -367,7 +367,11 @@ $('.previewtest').on('click', function(event)
      {
          event.preventDefault();
          get_id=$(this).attr('value');
-         $("div").remove("#removeoptions");
+          $("div").remove("#removeoptions");
+         $("#next_button").show();
+         $("#remove_label").show();
+
+
 
          try{
 
@@ -390,7 +394,14 @@ $('.previewtest').on('click', function(event)
                      $('#previewtest').modal('hide');
                 }
 
-                 question(data);
+                 if(data.time) {
+                         var fiveMinutes = 60 * data.time,
+
+                         display = document.querySelector('#time');
+                         startTimer(fiveMinutes, display);
+
+                         question(data);
+                 }
             },
             error: function(response) {
              //console.log(response);
@@ -403,6 +414,46 @@ $('.previewtest').on('click', function(event)
 
 }
 });
+
+
+
+
+var helo;
+
+function startTimer(duration, display) {
+    var timer = duration, minutes, seconds;
+    helo=setInterval(function () {
+        minutes = parseInt(timer / 60, 10)
+        seconds = parseInt(timer % 60, 10);
+
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        if(timer>=0) {
+            display.textContent = minutes + ":" + seconds;
+            //$("#time").append(minutes + ":" + seconds);
+        }
+        if (--timer < 0) {
+            //display.stop();
+            //$('#time').hide();
+            $('#time').stop();
+
+            $("#next_button").hide();
+            $("#remove_label").hide();
+            $("div").remove("#removeoptions");
+
+            $('#headingtest').text("Time is up");
+            clearTimeout(helo);
+            //rite uqery to change test
+            //$('#previewtest').modal('hide');
+
+
+        }
+    }, 1000);
+}
+
+
+
 
 
 $('#next_button').on('click', function(event)
@@ -421,12 +472,12 @@ $('#next_button').on('click', function(event)
             success:function(response)
             {
              var data = jQuery.parseJSON(response);
-                console.log(data);
+
                 if(data.status =="Test is Finished"){
 
 
-                    $("button").remove("#next_button");
-                    $("label").remove("#remove_label");
+                   $("#next_button").hide();
+                    $("#remove_label").hide();
                     $('#headingtest').text("Test is Finished and You got "+data.final_marks+" out of "+data.questions);
                     setTimeout(
                       function()

@@ -74,6 +74,8 @@
                             {% endif %}
                             <br>
                             Total Questions: {{ evaluate.evaluation_total_questions }}
+                        <br>
+                            Time: {{ evaluate.evaluation_time }}
                         </p>
                         <div class="evaluation_actions">
                             <div class="col-md-4">
@@ -85,7 +87,7 @@
                                                 <a class="editbutton" data-target="#editmodal" data-toggle="modal" href="#editmodal">Edit Template</a>
                                               </li>
                                               <li>
-                                                <a href="testing/sample/{{ evaluate.pk }}">Edit Questions</a>
+                                                <a href="{{ base_url }}/evaluation/edit/question-page/{{ evaluate.pk }}">Edit Questions</a>
                                               </li>
                                               <li>
                                                 <a href="javascript:;" value="{{evaluate.pk}}"  class="add_button" data-toggle="modal" data-target="#question_modal" >

@@ -10,7 +10,7 @@ urlpatterns = patterns(
     url(r'', evaluation),
     url(r'^$', EvaluationTestTemplate.as_view(), name='test_template'),
     url(r'^index/$', EvaluationTestTemplate.as_view(), name='test_template'),
-    url(r'^testing/sample/(?P<id>[0-9]+)$', edit_evaluation_question, name='edit_evaluation_test'),
+    url(r'^edit/question-page/(?P<id>[0-9]+)$', edit_evaluation_question, name='edit_evaluation_test'),
     url(r'^edit/question-options/$', Edit_Question.as_view(), name='Edit_Question'),
     url(r'^edit/question-options/delete/$', Delete_Question.as_view(),name='Delete_Question'),
     url(r'^addquestions/$', AddQuestions.as_view(), name='Add-questions'),
