@@ -185,10 +185,13 @@ class Job_Details(View):
         company = data_obj.fetch_company_details(data.company_user_id)
 
         # Getting current visitors
-        data_main = self.parse_visitor_info(request)
+        try:
+            data_main = self.parse_visitor_info(request)
+            get_current_visitor = 0
+            self.save_visitors(request, job_id, data_main, get_current_visitor, 0)
+        except:
+            pass
 
-        get_current_visitor = 0
-        self.save_visitors(request, job_id, data_main, get_current_visitor, 0)
         # if get_current_visitor:
         return render(request, 'jobs_detail.html', {
             'job': data,

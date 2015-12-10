@@ -322,7 +322,7 @@ def token_check(tokenvalue=None, user_id=None):     # bring the token.
 
 def logout_view(request):
     logout(request)
-    return HttpResponseRedirect('http://127.0.0.1:8000/accounts/login/')
+    return HttpResponseRedirect('http://jobinsider.xyz:8000/accounts/login/')
 
 
 def send_user_email(request):
