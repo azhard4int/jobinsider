@@ -18,7 +18,7 @@ from django.core.mail import send_mail, EmailMultiAlternatives
 from core import email
 from users import models as usermodels
 
-BASE_URL = 'http://127.0.0.1:8000'
+BASE_URL = 'http://jobinsider.xyz:8000'
 STATUS_SUCCESS = 'Your account has been created successfully'
 STATUS_EXIST = 'Account with that email address already exists.'
 STATUS_WRONG = 'Invalid Username or Password'
