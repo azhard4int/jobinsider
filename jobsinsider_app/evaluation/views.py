@@ -18,6 +18,7 @@ import models as evaluation_models
 from datetime import datetime
 from urlparse import urlparse, parse_qs
 from django.db.models import Avg, Min, Max
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 import models
@@ -35,6 +36,7 @@ class EvaluationTestTemplate(View):
     @method_decorator(login_required)
     def get(self, request):
          query = models.evaluation_test_template.objects.filter(user_id=request.user.id)
+
          if query:
                  return render(request, 'evaluation_index.html', {'evaluation': query})
          else:
@@ -367,10 +369,12 @@ def result(user_answer,test_id,question_id):
 def edit_evaluation_question(request,id):
     try:
          query=models.evaluation_test_questions.objects.filter(evaluation_test_template_id=id)
+         table2 = pagination_table(request.GET.get('page'),query)
          if query:
-            return render(request, 'evaluation_edit_questions.html',{'query':query})
+            return render(request, 'evaluation_edit_questions.html',{'query':table2})
 
-         else:return render(request, 'evaluation_edit_questions.html')
+         else:
+             return render(request, 'evaluation_edit_questions.html')
 
 
     except Exception as e:
@@ -651,3 +655,36 @@ class Delete_Question(View):
          except Exception as e:
                         return HttpResponse(json.dumps({'status': 'Error'}))
          return HttpResponse(json.dumps({'status': 'True'}))
+
+
+
+class Get_Evaluation_info(View):
+    def post(self,request):
+        query= evaluation_test_template.objects.filter(id=request.POST['id'])
+        print query[0].evaluation_time
+        list={
+
+            'evaluation_description':query[0].evaluation_description,
+            'evaluation_catagory':query[0].evaluation_catagory,
+            'evaluation_rules':query[0].evaluation_rules,
+            'evaluation_total_questions':query[0].evaluation_total_questions,
+            'evaluation_time':query[0].evaluation_time,
+            'evaluation_type':query[0].evaluation_type
+
+        }
+
+        return HttpResponse(json.dumps({'list':list}))
+
+
+def pagination_table(page,table):
+        paginator = Paginator((list(table)), 8) # Show 25 contacts per page
+
+        try:
+           table = paginator.page(page)
+        except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+           table = paginator.page(1)
+        except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+            table = paginator.page(paginator.num_pages)
+        return table

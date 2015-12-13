@@ -342,6 +342,7 @@ $(document).on('click', '.editbutton', function ()
 
                        $("#edit_eva_type").val(0);
                    } else eva_type = $("#edit_eva_type").val(1);
+                    $("#edit_eva_time").val(data.status.evaluation_time);
                     $("#edit_eva_number").val(data.status.evaluation_total_questions);
                     $("#evaluation_test_template_id").val(data.status.id);
                 },
@@ -406,22 +407,79 @@ $('.delete').on('click', function(event)
 
 $('.previewtest').on('click', function(event)
      {
-         event.preventDefault();
-         get_id=$(this).attr('value');
-          $("div").remove("#removeoptions");
-         $("#next_button").show();
-         $("#remove_label").show();
 
+         test_template_id=$(this).attr('value');
+         $('.test_description').empty();
+         $('.test_rules').empty();
+         $('.pre_test_catagory').empty();
+         $('.pre_test_type').empty();
+         $('.pre_questions').empty();
+         $('.pre_test_time').empty();
+         $("#start_test").val(test_template_id);
+
+         //$(this).closest('tr').remove().delay(2000).fadeOut();
+
+        event.preventDefault();
+        $.ajax(
+            {
+                url: '/evaluation/info/',
+                type: 'POST',
+                data:{
+                    'id':test_template_id,
+                    "csrfmiddlewaretoken": document.getElementsByName('csrfmiddlewaretoken')[0].value
+
+                },
+                success:function(response)
+                {
+                    $('#pre_test').modal('show');
+                    resp = JSON.parse(response);
+
+                    $('.test_description').append(resp.list.evaluation_description);
+                    $('.test_rules').append(resp.list.evaluation_rules);
+                    $('.pre_test_catagory').append(resp.list.evaluation_catagory);
+
+                    var type;
+                    if(resp.list.evaluation_type==0){
+                        type ="MCQ"
+
+                    }else type="True/False";
+
+                    $('.pre_test_type').append(type);
+                    $('.pre_questions').append(resp.list.evaluation_total_questions);
+                    $('.pre_test_time').append(resp.list.evaluation_time+' mins');
+
+
+                },
+                error: function(response) {
+                }
+            }
+        );
+});
+
+$(document).on('click', '#start_test', function ()
+     {
+
+
+
+         event.preventDefault();
+         id=$(this).val();
+
+         $('#pre_test').modal('toggle');
 
 
          try{
+             //$('#previewtest').modal('show');
+           $("div").remove("#removeoptions");
+           $("#next_button").show();
+           $("#remove_label").show();
+
 
     $.ajax(
         {
             url: '/evaluation/get-evaluation-test-questions/',
             type: 'GET',
             data:{
-                'id':get_id,
+                'id':id,
                 "csrfmiddlewaretoken": document.getElementsByName('csrfmiddlewaretoken')[0].value
 
             },
@@ -431,10 +489,9 @@ $('.previewtest').on('click', function(event)
 
                 if(data.length==undefined){
 
-                    alert("You have not add any questions to template");
+                     alert("You have not add any questions to template");
                      $('#previewtest').modal('hide');
                 }
-
                  if(data.time) {
                          var fiveMinutes = 60 * data.time,
 
@@ -443,6 +500,7 @@ $('.previewtest').on('click', function(event)
 
                          question(data);
                  }
+
             },
             error: function(response) {
              //console.log(response);
@@ -455,6 +513,57 @@ $('.previewtest').on('click', function(event)
 
 }
 });
+//$('.previewtest').on('click', function(event)
+//     {
+//         event.preventDefault();
+//         get_id=$(this).attr('value');
+//          $("div").remove("#removeoptions");
+//         $("#next_button").show();
+//         $("#remove_label").show();
+//
+//
+//
+//         try{
+//
+//    $.ajax(
+//        {
+//            url: '/evaluation/get-evaluation-test-questions/',
+//            type: 'GET',
+//            data:{
+//                'id':get_id,
+//                "csrfmiddlewaretoken": document.getElementsByName('csrfmiddlewaretoken')[0].value
+//
+//            },
+//            success:function(response)
+//            {
+//              var data = jQuery.parseJSON(response);
+//
+//                if(data.length==undefined){
+//
+//                    alert("You have not add any questions to template");
+//                     $('#previewtest').modal('hide');
+//                }
+//
+//                 if(data.time) {
+//                         var fiveMinutes = 60 * data.time,
+//
+//                         display = document.querySelector('#time');
+//                         startTimer(fiveMinutes, display);
+//
+//                         question(data);
+//                 }
+//            },
+//            error: function(response) {
+//             //console.log(response);
+//        }
+//        }
+//    );
+//             } catch(e){
+//
+//
+//
+//}
+//});
 
 
 
@@ -532,6 +641,8 @@ $('#next_button').on('click', function(event)
                    $("#next_button").hide();
                     $("#remove_label").hide();
                     $('#headingtest').text("Test is Finished and You got "+data.final_marks+" out of "+data.questions);
+                    clearTimeout(helo);
+
                     setTimeout(
                       function()
                       {
