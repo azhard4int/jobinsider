@@ -23,12 +23,12 @@
          {% csrf_token %}
    <div class = "form-group">
        <input type="hidden" value="" name="question_id" id="uf_idofquestion">
-       <input type="hidden" value="" name="correctanswer" id="answerofquestion">
-       <input type="hidden" value="" name="option1_id" id="option1_id">
-       <input type="hidden" value="" name="option2_id" id="option2_id">
-       <input type="hidden" value="" name="option3_id" id="option3_id">
-       <input type="hidden" value="" name="option4_id" id="option4_id">
-       <input type="hidden" value="" name="option5_id" id="option5_id">
+       <input type="hidden" value="" name="correctanswer" id="uf_answerofquestion">
+       <input type="hidden" value="" name="option1_id" id="uf_option1_id">
+       <input type="hidden" value="" name="option2_id" id="uf_option2_id">
+       <input type="hidden" value="" name="option3_id" id="uf_option3_id">
+       <input type="hidden" value="" name="option4_id" id="uf_option4_id">
+       <input type="hidden" value="" name="option5_id" id="uf_option5_id">
 
 
       <label for = "eva_title" class = "col-sm-2 control-label">Question</label>
@@ -42,7 +42,7 @@
 
 
 
-              <div class = "form-group">
+              <div class = "form-group"  >
       <label for = "eva_title" class = "col-sm-2 control-label">Option 1</label>
 
       <div class = "col-sm-10">
@@ -84,7 +84,7 @@
       <label for = "eva_title" class = "col-sm-2 control-label">Correct Answer</label>
 
       <div class = "col-sm-10">
-          <h4 id="correctanswer"></h4>
+          <h4 id="uf_correctanswer"></h4>
 
       </div>
       </div>

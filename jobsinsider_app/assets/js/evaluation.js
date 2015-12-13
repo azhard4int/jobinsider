@@ -342,6 +342,7 @@ $(document).on('click', '.editbutton', function ()
 
                        $("#edit_eva_type").val(0);
                    } else eva_type = $("#edit_eva_type").val(1);
+                    $("#edit_eva_time").val(data.status.evaluation_time);
                     $("#edit_eva_number").val(data.status.evaluation_total_questions);
                     $("#evaluation_test_template_id").val(data.status.id);
                 },
