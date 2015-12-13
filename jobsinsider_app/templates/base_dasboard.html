@@ -40,14 +40,21 @@
                                         <a href="/jobs/index">Jobs</a>
                                     </li>
 
-{#                                    {% if body_status %}#}
+                                    {% if body_status == 0 %}
                                         <li>
                                             <a href="{% url 'favorite' %}">Favorite Jobs</a>
                                         </li>
                                         <li>
                                             <a href="{% url 'applied' %}">Applied </a>
                                         </li>
-{#                                    {% endif %}#}
+                                        {% else %}
+                                        <li>
+                                            <a href="">Applied Candidates</a>
+                                        </li>
+                                        <li>
+                                            <a href="">Shortlisted Candidates</a>
+                                        </li>
+                                    {% endif %}
                                 {% else %}
                                     <li>
                                         <a href="{% url 'search' %}">Jobs</a>

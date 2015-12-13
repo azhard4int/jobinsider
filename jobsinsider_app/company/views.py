@@ -52,8 +52,17 @@ class Company_dashboard(View):
         ).count()
         jobs_details = Advertisement.admanager.posted(request.user.id).order_by('-submission_date')[:5]
         schedule_interviews = ShortlistedCandidates.objects.filter(
-            advertisement__company_user_id=request.user.id
+            advertisement__company_user_id=request.user.id,
+            is_interview=1
         ).prefetch_related('advertisement')
+        total_shortlisted = ShortlistedCandidates.objects.filter(
+            advertisement__company_user_id=request.user.id
+        ).prefetch_related('advertisement').count()
+        total_shortlisted_interview = ShortlistedCandidates.objects.filter(
+            advertisement__company_user_id=request.user.id,
+            is_interview=1
+        ).prefetch_related('advertisement').count()
+        print total_shortlisted_interview
         return render(request, 'company_dashboard.html', {
             'body_status': status,
             'profile_form': company_profile,
@@ -61,6 +70,8 @@ class Company_dashboard(View):
             'job_details': jobs_details,
             'total_applications': total_applications,
             'total_schedule': schedule_interviews,
+            'total_shortlisted': total_shortlisted,
+            'total_shortlisted_interview': total_shortlisted_interview,
             'user_is_company': True
         })
     def post(self, request):
@@ -84,12 +95,29 @@ class Company_dashboard(View):
         )
 
 
+class ShortlistedCandidatesDate(View):
+    def post(self, request):
+        print request.POST
+        if request.POST['scheduled_date'] == '':
+            return HttpResponse(json.dumps({'status': False,'errors':True}))
+
+        date_from = datetime.strptime(request.POST['scheduled_date'], '%Y-%m-%d') - timedelta(days=1)
+        date_to = datetime.strptime(request.POST['scheduled_date'], '%Y-%m-%d') + timedelta(days=1)
+        schedule_interviews = ShortlistedCandidates.objects.filter(
+            advertisement__company_user_id=request.user.id, shortlisted_date__range = [date_from, date_to]
+        ).prefetch_related('advertisement')
+        #shortlisted_date__gt =
+        html = render_to_string('schedule_interviews_date.html', {'total_schedule': schedule_interviews})
+        return HttpResponse(json.dumps({'status':True, 'html':html}))
+
+
 class CompanyListing(View):
     @method_decorator(login_required)
     @method_decorator(is_company)
     def get(self, request):
         list = CompanyProfile.objects.filter(user_id=request.user.id)
-        return render(request, 'companies.html', {'companies': list, 'user_is_company': True})
+        return render(request, 'companies.html', {'companies': list, 'user_is_company': True,
+                                                  'body_status': is_body_status(request)})
 
     @method_decorator(login_required)
     @method_decorator(is_company)
@@ -105,7 +133,8 @@ class CompanyPassword(View):
     @method_decorator(is_company)
     def get(self, request):
         change_password = accountsform.ChangeProfilePassword()
-        return render(request, 'company_change_password.html', {'cp': change_password, 'user_is_company': True})
+        return render(request, 'company_change_password.html', {'cp': change_password, 'user_is_company': True,
+                                                                'body_status': is_body_status(request)})
 
     @method_decorator(login_required)
     @method_decorator(is_company)
@@ -451,7 +480,8 @@ class MessagesView(View):
                 'sender_side_name': data['server_side_name'],
                 'sender_id': request.user.id,
                 'candidate_id': list_users[0].receiver_id,
-                'user_is_company': True
+                'user_is_company': True,
+                'body_status': is_body_status(request)
 
             }
         )
@@ -587,7 +617,8 @@ class AppliedCandidates(View):
             'applied_cities_user': applied_cities_users,
             'applied_gender_user': applied_gender_users,
             'user_is_company': True,
-            'is_evaluation_test': is_evaluation_test
+            'is_evaluation_test': is_evaluation_test,
+            'body_status': is_body_status(request)
         })
 
 
@@ -702,7 +733,8 @@ class ListShortlisted(View):
             'education': user_education,
             'job_id': job_id,
             'data_count': list_total,
-            'user_is_company': True
+            'user_is_company': True,
+            'body_status': is_body_status(request)
         })
 
 
@@ -729,7 +761,8 @@ class Candidate(View):
             'user_education': user_education_data,
             'user_employment': user_employment_data,
             'user_cv': user_cv_data,
-            'user_is_company': True
+            'user_is_company': True,
+            'body_status': is_body_status(request)
         })
 
 class ScheduleInterview(View):
@@ -746,6 +779,7 @@ class ScheduleInterview(View):
         user_education_data = users_models.UserEducation.objects.filter(user_id=candidate_id)
         user_employment_data = users_models.UserEmployment.objects.filter(user_id=candidate_id)
         user_cv_data = users_models.UserCV.objects.filter(user_id=candidate_id)[0]
+        today_date = datetime.now()
         return render(request, 'schedule_interview_candidate.html', {
             'candidate_id': candidate_id,
             'user_bio': user_bio_data,
@@ -755,16 +789,27 @@ class ScheduleInterview(View):
             'user_employment': user_employment_data,
             'user_cv': user_cv_data,
             'job_id': job_id,
-            'user_is_company': True
+            'user_is_company': True,
+            'body_status': is_body_status(request),
+            'today_date': today_date
         })
     def post(self, request, candidate_id, job_id):
-        print request.POST
+
         date_str_from = request.POST['from_date'] + " " +  request.POST['from_time']
         date_str_to = request.POST['to_date'] + " " +  request.POST['to_time']
         from_full_date = datetime.strptime(date_str_from,'%Y-%m-%d %H:%M')
         to_full_date = datetime.strptime(date_str_to,'%Y-%m-%d %H:%M')
         from_time = datetime.strptime(request.POST['from_time'], '%H:%M')
         to_time = datetime.strptime(request.POST['to_time'], '%H:%M')
+
+        get_candidate_info = User.objects.filter(id=candidate_id)[0]
+        invitation_message = str(request.POST['invitation']).replace(
+            '{{first_name}}', get_candidate_info.first_name
+        ).replace(
+            '{{from_time}}', str(from_full_date.strftime("%d %b %Y %I:%M:%S %p")),
+        ).replace(
+            '{{to_time}}', str(to_full_date.strftime("%d %b %Y %I:%M:%S %p")),
+        )
 
         ShortlistedCandidates.objects.filter(
             user_id=candidate_id
@@ -775,7 +820,7 @@ class ScheduleInterview(View):
             to_only_date=request.POST['to_date'],
             from_time=from_time,
             to_time=to_time,
-            invitation_message=request.POST['invitation'],
+            invitation_message=invitation_message,
             is_interview=True
         )
         #for email values
@@ -784,7 +829,7 @@ class ScheduleInterview(View):
             'tosend': User.objects.filter(id=candidate_id)[0].email,
             'username': User.objects.filter(id=candidate_id)[0].username,
             'first_name': User.objects.filter(id=candidate_id)[0].first_name,
-            'message': request.POST['invitation']
+            'message': invitation_message
         }
         sendemail_ = email.EmailFunc('schedule_interview', **listvalue)
         sendemail_.generic_email()
@@ -980,7 +1025,8 @@ def analytics(request, job_id):
                     'male': male,
                     'female':female,
                     'unknown': unknown,
-                    'user_is_company': True
+                    'user_is_company': True,
+                    'body_status': is_body_status(request)
                 }
             )
     except:

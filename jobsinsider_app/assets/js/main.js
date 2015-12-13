@@ -1269,3 +1269,54 @@ $('.apply_with_evaluation').on('click', function(e)
 
 //adming evaluation
 
+$('.schedule_interview_btn').on('click', function(e)
+{
+    var schedule_date = $('.schedule_interviews_date').val();
+    e.preventDefault();
+    $.ajax(
+        {
+            url: '/company/shortlisted_candidates_date/',
+            type: 'POST',
+            data:{
+                'scheduled_date':schedule_date,
+                "csrfmiddlewaretoken": document.getElementsByName('csrfmiddlewaretoken')[0].value
+            },
+            success:function(response)
+            {
+                console.log(response);
+                resp = JSON.parse(response);
+                if(resp.status==true)
+                {
+                    $('.schedule_interviews_date_data').html(resp.html);
+                }
+                else{
+                    alert('Please Enter Your Date First');
+                }
+
+            },
+            error: function(response) {
+             //console.log(response);
+            }
+        }
+    );
+    return false;
+
+});
+
+$('.predefined_template ').on('click', function(e)
+{
+    e.preventDefault();
+    var email = 'Dear {{first_name}}' +
+        '\n\n' +
+        'You have been selected for interview at {{from_time}} - {{to_time}}.' +
+        '\n\n' +
+        'Make sure you bring your Resume along with you';
+    $('#interview_message').html(email);
+    return false;
+})
+$('.clear_template').on('click', function(e)
+{
+    e.preventDefault();
+    $('#interview_message').html('');
+    return false;
+})

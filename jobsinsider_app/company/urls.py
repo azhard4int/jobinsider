@@ -31,6 +31,8 @@ urlpatterns = patterns(
     url(r'^shortlist_remove/(?P<candidate_id>[0-9]+)/(?P<job_id>[0-9]+)/$', shortlist_remove, name='shortlisted_remove'),
     url(r'^message/$', SendMessage.as_view(), name='send_message'),
     url(r'^composedmessage/$', ComposedSend.as_view(), name='composed_message'),
+    url(r'^shortlisted_candidates_date/$', ShortlistedCandidatesDate.as_view(), name='composed_message'),
+
     # url(r'^tinymce/', include('tinymce.urls')),
 
     # url(r'^messages/$', Messages.as_view(), name='posted_jobs'),
