@@ -35,6 +35,7 @@ class EvaluationTestTemplate(View):
     @method_decorator(login_required)
     def get(self, request):
          query = models.evaluation_test_template.objects.filter(user_id=request.user.id)
+
          if query:
                  return render(request, 'evaluation_index.html', {'evaluation': query})
          else:
@@ -651,3 +652,22 @@ class Delete_Question(View):
          except Exception as e:
                         return HttpResponse(json.dumps({'status': 'Error'}))
          return HttpResponse(json.dumps({'status': 'True'}))
+
+
+
+class Get_Evaluation_info(View):
+    def post(self,request):
+        query= evaluation_test_template.objects.filter(id=request.POST['id'])
+        print query[0].evaluation_time
+        list={
+
+            'evaluation_description':query[0].evaluation_description,
+            'evaluation_catagory':query[0].evaluation_catagory,
+            'evaluation_rules':query[0].evaluation_rules,
+            'evaluation_total_questions':query[0].evaluation_total_questions,
+            'evaluation_time':query[0].evaluation_time,
+            'evaluation_type':query[0].evaluation_type
+
+        }
+
+        return HttpResponse(json.dumps({'list':list}))

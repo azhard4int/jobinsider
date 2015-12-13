@@ -458,8 +458,10 @@ def activeusers(request):
 @login_required()
 def nonactiveusers(request):
         try:
-            query = "SELECT * From auth_user JOIN accounts_userprofile on auth_user.id=accounts_userprofile.user_id Where auth_user.is_active=0 ORDER BY date_joined"
+            query = "SELECT * From auth_user JOIN accounts_userprofile on auth_user.id=accounts_userprofile.user_id Where auth_user.is_active=0"
+
             table =  User.objects.raw(query)
+
             # data=User.objects.filter(is_active=0).order_by('date_joined')
             table2 = pagination_table(request.GET.get('page'),table)
 
@@ -467,7 +469,7 @@ def nonactiveusers(request):
                 return render(request, 'users_view.html',{'table':table2})
 
         except Exception as e:
-               return HttpResponse(json.dumps({'status': 'False'}))
+               return render(request, 'users_view.html',{'status':'False'})
 
 
 
@@ -741,6 +743,7 @@ def evaluation_index(request):
 def evaluation_default(request):
     try:
        table = evaluation_test_template.objects.all()
+       print table
        table2 = pagination_table(request.GET.get('page'),table)
 
        if table and table2:
@@ -754,10 +757,14 @@ def evaluation_default(request):
 def evaluation_user(request):
     try:
        table = evaluation_test_template.objects.filter(evaluation_status=1)
+       # query2 = "SELECT * From auth_user JOIN evaluation_test_template on auth_user.id=evaluation__evaluation_test_template.user_id WHERE evaluation__evaluation_status=1"
+       # table =  User.objects.raw(query2)
+       print table
+
        table2 = pagination_table(request.GET.get('page'),table)
 
        if table and table2:
-           return render(request, 'evaluation_index_admin_approved.html',{'evaluation':table2})
+           return render(request, 'evaluation_index_admin_approved.html',{'evaluation':table})
        else:
            return render(request, 'evaluation_index_admin_approved.html',{'status':'False'})
 
@@ -971,3 +978,6 @@ def reject_job(request):
     obj = AdvertisementAdminView(job_id=request.POST['job_id'])
     obj.reject_job()
     return HttpResponse(json.dumps({'status':True}))
+
+
+

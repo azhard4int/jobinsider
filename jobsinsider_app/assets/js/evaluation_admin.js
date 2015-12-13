@@ -388,6 +388,7 @@ $('.delete').on('click', function(event)
         );
 });
 
+
 $('.previewtest').on('click', function(event)
      {
 
@@ -395,19 +396,67 @@ $('.previewtest').on('click', function(event)
 
          event.preventDefault();
          get_id=$(this).attr('value');
+         $("#start_test").val(get_id);
 
-         $("div").remove("#removeoptions");
-         $("#next_button").show();
-         $("#remove_label").show();
+
 
          try{
+             $('#pre_test').modal('show');
+    //$.ajax(
+    //    {
+    //        url: '/evaluation/get-evaluation-test-info/',
+    //        type: 'GET',
+    //        data:{
+    //            'id':get_id,
+    //            "csrfmiddlewaretoken": document.getElementsByName('csrfmiddlewaretoken')[0].value
+    //
+    //        },
+    //        success:function(response)
+    //        {
+    //          var data = jQuery.parseJSON(response);
+    //
+    //
+    //
+    //        },
+    //        error: function(response) {
+    //         //console.log(response);
+    //    }
+    //    }
+    //);
+             } catch(e){
+
+
+
+}
+});
+
+
+$('#start_test').on('click', function(event)
+     {
+
+
+
+         event.preventDefault();
+         //get_id=$(this).attr('value');
+         id=$("#start_test").val();
+
+
+         $('#pre_test').modal('toggle');
+
+
+         try{
+             //$('#previewtest').modal('show');
+           $("div").remove("#removeoptions");
+           $("#next_button").show();
+           $("#remove_label").show();
+
 
     $.ajax(
         {
             url: '/evaluation/get-evaluation-test-questions/',
             type: 'GET',
             data:{
-                'id':get_id,
+                'id':id,
                 "csrfmiddlewaretoken": document.getElementsByName('csrfmiddlewaretoken')[0].value
 
             },
@@ -441,6 +490,71 @@ $('.previewtest').on('click', function(event)
 
 }
 });
+
+
+
+
+
+//above experiment
+
+
+
+
+
+
+//$('.previewtest').on('click', function(event)
+//     {
+//
+//
+//
+//         event.preventDefault();
+//         get_id=$(this).attr('value');
+//
+//         $("div").remove("#removeoptions");
+//         $("#next_button").show();
+//         $("#remove_label").show();
+//
+//         try{
+//
+//    $.ajax(
+//        {
+//            url: '/evaluation/get-evaluation-test-questions/',
+//            type: 'GET',
+//            data:{
+//                'id':get_id,
+//                "csrfmiddlewaretoken": document.getElementsByName('csrfmiddlewaretoken')[0].value
+//
+//            },
+//            success:function(response)
+//            {
+//              var data = jQuery.parseJSON(response);
+//
+//                if(data.length==undefined){
+//
+//                     alert("You have not add any questions to template");
+//                     $('#previewtest').modal('hide');
+//                }
+//                 if(data.time) {
+//                         var fiveMinutes = 60 * data.time,
+//
+//                         display = document.querySelector('#time');
+//                         startTimer(fiveMinutes, display);
+//
+//                         question(data);
+//                 }
+//
+//            },
+//            error: function(response) {
+//             //console.log(response);
+//        }
+//        }
+//    );
+//             } catch(e){
+//
+//
+//
+//}
+//});
 
 
 var helo;
@@ -494,8 +608,20 @@ $('#next_button').on('click', function(event)
          event.preventDefault();
          var selected=$("input[name='option']:checked").val();
          $("#current_answer").val(selected);
-         $("div").remove("#removeoptions");
-         $("#headingtest").text("");
+         //$("div").remove("#removeoptions");
+
+
+
+                       $("div").remove("#removeoptions");
+                         //$( "#removeoptions div" ).toggle();
+
+
+
+         //$("#headingtest").text("");
+
+          $("#headingtest").fadeOut("normal", function() {
+             $(this).text("");
+                });
 
     $.ajax(
         {
@@ -512,7 +638,10 @@ $('#next_button').on('click', function(event)
                     //$("label").remove("#remove_label");
                     $("#next_button").hide();
                     $("#remove_label").hide();
-                    $('#headingtest').text("Test is Finished and You got "+data.final_marks+" out of "+data.questions);
+                    $("#headingtest").fadeIn("normal", function() {
+                       $(this).text("Test is Finished and You got "+data.final_marks+" out of "+data.questions);
+                         });
+                    //$('#headingtest').text("Test is Finished and You got "+data.final_marks+" out of "+data.questions);
                     clearTimeout(helo);
                     //$('#time').hide();
 
@@ -560,7 +689,10 @@ function question(data){
     if(data.length != undefined) {
         $('#previewtest').modal('show');
         var newdata = jQuery.parseJSON(data.options);
-        $('#headingtest').text(data.question);
+        $("#headingtest").fadeIn("normal", function() {
+             $(this).text(data.question);
+                });
+        //$('#headingtest').text(data.question);
         $('#current_question_id').val(data.question_id);
         $('#test_id').val(data.test_id);
         w=1;
@@ -573,7 +705,7 @@ function question(data){
                 '</div></div>';
 
 
-            $("#current_question_id").first().after(newradio);
+                $("#current_question_id").first().after(newradio);
          w++;
         }
 
@@ -655,3 +787,55 @@ $('.reject').on('click', function(event)
             }
         );
 });
+
+
+
+$('.previewtest').on('click', function(event)
+     {
+        test_template_id=$(this).val();
+         $('.test_description').empty();
+         $('.test_rules').empty();
+         $('.pre_test_catagory').empty();
+         $('.pre_test_type').empty();
+         $('.pre_questions').empty();
+         $('.pre_test_time').empty();
+
+         //$(this).closest('tr').remove().delay(2000).fadeOut();
+
+        event.preventDefault();
+        $.ajax(
+            {
+                url: '/evaluation/info/',
+                type: 'POST',
+                data:{
+                    'id':test_template_id,
+                    "csrfmiddlewaretoken": document.getElementsByName('csrfmiddlewaretoken')[0].value
+
+                },
+                success:function(response)
+                {
+                    resp = JSON.parse(response);
+
+                    $('.test_description').append(resp.list.evaluation_description);
+                    $('.test_rules').append(resp.list.evaluation_rules);
+                    $('.pre_test_catagory').append(resp.list.evaluation_catagory);
+
+                    var type;
+                    if(resp.list.evaluation_type==0){
+                        type ="MCQ"
+
+                    }else type="True/False";
+
+                    $('.pre_test_type').append(type);
+                    $('.pre_questions').append(resp.list.evaluation_total_questions);
+                    $('.pre_test_time').append(resp.list.evaluation_time+' mins');
+
+
+                },
+                error: function(response) {
+                }
+            }
+        );
+});
+
+
