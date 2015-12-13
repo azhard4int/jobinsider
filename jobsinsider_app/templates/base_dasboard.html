@@ -13,6 +13,7 @@
             <!--<link rel="stylesheet" href="{% static "/assets/plugins/dropzone/dropzone.css" %}"/>-->
             <link rel="stylesheet"  href="{% static "/assets/css/chosen/chosen.css" %}"/>
             <link rel="stylesheet"  href="{% static "/assets/css/plugins/bootstrap/bootstrap.min.css" %}"/>
+            <link rel="stylesheet" href="{% static "/assets/css/evaluation.css" %}"/>
             <link rel="stylesheet"  href="{% static "/assets/js/plugins/bootstrap_datepicker/css/bootstrap-material-datetimepicker.css" %}"/>
 {#            <link rel="stylesheet"  href="{% static "/assets/css/plugins/bootstrap-material-design/material.min.css" %}"/>#}
             <link rel="stylesheet"  href="{% static "/assets/css/plugins/bootstrap-material-design/icon.css" %}"/>
@@ -40,14 +41,21 @@
                                         <a href="/jobs/index">Jobs</a>
                                     </li>
 
-{#                                    {% if body_status %}#}
+                                    {% if body_status == 0 %}
                                         <li>
                                             <a href="{% url 'favorite' %}">Favorite Jobs</a>
                                         </li>
                                         <li>
                                             <a href="{% url 'applied' %}">Applied </a>
                                         </li>
-{#                                    {% endif %}#}
+                                        {% else %}
+                                        <li>
+                                            <a href="">Applied Candidates</a>
+                                        </li>
+                                        <li>
+                                            <a href="">Shortlisted Candidates</a>
+                                        </li>
+                                    {% endif %}
                                 {% else %}
                                     <li>
                                         <a href="{% url 'search' %}">Jobs</a>
@@ -110,6 +118,8 @@
     <script src='{% static "/assets/js/plugins/bootstrap_datepicker/js/bootstrap-material-datetimepicker.js" %}'></script>
     <script src='{% static "/assets/js/helper.js" %}'></script>
     <script src='{% static "/assets/js/evaluation.js" %}'></script>
+    <script src='{% static "/assets/js/evaluation_question_edit.js" %}'></script>
+
     <script src='{% static "/assets/js/main.js" %}'></script>
     <script src='{% static "/assets/js/core.js" %}'></script>
 {% endblock %}

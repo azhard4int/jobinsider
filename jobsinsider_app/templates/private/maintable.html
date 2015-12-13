@@ -1,0 +1,72 @@
+ <table class="table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+        <th>Active</th>
+          <th>User Status</th>
+     </tr>
+    </thead>
+    <tbody>
+    {% for item in table %}
+
+    <tr class="123">
+
+        <td class="nr"> {{item.id }}</td>
+        <td> {{item.username }}</td>
+        <td>{{ item.first_name }}</td>
+        <td>{{ item.last_name }}</td>
+        <td>{{ item.email }}</td>
+        <td>{{ item.is_active }}</td>
+{#        <td>{{ item.user_status }}</td>#}
+
+
+            {% if item.user_status == True %}
+            <td>Company</td>
+             {% elif item.user_status == False %}
+           <td>Job Seeker</td>
+            {% else %}
+        {% endif %}
+
+        {% csrf_token %}
+        <td><button value="{{ item.id }}" class="button123 btn btn-info btn-sm" data-toggle="modal" data-target="#user_editmodal" type="button">Edit</button></td>
+        <td><button type="button" class="profile btn btn-info btn-sm" >Profile</button></td>
+        <td><button value="{{ item.id }}" type="button" class="delete btn btn-info btn-sm" >Delete</button></td>
+    </tr>
+    {% endfor %}
+  </tr>
+    </tbody>
+  </table>
+<div class="pagination">
+    <span class="step-links">
+        {% if table.has_previous %}
+            <a href="?page={{ table.previous_page_number }}">Previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ table.number }} of {{ table.paginator.num_pages }}.
+        </span>
+
+        {% if table.has_next %}
+            <a href="?page={{ table.next_page_number }}">Next</a>
+        {% endif %}
+    </span>
+</div>
+{#<div class="pagination">#}
+{#    <span class="step-links">#}
+{#        {% if table.has_previous %}#}
+{#            <a href="javascript:;" onclick="getResults({{ table.previous_page_number }});">Previous</a>#}
+{#        {% endif %}#}
+{##}
+{#        <span class="current">#}
+{#            Page {{ table.number }} of {{ table.paginator.num_pages }}.#}
+{#        </span>#}
+{##}
+{#        {% if table.has_next %}#}
+{#            <a href="javascript:;" onclick="getResults({{ table.next_page_number}});">Next</a>#}
+{#        {% endif %}#}
+{#    </span>#}
+{#</div>#}

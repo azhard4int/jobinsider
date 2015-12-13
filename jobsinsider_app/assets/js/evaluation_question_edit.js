@@ -3,22 +3,23 @@
  */
 var counter = 3;
 var selectedans;
-$(document).on('click', '.editquestion', function () {
+$(document).on('click', '.uf_editquestion', function () {
     counter = 3;
-  $('#correctanswer').text("");
+  $('#uf_correctanswer').text("");
     $("#heading3").text('');
-    $('#option1_id').val('');
-    $('#option2_id').val('');
-    $('#option3_id').val('');
-    $('#option4_id').val('');
-    $('#option5_id').val('');
+    $('#uf_option1_id').val('');
+    $('#uf_option2_id').val('');
+    $('#uf_option3_id').val('');
+    $('#uf_option4_id').val('');
+    $('#uf_option5_id').val('');
 
 
 
 
 
     var question_id=$(this).val();
-    $('#idofquestion').val(question_id);
+    $('#uf_idofquestion').val(question_id);
+
      $.ajax(
         {
             url: '/evaluation/edit/question-options/',
@@ -39,27 +40,27 @@ $(document).on('click', '.editquestion', function () {
                 value(data.length);
 
                 var data1 = jQuery.parseJSON(data.status);
-                 $('#correctanswer').text(data.qesans.answer);
+                 $('#uf_correctanswer').text(data.qesans.answer);
 
                   console.log(data.length);
                 if(data.length==5) {
                     $('#question').val(data.qesans.question);
 
                     $('#option1').val(data1[0]['fields']['evaluation_question_option']);
-                    $('#option1_id').val(data1[0]['pk']);
+                    $('#uf_option1_id').val(data1[0]['pk']);
 
                     $('#option2').val(data1[1]['fields']['evaluation_question_option']);
-                    $('#option2_id').val(data1[1]['pk']);
+                    $('#uf_option2_id').val(data1[1]['pk']);
 
                     $('#option3').val(data1[2]['fields']['evaluation_question_option']);
-                    $('#option3_id').val(data1[2]['pk']);
+                    $('#uf_option3_id').val(data1[2]['pk']);
 
 
                     $('#option4').val(data1[3]['fields']['evaluation_question_option']);
-                    $('#option4_id').val(data1[3]['pk']);
+                    $('#uf_option4_id').val(data1[3]['pk']);
 
                     $('#option5').val(data1[4]['fields']['evaluation_question_option']);
-                    $('#option5_id').val(data1[4]['pk']);
+                    $('#uf_option5_id').val(data1[4]['pk']);
                 }
 
 
@@ -67,19 +68,19 @@ $(document).on('click', '.editquestion', function () {
                     $('#question').val(data.qesans.question);
 
                     $('#option1').val(data1[0]['fields']['evaluation_question_option']);
-                    $('#option1_id').val(data1[0]['pk']);
+                    $('#uf_option1_id').val(data1[0]['pk']);
 
                     $('#option2').val(data1[1]['fields']['evaluation_question_option']);
-                    $('#option2_id').val(data1[1]['pk']);
+                    $('#uf_option2_id').val(data1[1]['pk']);
 
                     $('#option3').val(data1[2]['fields']['evaluation_question_option']);
-                    $('#option3_id').val(data1[2]['pk']);
+                    $('#uf_option3_id').val(data1[2]['pk']);
 
 
                     $('#option4').val(data1[3]['fields']['evaluation_question_option']);
-                    $('#option4_id').val(data1[3]['pk']);
+                    $('#uf_option4_id').val(data1[3]['pk']);
 
-                    $('#option5_id').val('');
+                    $('#uf_option5_id').val('');
 
 
                 }
@@ -88,16 +89,16 @@ $(document).on('click', '.editquestion', function () {
                     $('#question').val(data.qesans.question);
 
                     $('#option1').val(data1[0]['fields']['evaluation_question_option']);
-                    $('#option1_id').val(data1[0]['pk']);
+                    $('#uf_option1_id').val(data1[0]['pk']);
 
                     $('#option2').val(data1[1]['fields']['evaluation_question_option']);
-                    $('#option2_id').val(data1[1]['pk']);
+                    $('#uf_option2_id').val(data1[1]['pk']);
 
                     $('#option3').val(data1[2]['fields']['evaluation_question_option']);
-                    $('#option3_id').val(data1[2]['pk']);
+                    $('#uf_option3_id').val(data1[2]['pk']);
 
-                    $('#option4_id').val('');
-                    $('#option5_id').val('');
+                    $('#uf_option4_id').val('');
+                    $('#uf_option5_id').val('');
 
 
 
@@ -108,14 +109,14 @@ $(document).on('click', '.editquestion', function () {
                      $('#question').val(data.qesans.question);
 
                     $('#option1').val(data1[0]['fields']['evaluation_question_option']);
-                    $('#option1_id').val(data1[0]['pk']);
+                    $('#uf_option1_id').val(data1[0]['pk']);
 
                     $('#option2').val(data1[1]['fields']['evaluation_question_option']);
-                    $('#option2_id').val(data1[1]['pk']);
+                    $('#uf_option2_id').val(data1[1]['pk']);
 
-                    $('#option3_id').val('');
-                    $('#option4_id').val('');
-                    $('#option5_id').val('');
+                    $('#uf_option3_id').val('');
+                    $('#uf_option4_id').val('');
+                    $('#uf_option5_id').val('');
 
 
                 }
@@ -124,20 +125,20 @@ $(document).on('click', '.editquestion', function () {
                      $('#question').val(data.qesans.question);
 
                     $('#option1').val(data1[0]['fields']['evaluation_question_option']);
-                    $('#option1_id').val(data1[0]['pk']);
+                    $('#uf_option1_id').val(data1[0]['pk']);
 
-                    $('#option2_id').val('');
-                    $('#option3_id').val('');
-                    $('#option4_id').val('');
-                    $('#option5_id').val('');
+                    $('#uf_option2_id').val('');
+                    $('#uf_option3_id').val('');
+                    $('#uf_option4_id').val('');
+                    $('#uf_option5_id').val('');
 
                 }
 
-                checkanswer= $('#correctanswer').text();
+                checkanswer= $('#uf_correctanswer').text();
                 if($('#option1').val() == checkanswer||$('#option2').val() == checkanswer||$('#option3').val() == checkanswer||$('#option4').val() == checkanswer||$('#option5').val() == checkanswer){
 
 
-                }else $('#correctanswer').text('');
+                }else $('#uf_correctanswer').text('');
 
 
             },
@@ -161,7 +162,7 @@ $(document).on('change', 'input:radio', function () {
 
             document.getElementById('option1').style.borderColor = "green";
             selectedans = $('#option1').val();
-            $('#correctanswer').text(selectedans);
+            $('#uf_correctanswer').text(selectedans);
 
         } else document.getElementById('option1').style.borderColor = "#DCDCDC";
 
@@ -169,27 +170,27 @@ $(document).on('change', 'input:radio', function () {
 
             document.getElementById('option2').style.borderColor = "green";
              selectedans = $('#option2').val();
-            $('#correctanswer').text(selectedans);
+            $('#uf_correctanswer').text(selectedans);
 
         } else document.getElementById('option2').style.borderColor = "#DCDCDC";
 
         if (selected == 3) {
             document.getElementById('option3').style.borderColor = "green";
             selectedans = $('#option3').val();
-            $('#correctanswer').text(selectedans);
+            $('#uf_correctanswer').text(selectedans);
 
         } else document.getElementById('option3').style.borderColor = "#DCDCDC";
         if (selected == 4) {
 
             document.getElementById('option4').style.borderColor = "green";
             selectedans = $('#option4').val();
-            $('#correctanswer').text(selectedans);
+            $('#uf_correctanswer').text(selectedans);
         } else document.getElementById('option4').style.borderColor = "#DCDCDC";
         if (selected == 5) {
 
             document.getElementById('option5').style.borderColor = "green";
             selectedans = $('#option5').val();
-            $('#correctanswer').text(selectedans);
+            $('#uf_correctanswer').text(selectedans);
         } else document.getElementById('option5').style.borderColor = "#DCDCDC";
     } catch(err){
 
@@ -212,7 +213,7 @@ try {
     $("#label" + 3).remove();
     $("#label" + 4).remove();
     $("#label" + 5).remove();
-    $('#correctanswer').text("");
+    $('#uf_correctanswer').text("");
     document.getElementById('option1').style.borderColor = "#DCDCDC";
     document.getElementById('option2').style.borderColor = "#DCDCDC";
     document.getElementById('option3').style.borderColor = "#DCDCDC";
@@ -226,11 +227,11 @@ try {
 
 });
 
-$('#question_modal').ready(function(){
+$('#neweditmodal').ready(function(){
 
 
 
-    $("#addoptions").click(function () {
+    $("#uf_addoptions").click(function () {
         $("#heading3").text("").show();
 
 
@@ -256,8 +257,8 @@ $('#question_modal').ready(function(){
         newTextBoxDiv.before().html(label);
 
 
-        $( "#inserthere" ).append( $(radio) );
-     $( "#lastchild" ).first().before( newTextBoxDiv );
+        $( "#uf_inserthere" ).append( $(radio) );
+     $( "#uf_lastchild" ).first().before( newTextBoxDiv );
 
 
 
@@ -269,7 +270,7 @@ $('#question_modal').ready(function(){
 	counter++;
      });
 
-     $("#removeoptions").click(function () {
+     $("#_ufremoveoptions").click(function () {
          $("#heading3").text("").show();
 
 
@@ -362,8 +363,8 @@ function value(data){
                         newTextBoxDiv.before().html(label);
 
 
-                       $( "#inserthere" ).append( $(radio) );
-                      $( "#lastchild" ).first().before( newTextBoxDiv );
+                       $( "#uf_inserthere" ).append( $(radio) );
+                      $( "#uf_lastchild" ).first().before( newTextBoxDiv );
                     counter++;
                 }
 
@@ -401,8 +402,8 @@ function value(data){
                       newTextBoxDiv.before().html(label);
 
 
-                      $("#inserthere").append($(radio));
-                      $("#lastchild").first().before(newTextBoxDiv);
+                      $("#uf_inserthere").append($(radio));
+                      $("#uf_lastchild").first().before(newTextBoxDiv);
                       counter++;
 
 
@@ -445,8 +446,8 @@ function value(data){
                       newTextBoxDiv.before().html(label);
 
 
-                      $("#inserthere").append($(radio));
-                      $("#lastchild").first().before(newTextBoxDiv);
+                      $("#uf_inserthere").append($(radio));
+                      $("#uf_lastchild").first().before(newTextBoxDiv);
                       counter++;
 
 
@@ -459,7 +460,7 @@ $(document).on('click', '#update_question_button', function () {
     optioncount=0;
 
      $("#heading3").text('');
-    $('#answerofquestion').val($('#correctanswer').text());
+    $('#uf_answerofquestion').val($('#uf_correctanswer').text());
 
      if($('#option1').val()) {
          optioncount++;
@@ -484,14 +485,14 @@ event.preventDefault();
 
      event.preventDefault();
 
-    if($('#correctanswer').text()) {
+    if($('#uf_correctanswer').text()) {
         $("#heading3").text('');
         event.preventDefault();
         $.ajax(
             {
                 url: '/evaluation/edit/question-options/',
                 type: 'POST',
-                data: $('form#update_question').serialize(),
+                data: $('form#uf_update_question').serialize(),
 
 
                 success: function (response) {

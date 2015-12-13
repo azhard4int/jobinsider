@@ -1,0 +1,19 @@
+{% if total_schedule %}
+    {% for schedule in total_schedule %}
+        <div class="job_list schedule_interview_name">
+            <h5>{{ schedule}}</h5>
+        </div>
+        <div class="job_status">
+            <span >{{ schedule.shortlisted_date}}</span>
+        </div>
+        <div class="job_status">
+            <span >{{ schedule.user.first_name }}</span>
+        </div>
+        <div class="clearfix"></div>
+    {% endfor %}
+{% else %}
+    <span class="empty_data">
+        There are no scheduled interviews for this date..
+    </span>
+    <div class="clearfix"></div>
+{% endif %}
