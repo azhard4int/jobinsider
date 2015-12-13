@@ -3,8 +3,11 @@
  */
 var counter = 3;
 var selectedans;
-$(document).on('click', '.editquestion', function () {
+$(document).on('click', '.uf_editquestion', function () {
     counter = 3;
+
+
+
   $('#correctanswer').text("");
     $("#heading3").text('');
     $('#option1_id').val('');
@@ -18,7 +21,8 @@ $(document).on('click', '.editquestion', function () {
 
 
     var question_id=$(this).val();
-    $('#idofquestion').val(question_id);
+    $('#uf_idofquestion').val(question_id);
+
      $.ajax(
         {
             url: '/evaluation/edit/question-options/',
@@ -26,7 +30,7 @@ $(document).on('click', '.editquestion', function () {
             data:{
 
                 'id':question_id,
-                "csrfmiddlewaretoken": document.getElementsByName('csrfmiddlewaretoken')[0].value
+                 "csrfmiddlewaretoken": document.getElementsByName('csrfmiddlewaretoken')[0].value
             },
 
 
@@ -34,7 +38,7 @@ $(document).on('click', '.editquestion', function () {
             success:function(response)
             {
               var data = jQuery.parseJSON(response);
-                console.log(data);
+
 
                 value(data.length);
 
@@ -226,11 +230,11 @@ try {
 
 });
 
-$('#question_modal').ready(function(){
+$('#neweditmodal').ready(function(){
 
 
 
-    $("#addoptions").click(function () {
+    $("#uf_addoptions").click(function () {
         $("#heading3").text("").show();
 
 
@@ -256,8 +260,8 @@ $('#question_modal').ready(function(){
         newTextBoxDiv.before().html(label);
 
 
-        $( "#inserthere" ).append( $(radio) );
-     $( "#lastchild" ).first().before( newTextBoxDiv );
+        $( "#uf_inserthere" ).append( $(radio) );
+     $( "#uf_lastchild" ).first().before( newTextBoxDiv );
 
 
 
@@ -269,7 +273,7 @@ $('#question_modal').ready(function(){
 	counter++;
      });
 
-     $("#removeoptions").click(function () {
+     $("#uf_removeoptions").click(function () {
          $("#heading3").text("").show();
 
 
@@ -362,8 +366,8 @@ function value(data){
                         newTextBoxDiv.before().html(label);
 
 
-                       $( "#inserthere" ).append( $(radio) );
-                      $( "#lastchild" ).first().before( newTextBoxDiv );
+                       $( "#uf_inserthere" ).append( $(radio) );
+                      $( "#uf_lastchild" ).first().before( newTextBoxDiv );
                     counter++;
                 }
 
@@ -401,8 +405,8 @@ function value(data){
                       newTextBoxDiv.before().html(label);
 
 
-                      $("#inserthere").append($(radio));
-                      $("#lastchild").first().before(newTextBoxDiv);
+                      $("#uf_inserthere").append($(radio));
+                      $("#uf_lastchild").first().before(newTextBoxDiv);
                       counter++;
 
 
@@ -445,8 +449,8 @@ function value(data){
                       newTextBoxDiv.before().html(label);
 
 
-                      $("#inserthere").append($(radio));
-                      $("#lastchild").first().before(newTextBoxDiv);
+                      $("#uf_inserthere").append($(radio));
+                      $("#uf_lastchild").first().before(newTextBoxDiv);
                       counter++;
 
 
@@ -491,7 +495,7 @@ event.preventDefault();
             {
                 url: '/evaluation/edit/question-options/',
                 type: 'POST',
-                data: $('form#update_question').serialize(),
+                data: $('form#uf_update_question').serialize(),
 
 
                 success: function (response) {
@@ -539,7 +543,7 @@ event.preventDefault();
     });
 
 
-$(document).on('click', '.delete', function () {
+$(document).on('click', '.uf_delete', function () {
 
     id=$(this).val();
      event.preventDefault();

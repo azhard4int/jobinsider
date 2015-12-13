@@ -402,27 +402,6 @@ $('.previewtest').on('click', function(event)
 
          try{
              $('#pre_test').modal('show');
-    //$.ajax(
-    //    {
-    //        url: '/evaluation/get-evaluation-test-info/',
-    //        type: 'GET',
-    //        data:{
-    //            'id':get_id,
-    //            "csrfmiddlewaretoken": document.getElementsByName('csrfmiddlewaretoken')[0].value
-    //
-    //        },
-    //        success:function(response)
-    //        {
-    //          var data = jQuery.parseJSON(response);
-    //
-    //
-    //
-    //        },
-    //        error: function(response) {
-    //         //console.log(response);
-    //    }
-    //    }
-    //);
              } catch(e){
 
 

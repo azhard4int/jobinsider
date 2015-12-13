@@ -1239,30 +1239,47 @@ $('.apply_with_evaluation').on('click', function(e)
 {
     e.preventDefault();
     var evaluation_test_id  = $(this).data('evaluation-id');
-    $.ajax(
-        {
-            url: '/evaluation/get-evaluation-test-questions/',
-            type: 'GET',
-            data:{
-                'id':evaluation_test_id,
-                "csrfmiddlewaretoken": document.getElementsByName('csrfmiddlewaretoken')[0].value
-            },
-            success:function(response)
+     $('.test_description').empty();
+     $('.test_rules').empty();
+     $('.pre_test_catagory').empty();
+     $('.pre_test_type').empty();
+     $('.pre_questions').empty();
+     $('.pre_test_time').empty();
+     $("#start_test").val(evaluation_test_id);
+        $.ajax(
             {
-              var data = jQuery.parseJSON(response);
-                if(data.length==undefined){
+                url: '/evaluation/info/',
+                type: 'POST',
+                data:{
+                    'id':evaluation_test_id,
+                    "csrfmiddlewaretoken": document.getElementsByName('csrfmiddlewaretoken')[0].value
 
-                    alert("You have not add any questions to template");
-                     $('#previewtest').modal('hide');
+                },
+                success:function(response)
+                {
+                    $('#pre_test').modal('show');
+                    resp = JSON.parse(response);
+
+                    $('.test_description').append(resp.list.evaluation_description);
+                    $('.test_rules').append(resp.list.evaluation_rules);
+                    $('.pre_test_catagory').append(resp.list.evaluation_catagory);
+
+                    var type;
+                    if(resp.list.evaluation_type==0){
+                        type ="MCQ"
+
+                    }else type="True/False";
+
+                    $('.pre_test_type').append(type);
+                    $('.pre_questions').append(resp.list.evaluation_total_questions);
+                    $('.pre_test_time').append(resp.list.evaluation_time+' mins');
+
+
+                },
+                error: function(response) {
                 }
-                question(data);
-            },
-            error: function(response) {
-             //console.log(response);
             }
-        }
-    );
-
+        );
     return false;
 });
 
