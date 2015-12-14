@@ -27,7 +27,7 @@ def build_template(request, ajax,job_advertisement, filtered_results, is_favorit
     user_status = None
     obj = SearchView()
     is_user_company = None
-    body_status = 2
+    body_status = 0
     try:
         if request.user.id:
             body_status=company_views.is_body_status(request)
@@ -35,6 +35,7 @@ def build_template(request, ajax,job_advertisement, filtered_results, is_favorit
             user_company = obj.is_user_company(request.user.id)
             if user_company == 1:
                 is_user_company = 1
+            print "body status is {0}".format(body_status)
     except Exception as IndexError:
         user_status = 1
         print IndexError
@@ -91,6 +92,7 @@ def build_template(request, ajax,job_advertisement, filtered_results, is_favorit
                 'filtered_results': filtered_results,
                 'body_status': body_status # Taking the function from company views
             })
+
 
 class Default_Search(View):
     def get(self, request):

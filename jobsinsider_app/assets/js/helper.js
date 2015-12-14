@@ -61,5 +61,6 @@ function message_display( message, is_status )
 
 $('.datepicker').datepicker({
     format: 'yyyy-mm-dd',
-    startDate: '0d'
+    //startDate: '0d'
+    autoClose:true
 });

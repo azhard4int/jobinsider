@@ -145,7 +145,7 @@ class AdvertisementApplied(models.Model):
     # location = models.ForeignKey(users_models.UserLocation, default=None)
     is_shortlisted = models.BooleanField(default=False)
     applied_date = models.DateTimeField(default=None)
-    evaluation_test_score = models.CharField(max_length=255, default=None, blank=True)
+    evaluation_test_score = models.CharField(max_length=255, default=None, blank=True, null=True)
 
     def __unicode__(self):
         return unicode(self.advertisement)

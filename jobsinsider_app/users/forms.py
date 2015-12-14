@@ -29,6 +29,13 @@ class UserBioInfo(forms.ModelForm):
             ('1', 'Female',),
         )
     )
+    user_portrait = forms.FileField(
+        widget=forms.FileInput(
+            attrs={
+                'accept': '.jpg, .png'
+            }
+        )
+    )
     class Meta:
         model = UserBio
         fields = {
@@ -41,7 +48,11 @@ class UserBioInfo(forms.ModelForm):
 
 class UserCVForm(forms.ModelForm):
     user_cv_file = forms.FileField(
-
+         widget=forms.FileInput(
+            attrs={
+                'accept': '.pdf'
+            }
+        )
     )
     class Meta:
         model = UserCV

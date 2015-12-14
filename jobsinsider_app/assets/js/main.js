@@ -1330,10 +1330,10 @@ $('.predefined_template ').on('click', function(e)
         'Make sure you bring your Resume along with you';
     $('#interview_message').html(email);
     return false;
-})
+});
 $('.clear_template').on('click', function(e)
 {
     e.preventDefault();
     $('#interview_message').html('');
     return false;
-})
+});

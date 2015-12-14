@@ -85,6 +85,9 @@ class UserDashboard(View):
         favorite_jobs = company_models.AdvertisementFavorite.objects.filter(
             user_id=request.user.id
         ).count()
+        interviews_total_scheduled = company_models.ShortlistedCandidates.objects.filter(user_id=request.user.id,
+                                                                                         is_interview=True).count()
+        total_shortlisted = company_models.ShortlistedCandidates.objects.filter(user_id=request.user.id).count()
         get_categories = core_models.Categories.objects.get_all()
         return render(
             request,
@@ -93,7 +96,10 @@ class UserDashboard(View):
                 'job_detail': jobs_details,
                 'applied_jobs': applied_jobs,
                 'favorite_jobs': favorite_jobs,
-                'categories': get_categories
+                'categories': get_categories,
+                'total_interviews': interviews_total_scheduled,
+                'total_shortlisted': total_shortlisted,
+                'body_status': 0
             }
         )
 
@@ -237,7 +243,7 @@ class UserCVUpload(View):
             if user_cv_data.user_cv_builder == 0 or user_status.user_cv_status == 1:
                 return HttpResponseRedirect('/user/add_employment/')
         cvform = UserCVForm()
-        return render(request, 'cv_selection_page.html', {'user_cv_form': cvform})
+        return render(request, 'cv_selection_page.html', {'user_cv_form': cvform,'body_status': 0})
 
     @method_decorator(login_required)
     def post(self, request, *args, **kwargs):
@@ -320,6 +326,7 @@ class AddUserEmployment(View):
                     'employment_user': employment_history,
                     'education_user': education_history,
                     'edu': eduform,
+                    'body_status': 0
                 }
             )
         if user_cv.user_cv_emp_status == 1: #and user_cv.user_cv_builder==0
@@ -478,9 +485,8 @@ class Profile(View):
             'email': request.user.email,
             'username': request.user.username,
 
-
         })
-        return render(request, 'user_profile.html', {'user_basic_form': user_basic})
+        return render(request, 'user_profile.html', {'user_basic_form': user_basic,'body_status': 0})
 
     @method_decorator(login_required)
     def post(self, request):
@@ -514,7 +520,7 @@ class ProfileChangePassword(View):
     @method_decorator(is_job_seeker)
     def get(self, request):
         change_password = accountsform.ChangeProfilePassword()
-        return render(request, 'user_change_password.html', {'cp': change_password})
+        return render(request, 'user_change_password.html', {'cp': change_password, 'body_status': 0})
 
     @method_decorator(login_required)
     def post(self, request):
@@ -566,7 +572,8 @@ class ProfileUser(View):
         return render(request, 'profile.html', {
             'user': main,
             'user_employment': employment_data,
-            'user_education': education
+            'user_education': education,
+            'body_status': 0
         })
 
 
@@ -611,7 +618,8 @@ class ProfileSettings(View):
             'user_education': education,
             'locationForm': locationForm,
             'userBio': userBioForm,
-            'user_cv_status': data.usercv.user_cv_builder_status
+            'user_cv_status': data.usercv.user_cv_builder_status,
+            'body_status': 0
         })
 
     def post(self, request):
@@ -681,7 +689,8 @@ class ProfileSettingsEducation(View):
             'user_employment': employment_data,
             'user_education': education,
             'edu': eduform,
-            'user_cv_status': data.usercv.user_cv_builder_status
+            'user_cv_status': data.usercv.user_cv_builder_status,
+            'body_status': 0
 
         })
 
@@ -726,7 +735,8 @@ class ProfileSettingsEmployment(View):
             'user_employment': employment_data,
             'user_education': education,
             'cv_employ': cvemploy,
-            'user_cv_status': data.usercv.user_cv_builder_status
+            'user_cv_status': data.usercv.user_cv_builder_status,
+            'body_status': 0
         })
 
     def post(self, request):
@@ -763,7 +773,8 @@ class ProfileSettingsResume(View):
         user_cv = UserCV.objects.filter(user_id=request.user.id)[0]
         return render(request, 'profile_settings_resume.html',{
             'user_cv':user_cv,
-            'user_cv_status': user_cv.user_cv_builder_status
+            'user_cv_status': user_cv.user_cv_builder_status,
+            'body_status': 0
         })
 
     def post(self, request):
@@ -809,7 +820,8 @@ class UserMessages(View):
                 'message_data': data['all_data_sort'],
                 'sender_side_name': data['server_side_name'],
                 'sender_id': request.user.id,
-                'candidate_id': candidate_id
+                'candidate_id': candidate_id,
+                'body_status': 0
             }
         )
 

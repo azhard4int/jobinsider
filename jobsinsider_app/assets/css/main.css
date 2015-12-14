@@ -1343,3 +1343,15 @@ div.remove_favorite_btn a:hover {
   text-decoration: none !important;
   color: #fff;
 }
+.user_employment_action,
+.user_education_action {
+  text-align: center;
+}
+.user_employment_action a,
+.user_education_action a {
+  border-radius: 4px;
+  color: #fff;
+  padding: 5px 10px;
+  background: #c84641 !important;
+  text-decoration: none;
+}
