@@ -290,7 +290,7 @@ class Get_Evaluation_Test_Questions(View):
 
             newquery=serializers.serialize('json', query2)
             length=len(query2)
-
+            checkattempts(request.user.id,request.GET['id'])
             if query and query2:
                  return HttpResponse(json.dumps({'test_id':request.GET['id'],
                                                  'question_id':query[0].id,
@@ -318,10 +318,16 @@ class Get_Evaluation_Test_Questions(View):
                             evaluation_test_template_id=request.POST['test_id']
                         ).count()
                         # print cal_reult
-                        # print count
+                        models.evaluation_result.objects.filter(user_id=request.user.id,evaluation_test_template_id=request.POST['test_id']).update(result=cal_reult)
+                        number_of_attempts = models.evaluation_result.objects.filter(user_id=request.user.id,evaluation_test_template_id=request.POST['test_id'])
+
+                        if number_of_attempts:
+                            totalattempts=number_of_attempts[0].attempts
+                        else:totalattempts=0
+
                         final_percentage = float((float(cal_reult)/float(count))*100)
                         #'questions': count
-                        return HttpResponse(json.dumps({'status': 'Test is Finished', 'questions':100,'final_marks':final_percentage }))
+                        return HttpResponse(json.dumps({'status': 'Test is Finished', 'questions':100,'final_marks':final_percentage,'attempts':totalattempts }))
               query=models.evaluation_test_questions.objects.filter(id=next_question_id,evaluation_test_template_id=request.POST['test_id'])
               query2 = models.evaluation_test_answer.objects.filter(evaluation_test_questions_id=query[0].id,evaluation_test_template_id=request.POST['test_id'])
               newquery=serializers.serialize('json', query2)
@@ -688,3 +694,15 @@ def pagination_table(page,table):
         # If page is out of range (e.g. 9999), deliver last page of results.
             table = paginator.page(paginator.num_pages)
         return table
+
+def checkattempts(id,test_id):
+   try:
+      x=models.evaluation_result.objects.filter(user_id=id,evaluation_test_template_id=test_id)
+      if x:
+        number=int(x[0].attempts)
+        number=number+1
+        models.evaluation_result.objects.filter(user_id=id,evaluation_test_template_id=test_id).update(attempts=number)
+      if not x:
+        models.evaluation_result(result=0,attempts=1,evaluation_test_template_id=test_id,user_id=id).save()
+   except Exception as e:
+         print e
