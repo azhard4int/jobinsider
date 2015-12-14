@@ -1311,3 +1311,35 @@ div.remove_favorite_btn a:hover {
 .categories_head td {
   padding: 5px 0;
 }
+#interview_message {
+  height: 120px;
+  min-height: 120px;
+}
+.predefined_template,
+.clear_template {
+  text-decoration: none;
+  color: #fff;
+  font-size: 14px;
+  background: #8183fa;
+  border-radius: 4px;
+  padding: 5px 10px;
+}
+.clear_template {
+  background: #fa5751 !important;
+}
+.predefined_template:hover,
+.clear_template:hover {
+  text-decoration: none !important;
+  color: #fff;
+  border-radius: 4px;
+  background: #6b6ccf;
+  padding: 5px 10px;
+}
+.clear_template:hover {
+  background: #c84641 !important;
+}
+.predefined_template.active,
+.clear_template.active {
+  text-decoration: none !important;
+  color: #fff;
+}

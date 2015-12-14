@@ -69,10 +69,29 @@
 #job_advertisement .job_advert_form .apply_datepicker {
   display: none;
 }
+.schedule_interviews_date {
+  float: right;
+}
+.schedule_interview_btn {
+  font-size: 16px;
+  background: #b790e1;
+  border: 1px solid #7948a5;
+  padding: 5px 20px;
+  color: #fff !important;
+  float: right;
+  border-radius: 4px;
+  text-decoration: none;
+}
+.schedule_interview_btn:hover {
+  background: #a27fc7;
+  text-decoration: none;
+  color: #fff;
+}
 .company_job_box {
   padding-bottom: 20px;
 }
-.company_job_box h3 {
+.company_job_box h3,
+.company_job_box .schedule_interviews_homepage {
   padding: 0;
   font-size: 20px;
   padding: 10px;
@@ -82,6 +101,10 @@
   padding-left: 10px;
   color: #fff;
   border-bottom: 1px solid #8C53BF;
+}
+.company_job_box .schedule_interviews_date {
+  color: #242424;
+  font-size: 16px;
 }
 .company_job_box thead {
   background: #fafafa;
