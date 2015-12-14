@@ -4,7 +4,8 @@
             {% block authenticate_user %} {{ user.first_name|slice:":1" }}{{ user.last_name|slice:":1" }}{%  endblock %}
         {% endif %}
 {% block body_content %}
-    {% include 'evaluation_testmodal.html' %}
+      {% include "evaluation_testmodal.html" %}
+    {% include "evaluation_pretest_modal.html" %}
     <div class="notify_message">
         <h4>
             <span>
@@ -139,4 +140,8 @@
             </div>
         </div>
     </section>
+
+
+
+
 {% endblock %}
