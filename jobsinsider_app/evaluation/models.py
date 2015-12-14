@@ -37,6 +37,7 @@ class evaluation_test_answer(models.Model):
 
 class evaluation_result(models.Model):
     result = models.CharField( blank=True,max_length=255,default=None)
+    attempts = models.CharField( blank=True,max_length=255,default=None)
     evaluation_test_template = models.ForeignKey(evaluation_test_template)
     user = models.ForeignKey(User)
 

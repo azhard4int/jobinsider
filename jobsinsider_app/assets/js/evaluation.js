@@ -641,6 +641,11 @@ $('#next_button').on('click', function(event)
                    $("#next_button").hide();
                     $("#remove_label").hide();
                     $('#headingtest').text("Test is Finished and You got "+data.final_marks+" out of "+data.questions);
+
+                    element = '<pre class="attempts">' +
+                    "Total number of attempts "+data.attempts+'</pre>';
+
+                    $('#headingtest').append($(element));
                     clearTimeout(helo);
 
                     setTimeout(
