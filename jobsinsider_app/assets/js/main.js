@@ -1238,6 +1238,7 @@ $('.alert_user_job').on('click', function(e)
 $('.apply_with_evaluation').on('click', function(e)
 {
     e.preventDefault();
+    $('#pre_test').modal('show');
     var evaluation_test_id  = $(this).data('evaluation-id');
      $('.test_description').empty();
      $('.test_rules').empty();
