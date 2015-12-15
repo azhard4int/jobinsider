@@ -709,10 +709,18 @@ $('.send_message_btn').on('click', function(e)
         data: $('.sendMessageForm').serialize(),
         success:function(m)
         {
-            console.log(m)
+            var resp = JSON.parse(m);
+            if(resp.status==true)
+            {
+                message_display('Message Sent Successfully', '1');
+                setTimeout(function(){
+                       window.location.reload(1);
+                    }, 1000);
+
+            }
         },
         error:function(m){
-            console.log(m)
+            message_display('Something went wrong, Notify administrators!', 0)
         }
 
     });
@@ -1053,6 +1061,7 @@ $('.upload_resume_btn').on('click', function(e)
                 if(resp.status==true)
                 {
                     message_display('Settings Saved Successfully!', 1)
+
                 }
             },
             error:function(m)
@@ -1338,3 +1347,97 @@ $('.clear_template').on('click', function(e)
     $('#interview_message').html('');
     return false;
 });
+
+$('.applied_posted_job').on('click', function(e)
+{
+    e.preventDefault();
+    var job_id = ($(this).attr('value'));
+    $.ajax(
+        {
+            type: 'POST',
+            url: '/company/candidates/all/',
+            data:
+            {
+                'job_id': job_id,
+                'csrfmiddlewaretoken': document.getElementsByName('csrfmiddlewaretoken')[0].value
+            },
+            success:function(m)
+            {
+                $('.applied_candidate_listview').html(m);
+            },
+            error:function(m)
+            {
+
+            }
+        }
+    );
+    return false;
+});
+
+//on all applied candidates page - shortlist addition and removal function
+
+$('.shorlist__candidate__all').on('click', function(e){
+    e.preventDefault();
+    var job_id = $(this).data('job_id');
+    $.ajax({
+        url:'/company/shortlist/' + $(this).attr('value') + "/" +  job_id + "/",
+        type: 'POST',
+        data: {
+            csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value
+        },
+        success:function(m){
+            var resp = JSON.parse(m);
+            console.log(resp);
+            if(resp.status==true){
+                console.log('hoa');
+                message_display('Candidate Added to Shortlisted Category', 1);
+            }
+
+        },
+        error:function(m){
+            message_display('Something Went Wrong, Please try again', 0);
+        }
+
+    });
+    return false;
+})
+
+$('.shorlist__candidate__remove__all').on('click', function(e){
+    e.preventDefault();
+    var job_id = $(this).data('job_id');
+    $.ajax({
+        url:'/company/shortlist_remove/' + $(this).attr('value') + "/" +  job_id + "/",
+        type: 'POST',
+        data: {
+            csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value
+        },
+        success:function(m){
+            var resp = JSON.parse(m);
+            console.log(resp);
+            if(resp.status==true){
+                message_display('Candidate Removed from Shortlisted Category', 1);
+            }
+
+        },
+        error:function(m){
+            message_display('Something Went Wrong, Please try again', 0);
+        }
+
+    });
+    return false;
+});
+$('id_company_from').datepicker(
+    {
+        autoclose: True
+    }
+)
+    $("#id_company_from").datepicker({
+        onSelect: function(selected) {
+          $("#id_company_to").datepicker("option","minDate", selected)
+        }
+    });
+    $("#id_company_to").datepicker({
+        onSelect: function(selected) {
+           $("#id_company_from").datepicker("option","maxDate", selected)
+        }
+    });

@@ -6,8 +6,7 @@
     {% block authenticate_user %} {{ user.first_name|slice:":1" }}{{ user.last_name|slice:":1" }}{%  endblock %}
 {% endif %}
 {% block body_content %}
-
-
+    {% include 'notify_message.html' %}
 <div class="clearfix"></div>
 {#    <section id="company">#}
 {#        <div class="container">#}

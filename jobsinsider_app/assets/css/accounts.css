@@ -625,6 +625,7 @@ section.core_content .email_box {
   border-radius: 20px;
   padding: 10px 10px;
   background: #9d79cc;
+  text-transform: uppercase;
 }
 .header_top_menu {
   background: #fff;

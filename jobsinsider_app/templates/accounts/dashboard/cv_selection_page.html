@@ -2,7 +2,7 @@
     <title>{% block title %}Select Your Profession{% endblock %}</title>
 {% if user.is_authenticated %}
 
-    {% block authenticate_user %}{{ user.first_name|slice:":1"}} {{ user.last_name|slice:":1" }}{%  endblock %}
+    {% block authenticate_user %}{{ user.first_name|slice:":1"}}{{ user.last_name|slice:":1" }}{%  endblock %}
 
 {% endif %}
 {% block body_content %}
@@ -93,7 +93,4 @@
             </div>
         </div>
     </section>
-
-
-<a href="/accounts/logout">Log out</a>
 {% endblock %}

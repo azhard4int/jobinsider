@@ -294,11 +294,14 @@ class Job_Details(View):
 
 def add_favorite_job(request):
     data_obj = SearchView()
-    company_models.AdvertisementFavorite(
-            user_id = request.user.id,
-            advertisement_id = request.POST['job_id'],
-            add_date = datetime.now()
-        ).save()
+    try:
+        company_models.AdvertisementFavorite(
+                user_id = request.user.id,
+                advertisement_id = request.POST['job_id'],
+                add_date = datetime.now()
+            ).save()
+    except:
+        return HttpResponse(json.dumps({'status': False, 'response': 'Job Already Exist in Favorites!'}))
     return HttpResponse(
             json.dumps({
                 'status': True,

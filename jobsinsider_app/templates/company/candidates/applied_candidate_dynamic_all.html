@@ -1,45 +1,4 @@
-{% extends "base_dasboard.html" %}
-    <title>{% block title %}Applied Candidates{% endblock %}</title>
-        {% if user.is_authenticated %}
-            {% block authenticate_user %}{{ user.first_name|slice:":1" }}{{ user.last_name|slice:":1" }}{%  endblock %}
-        {% endif %}
-{% block header_company_nav %}
-    <a href="{% url 'company_profile' %}">Account Settings</a>
-    <a href="{% url 'logout' %}">Logout</a>
-{% endblock %}
-{% block body_content %}
-    <div class="clearfix"></div>
-    <section id="company">
-        <div class="container">
-            <div class="col-md-12">
-                <div class="col-md-4">
-
-                    <h3>
-                        Applied Candidates
-                    </h3>
-
-                </div>
-                <div class="col-md-8">
-                    <div class="cp_nav">
-                        <ul>
-                            <li><a href="{% url 'job_advertisement' %}">Create Job Ad</a></li>
-                            <li><a href="{% url 'posted_jobs' %}">Posted Jobs</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="main_container">
-        <div class="container">
-            <div class="col-md-12 applied__user__box">
-            {% csrf_token %}
-            {% if data_count != 0 %}
-                <input type="hidden" class="job__advert__id" value="{{ job_id }}">
-
-                    <div class="col-md-9 ">
-                     {%  for details in data %}
+{%  for details in data %}
                         <div class="applied__user">
                             <div class="col-md-2">
                                 <img class="user__profile" src="{{ MEDIA_URL }}userprofile/{{ details.user_portrait_filename }}" alt="">
@@ -81,39 +40,38 @@
                                     {% endfor %}
                                 <h4>
                                 </h4>
-
-
                             </div>
                             <div class="col-md-3 user__actions">
                                 <a href="{% url 'candidate' details.user_id %}" class="job_apply_btn view__detail">View Detail Profile</a>
-                                {% if details.is_interview == False %}
-                                    <a href="{% url 'schedule_interview' details.user_id job_id %}" class="job_apply_btn schedule__interview__candidate">Schedule Interview</a>
+                                {% if details.is_shortlisted == False %}
+                                    <a href="javascript:;" value="{{ details.user_id }}" data-job_id="{{ details.advertisement_id }}" class="job_apply_btn shorlist__candidate__all">Shortlist Candidate</a>
                                 {% else %}
-                                    <a href="{% url 'schedule_interview' details.user_id job_id %}" class="job_apply_btn schedule__interview__candidate">Reschedule Interview</a>
+                                    <a href="javascript:;" value="{{ details.user_id }}" data-job_id="{{ details.advertisement_id }}" class="job_apply_btn shorlist__candidate__remove__all">Remove Candidate Shortlist</a>
                                 {% endif %}
-                                <a href="javascript:;" value="{{ details.user_id }}" class="job_apply_btn shorlist__candidate__remove">Remove Shortlist</a>
+                                 {% if is_evaluation_test %}
+                                    <h3 class="evaluation_test_score">
+                                    {% if details.evaluation_test_score %}
+                                        <span class="et_score_green">{{ details.evaluation_test_score|floatformat:"2"  }} % Correct</span>
+                                    {% else %}
+                                        <span class="et_score_none">No Test Given</span>
+                                    {% endif %}
+    {#                                {% if details.evaluation_test_score|floatformat:"0" <= 30 %}#}
+    {#                                    <span style="color:#c80000;">{{ details.evaluation_test_score|floatformat:"0" }}</span>#}
+    {#                                {% elif details.evaluation_test_score|floatformat:"0" > 40 and details.evaluation_test_score < 50 %}#}
+    {#                                    <span style="color:#eebe3e;">{{ details.evaluation_test_score|floatformat:"0" }}</span>#}
+    {#                                {% elif details.evaluation_test_score|floatformat:"0" > 51 and details.evaluation_test_score < 70 %}#}
+    {#                                    <span style="color:#d5ff3a;">{{ details.evaluation_test_score|floatformat:"0" }}</span>#}
+    {#                                {% elif details.evaluation_test_score|floatformat:"0" > 71 and details.evaluation_test_score < 80 %}#}
+    {#                                    <span style="color:#c8ff28;">{{ details.evaluation_test_score|floatformat:"0" }}</span>#}
+    {#                                {% elif details.evaluation_test_score|floatformat:"0" > 81 and details.evaluation_test_score < 100 %}#}
+    {#                                    <span style="color:#26e500;">{{ details.evaluation_test_score|floatformat:"0" }}</span>#}
+    {#                                {% endif %}#}
+                                    </h3>
+                                     {% if details.attempts %}
+                                         <h4 class="user_attempts">Attempts: {{ details.attempts }}</h4>
+                                    {% endif %}
+                                {% endif %}
                             </div>
                             <div class="clearfix"></div>
                         </div>
                         {% endfor %}
-                    </div>
-
-                    <div class="col-md-3 ">
-                        <div class="user__filters">
-                            <h3>
-                                Country Filter
-                            </h3>
-    {#                        <input type="radio" name="" id="countries" ><label for="countries" >Pakistan</label>#}
-                        </div>
-
-                    </div>
-            {% else %}
-                <span class="empty_data favorite_empty">
-                        You have not shortlisted any candidate yet. Shortlist your candidate in order to interview them.
-                </span>
-            {% endif %}
-            </div>
-        </div>
-    </section>
-
-{% endblock %}

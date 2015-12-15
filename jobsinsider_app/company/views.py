@@ -544,8 +544,9 @@ class AppliedCandidates(View):
             users_usereducation.user_id = company_advertisementapplied.user_id join users_useremployment on
             users_useremployment.user_id = company_advertisementapplied.user_id join auth_user
             on auth_user.id = company_advertisementapplied.user_id join core_cities on users_userlocation.user_city_id = core_cities.id
-            join core_countries on users_userlocation.user_country_id = core_countries.id where advertisement_id={0}
-            group by auth_user.id
+            join core_countries on users_userlocation.user_country_id = core_countries.id left outer join
+            evaluation_evaluation_result on evaluation_evaluation_result.user_id = company_advertisementapplied.user_id
+            where advertisement_id={0} group by auth_user.id
             """.format(job_id)
 
         )
@@ -708,8 +709,9 @@ class ListShortlisted(View):
             users_usereducation.user_id = company_shortlistedcandidates.user_id join users_useremployment on
             users_useremployment.user_id = company_shortlistedcandidates.user_id join auth_user
             on auth_user.id = company_shortlistedcandidates.user_id join core_cities on users_userlocation.user_city_id = core_cities.id
-            join core_countries on users_userlocation.user_country_id = core_countries.id where advertisement_id={0}
-            group by auth_user.id
+            join core_countries on users_userlocation.user_country_id = core_countries.id left outer join
+            evaluation_evaluation_result on evaluation_evaluation_result.id = company_shortlistedcandidates.user_id
+            where advertisement_id={0} group by auth_user.id
             """.format(job_id)
 
         )
@@ -1188,3 +1190,111 @@ def gender_statistics(gender):
     else:
         unknown['visitors'] = 0
     return male, female, unknown
+
+
+class CompanyAppliedAll(View):
+    def get(self, request):
+        group_jobs = AdvertisementApplied.objects.raw(
+            """SELECT count(*) as applied_job_user, company_advertisement.id , company_advertisement.job_title
+            FROM company_advertisementapplied join users_userlocation on
+            users_userlocation.user_id=company_advertisementapplied.user_id join users_userbio on
+            users_userbio.user_id=company_advertisementapplied.user_id join users_usereducation on
+            users_usereducation.user_id = company_advertisementapplied.user_id join users_useremployment on
+            users_useremployment.user_id = company_advertisementapplied.user_id join auth_user on
+            auth_user.id = company_advertisementapplied.user_id join core_cities on
+            users_userlocation.user_city_id = core_cities.id join core_countries on
+            users_userlocation.user_country_id = core_countries.id left outer join
+            evaluation_evaluation_result on evaluation_evaluation_result.user_id =
+            company_advertisementapplied.user_id join company_advertisement on
+            company_advertisement.id = company_advertisementapplied.advertisement_id where
+            company_user_id = {0} group by company_advertisement.id
+            """.format(request.user.id))
+
+        data = AdvertisementApplied.objects.raw(
+            """
+            SELECT * FROM company_advertisementapplied join users_userlocation on
+            users_userlocation.user_id=company_advertisementapplied.user_id join users_userbio on
+            users_userbio.user_id=company_advertisementapplied.user_id join users_usereducation on
+            users_usereducation.user_id = company_advertisementapplied.user_id join users_useremployment on
+            users_useremployment.user_id = company_advertisementapplied.user_id join auth_user on
+            auth_user.id = company_advertisementapplied.user_id join core_cities on
+            users_userlocation.user_city_id = core_cities.id join core_countries on
+            users_userlocation.user_country_id = core_countries.id left outer join
+            evaluation_evaluation_result on evaluation_evaluation_result.user_id =
+            company_advertisementapplied.user_id join company_advertisement on company_advertisement.id =
+            company_advertisementapplied.advertisement_id where company_advertisement.id = {0} group by auth_user.id
+            """.format(group_jobs[0].id))
+
+
+        user_employment = AdvertisementApplied.objects.raw(
+            """
+            SELECT * FROM company_advertisementapplied join users_useremployment on users_useremployment.user_id = company_advertisementapplied.user_id
+            where advertisement_id = {0} group by advertisement_id
+            """.format(group_jobs[0].id))
+        user_education =  AdvertisementApplied.objects.raw("""
+            SELECT * FROM company_advertisementapplied join users_usereducation on users_usereducation .user_id = company_advertisementapplied.user_id
+            where advertisement_id = {0} group by advertisement_id
+            """.format(group_jobs[0].id)
+        )
+
+        is_evaluation_test = Advertisement.admanager.all()[0].is_evaluation_test
+        list_total = int(len(list(data)))
+        return render(request, 'applied_candidates_all.html', {
+            'data': data,
+            'group_jobs': group_jobs,
+            'employment': user_employment,
+            'education': user_education,
+            'data_count': list_total,
+            'user_is_company': True,
+            'is_evaluation_test': is_evaluation_test,
+            'body_status': is_body_status(request)
+        })
+
+    def post(self, request):
+        print request.POST
+
+        data = AdvertisementApplied.objects.raw(
+            """
+            SELECT * FROM company_advertisementapplied join users_userlocation on
+            users_userlocation.user_id=company_advertisementapplied.user_id join users_userbio on
+            users_userbio.user_id=company_advertisementapplied.user_id join users_usereducation on
+            users_usereducation.user_id = company_advertisementapplied.user_id join users_useremployment on
+            users_useremployment.user_id = company_advertisementapplied.user_id join auth_user on
+            auth_user.id = company_advertisementapplied.user_id join core_cities on
+            users_userlocation.user_city_id = core_cities.id join core_countries on
+            users_userlocation.user_country_id = core_countries.id left outer join
+            evaluation_evaluation_result on evaluation_evaluation_result.user_id =
+            company_advertisementapplied.user_id join company_advertisement on company_advertisement.id =
+            company_advertisementapplied.advertisement_id where company_advertisement.id = {0} group by auth_user.id
+            """.format(request.POST['job_id']))
+
+        user_employment = AdvertisementApplied.objects.raw(
+            """
+            SELECT * FROM company_advertisementapplied join users_useremployment on users_useremployment.user_id =
+             company_advertisementapplied.user_id where advertisement_id = {0} group by advertisement_id
+            """.format(request.POST['job_id']))
+        user_education =  AdvertisementApplied.objects.raw("""
+            SELECT * FROM company_advertisementapplied join users_usereducation on users_usereducation .user_id =
+            company_advertisementapplied.user_id where advertisement_id = {0} group by advertisement_id
+            """.format(request.POST['job_id']))
+        html = render_to_string('applied_candidate_dynamic_all.html', {'data': data,'employment': user_employment,
+                                                                   'education': user_education
+                                                                   }, context_instance=RequestContext(request))
+        return HttpResponse(html)
+
+
+class CompanyShortlistedAll(View):
+
+    def get(self, request):
+        """
+
+        :param request:
+        :return:
+        """
+
+    def post(self, request):
+        """
+
+        :param request:
+        :return:
+        """
