@@ -1,7 +1,7 @@
 {% extends "base_dasboard.html" %}
     <title>{% block title %}Applied Candidates{% endblock %}</title>
         {% if user.is_authenticated %}
-            {% block authenticate_user %} {{ user.first_name|slice:":1" }} {{ user.last_name|slice:":1" }}{%  endblock %}
+            {% block authenticate_user %}{{ user.first_name|slice:":1" }}{{ user.last_name|slice:":1" }}{%  endblock %}
         {% endif %}
 {% block header_company_nav %}
     <a href="{% url 'company_profile' %}">Account Settings</a>
@@ -24,8 +24,8 @@
                     <div class="cp_nav">
                         <ul>
                             <li><a href="{% url 'job_advertisement' %}">Create Job Ad</a></li>
+                            <li><a href="{% url 'test_template' %}">Evaluation Test</a></li>
                             <li><a href="{% url 'posted_jobs' %}">Posted Jobs</a></li>
-                            <li><a href="{% url 'favorite' %}">Favorite CV</a></li>
                         </ul>
                     </div>
                 </div>
@@ -41,7 +41,10 @@
                 <input type="hidden" class="job__advert__id" value="{{ job_id }}">
 
                     <div class="col-md-9 applied_candidate_listview">
+
+
                      {%  for details in data %}
+
                         <div class="applied__user">
                             <div class="col-md-2">
                                 <img class="user__profile" src="{{ MEDIA_URL }}userprofile/{{ details.user_portrait_filename }}" alt="">
@@ -113,6 +116,9 @@
 {#                                    <span style="color:#26e500;">{{ details.evaluation_test_score|floatformat:"0" }}</span>#}
 {#                                {% endif %}#}
                                 </h3>
+                                {% if details.attempts %}
+                                    <h4 class="user_attempts">Attempts: {{ details.attempts }}</h4>
+                                {% endif %}
                             {% endif %}
                             </div>
                             <div class="clearfix"></div>
@@ -144,7 +150,7 @@
                             </h3>
                                 {% for data in applied_gender_user %}
                                     <div class="applied_user_gender">
-                                        <input type="checkbox" name="applied_user_gender[]" onchange="applied_candidates.by_gender({{ data.user_gender }})" value="{{ data.user_gender }}" id="user_city_{{ data.user_gender }}">
+                                        <input type="radio" name="applied_user_gender[]" onchange="applied_candidates.by_gender({{ data.user_gender }})" value="{{ data.user_gender }}" id="user_city_{{ data.user_gender }}">
                                         <label for="user_city_{{ data.user_gender }}">
                                             {% if data.user_gender == 0 %}
                                                 Male ({{ data.type}})

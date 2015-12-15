@@ -1,7 +1,7 @@
 {% extends "base_dasboard.html" %}
     <title>{% block title %}Dashboard{% endblock %}</title>
         {% if user.is_authenticated %}
-            {% block authenticate_user %} Hi {{ user.first_name|slice:":1" }} {{ user.last_name|slice:":1" }}{%  endblock %}
+            {% block authenticate_user %}{{ user.first_name|slice:":1" }}{{ user.last_name|slice:":1" }}{%  endblock %}
         {% endif %}
 {% block header_company_nav %}
     <a href="{% url 'company_profile' %}">Account Settings</a>

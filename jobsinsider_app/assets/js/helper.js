@@ -53,6 +53,20 @@ function message_display( message, is_status )
     },8000);
 }
 
+      var loader_html = '<div class="loader-content"><div class="cssload-container"> <div class="cssload-item cssload-moon"></div> </div></div>';
+      function wait_it(event_handler)
+      {
+          $("body").prepend(loader_html);
+          $("body").addClass("cssblur");
+          console.log("start loader");
+      }
+      function wait_it_hide(event_handler)
+      {
+          $("body").removeClass("cssblur");
+          console.log("end loader");
+          $('.loader-content').remove();
+      }
+
 // to get the field value by name
 
 //to get the field value by class
@@ -61,5 +75,8 @@ function message_display( message, is_status )
 
 $('.datepicker').datepicker({
     format: 'yyyy-mm-dd',
-    startDate: '0d'
+    //startDate: '0d'
+    autoClose:true
 });
+
+

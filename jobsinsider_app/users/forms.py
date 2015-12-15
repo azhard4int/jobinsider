@@ -13,7 +13,9 @@ class UserBioInfo(forms.ModelForm):
     user_title = forms.CharField(
         widget=forms.TextInput(attrs={
             'placeholder': 'Title',
-            'class': 'form-control'
+            'class': 'form-control',
+            'required': 'true',
+            'data-validate': 'required,alphaNumeric',
             }
         )
     )
@@ -29,6 +31,13 @@ class UserBioInfo(forms.ModelForm):
             ('1', 'Female',),
         )
     )
+    user_portrait = forms.FileField(
+        widget=forms.FileInput(
+            attrs={
+                'accept': '.jpg, .png'
+            }
+        )
+    )
     class Meta:
         model = UserBio
         fields = {
@@ -41,7 +50,11 @@ class UserBioInfo(forms.ModelForm):
 
 class UserCVForm(forms.ModelForm):
     user_cv_file = forms.FileField(
-
+         widget=forms.FileInput(
+            attrs={
+                'accept': '.pdf'
+            }
+        )
     )
     class Meta:
         model = UserCV
@@ -74,18 +87,20 @@ class UserLocationForm(forms.ModelForm):
         )
     )
     user_address = forms.Textarea()
-    user_zipcode  = forms.CharField(widget=forms.TextInput(
+    user_zipcode = forms.CharField(widget=forms.TextInput(
         attrs={
             'placeholder': 'Zip Code',
             'class': 'form-control',
-            'pattern': '\d+'
+            'required': 'true',
+            'data-validate': 'required,alphaNumeric',
         }
     ))
     user_phone_no = forms.CharField(widget=forms.TextInput(
         attrs={
             'placeholder': 'Phone No',
             'class': 'form-control',
-            'pattern': "\d{2}-?\d{3}-?\d{7}"
+            'required': 'true',
+            'data-validate': 'required,alphaNumeric',
         }
     ))
 
@@ -103,28 +118,40 @@ class UserEmploymentForm(forms.ModelForm):
     # listofyears = [print ab for ab in range(1950, 2015)]
     company_name = forms.CharField(widget=forms.TextInput(attrs={
         'class': 'form-control',
-        'placeholder': 'Company Name'
+        'placeholder': 'Company Name',
+        'required': 'true',
+        'data-validate': 'required,alphaNumeric',
     }))
     company_location = forms.CharField(widget=forms.TextInput(attrs={
         'class': 'form-control',
-        'placeholder': 'Company Location'
+        'placeholder': 'Company Location',
+        'required': 'true',
+        'data-validate': 'required,alphaNumeric',
     }))
     company_worktitle = forms.CharField(widget=forms.TextInput(attrs={
         'class': 'form-control',
-        'placeholder': 'Company Work Title'
+        'placeholder': 'Company Work Title',
+        'required': 'true',
+        'data-validate': 'required,alphaNumeric',
     }))
     company_role = forms.CharField(widget=forms.TextInput(attrs={
         'class': 'form-control',
-        'placeholder': 'Company Role'
+        'placeholder': 'Company Role',
+        'required': 'true',
+        'data-validate': 'required,alphaNumeric',
     }))
     company_from = forms.DateField(widget=forms.TextInput(attrs={
         'class': 'form-control datepicker',
-        'placeholder': 'Work From'
+        'placeholder': 'Work From',
+        'required': 'true',
+
 
     }))
     company_to = forms.DateField(widget=forms.TextInput(attrs={
         'class': 'form-control datepicker',
-        'placeholder': 'Work To'
+        'placeholder': 'Work To',
+        'required': 'true'
+
     }))
 
     company_count = forms.CharField(widget=forms.HiddenInput(attrs={
@@ -141,21 +168,27 @@ class EducationForm(forms.ModelForm):
 
     user_institute = forms.CharField(widget=forms.TextInput(attrs={
         'class': 'form-control',
-        'placeholder': 'Institute Name'
+        'placeholder': 'Institute Name',
+        'required': 'true',
+        'data-validate': 'required,alphaNumeric',
     }))
     user_degree= forms.CharField(widget=forms.TextInput(attrs={
         'class': 'form-control',
-        'placeholder': 'Degree Level'
+        'placeholder': 'Degree Level',
+        'required': 'true',
+        'data-validate': 'required,alphaNumeric',
     }))
 
     degree_from = forms.DateField(widget=forms.TextInput(attrs={
         'class': 'form-control datepicker',
-        'placeholder': 'From'
+        'placeholder': 'From',
+        'required': 'true'
 
     }))
     degree_to = forms.DateField(widget=forms.TextInput(attrs={
         'class': 'form-control datepicker',
-        'placeholder': 'To'
+        'placeholder': 'To',
+        'required': 'true'
     }))
 
     class Meta:
@@ -210,6 +243,7 @@ class ProfileSettingsForm(forms.ModelForm):
             widget=forms.Select(
                 attrs={
                     'class': 'countries_select_box form-control',
+
 
                 }
             )

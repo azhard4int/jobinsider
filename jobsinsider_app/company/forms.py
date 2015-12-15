@@ -10,12 +10,16 @@ class CompanyProfileForm(forms.ModelForm):
         widget=forms.TextInput(attrs={
             'placeholder':'Company Name',
             'class': 'form-control',
+            'required': 'true',
+            'data-validate': 'required,alphaNumeric',
         })
     )
     your_role = forms.CharField(
         widget=forms.TextInput(attrs={
             'placeholder':'Your Role',
             'class':'form-control',
+            'required': 'true',
+            'data-validate': 'required,alphaNumeric',
         })
     )
     company_intro = forms.Textarea()
@@ -23,6 +27,8 @@ class CompanyProfileForm(forms.ModelForm):
         widget=forms.TextInput(attrs={
             'placeholder':'Company URL',
             'class':'form-control',
+            'required': 'true',
+            'data-validate': 'required,alphaNumeric',
         })
         )
 
@@ -30,6 +36,8 @@ class CompanyProfileForm(forms.ModelForm):
         widget=forms.TextInput(attrs={
             'placeholder':'Company Indusry',
             'class':'form-control',
+            'required': 'true',
+            'data-validate': 'required,alphaNumeric',
         })
     )
 
@@ -70,7 +78,8 @@ class JobAdvertisementForm(forms.ModelForm):
         widget=forms.TextInput(attrs={
             'placeholder':'Company Industry',
             'class':'form-control',
-            'data-validate': 'required,alphaNumeric'
+            'data-validate': 'required,alphaNumeric',
+            'required': 'true'
         })
     )
 
@@ -78,7 +87,7 @@ class JobAdvertisementForm(forms.ModelForm):
         widget=forms.NumberInput(attrs={
             'placeholder':'Total Positions',
             'class':'form-control',
-            'data-validate': 'required,number'
+            'data-validate': 'required,number',
         })
     )
     job_description = forms.CharField(
@@ -90,7 +99,6 @@ class JobAdvertisementForm(forms.ModelForm):
             widget=forms.Select(
                 attrs={
                     'class': 'experience_select_box form-control',
-
                 }
             )
         )

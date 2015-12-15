@@ -146,7 +146,7 @@ $('#add_question_button').on('click', function(event)
 
      {
          var selected=$("input[name='radio']:checked").val();
-          alert(selected);
+
          if(selected == 1){
           $("#correct_answer").val($('#option1').val());
          }
@@ -244,7 +244,7 @@ $('.add_button').on('click', function(event)
             numberofquestion=0;
             event.preventDefault();
             var test_id = $(this).attr('value');
-            console.log(test_id);
+
             test_template_id=$(this).val();
             $('#question').val("");
             $('#answer').val("");
@@ -267,8 +267,10 @@ $('.add_button').on('click', function(event)
                     {
                       var data = jQuery.parseJSON(response);
                         $("#headingtop1").text("You have added: "+ data.status.question_count);
-                        count = data.status.question_count;
-                        numberofquestion = data.status.total_questions;
+                        if(data.status.question_count<data.status.total_questions) {
+                            count = data.status.question_count;
+                            numberofquestion = data.status.total_questions;
+                        }
                         $("#headingtop2").text("Total Number Questions  : "+ data.status.total_questions);
                     },
                     error: function(response) {
@@ -641,6 +643,11 @@ $('#next_button').on('click', function(event)
                    $("#next_button").hide();
                     $("#remove_label").hide();
                     $('#headingtest').text("Test is Finished and You got "+data.final_marks+" out of "+data.questions);
+
+                    element = '<pre class="attempts">' +
+                    "Total number of attempts "+data.attempts+'</pre>';
+
+                    $('#headingtest').append($(element));
                     clearTimeout(helo);
 
                     setTimeout(

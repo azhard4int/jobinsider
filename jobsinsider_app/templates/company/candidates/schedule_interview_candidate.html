@@ -1,7 +1,7 @@
 {% extends "base_dasboard.html" %}
     <title>{% block title %}Applied Candidates{% endblock %}</title>
         {% if user.is_authenticated %}
-            {% block authenticate_user %} {{ user.first_name|slice:":1" }} {{ user.last_name|slice:":1" }}{%  endblock %}
+            {% block authenticate_user %} {{ user.first_name|slice:":1" }}{{ user.last_name|slice:":1" }}{%  endblock %}
         {% endif %}
 {% block header_company_nav %}
     <a href="{% url 'company_profile' %}">Account Settings</a>
@@ -25,7 +25,6 @@
                         <ul>
                             <li><a href="{% url 'job_advertisement' %}">Create Job Ad</a></li>
                             <li><a href="{% url 'posted_jobs' %}">Posted Jobs</a></li>
-                            <li><a href="{% url 'favorite' %}">Favorite CV</a></li>
                         </ul>
                     </div>
                 </div>

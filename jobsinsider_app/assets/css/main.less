@@ -1128,10 +1128,10 @@ div.remove_favorite_btn{
     .view__detail:hover{
       background: #9782c8 !important;
     }
-    .shorlist__candidate{
+    .shorlist__candidate,.shorlist__candidate__all {
       background: #69BD74 !important;
     }
-    .shorlist__candidate:hover{
+    .shorlist__candidate:hover, .shorlist__candidate__all:hover{
       background: #5aa264 !important;
     }
   }
@@ -1527,4 +1527,141 @@ div.remove_favorite_btn{
 .predefined_template.active, .clear_template.active{
   text-decoration: none !important;
   color:#fff;
+}
+.user_employment_action, .user_education_action{
+  text-align: center;
+  a{
+    border-radius:4px;
+    color:#fff;
+    padding:5px 10px;
+    background: #c84641 !important;
+    text-decoration: none;
+  }
+}
+.user_attempts{
+  text-align: center;
+  font-size:18px;
+  font-weight: bold;
+}
+.main_group_headline{
+  ul{
+    margin-left:-40px;
+    li{
+      list-style-type: none;
+      padding:7px 10px;
+      a{
+        padding:20px 0 !important;
+        text-decoration: none;
+        color:#242424;
+      }
+    }
+    li:nth-child(even){
+      background: #fdfdfd;
+    }
+  }
+}
+.applied_posted_jobs{
+  background:#fff;
+  padding:0 !important;
+
+  h3{
+    font-size:17px;
+    padding:10px 15px;
+    background: #fafafa;
+    margin:0;
+  }
+}
+
+.loader-content {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  opacity: 1;
+  z-index: 99999;
+  background: rgba(188, 188, 188, 0.55);
+}
+  .cssload-container {
+    position: relative;
+    top: 30%;
+    width: 97px;
+    height: 224px;
+    overflow: hidden;
+    margin:0px auto;
+  }
+
+  .cssload-container .cssload-item {
+    margin: auto;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 49px;
+    height: 49px;
+    background-color: rgb(255,255,255);
+    box-sizing: border-box;
+    -o-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-shadow: 0 0 8px 1px rgba(0,0,0,0.25);
+    -o-box-shadow: 0 0 8px 1px rgba(0,0,0,0.25);
+    -ms-box-shadow: 0 0 8px 1px rgba(0,0,0,0.25);
+    -webkit-box-shadow: 0 0 8px 1px rgba(0,0,0,0.25);
+    -moz-box-shadow: 0 0 8px 1px rgba(0,0,0,0.25);
+  }
+
+  .cssload-container .cssload-moon {
+    border-bottom: 10px solid #a588ff;
+    border-radius: 50%;
+    -o-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    animation: spin 1.15s ease infinite;
+    -o-animation: spin 1.15s ease infinite;
+    -ms-animation: spin 1.15s ease infinite;
+    -webkit-animation: spin 1.15s ease infinite;
+    -moz-animation: spin 1.15s ease infinite;
+  }
+
+
+
+  @keyframes spin {
+    from {
+      -webkit-transform: rotate(0deg);
+              transform: rotate(0deg);
+    }
+    to {
+      -webkit-transform: rotate(360deg);
+              transform: rotate(360deg);
+    }
+  }
+
+  @-webkit-keyframes spin {
+    from {
+      -webkit-transform: rotate(0deg);
+    }
+    to {
+      -webkit-transform: rotate(360deg);
+    }
+  }
+
+
+
+  .cssblur{
+  -webkit-filter: blur(2px);
+  -moz-filter: blur(2px);
+  -o-filter: blur(2px);
+  -ms-filter: blur(2px);
+  filter: blur(2px);
+}
+
+.loader-content.hide2 {
+  opacity: 0;
+  display: none;
 }

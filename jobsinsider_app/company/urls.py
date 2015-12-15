@@ -32,6 +32,8 @@ urlpatterns = patterns(
     url(r'^message/$', SendMessage.as_view(), name='send_message'),
     url(r'^composedmessage/$', ComposedSend.as_view(), name='composed_message'),
     url(r'^shortlisted_candidates_date/$', ShortlistedCandidatesDate.as_view(), name='composed_message'),
+    url(r'^candidates/all/$', CompanyAppliedAll.as_view(), name='applied_candidates_all'),
+    url(r'^shortlist/all/$', CompanyShortlistedAll.as_view(), name='shortlisted_candidates_all'),
 
     # url(r'^tinymce/', include('tinymce.urls')),
 
