@@ -2,7 +2,7 @@
  * Created by azhar on 10/1/15.
  */
 
-var base_url = 'http://127.0.0.1:8000/';
+var base_url = 'http://jobinsider.xyz:8000/';
 var app = angular.module('filtersapp', []);
 //custom tag settings
 app.config(function($interpolateProvider) {

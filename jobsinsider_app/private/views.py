@@ -232,7 +232,7 @@ def skill_view_delete(request):
 
 def logout_view(request):
     logout(request)
-    return HttpResponseRedirect('http://127.0.0.1:8000/accounts/login/')
+    return HttpResponseRedirect('http://jobinsider.xyz:8000/accounts/login/')
 
 from itertools import chain
 
