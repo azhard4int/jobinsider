@@ -270,7 +270,7 @@ $('#neweditmodal').ready(function(){
 	counter++;
      });
 
-     $("#_ufremoveoptions").click(function () {
+     $("#uf_removeoptions").click(function () {
          $("#heading3").text("").show();
 
 
