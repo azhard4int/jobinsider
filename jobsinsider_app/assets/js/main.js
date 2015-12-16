@@ -128,7 +128,7 @@ $(document).ready(function()
         $('#forgot_form').on('submit', function()
         {
             event.preventDefault();
-            var email = document.getElementsByName('username')[0].value;
+            var email = document.getElementsByName('email')[0].value;
             emaildetect = emailCheck(email);
             forgot_password();
             return false;
@@ -665,6 +665,7 @@ $('.shorlist__candidate__remove').on('click', function(e){
 $('.send_invitation').on('click', function(event)
 {
     event.preventDefault();
+    wait_it('body');
     var invitation_message = $('#interview_message').val();
     var from_date = $('.from_interview_date').val();
     var from_time = $('.from_interview_time').val();
@@ -686,15 +687,19 @@ $('.send_invitation').on('click', function(event)
             },
             success:function(m)
             {
+                wait_it_hide('body');
                 var resp = JSON.parse(m);
                 if(resp.status==true)
                 {
                     message_display('Invitation Sent Successfully', 1);
                 }
+                else{
+                    message_display(resp.response, 0);
+                }
             },
             error:function(m)
             {
-
+                wait_it_hide('body');
             }
         }
     );
@@ -1333,11 +1338,11 @@ $('.schedule_interview_btn').on('click', function(e)
 $('.predefined_template ').on('click', function(e)
 {
     e.preventDefault();
-    var email = 'Dear {{first_name}}' +
+    //'Dear {{first_name}}' +
+    //    '\n\n' +
+    var email = 'You have been selected for interview at {{from_time}} - {{to_time}}.' +
         '\n\n' +
-        'You have been selected for interview at {{from_time}} - {{to_time}}.' +
-        '\n\n' +
-        'Make sure you bring your Resume along with you';
+        'It would be good if you bring your Resume too.';
     $('#interview_message').html(email);
     return false;
 });

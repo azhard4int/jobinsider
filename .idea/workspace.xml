@@ -2,19 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a1e31663-c608-412c-8349-e9e50a63d641" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jobsinsider_app/private/advertisement.py" afterPath="$PROJECT_DIR$/jobsinsider_app/private/advertisement.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jobsinsider_app/templates/base_dasboard.html" afterPath="$PROJECT_DIR$/jobsinsider_app/templates/base_dasboard.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jobsinsider_app/templates/company/companies.html" afterPath="$PROJECT_DIR$/jobsinsider_app/templates/company/companies.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jobsinsider_app/templates/company/company_change_password.html" afterPath="$PROJECT_DIR$/jobsinsider_app/templates/company/company_change_password.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jobsinsider_app/templates/company/company_profile.html" afterPath="$PROJECT_DIR$/jobsinsider_app/templates/company/company_profile.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jobsinsider_app/templates/accounts/emails/activateaccount.html" afterPath="$PROJECT_DIR$/jobsinsider_app/templates/accounts/emails/activateaccount.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jobsinsider_app/templates/accounts/emails/activateaccount.txt" afterPath="$PROJECT_DIR$/jobsinsider_app/templates/accounts/emails/activateaccount.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jobsinsider_app/assets/js/core.js" afterPath="$PROJECT_DIR$/jobsinsider_app/assets/js/core.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jobsinsider_app/assets/css/main.css" afterPath="$PROJECT_DIR$/jobsinsider_app/assets/css/main.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jobsinsider_app/assets/css/main.less" afterPath="$PROJECT_DIR$/jobsinsider_app/assets/css/main.less" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jobsinsider_app/jobs/models.py" afterPath="$PROJECT_DIR$/jobsinsider_app/jobs/models.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jobsinsider_app/templates/accounts/emails/forgotpassword.html" afterPath="$PROJECT_DIR$/jobsinsider_app/templates/accounts/emails/forgotpassword.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jobsinsider_app/templates/accounts/emails/forgotpassword.txt" afterPath="$PROJECT_DIR$/jobsinsider_app/templates/accounts/emails/forgotpassword.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jobsinsider_app/templates/accounts/emails/job_alert_email.html" afterPath="$PROJECT_DIR$/jobsinsider_app/templates/accounts/emails/job_alert_email.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jobsinsider_app/templates/accounts/emails/job_alert_email.txt" afterPath="$PROJECT_DIR$/jobsinsider_app/templates/accounts/emails/job_alert_email.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jobsinsider_app/assets/js/main.js" afterPath="$PROJECT_DIR$/jobsinsider_app/assets/js/main.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jobsinsider_app/templates/company/posted_jobs.html" afterPath="$PROJECT_DIR$/jobsinsider_app/templates/company/posted_jobs.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jobsinsider_app/company/urls.py" afterPath="$PROJECT_DIR$/jobsinsider_app/company/urls.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jobsinsider_app/company/views.py" afterPath="$PROJECT_DIR$/jobsinsider_app/company/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jobsinsider_app/jobs/views.py" afterPath="$PROJECT_DIR$/jobsinsider_app/jobs/views.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="jobinsider.iws" />
@@ -37,122 +34,121 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/jobsinsider_app/company/urls.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="11" column="27" selection-start-line="11" selection-start-column="27" selection-end-line="11" selection-end-column="27" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/jobsinsider_app/company/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-8.5">
-              <caret line="120" column="0" selection-start-line="120" selection-start-column="0" selection-end-line="120" selection-end-column="0" />
-              <folding>
-                <marker date="1450291913871" expanded="true" signature="17931:18127" placeholder="SELECT * fro..company_messages..." />
-                <marker date="1450291913871" expanded="true" signature="21013:21906" placeholder="SELECT * FRO..company_advertisementapplied..." />
-                <marker date="1450291913871" expanded="true" signature="22037:22215" placeholder="SELECT * FRO..company_advertisementapplied..." />
-                <marker date="1450291913871" expanded="true" signature="22333:22510" placeholder="SELECT * FRO..company_advertisementapplied..." />
-                <marker date="1450291913871" expanded="true" signature="23228:23689" placeholder="SELECT count..company_advertisementapplied..." />
-                <marker date="1450291913871" expanded="true" signature="23755:24306" placeholder="SELECT compa..company_advertisementapplied..." />
-                <marker date="1450291913871" expanded="true" signature="24405:24949" placeholder="SELECT compa..company_advertisementapplied..." />
-                <marker date="1450291913871" expanded="true" signature="25084:25376" placeholder="SELECT count..." />
-                <marker date="1450291913871" expanded="true" signature="29132:30027" placeholder="SELECT * FRO..company_shortlistedcandidates..." />
-                <marker date="1450291913871" expanded="true" signature="30158:30338" placeholder="SELECT * FRO..company_shortlistedcandidates..." />
-                <marker date="1450291913871" expanded="true" signature="30456:30635" placeholder="SELECT * FRO..company_shortlistedcandidates..." />
-                <marker date="1450291913871" expanded="true" signature="48304:49447" placeholder="SELECT count..company_advertisementapplied..." />
-                <marker date="1450291913871" expanded="true" signature="49567:50596" placeholder="SELECT * FRO..company_advertisementapplied..." />
-                <marker date="1450291913871" expanded="true" signature="50729:50935" placeholder="SELECT * FRO..company_advertisementapplied..." />
-                <marker date="1450291913871" expanded="true" signature="51053:51258" placeholder="SELECT * FRO..company_advertisementapplied..." />
-                <marker date="1450291913871" expanded="true" signature="51972:53001" placeholder="SELECT * FRO..company_advertisementapplied..." />
-                <marker date="1450291913871" expanded="true" signature="53139:53346" placeholder="SELECT * FRO..company_advertisementapplied..." />
-                <marker date="1450291913871" expanded="true" signature="53470:53675" placeholder="SELECT * FRO..company_advertisementapplied..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="companies.html" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/jobsinsider_app/templates/company/companies.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.29268292">
-              <caret line="77" column="36" selection-start-line="77" selection-start-column="36" selection-end-line="77" selection-end-column="36" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="company_profile.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/jobsinsider_app/templates/company/company_profile.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-21.25">
-              <caret line="81" column="0" selection-start-line="81" selection-start-column="0" selection-end-line="81" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="company_change_password.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/jobsinsider_app/templates/company/company_change_password.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-21.25">
-              <caret line="73" column="0" selection-start-line="73" selection-start-column="0" selection-end-line="73" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/jobsinsider_app/jobs/views.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-5.5833335">
-              <caret line="102" column="45" selection-start-line="102" selection-start-column="32" selection-end-line="102" selection-end-column="45" />
+            <state vertical-scroll-proportion="-13.5">
+              <caret line="864" column="28" selection-start-line="864" selection-start-column="28" selection-end-line="864" selection-end-column="28" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
+                <marker date="1450295305155" expanded="true" signature="17952:18148" placeholder="SELECT * fro..company_messages..." />
+                <marker date="1450295305155" expanded="true" signature="21034:21927" placeholder="SELECT * FRO..company_advertisementapplied..." />
+                <marker date="1450295305155" expanded="true" signature="22058:22236" placeholder="SELECT * FRO..company_advertisementapplied..." />
+                <marker date="1450295305155" expanded="true" signature="22354:22531" placeholder="SELECT * FRO..company_advertisementapplied..." />
+                <marker date="1450295305155" expanded="true" signature="23249:23710" placeholder="SELECT count..company_advertisementapplied..." />
+                <marker date="1450295305155" expanded="true" signature="23776:24327" placeholder="SELECT compa..company_advertisementapplied..." />
+                <marker date="1450295305155" expanded="true" signature="24426:24970" placeholder="SELECT compa..company_advertisementapplied..." />
+                <marker date="1450295305155" expanded="true" signature="25105:25397" placeholder="SELECT count..." />
+                <marker date="1450295305155" expanded="true" signature="29153:30048" placeholder="SELECT * FRO..company_shortlistedcandidates..." />
+                <marker date="1450295305155" expanded="true" signature="30179:30359" placeholder="SELECT * FRO..company_shortlistedcandidates..." />
+                <marker date="1450295305155" expanded="true" signature="30477:30656" placeholder="SELECT * FRO..company_shortlistedcandidates..." />
+                <marker date="1450295305155" expanded="true" signature="48878:50021" placeholder="SELECT count..company_advertisementapplied..." />
+                <marker date="1450295305155" expanded="true" signature="50141:51170" placeholder="SELECT * FRO..company_advertisementapplied..." />
+                <marker date="1450295305155" expanded="true" signature="51303:51509" placeholder="SELECT * FRO..company_advertisementapplied..." />
+                <marker date="1450295305155" expanded="true" signature="51627:51832" placeholder="SELECT * FRO..company_advertisementapplied..." />
+                <marker date="1450295305155" expanded="true" signature="52546:53575" placeholder="SELECT * FRO..company_advertisementapplied..." />
+                <marker date="1450295305155" expanded="true" signature="53713:53920" placeholder="SELECT * FRO..company_advertisementapplied..." />
+                <marker date="1450295305155" expanded="true" signature="54044:54249" placeholder="SELECT * FRO..company_advertisementapplied..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/jobsinsider_app/jobs/models.py">
+      <file leaf-file-name="activateaccount.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/jobsinsider_app/templates/accounts/emails/activateaccount.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-11.25">
+              <caret line="18" column="7" selection-start-line="18" selection-start-column="7" selection-end-line="18" selection-end-column="7" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="main.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/jobsinsider_app/assets/js/main.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.13615024">
+              <caret line="666" column="27" selection-start-line="666" selection-start-column="27" selection-end-line="666" selection-end-column="27" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="activateaccount.txt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/jobsinsider_app/templates/accounts/emails/activateaccount.txt">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="167" column="40" selection-start-line="167" selection-start-column="40" selection-end-line="167" selection-end-column="40" />
+              <caret line="2" column="107" selection-start-line="2" selection-start-column="107" selection-end-line="2" selection-end-column="107" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="paginator.py" pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/.local/lib/python2.7/site-packages/django/core/paginator.py">
+      <file leaf-file-name="forgotpassword.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/jobsinsider_app/templates/accounts/emails/forgotpassword.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-5.625">
+              <caret line="9" column="56" selection-start-line="9" selection-start-column="56" selection-end-line="9" selection-end-column="56" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="forgotpassword.txt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/jobsinsider_app/templates/accounts/emails/forgotpassword.txt">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="45" column="8" selection-start-line="45" selection-start-column="8" selection-end-line="45" selection-end-column="8" />
+              <caret line="2" column="56" selection-start-line="2" selection-start-column="56" selection-end-line="2" selection-end-column="56" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="posted_jobs.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/jobsinsider_app/templates/company/posted_jobs.html">
+      <file leaf-file-name="job_alert_email.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/jobsinsider_app/templates/accounts/emails/job_alert_email.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.0">
-              <caret line="0" column="21" selection-start-line="0" selection-start-column="21" selection-end-line="0" selection-end-column="21" />
+            <state vertical-scroll-proportion="-9.375">
+              <caret line="15" column="7" selection-start-line="15" selection-start-column="7" selection-end-line="15" selection-end-column="7" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="base_dasboard.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/jobsinsider_app/templates/base_dasboard.html">
+      <file leaf-file-name="job_alert_email.txt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/jobsinsider_app/templates/accounts/emails/job_alert_email.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-8.125">
-              <caret line="55" column="32" selection-start-line="55" selection-start-column="32" selection-end-line="55" selection-end-column="32" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="2" column="46" selection-start-line="2" selection-start-column="46" selection-end-line="2" selection-end-column="46" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="schedule_interview.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/jobsinsider_app/templates/accounts/emails/schedule_interview.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-8.75">
+              <caret line="14" column="7" selection-start-line="14" selection-start-column="7" selection-end-line="14" selection-end-column="7" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="core.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/jobsinsider_app/assets/js/core.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="69" column="13" selection-start-line="69" selection-start-column="13" selection-end-line="69" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -187,16 +183,23 @@
         <option value="$PROJECT_DIR$/jobsinsider_app/assets/js/ajaxfile.js" />
         <option value="$PROJECT_DIR$/jobsinsider_app/company/urls.py" />
         <option value="$PROJECT_DIR$/jobsinsider_app/private/advertisement.py" />
-        <option value="$PROJECT_DIR$/jobsinsider_app/company/views.py" />
         <option value="$PROJECT_DIR$/jobsinsider_app/jobs/views.py" />
-        <option value="$PROJECT_DIR$/jobsinsider_app/assets/js/core.js" />
-        <option value="$PROJECT_DIR$/jobsinsider_app/templates/company/posted_jobs.html" />
         <option value="$PROJECT_DIR$/jobsinsider_app/assets/css/main.less" />
         <option value="$PROJECT_DIR$/jobsinsider_app/templates/base_dasboard.html" />
         <option value="$PROJECT_DIR$/jobsinsider_app/jobs/models.py" />
         <option value="$PROJECT_DIR$/jobsinsider_app/templates/company/company_change_password.html" />
         <option value="$PROJECT_DIR$/jobsinsider_app/templates/company/company_profile.html" />
         <option value="$PROJECT_DIR$/jobsinsider_app/templates/company/companies.html" />
+        <option value="$PROJECT_DIR$/jobsinsider_app/templates/company/posted_jobs.html" />
+        <option value="$PROJECT_DIR$/jobsinsider_app/assets/js/core.js" />
+        <option value="$PROJECT_DIR$/jobsinsider_app/templates/accounts/emails/activateaccount.html" />
+        <option value="$PROJECT_DIR$/jobsinsider_app/templates/accounts/emails/activateaccount.txt" />
+        <option value="$PROJECT_DIR$/jobsinsider_app/templates/accounts/emails/forgotpassword.html" />
+        <option value="$PROJECT_DIR$/jobsinsider_app/templates/accounts/emails/forgotpassword.txt" />
+        <option value="$PROJECT_DIR$/jobsinsider_app/templates/accounts/emails/job_alert_email.html" />
+        <option value="$PROJECT_DIR$/jobsinsider_app/templates/accounts/emails/job_alert_email.txt" />
+        <option value="$PROJECT_DIR$/jobsinsider_app/company/views.py" />
+        <option value="$PROJECT_DIR$/jobsinsider_app/assets/js/main.js" />
       </list>
     </option>
   </component>
@@ -307,6 +310,54 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="company" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jobinsider" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jobinsider" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jobsinsider_app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="templates" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="accounts" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jobinsider" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jobinsider" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jobsinsider_app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="templates" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="accounts" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="emails" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -752,13 +803,20 @@
       <option name="project" value="LOCAL" />
       <updated>1450177281668</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Omer Update">
+      <created>1450293683602</created>
+      <option name="number" value="00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1450293683602</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="51" y="-4" width="1315" height="772" extended-state="6" />
     <editor active="true" />
     <layout>
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -775,7 +833,6 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -794,41 +851,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/jobsinsider_app/templates/accounts/usermessages/user_message_none.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jobsinsider_app/templates/accounts/usermessages/user_message_send.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jobsinsider_app/templates/company/candidates/applied_candidate_dynamic.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.875">
-          <caret line="11" column="59" selection-start-line="11" selection-start-column="59" selection-end-line="11" selection-end-column="60" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jobsinsider_app/templates/company/candidates/candidate.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.0">
-          <caret line="8" column="14" selection-start-line="8" selection-start-column="14" selection-end-line="8" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jobsinsider_app/templates/company/candidates/schedule_interview_candidate.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-12.5">
-          <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/jobsinsider_app/templates/company/candidates/shortlisted_candidates.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="1.25">
@@ -993,22 +1015,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/jobsinsider_app/templates/accounts/emails/activateaccount.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="17" column="7" selection-start-line="17" selection-start-column="7" selection-end-line="17" selection-end-column="7" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jobsinsider_app/templates/accounts/emails/activateaccount.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="2" column="112" selection-start-line="2" selection-start-column="98" selection-end-line="2" selection-end-column="112" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/jobsinsider_app/company/models.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1045,7 +1051,7 @@
         <state vertical-scroll-proportion="0.37313432">
           <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
           <folding>
-            <element signature="n#!!doc" expanded="true" />
+            <element signature="n#!!doc" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1082,22 +1088,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/jobsinsider_app/assets/js/main.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-12.916667">
-          <caret line="31" column="53" selection-start-line="31" selection-start-column="53" selection-end-line="31" selection-end-column="53" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jobsinsider_app/assets/js/core.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="1302" column="54" selection-start-line="1302" selection-start-column="54" selection-end-line="1302" selection-end-column="54" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/jobsinsider_app/assets/css/main.less">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-11.875">
@@ -1110,14 +1100,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="92" column="33" selection-start-line="92" selection-start-column="33" selection-end-line="92" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jobsinsider_app/templates/company/posted_jobs.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.0">
-          <caret line="0" column="21" selection-start-line="0" selection-start-column="21" selection-end-line="0" selection-end-column="21" />
           <folding />
         </state>
       </provider>
@@ -1135,7 +1117,7 @@
         <state vertical-scroll-proportion="-5.5833335">
           <caret line="102" column="45" selection-start-line="102" selection-start-column="32" selection-end-line="102" selection-end-column="45" />
           <folding>
-            <element signature="e#0#35#0" expanded="true" />
+            <element signature="e#0#35#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1164,33 +1146,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/jobsinsider_app/company/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.5">
-          <caret line="120" column="0" selection-start-line="120" selection-start-column="0" selection-end-line="120" selection-end-column="0" />
-          <folding>
-            <marker date="1450291913871" expanded="true" signature="17931:18127" placeholder="SELECT * fro..company_messages..." />
-            <marker date="1450291913871" expanded="true" signature="21013:21906" placeholder="SELECT * FRO..company_advertisementapplied..." />
-            <marker date="1450291913871" expanded="true" signature="22037:22215" placeholder="SELECT * FRO..company_advertisementapplied..." />
-            <marker date="1450291913871" expanded="true" signature="22333:22510" placeholder="SELECT * FRO..company_advertisementapplied..." />
-            <marker date="1450291913871" expanded="true" signature="23228:23689" placeholder="SELECT count..company_advertisementapplied..." />
-            <marker date="1450291913871" expanded="true" signature="23755:24306" placeholder="SELECT compa..company_advertisementapplied..." />
-            <marker date="1450291913871" expanded="true" signature="24405:24949" placeholder="SELECT compa..company_advertisementapplied..." />
-            <marker date="1450291913871" expanded="true" signature="25084:25376" placeholder="SELECT count..." />
-            <marker date="1450291913871" expanded="true" signature="29132:30027" placeholder="SELECT * FRO..company_shortlistedcandidates..." />
-            <marker date="1450291913871" expanded="true" signature="30158:30338" placeholder="SELECT * FRO..company_shortlistedcandidates..." />
-            <marker date="1450291913871" expanded="true" signature="30456:30635" placeholder="SELECT * FRO..company_shortlistedcandidates..." />
-            <marker date="1450291913871" expanded="true" signature="48304:49447" placeholder="SELECT count..company_advertisementapplied..." />
-            <marker date="1450291913871" expanded="true" signature="49567:50596" placeholder="SELECT * FRO..company_advertisementapplied..." />
-            <marker date="1450291913871" expanded="true" signature="50729:50935" placeholder="SELECT * FRO..company_advertisementapplied..." />
-            <marker date="1450291913871" expanded="true" signature="51053:51258" placeholder="SELECT * FRO..company_advertisementapplied..." />
-            <marker date="1450291913871" expanded="true" signature="51972:53001" placeholder="SELECT * FRO..company_advertisementapplied..." />
-            <marker date="1450291913871" expanded="true" signature="53139:53346" placeholder="SELECT * FRO..company_advertisementapplied..." />
-            <marker date="1450291913871" expanded="true" signature="53470:53675" placeholder="SELECT * FRO..company_advertisementapplied..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/jobsinsider_app/templates/company/company_change_password.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-21.25">
@@ -1209,8 +1164,116 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/jobsinsider_app/templates/company/companies.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.29268292">
-          <caret line="77" column="36" selection-start-line="77" selection-start-column="36" selection-end-line="77" selection-end-column="36" />
+        <state vertical-scroll-proportion="-18.125">
+          <caret line="94" column="0" selection-start-line="94" selection-start-column="0" selection-end-line="94" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jobsinsider_app/templates/company/posted_jobs.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.7833333">
+          <caret line="140" column="46" selection-start-line="140" selection-start-column="46" selection-end-line="140" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jobsinsider_app/assets/js/core.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="69" column="13" selection-start-line="69" selection-start-column="13" selection-end-line="69" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jobsinsider_app/templates/accounts/emails/activateaccount.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-11.25">
+          <caret line="18" column="7" selection-start-line="18" selection-start-column="7" selection-end-line="18" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jobsinsider_app/templates/accounts/emails/activateaccount.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="2" column="107" selection-start-line="2" selection-start-column="107" selection-end-line="2" selection-end-column="107" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jobsinsider_app/templates/accounts/emails/forgotpassword.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.625">
+          <caret line="9" column="56" selection-start-line="9" selection-start-column="56" selection-end-line="9" selection-end-column="56" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jobsinsider_app/templates/accounts/emails/forgotpassword.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="2" column="56" selection-start-line="2" selection-start-column="56" selection-end-line="2" selection-end-column="56" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jobsinsider_app/templates/accounts/emails/job_alert_email.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-9.375">
+          <caret line="15" column="7" selection-start-line="15" selection-start-column="7" selection-end-line="15" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jobsinsider_app/templates/accounts/emails/job_alert_email.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="2" column="46" selection-start-line="2" selection-start-column="46" selection-end-line="2" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jobsinsider_app/templates/accounts/emails/schedule_interview.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-8.75">
+          <caret line="14" column="7" selection-start-line="14" selection-start-column="7" selection-end-line="14" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jobsinsider_app/company/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-13.5">
+          <caret line="864" column="28" selection-start-line="864" selection-start-column="28" selection-end-line="864" selection-end-column="28" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+            <marker date="1450295305155" expanded="true" signature="17952:18148" placeholder="SELECT * fro..company_messages..." />
+            <marker date="1450295305155" expanded="true" signature="21034:21927" placeholder="SELECT * FRO..company_advertisementapplied..." />
+            <marker date="1450295305155" expanded="true" signature="22058:22236" placeholder="SELECT * FRO..company_advertisementapplied..." />
+            <marker date="1450295305155" expanded="true" signature="22354:22531" placeholder="SELECT * FRO..company_advertisementapplied..." />
+            <marker date="1450295305155" expanded="true" signature="23249:23710" placeholder="SELECT count..company_advertisementapplied..." />
+            <marker date="1450295305155" expanded="true" signature="23776:24327" placeholder="SELECT compa..company_advertisementapplied..." />
+            <marker date="1450295305155" expanded="true" signature="24426:24970" placeholder="SELECT compa..company_advertisementapplied..." />
+            <marker date="1450295305155" expanded="true" signature="25105:25397" placeholder="SELECT count..." />
+            <marker date="1450295305155" expanded="true" signature="29153:30048" placeholder="SELECT * FRO..company_shortlistedcandidates..." />
+            <marker date="1450295305155" expanded="true" signature="30179:30359" placeholder="SELECT * FRO..company_shortlistedcandidates..." />
+            <marker date="1450295305155" expanded="true" signature="30477:30656" placeholder="SELECT * FRO..company_shortlistedcandidates..." />
+            <marker date="1450295305155" expanded="true" signature="48878:50021" placeholder="SELECT count..company_advertisementapplied..." />
+            <marker date="1450295305155" expanded="true" signature="50141:51170" placeholder="SELECT * FRO..company_advertisementapplied..." />
+            <marker date="1450295305155" expanded="true" signature="51303:51509" placeholder="SELECT * FRO..company_advertisementapplied..." />
+            <marker date="1450295305155" expanded="true" signature="51627:51832" placeholder="SELECT * FRO..company_advertisementapplied..." />
+            <marker date="1450295305155" expanded="true" signature="52546:53575" placeholder="SELECT * FRO..company_advertisementapplied..." />
+            <marker date="1450295305155" expanded="true" signature="53713:53920" placeholder="SELECT * FRO..company_advertisementapplied..." />
+            <marker date="1450295305155" expanded="true" signature="54044:54249" placeholder="SELECT * FRO..company_advertisementapplied..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jobsinsider_app/assets/js/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.13615024">
+          <caret line="666" column="27" selection-start-line="666" selection-start-column="27" selection-end-line="666" selection-end-column="27" />
           <folding />
         </state>
       </provider>

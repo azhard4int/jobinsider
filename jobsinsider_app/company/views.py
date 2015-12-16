@@ -24,6 +24,8 @@ from core import email
 from models import AppliedCandidatesFilter
 
 import simplejson as json
+import sys
+import os
 
 
 # Create your views here.
@@ -814,34 +816,42 @@ class ScheduleInterview(View):
         })
     def post(self, request, candidate_id, job_id):
 
-        date_str_from = request.POST['from_date'] + " " +  request.POST['from_time']
-        date_str_to = request.POST['to_date'] + " " +  request.POST['to_time']
-        from_full_date = datetime.strptime(date_str_from,'%Y-%m-%d %H:%M')
-        to_full_date = datetime.strptime(date_str_to,'%Y-%m-%d %H:%M')
-        from_time = datetime.strptime(request.POST['from_time'], '%H:%M')
-        to_time = datetime.strptime(request.POST['to_time'], '%H:%M')
+        try:
+            date_str_from = request.POST['from_date'] + " " +  request.POST['from_time']
+            date_str_to = request.POST['to_date'] + " " +  request.POST['to_time']
+            from_full_date = datetime.strptime(date_str_from,'%Y-%m-%d %H:%M')
+            to_full_date = datetime.strptime(date_str_to,'%Y-%m-%d %H:%M')
+            from_time = datetime.strptime(request.POST['from_time'], '%H:%M')
+            to_time = datetime.strptime(request.POST['to_time'], '%H:%M')
 
-        get_candidate_info = User.objects.filter(id=candidate_id)[0]
-        invitation_message = str(request.POST['invitation']).replace(
-            '{{first_name}}', get_candidate_info.first_name
-        ).replace(
-            '{{from_time}}', str(from_full_date.strftime("%d %b %Y %I:%M:%S %p")),
-        ).replace(
-            '{{to_time}}', str(to_full_date.strftime("%d %b %Y %I:%M:%S %p")),
-        )
+            get_candidate_info = User.objects.filter(id=candidate_id)[0]
+            invitation_message = str(request.POST['invitation']).replace(
+                '{{first_name}}', get_candidate_info.first_name
+            ).replace(
+                '{{from_time}}', str(from_full_date.strftime("%d %b %Y %I:%M:%S %p")),
+            ).replace(
+                '{{to_time}}', str(to_full_date.strftime("%d %b %Y %I:%M:%S %p")),
+            )
 
-        ShortlistedCandidates.objects.filter(
-            user_id=candidate_id
-        ).update(
-            from_date=from_full_date,
-            to_date=to_full_date,
-            from_only_date=request.POST['from_date'],
-            to_only_date=request.POST['to_date'],
-            from_time=from_time,
-            to_time=to_time,
-            invitation_message=invitation_message,
-            is_interview=True
-        )
+            ShortlistedCandidates.objects.filter(
+                user_id=candidate_id
+            ).update(
+                from_date=from_full_date,
+                to_date=to_full_date,
+                from_only_date=request.POST['from_date'],
+                to_only_date=request.POST['to_date'],
+                from_time=from_time,
+                to_time=to_time,
+                invitation_message=invitation_message,
+                is_interview=True
+            )
+        except Exception as e:
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            print(exc_type, fname, exc_tb.tb_lineno)
+            if exc_tb.tb_lineno == 822 or exc_tb.tb_lineno == 823 or exc_tb.tb_lineno == 824 or exc_tb.tb_lineno == 825:
+                return HttpResponse(json.dumps({'status': False, 'response':'Invalid Date Entered'}))
+
         #for email values
 
         listvalue = {

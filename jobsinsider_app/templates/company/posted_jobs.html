@@ -134,9 +134,11 @@
                                                 <li>
                                                     <a href="javascript:;" class="delete_job_menu" value="{{ job.id }}">Delete Job</a>
                                                 </li>
-                                                <li>
-                                                    <a href="javascript:;" class="pause_job_menu" value="{{ job.id }}">Pause Job</a>
-                                                </li>
+                                                {% if job.job_approval_status != 3 %} %}
+                                                    <li>
+                                                        <a href="javascript:;" class="pause_job_menu" value="{{ job.id }}">Pause Job</a>
+                                                    </li>
+                                                {% endif %}
                                                 <div class="clearfix"></div>
                                         </ul>
                                     </td>
