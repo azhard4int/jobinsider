@@ -1279,6 +1279,34 @@ $('.delete_job_menu').on('click', function(e)
                 }
             }
         }
+    );
+    return false;
+});
+
+$('.pause_job_menu').on('click', function(e)
+{
+    e.preventDefault();
+    get_id = $(this).attr('value');
+    csrfmdi = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+    $.ajax(
+        {
+            type:'POST',
+            url:'/company/pause-job/' + get_id   + '/',
+            data: {
+                'csrfmiddlewaretoken': csrfmdi
+            },
+            success:function(m)
+            {
+                var resp = JSON.parse(m);
+                if(resp.status==true){
+                    //$('.message_details').html('Job has been deleted successfully!')
+                    message_display('Job has been Paused successfully!', 1);
+                    setTimeout(function(){
+                       window.location.reload(1);
+                    }, 1000);
+                }
+            }
+        }
     )
     return false;
 });

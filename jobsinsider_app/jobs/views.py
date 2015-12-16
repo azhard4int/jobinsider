@@ -30,7 +30,7 @@ def build_template(request, ajax,job_advertisement, filtered_results, is_favorit
     body_status = 0
     try:
         if request.user.id:
-            body_status=company_views.is_body_status(request)
+            body_status = company_views.is_body_status(request)
             user_status = obj.is_user_job_seeker(request.user.id)
             user_company = obj.is_user_company(request.user.id)
             if user_company == 1:
