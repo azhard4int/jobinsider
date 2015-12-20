@@ -126,10 +126,10 @@
                                     Job Title
                                 </th>
                                 <th>
-                                    Total
+{#                                    Total#}
                                 </th>
                                 <th>
-                                    New
+{#                                    New#}
                                 </th>
                                 <th>
                                     Status
@@ -148,6 +148,8 @@
                                             <span class="is_pending posted_job_status">Pending</span>
                                         {% elif job.job_approval_status == 2 %}
                                             <span class="is_rejected posted_job_status">Rejected</span>
+                                        {% elif job.job_approval_status == 3 %}
+                                            <span class="is_paused posted_job_status">Paused</span>
                                         {% else %}
                                             <span class="is_approved posted_job_status">Approved</span>
                                     {% endif %}

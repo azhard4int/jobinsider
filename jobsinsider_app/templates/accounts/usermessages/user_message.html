@@ -178,3 +178,12 @@
         </div>
     </section>
 {% endblock %}
+{% block custom_scripts %}
+    <script>
+       $(function() {
+  var wtf    = $('.top_region_messages');
+  var height = wtf[0].scrollHeight;
+  wtf.scrollTop(height);
+});
+    </script>
+{% endblock %}

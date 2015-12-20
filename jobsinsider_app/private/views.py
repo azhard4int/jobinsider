@@ -316,7 +316,7 @@ def user_update(request):
             first_name=first_name,
             last_name=last_name,
             email=email,
-            is_active=[True if int(is_active) == 1 else False],
+            is_active=int(is_active),
             is_staff=int(staff),
             is_superuser=int(superuser))
 

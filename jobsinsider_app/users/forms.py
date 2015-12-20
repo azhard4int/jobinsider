@@ -136,7 +136,7 @@ class UserEmploymentForm(forms.ModelForm):
     }))
     company_role = forms.CharField(widget=forms.TextInput(attrs={
         'class': 'form-control',
-        'placeholder': 'Company Role',
+        'placeholder': 'Your Role in Company',
         'required': 'true',
         'data-validate': 'required,alphaNumeric',
     }))

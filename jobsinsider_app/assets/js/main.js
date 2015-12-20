@@ -1433,9 +1433,9 @@ $('.shorlist__candidate__remove__all').on('click', function(e){
 });
 $('id_company_from').datepicker(
     {
-        autoclose: True
+        //autoclose: True
     }
-)
+);
     $("#id_company_from").datepicker({
         onSelect: function(selected) {
           $("#id_company_to").datepicker("option","minDate", selected)

@@ -128,11 +128,11 @@ class SearchView():
         return data.company_profile_status
 
     def paginate_data(self, data, page):
-        paginator = Paginator(data, 2)
+        paginator = Paginator(data, 1)
         try:
             jobs_advertisement = paginator.page(page)
         except PageNotAnInteger:
-            jobs_advertisement = paginator.page(2)
+            jobs_advertisement = paginator.page(1)
         except EmptyPage:
             jobs_advertisement = paginator.page(paginator.num_pages)
 
