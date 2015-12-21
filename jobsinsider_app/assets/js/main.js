@@ -652,6 +652,38 @@ $('.shorlist__candidate__remove').on('click', function(e){
             if(resp.status==true){
                 console.log('hoa');
                 message_display('Candidate Removed from Shortlisted Category', 1);
+
+            }
+
+        },
+        error:function(m){
+            message_display('Something Went Wrong, Please try again', 0);
+        }
+
+    });
+    return false;
+});
+
+
+$('.candidate__remove').on('click', function(e){
+    e.preventDefault();
+    var candidate_id = $(this).attr('value');
+    var job_id = $('.job__advert__id').attr('value');
+    $.ajax({
+        url:'/company/candidate_remove/' + $(this).attr('value') + "/" +  job_id + "/",
+        type: 'POST',
+        data: {
+            csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value
+        },
+        success:function(m){
+            var resp = JSON.parse(m);
+            console.log(resp);
+            if(resp.status==true){
+                console.log('hoa');
+                message_display('Candidate Removed from Job', 1);
+
+
+                $('#applied_candidate__'+ candidate_id).remove();
             }
 
         },
@@ -746,6 +778,9 @@ $('.left_active_message').on('click', function(e)
             success:function(m)
             {
                 $('.message_main_data').html(m);
+                  var height_val   = $('.top_region_messages');
+                  var height = height_val[0].scrollHeight;
+                  height_val.scrollTop(height);
             },
             error:function(m)
             {
@@ -1346,6 +1381,19 @@ $('.predefined_template ').on('click', function(e)
     $('#interview_message').html(email);
     return false;
 });
+
+$('.cancel_interview_template ').on('click', function(e)
+{
+    e.preventDefault();
+    //'Dear {{first_name}}' +
+    //    '\n\n' +
+    $('#interview_message').html('');
+    var email = 'Your scheduled interview has been cancelled. You will be notified in case if there is rescheduled ' +
+        'interview for you'; //+
+        //'\n\n';
+    $('#interview_message').html(email);
+    return false;
+});
 $('.clear_template').on('click', function(e)
 {
     e.preventDefault();
@@ -1446,3 +1494,35 @@ $('id_company_from').datepicker(
            $("#id_company_from").datepicker("option","maxDate", selected)
         }
     });
+
+$('.search__field__evaluation').on('click', function(e){
+    e.preventDefault();
+    $('.search_box').show();
+    $('.search__field__evaluation').addClass('search_btn_active');
+    return false;
+});
+$('.search__field__evaluation_close').on('click', function(e) {
+    e.preventDefault();
+    $('.search_box').hide();
+    return false;
+});
+
+$('.search__evaluation__btn').on('click', function(e){
+    e.preventDefault();
+    var search_template = $('.search__evaluation').val();
+    $.ajax({
+        url:'/evaluation/filtered/',
+        type: 'POST',
+        data: {
+            csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
+            'search_keyword': search_template
+        },
+        success:function(m) {
+            $('.evaluation_test_main').html(m);
+        },
+        error:function(m)
+        {
+        }
+    });
+    return false;
+})

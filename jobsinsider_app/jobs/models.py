@@ -43,7 +43,7 @@ class SearchView():
             data= object_name.split(',')
         return data
 
-    def fetch_filtered_adverts(self, category=None, employment=None, experience=None, education=None):
+    def fetch_filtered_adverts(self, category=None, employment=None, experience=None, education=None, keyword=None):
         """
         Retrieves only filtered results
         """
@@ -55,27 +55,51 @@ class SearchView():
         experience = self.toCheck(experience, allExperience)
         employment = self.toCheck(employment, allEmployment)
         education = self.toCheck(education, allEducation)
-        data = company_models.Advertisement.admanager.prefetch_related(
-            'category'
-        ).prefetch_related(
-            'country'
-        ).prefetch_related(
-            'employment'
-        ).prefetch_related(
-            'experience'
-        ).prefetch_related(
-            'degree_level'
-        ).prefetch_related(
-            'company_user'
-        ).prefetch_related(
-            'cities'
-        ).filter(
-            experience__in=experience,
-            category__in=category,
-            degree_level__in=education,
-            employment__in=employment,
-            job_approval_status=1
-        ).order_by('-submission_date')
+
+        if keyword is None:
+            data = company_models.Advertisement.admanager.prefetch_related(
+                'category'
+            ).prefetch_related(
+                'country'
+            ).prefetch_related(
+                'employment'
+            ).prefetch_related(
+                'experience'
+            ).prefetch_related(
+                'degree_level'
+            ).prefetch_related(
+                'company_user'
+            ).prefetch_related(
+                'cities'
+            ).filter(
+                experience__in=experience,
+                category__in=category,
+                degree_level__in=education,
+                employment__in=employment,
+                job_approval_status=1
+            ).order_by('-submission_date')
+        else:
+            data = company_models.Advertisement.admanager.prefetch_related(
+                'category'
+            ).prefetch_related(
+                'country'
+            ).prefetch_related(
+                'employment'
+            ).prefetch_related(
+                'experience'
+            ).prefetch_related(
+                'degree_level'
+            ).prefetch_related(
+                'company_user'
+            ).prefetch_related(
+                'cities'
+            ).filter(
+                experience__in=experience,
+                category__in=category,
+                degree_level__in=education,
+                employment__in=employment,
+                job_title__icontains=keyword
+            ).order_by('-submission_date')
         return data
 
 

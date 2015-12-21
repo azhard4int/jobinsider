@@ -23,7 +23,7 @@ import IP2Location
 import logging
 import simplejson as json
 
-def build_template(request, ajax,job_advertisement, filtered_results, is_favorite_job=None, is_job_applied=None):
+def build_template(request, ajax,job_advertisement, filtered_results, is_favorite_job=None, is_job_applied=None, list=None):
     user_status = None
     obj = SearchView()
     is_user_company = None
@@ -43,7 +43,7 @@ def build_template(request, ajax,job_advertisement, filtered_results, is_favorit
     if is_favorite_job:
         #if this is the favorite page request
         if ajax == '1':
-            html = render_to_string('jobs_view.html', {
+            html = render_to_string('jobs_favorite_view.html', {
                 'data':job_advertisement,
                 'user_status': user_status,
                 'company_status': is_user_company,
@@ -60,7 +60,7 @@ def build_template(request, ajax,job_advertisement, filtered_results, is_favorit
             })
     elif is_job_applied:
         if ajax == '1':
-            html = render_to_string('jobs_view.html', {
+            html = render_to_string('jobs_applied_view.html', {
                 'data':job_advertisement,
                 'user_status': user_status,
                 'company_status': is_user_company,
@@ -77,11 +77,13 @@ def build_template(request, ajax,job_advertisement, filtered_results, is_favorit
             })
     else:
         if ajax == '1':
+            print list
             html = render_to_string('jobs_view.html', {
                 'data': job_advertisement,
                 'user_status': user_status,
                 'company_status': is_user_company,
-                'filtered_results': filtered_results
+                'filtered_results': filtered_results,
+                'data_attributes': list
                 })
             return HttpResponse(html)
         else:
@@ -113,13 +115,19 @@ def filtered_results(request):
         experience=request.GET.get('experience'),
         education=request.GET.get('education'),
         employment=request.GET.get('employment'),
-
+        keyword=request.GET.get('search'),
     )
-    print list
+    data_list = {
+        'categories': request.GET.get('categories'),
+        'experience': request.GET.get('experience'),
+        'education': request.GET.get('education'),
+        'employment': request.GET.get('employment'),
+
+    }
     page = request.GET.get('page')
     ajax = request.GET.get('is_ajax')
     job_advertisement = obj.paginate_data(list, page)
-    return build_template(request,ajax,job_advertisement, filtered_results=1)
+    return build_template(request,ajax,job_advertisement, filtered_results=1, list=data_list)
 
 
 class Favorite_Job(View):
@@ -198,7 +206,8 @@ class Job_Details(View):
             'user_status':request.user.id,
             'is_applied': is_applied_status,
             'is_company': is_company,
-            'is_favorite': is_favorite_status
+            'is_favorite': is_favorite_status,
+            'body_status': company_views.is_body_status(request)
         })
 
     def post(self, request, job_id):

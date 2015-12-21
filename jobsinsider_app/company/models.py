@@ -138,6 +138,7 @@ class Advertisement(models.Model):
     def __unicode__(self):
         return unicode(self.job_title)
 
+
 class AdvertisementApplied(models.Model):
     """Applied people links"""
     advertisement = models.ForeignKey(Advertisement, default=None)
@@ -146,9 +147,11 @@ class AdvertisementApplied(models.Model):
     is_shortlisted = models.BooleanField(default=False)
     applied_date = models.DateTimeField(default=None)
     evaluation_test_score = models.CharField(max_length=255, default=None, blank=True, null=True)
+    candidate_status = models.BooleanField(default=True)
 
     def __unicode__(self):
         return unicode(self.advertisement)
+
 
 class ShortlistedCandidates(models.Model):
     advertisement = models.ForeignKey(Advertisement, default=None)
@@ -296,7 +299,7 @@ class AppliedCandidatesFilter:
                     auth_user on auth_user.id = company_advertisementapplied.user_id join core_cities on
                     users_userlocation.user_city_id = core_cities.id join core_countries on
                     users_userlocation.user_country_id = core_countries.id where advertisement_id={0} and
-                    users_userlocation.user_city_id={1} group by
+                    users_userlocation.user_city_id={1} and company_advertisementapplied.candidate_status=TRUE group by
                     auth_user.id
                     """.format(self.job_id, self.city_id)
                 )
@@ -312,7 +315,7 @@ class AppliedCandidatesFilter:
                     auth_user on auth_user.id = company_advertisementapplied.user_id join core_cities on
                     users_userlocation.user_city_id = core_cities.id join core_countries on
                     users_userlocation.user_country_id = core_countries.id where advertisement_id={0} and
-                    users_userlocation.user_country_id={1} group by
+                    users_userlocation.user_country_id={1} and company_advertisementapplied.candidate_status=TRUE group by
                     auth_user.id
                     """.format(self.job_id, self.country_id)
                 )
@@ -327,7 +330,8 @@ class AppliedCandidatesFilter:
                     auth_user on auth_user.id = company_advertisementapplied.user_id join core_cities on
                     users_userlocation.user_city_id = core_cities.id join core_countries on
                     users_userlocation.user_country_id = core_countries.id where advertisement_id={0} and
-                    users_userlocation.user_country_id={1}  and users_userbio.user_gender={2} group by
+                    users_userlocation.user_country_id={1}  and users_userbio.user_gender={2} and
+                    company_advertisementapplied.candidate_status=TRUE group by
                     auth_user.id
                     """.format(self.job_id, self.country_id, self.gender)
                 )
@@ -343,7 +347,7 @@ class AppliedCandidatesFilter:
                 auth_user on auth_user.id = company_advertisementapplied.user_id join core_cities on
                 users_userlocation.user_city_id = core_cities.id join core_countries on
                 users_userlocation.user_country_id = core_countries.id where advertisement_id={0} and
-                users_userbio.user_gender={1} group by
+                users_userbio.user_gender={1} and company_advertisementapplied.candidate_status=TRUE group by
                 auth_user.id
                 """.format(self.job_id, self.gender)
             )
@@ -352,7 +356,7 @@ class AppliedCandidatesFilter:
     def candidates_employment(self):
         user_employment = AdvertisementApplied.objects.raw(
                 """SELECT * FROM company_advertisementapplied join users_useremployment on users_useremployment.user_id = company_advertisementapplied.user_id
-                where advertisement_id={0}
+                where advertisement_id={0} and company_advertisementapplied.candidate_status=TRUE
 
                 """.format(self.job_id)
             )
@@ -361,6 +365,6 @@ class AppliedCandidatesFilter:
     def candidates_education(self):
         user_education =  AdvertisementApplied.objects.raw("""
             SELECT * FROM company_advertisementapplied join users_usereducation on users_usereducation .user_id = company_advertisementapplied.user_id
-            where advertisement_id={0}""".format(self.job_id)
+            where advertisement_id={0} and company_advertisementapplied.candidate_status=TRUE""".format(self.job_id)
         )
         return user_education

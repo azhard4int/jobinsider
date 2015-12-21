@@ -196,11 +196,21 @@ app.controller('leftfilters', function($http, $scope)
 
     $scope.getfilteredResults = function()
     {
+        var search_keyword = $('.search_keyword').val();
+        if(search_keyword=='')
+        {
+            url_to =  base_url + 'jobs/filtered/?categories='+this.categories_id+"&experience="+ this.experience_id +"&is_ajax=1" +
+                    "&education="+ this.education_id+"&employment="+ this.employment_id
+        }
+        else{
+            url_to =  base_url + 'jobs/filtered/?categories='+this.categories_id+"&experience="+ this.experience_id +"&is_ajax=1" +
+                    "&education="+ this.education_id+"&employment="+ this.employment_id+"&search="+search_keyword
+        }
+
         $http(
               {
                 'method':'GET',
-                'url': base_url + 'jobs/filtered/?categories='+this.categories_id+"&experience="+ this.experience_id +"&is_ajax=1" +
-                "&education="+ this.education_id+"&employment="+ this.employment_id
+                'url':url_to
             }
         ).success(function(data)
               {
@@ -235,11 +245,12 @@ app.controller('paginationCtrl', function($http, $scope)
 
     $scope.getFilteredPaginate = function(value)
     {
-        alert('awesome');
         $http(
               {
                 'method':'GET',
-                'url': base_url + 'jobs/filtered/?categories='+this.categories_id+"&is_ajax=1&page="+value
+                //'url': base_url + 'jobs/filtered/?categories='+this.categories_id+"&is_ajax=1&page="+value
+                'url': base_url + 'jobs/filtered/?categories='+this.categories_id+"&is_ajax=1&page="+value+ "&experience="+
+                this.experience_id +"&is_ajax=1" + "&education="+ this.education_id+"&employment="+ this.employment_id
             }
         ).success(function(data)
               {
@@ -252,9 +263,42 @@ app.controller('paginationCtrl', function($http, $scope)
 function getResults(pageValue)
 {
     //console.log(value);
+    //getting data attributes
+    var categories = $('.data_attribute_get').data('categories');
+    var experience = $('.data_attribute_get').data('experience');
+    var employment = $('.data_attribute_get').data('employment');
+    var education = $('.data_attribute_get').data('education');
+    console.log(education);
+    if(categories==undefined)
+    {
+        categories='';
+    }
+    if(experience==undefined)
+    {
+        experience='';
+    }
+    if(employment==undefined)
+    {
+        employment='';
+    }
+    if(education==undefined)
+    {
+        education='';
+    }
+    var search_keyword = $('.search_keyword').val();
+    if (search_keyword=='')
+    {
+        url = base_url + 'jobs/filtered/?categories='+categories+"&is_ajax=1&page="+pageValue+ "&experience="+
+                experience +"&is_ajax=1" + "&education="+ education + "&employment="+ employment
+    }
+    else{
+         url = base_url + 'jobs/filtered/?categories='+categories+"&is_ajax=1&page="+pageValue+ "&experience="+
+                experience +"&is_ajax=1" + "&education="+ education + "&employment="+ employment +"&search="+search_keyword
+    }
     $.ajax({
             'method':'GET',
-            'url': base_url + 'jobs/index/?page='+pageValue+"&is_ajax=1",
+            //'url': base_url + 'jobs/index/?page='+pageValue+"&is_ajax=1",
+            'url': url,
             success: function(data)
               {
                   $('.jobsearch_right_filter').html(data);
@@ -265,4 +309,88 @@ function getResults(pageValue)
 
 };
 
+$('.search_button').on('click', function(e)
+{
+    e.preventDefault();
+    var categories = $('.data_attribute_get').data('categories');
+    var experience = $('.data_attribute_get').data('experience');
+    var employment = $('.data_attribute_get').data('employment');
+    var education = $('.data_attribute_get').data('education');
+    console.log(education);
+    if(categories==undefined)
+    {
+        categories='';
+    }
+    if(experience==undefined)
+    {
+        experience='';
+    }
+    if(employment==undefined)
+    {
+        employment='';
+    }
+    if(education==undefined)
+    {
+        education='';
+    }
+    var search_keyword = $('.search_keyword').val();
+    var pageValue = $('.data_attribute_get').data('pagevalue');
+    if(pageValue==undefined)
+    {
+        pageValue=1;
+    }
+    url = base_url + 'jobs/filtered/?categories='+categories+"&is_ajax=1&page="+pageValue+ "&experience="+
+                experience +"&is_ajax=1" + "&education="+ education + "&employment="+ employment+ "&search="+search_keyword
+    $.ajax({
+            'method':'GET',
+            //'url': base_url + 'jobs/index/?page='+pageValue+"&is_ajax=1",
+            'url': url,
+            success: function(data)
+              {
+                  $('.jobsearch_right_filter').html(data);
+                  console.log(data)
+              }
+            }
+        )
 
+    return false;
+});
+
+
+function get_user_applied(pageValue)
+{
+    //console.log(value);
+    //getting data attributes
+
+    $.ajax({
+            'method':'GET',
+            'url': base_url + 'jobs/applied/?page='+pageValue+"&is_ajax=1",
+            //'url': url,
+            success: function(data)
+              {
+                  $('.jobsearch_right_filter').html(data);
+                  console.log(data)
+              }
+            }
+        )
+
+};
+
+function get_user_favorite(pageValue)
+{
+    //console.log(value);
+    //getting data attributes
+
+    $.ajax({
+            'method':'GET',
+            'url': base_url + 'jobs/favorite/?page='+pageValue+"&is_ajax=1",
+            //'url': url,
+            success: function(data)
+              {
+                  $('.jobsearch_right_filter').html(data);
+                  console.log(data)
+              }
+            }
+        )
+
+};

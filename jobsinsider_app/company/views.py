@@ -565,20 +565,20 @@ class AppliedCandidates(View):
             on auth_user.id = company_advertisementapplied.user_id join core_cities on users_userlocation.user_city_id = core_cities.id
             join core_countries on users_userlocation.user_country_id = core_countries.id left outer join
             evaluation_evaluation_result on evaluation_evaluation_result.user_id = company_advertisementapplied.user_id
-            where advertisement_id={0} group by auth_user.id
+            where advertisement_id={0} and company_advertisementapplied.candidate_status=TRUE group by auth_user.id
             """.format(job_id)
 
         )
         user_employment = AdvertisementApplied.objects.raw(
             """
             SELECT * FROM company_advertisementapplied join users_useremployment on users_useremployment.user_id = company_advertisementapplied.user_id
-            where advertisement_id={0}
+            where advertisement_id={0} and company_advertisementapplied.candidate_status=TRUE
 
             """.format(job_id)
         )
         user_education =  AdvertisementApplied.objects.raw("""
             SELECT * FROM company_advertisementapplied join users_usereducation on users_usereducation .user_id = company_advertisementapplied.user_id
-            where advertisement_id={0}""".format(job_id)
+            where advertisement_id={0} and company_advertisementapplied.candidate_status=TRUE""".format(job_id)
         )
         # Previous one
 
@@ -595,7 +595,7 @@ class AppliedCandidates(View):
         users_userlocation.user_country_id as country_value FROM company_advertisementapplied join users_userlocation
         on company_advertisementapplied.user_id=users_userlocation.user_id join core_countries on
         users_userlocation.user_country_id = core_countries.id where company_advertisementapplied.advertisement_id={0}
-        group by country_name""".format(job_id))
+        and company_advertisementapplied.candidate_status=TRUE group by country_name""".format(job_id))
 
         # Previous one
         """
@@ -613,15 +613,15 @@ class AppliedCandidates(View):
             as city_value, country_name FROM company_advertisementapplied join users_userlocation on
             company_advertisementapplied.user_id=users_userlocation.user_id join core_countries on
             users_userlocation.user_country_id = core_countries.id join core_cities on
-            users_userlocation.user_city_id = core_cities.id where company_advertisementapplied.advertisement_id={0}
-            group by city_name
+            users_userlocation.user_city_id = core_cities.id where company_advertisementapplied.advertisement_id={0} and
+            company_advertisementapplied.candidate_status=TRUE group by city_name
             """.format(job_id)
         )
         applied_gender_users = AdvertisementApplied.objects.raw(
             """
             SELECT count(*) as type, user_gender, company_advertisementapplied.id  FROM `company_advertisementapplied` join users_userbio on
             company_advertisementapplied.user_id = users_userbio.user_id where company_advertisementapplied.advertisement_id = {0}
-            group by user_gender
+            and company_advertisementapplied.candidate_status=TRUE group by user_gender
             """.format(job_id)
         )
 
@@ -710,6 +710,19 @@ def shortlist_remove(request, candidate_id, job_id):
     return HttpResponse(json.dumps({
         'status': True
     }))
+
+
+def candidate_remove(request, candidate_id, job_id):
+    AdvertisementApplied.objects.filter(
+            user_id=candidate_id,
+            advertisement_id=job_id
+        ).update(
+            candidate_status=False
+        )
+    return HttpResponse(json.dumps({
+        'status': True
+    }))
+
 
 class ListShortlisted(View):
     @method_decorator(login_required)
@@ -1234,7 +1247,8 @@ class CompanyAppliedAll(View):
             evaluation_evaluation_result on evaluation_evaluation_result.user_id =
             company_advertisementapplied.user_id join company_advertisement on
             company_advertisement.id = company_advertisementapplied.advertisement_id where
-            company_user_id = {0} group by company_advertisement.id
+            company_user_id = {0} and company_advertisementapplied.candidate_status=TRUE
+            group by company_advertisement.id
             """.format(request.user.id))
 
         data = AdvertisementApplied.objects.raw(
@@ -1249,18 +1263,19 @@ class CompanyAppliedAll(View):
             users_userlocation.user_country_id = core_countries.id left outer join
             evaluation_evaluation_result on evaluation_evaluation_result.user_id =
             company_advertisementapplied.user_id join company_advertisement on company_advertisement.id =
-            company_advertisementapplied.advertisement_id where company_advertisement.id = {0} group by auth_user.id
+            company_advertisementapplied.advertisement_id where company_advertisement.id = {0}
+            and company_advertisementapplied.candidate_status=TRUE group by auth_user.id
             """.format(group_jobs[0].id))
 
 
         user_employment = AdvertisementApplied.objects.raw(
             """
             SELECT * FROM company_advertisementapplied join users_useremployment on users_useremployment.user_id = company_advertisementapplied.user_id
-            where advertisement_id = {0} group by advertisement_id
+            where advertisement_id = {0} and company_advertisementapplied.candidate_status=TRUE group by advertisement_id
             """.format(group_jobs[0].id))
         user_education =  AdvertisementApplied.objects.raw("""
             SELECT * FROM company_advertisementapplied join users_usereducation on users_usereducation .user_id = company_advertisementapplied.user_id
-            where advertisement_id = {0} group by advertisement_id
+            where advertisement_id = {0} and company_advertisementapplied.candidate_status=TRUE group by advertisement_id
             """.format(group_jobs[0].id)
         )
 
@@ -1292,17 +1307,21 @@ class CompanyAppliedAll(View):
             users_userlocation.user_country_id = core_countries.id left outer join
             evaluation_evaluation_result on evaluation_evaluation_result.user_id =
             company_advertisementapplied.user_id join company_advertisement on company_advertisement.id =
-            company_advertisementapplied.advertisement_id where company_advertisement.id = {0} group by auth_user.id
+            company_advertisementapplied.advertisement_id where company_advertisement.id = {0} and
+            company_advertisementapplied.candidate_status=TRUE
+            group by auth_user.id
             """.format(request.POST['job_id']))
 
         user_employment = AdvertisementApplied.objects.raw(
             """
             SELECT * FROM company_advertisementapplied join users_useremployment on users_useremployment.user_id =
-             company_advertisementapplied.user_id where advertisement_id = {0} group by advertisement_id
+             company_advertisementapplied.user_id where advertisement_id = {0} and
+             company_advertisementapplied.candidate_status=TRUE group by advertisement_id
             """.format(request.POST['job_id']))
         user_education =  AdvertisementApplied.objects.raw("""
             SELECT * FROM company_advertisementapplied join users_usereducation on users_usereducation .user_id =
-            company_advertisementapplied.user_id where advertisement_id = {0} group by advertisement_id
+            company_advertisementapplied.user_id where advertisement_id = {0} and
+            company_advertisementapplied.candidate_status=TRUE group by advertisement_id
             """.format(request.POST['job_id']))
         html = render_to_string('applied_candidate_dynamic_all.html', {'data': data,'employment': user_employment,
                                                                    'education': user_education

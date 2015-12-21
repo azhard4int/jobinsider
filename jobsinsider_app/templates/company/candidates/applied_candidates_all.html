@@ -112,6 +112,8 @@
                                                 {% else %}
                                                     <a href="javascript:;" value="{{ details.user_id }}" data-job_id="{{ details.advertisement_id }}" class="job_apply_btn shorlist__candidate__remove__all">Remove Candidate Shortlist</a>
                                                 {% endif %}
+                                                <a href="javascript:;" value="{{ details.user_id }}" class="job_apply_btn candidate__remove">Remove Candidate</a>
+
                                             {% if is_evaluation_test %}
                                                 <h3 class="evaluation_test_score">
                                                 {% if details.evaluation_test_score %}

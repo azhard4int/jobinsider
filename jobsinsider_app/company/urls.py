@@ -30,6 +30,7 @@ urlpatterns = patterns(
     url(r'^schedule_interview/(?P<candidate_id>[0-9]+)/(?P<job_id>[0-9]+)/$', ScheduleInterview.as_view(), name='schedule_interview'),
     url(r'^shortlist/(?P<candidate_id>[0-9]+)/(?P<job_id>[0-9]+)/$', Shortlisted.as_view(), name='shortlisted'),
     url(r'^shortlist_remove/(?P<candidate_id>[0-9]+)/(?P<job_id>[0-9]+)/$', shortlist_remove, name='shortlisted_remove'),
+    url(r'^candidate_remove/(?P<candidate_id>[0-9]+)/(?P<job_id>[0-9]+)/$', candidate_remove, name='candidate_remove'),
     url(r'^message/$', SendMessage.as_view(), name='send_message'),
     url(r'^composedmessage/$', ComposedSend.as_view(), name='composed_message'),
     url(r'^shortlisted_candidates_date/$', ShortlistedCandidatesDate.as_view(), name='composed_message'),

@@ -169,3 +169,13 @@
         </div>
     </section>
 {% endblock %}
+
+{% block custom_scripts %}
+    <script>
+       $(function() {
+          var height_val   = $('.top_region_messages');
+          var height = height_val[0].scrollHeight;
+          height_val.scrollTop(height);
+        });
+    </script>
+{% endblock %}

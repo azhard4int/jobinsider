@@ -45,7 +45,7 @@
 
                      {%  for details in data %}
 
-                        <div class="applied__user">
+                        <div class="applied__user" id="applied_candidate__{{ details.user_id }}">
                             <div class="col-md-2">
                                 <img class="user__profile" src="{{ MEDIA_URL }}userprofile/{{ details.user_portrait_filename }}" alt="">
                             </div>
@@ -97,6 +97,7 @@
                                 {% else %}
                                     <a href="javascript:;" value="{{ details.user_id }}" class="job_apply_btn shorlist__candidate__remove">Remove Candidate Shortlist</a>
                                 {% endif %}
+                                <a href="javascript:;" value="{{ details.user_id }}" class="job_apply_btn candidate__remove">Remove Candidate</a>
                             {% if is_evaluation_test %}
                                 <h3 class="evaluation_test_score">
                                 {% if details.evaluation_test_score %}
