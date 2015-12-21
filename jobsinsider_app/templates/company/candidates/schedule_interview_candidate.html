@@ -1,7 +1,7 @@
 {% extends "base_dasboard.html" %}
     <title>{% block title %}Applied Candidates{% endblock %}</title>
         {% if user.is_authenticated %}
-            {% block authenticate_user %} {{ user.first_name|slice:":1" }} {{ user.last_name|slice:":1" }}{%  endblock %}
+            {% block authenticate_user %} {{ user.first_name|slice:":1" }}{{ user.last_name|slice:":1" }}{%  endblock %}
         {% endif %}
 {% block header_company_nav %}
     <a href="{% url 'company_profile' %}">Account Settings</a>
@@ -24,8 +24,8 @@
                     <div class="cp_nav">
                         <ul>
                             <li><a href="{% url 'job_advertisement' %}">Create Job Ad</a></li>
+                            <li><a href="{% url 'test_template' %}">Evaluation Test</a></li>
                             <li><a href="{% url 'posted_jobs' %}">Posted Jobs</a></li>
-                            <li><a href="{% url 'favorite' %}">Favorite CV</a></li>
                         </ul>
                     </div>
                 </div>
@@ -80,7 +80,7 @@
 
                                 <div class="clearfix"></div>
                                 <div class="col-md-12">
-                                    <h3 style="padding-left:0; margin-left:0;">Invitation Message <a href="javascript:;" class="predefined_template apply_btn">Use Predefined Template</a> <a href="javascript:;" class="clear_template apply_btn">Clear</a></h3>
+                                    <h3 style="padding-left:0; margin-left:0;">Invitation Message <a href="javascript:;" class="predefined_template apply_btn">Use Predefined Template</a> <a href="javascript:;" class="cancel_interview_template apply_btn">Cancel Interview Template</a> <a href="javascript:;" class="clear_template apply_btn">Clear</a></h3>
                                     <textarea name="" class="form-control" id="interview_message"></textarea>
                                 </div>
                             </div>

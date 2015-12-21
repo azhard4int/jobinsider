@@ -17,8 +17,8 @@
                 <div class="col-md-7">
                     <div class="cp_nav">
                         <ul>
-                            <li><a href="{% url 'posted_jobs' %}">Posted Jobs</a></li>
-                            <li><a href="{% url 'favorite' %}">Favorite CV</a></li>
+{#                            <li><a href="{% url 'posted_jobs' %}">Posted Jobs</a></li>#}
+{#                            <li><a href="{% url 'favorite' %}">Favorite CV</a></li>#}
                         </ul>
                     </div>
                 </div>
@@ -49,7 +49,7 @@
                                         <span class="job_location_bg">{{ job_detail.cities }}</span>
                                     </h4>
                                     <h1>{{ job_detail.job_title }}</h1>
-                                    <p>{{ job_detail.job_description|safe|truncatewords:15 }}</p>
+                                    <p>{{ job_detail.job_description|striptags|safe|truncatewords:15 }}</p>
 
                                 </div>
                                 <div class="col-md-3">
@@ -86,9 +86,9 @@
                         <span class="step-links">
                             {% if data.has_previous %}
                                 {% if filtered_results == 1 %}
-                                    <a href="javascript:;" ng-click="getResults({{ data.previous_page_number }})">Previous</a>
+                                    <a href="javascript:;" onclick="get_user_favorite({{ data.previous_page_number }})">Previous</a>
                                 {% else %}
-                                    <a href="javascript:;" ng-click="getFilteredPaginate({{ data.previous_page_number }})">Previous</a>
+                                    <a href="javascript:;" onclick="get_user_favorite({{ data.previous_page_number }})">Previous</a>
                                 {% endif %}
                             {% endif %}
                                 <span class="current">
@@ -96,7 +96,7 @@
                                 </span>
                             {% if data.has_next %}
 {#                                               <a href="?page={{ data.next_page_number}}">Next</a>#}
-                                <a href="javascript:;" ng-click="getResults({{ data.next_page_number }})">next</a>
+                                <a href="javascript:;" onclick="get_user_favorite({{ data.next_page_number }})">next</a>
                             {% endif %}
                         </span>
                     </div>

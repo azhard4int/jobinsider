@@ -128,7 +128,7 @@ $(document).ready(function()
         $('#forgot_form').on('submit', function()
         {
             event.preventDefault();
-            var email = document.getElementsByName('username')[0].value;
+            var email = document.getElementsByName('email')[0].value;
             emaildetect = emailCheck(email);
             forgot_password();
             return false;
@@ -652,6 +652,38 @@ $('.shorlist__candidate__remove').on('click', function(e){
             if(resp.status==true){
                 console.log('hoa');
                 message_display('Candidate Removed from Shortlisted Category', 1);
+
+            }
+
+        },
+        error:function(m){
+            message_display('Something Went Wrong, Please try again', 0);
+        }
+
+    });
+    return false;
+});
+
+
+$('.candidate__remove').on('click', function(e){
+    e.preventDefault();
+    var candidate_id = $(this).attr('value');
+    var job_id = $('.job__advert__id').attr('value');
+    $.ajax({
+        url:'/company/candidate_remove/' + $(this).attr('value') + "/" +  job_id + "/",
+        type: 'POST',
+        data: {
+            csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value
+        },
+        success:function(m){
+            var resp = JSON.parse(m);
+            console.log(resp);
+            if(resp.status==true){
+                console.log('hoa');
+                message_display('Candidate Removed from Job', 1);
+
+
+                $('#applied_candidate__'+ candidate_id).remove();
             }
 
         },
@@ -665,6 +697,7 @@ $('.shorlist__candidate__remove').on('click', function(e){
 $('.send_invitation').on('click', function(event)
 {
     event.preventDefault();
+    wait_it('body');
     var invitation_message = $('#interview_message').val();
     var from_date = $('.from_interview_date').val();
     var from_time = $('.from_interview_time').val();
@@ -686,15 +719,19 @@ $('.send_invitation').on('click', function(event)
             },
             success:function(m)
             {
+                wait_it_hide('body');
                 var resp = JSON.parse(m);
                 if(resp.status==true)
                 {
                     message_display('Invitation Sent Successfully', 1);
                 }
+                else{
+                    message_display(resp.response, 0);
+                }
             },
             error:function(m)
             {
-
+                wait_it_hide('body');
             }
         }
     );
@@ -709,10 +746,18 @@ $('.send_message_btn').on('click', function(e)
         data: $('.sendMessageForm').serialize(),
         success:function(m)
         {
-            console.log(m)
+            var resp = JSON.parse(m);
+            if(resp.status==true)
+            {
+                message_display('Message Sent Successfully', '1');
+                setTimeout(function(){
+                       window.location.reload(1);
+                    }, 1000);
+
+            }
         },
         error:function(m){
-            console.log(m)
+            message_display('Something went wrong, Notify administrators!', 0)
         }
 
     });
@@ -733,6 +778,9 @@ $('.left_active_message').on('click', function(e)
             success:function(m)
             {
                 $('.message_main_data').html(m);
+                  var height_val   = $('.top_region_messages');
+                  var height = height_val[0].scrollHeight;
+                  height_val.scrollTop(height);
             },
             error:function(m)
             {
@@ -1053,6 +1101,7 @@ $('.upload_resume_btn').on('click', function(e)
                 if(resp.status==true)
                 {
                     message_display('Settings Saved Successfully!', 1)
+
                 }
             },
             error:function(m)
@@ -1324,17 +1373,156 @@ $('.schedule_interview_btn').on('click', function(e)
 $('.predefined_template ').on('click', function(e)
 {
     e.preventDefault();
-    var email = 'Dear {{first_name}}' +
+    //'Dear {{first_name}}' +
+    //    '\n\n' +
+    var email = 'You have been selected for interview at {{from_time}} - {{to_time}}.' +
         '\n\n' +
-        'You have been selected for interview at {{from_time}} - {{to_time}}.' +
-        '\n\n' +
-        'Make sure you bring your Resume along with you';
+        'It would be good if you bring your Resume too.';
     $('#interview_message').html(email);
     return false;
-})
+});
+
+$('.cancel_interview_template ').on('click', function(e)
+{
+    e.preventDefault();
+    //'Dear {{first_name}}' +
+    //    '\n\n' +
+    $('#interview_message').html('');
+    var email = 'Your scheduled interview has been cancelled. You will be notified in case if there is rescheduled ' +
+        'interview for you'; //+
+        //'\n\n';
+    $('#interview_message').html(email);
+    return false;
+});
 $('.clear_template').on('click', function(e)
 {
     e.preventDefault();
     $('#interview_message').html('');
+    return false;
+});
+
+$('.applied_posted_job').on('click', function(e)
+{
+    e.preventDefault();
+    var job_id = ($(this).attr('value'));
+    $.ajax(
+        {
+            type: 'POST',
+            url: '/company/candidates/all/',
+            data:
+            {
+                'job_id': job_id,
+                'csrfmiddlewaretoken': document.getElementsByName('csrfmiddlewaretoken')[0].value
+            },
+            success:function(m)
+            {
+                $('.applied_candidate_listview').html(m);
+            },
+            error:function(m)
+            {
+
+            }
+        }
+    );
+    return false;
+});
+
+//on all applied candidates page - shortlist addition and removal function
+
+$('.shorlist__candidate__all').on('click', function(e){
+    e.preventDefault();
+    var job_id = $(this).data('job_id');
+    $.ajax({
+        url:'/company/shortlist/' + $(this).attr('value') + "/" +  job_id + "/",
+        type: 'POST',
+        data: {
+            csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value
+        },
+        success:function(m){
+            var resp = JSON.parse(m);
+            console.log(resp);
+            if(resp.status==true){
+                console.log('hoa');
+                message_display('Candidate Added to Shortlisted Category', 1);
+            }
+
+        },
+        error:function(m){
+            message_display('Something Went Wrong, Please try again', 0);
+        }
+
+    });
+    return false;
+})
+
+$('.shorlist__candidate__remove__all').on('click', function(e){
+    e.preventDefault();
+    var job_id = $(this).data('job_id');
+    $.ajax({
+        url:'/company/shortlist_remove/' + $(this).attr('value') + "/" +  job_id + "/",
+        type: 'POST',
+        data: {
+            csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value
+        },
+        success:function(m){
+            var resp = JSON.parse(m);
+            console.log(resp);
+            if(resp.status==true){
+                message_display('Candidate Removed from Shortlisted Category', 1);
+            }
+
+        },
+        error:function(m){
+            message_display('Something Went Wrong, Please try again', 0);
+        }
+
+    });
+    return false;
+});
+$('id_company_from').datepicker(
+    {
+        //autoclose: True
+    }
+);
+    $("#id_company_from").datepicker({
+        onSelect: function(selected) {
+          $("#id_company_to").datepicker("option","minDate", selected)
+        }
+    });
+    $("#id_company_to").datepicker({
+        onSelect: function(selected) {
+           $("#id_company_from").datepicker("option","maxDate", selected)
+        }
+    });
+
+$('.search__field__evaluation').on('click', function(e){
+    e.preventDefault();
+    $('.search_box').show();
+    $('.search__field__evaluation').addClass('search_btn_active');
+    return false;
+});
+$('.search__field__evaluation_close').on('click', function(e) {
+    e.preventDefault();
+    $('.search_box').hide();
+    return false;
+});
+
+$('.search__evaluation__btn').on('click', function(e){
+    e.preventDefault();
+    var search_template = $('.search__evaluation').val();
+    $.ajax({
+        url:'/evaluation/filtered/',
+        type: 'POST',
+        data: {
+            csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
+            'search_keyword': search_template
+        },
+        success:function(m) {
+            $('.evaluation_test_main').html(m);
+        },
+        error:function(m)
+        {
+        }
+    });
     return false;
 })

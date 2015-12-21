@@ -2,7 +2,7 @@
     <title>{% block title %}Select Your Profession{% endblock %}</title>
 {% if user.is_authenticated %}
 
-    {% block authenticate_user %}{{ user.first_name|slice:":1"}} {{ user.last_name|slice:":1" }}{%  endblock %}
+    {% block authenticate_user %}{{ user.first_name|slice:":1"}}{{ user.last_name|slice:":1" }}{%  endblock %}
 
 {% endif %}
 {% block body_content %}
@@ -13,7 +13,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+        <h4 class="modal-title" id="myModalLabel">Upload Your CV in PDF Format</h4>
       </div>
       <form id="user_cv" action="" enctype="multipart/form-data">
       <div class="modal-body">
@@ -93,7 +93,4 @@
             </div>
         </div>
     </section>
-
-
-<a href="/accounts/logout">Log out</a>
 {% endblock %}

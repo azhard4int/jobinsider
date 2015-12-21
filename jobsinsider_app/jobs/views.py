@@ -23,18 +23,19 @@ import IP2Location
 import logging
 import simplejson as json
 
-def build_template(request, ajax,job_advertisement, filtered_results, is_favorite_job=None, is_job_applied=None):
+def build_template(request, ajax,job_advertisement, filtered_results, is_favorite_job=None, is_job_applied=None, list=None):
     user_status = None
     obj = SearchView()
     is_user_company = None
-    body_status = 2
+    body_status = 0
     try:
         if request.user.id:
-            body_status=company_views.is_body_status(request)
+            body_status = company_views.is_body_status(request)
             user_status = obj.is_user_job_seeker(request.user.id)
             user_company = obj.is_user_company(request.user.id)
             if user_company == 1:
                 is_user_company = 1
+            print "body status is {0}".format(body_status)
     except Exception as IndexError:
         user_status = 1
         print IndexError
@@ -42,7 +43,7 @@ def build_template(request, ajax,job_advertisement, filtered_results, is_favorit
     if is_favorite_job:
         #if this is the favorite page request
         if ajax == '1':
-            html = render_to_string('jobs_view.html', {
+            html = render_to_string('jobs_favorite_view.html', {
                 'data':job_advertisement,
                 'user_status': user_status,
                 'company_status': is_user_company,
@@ -59,7 +60,7 @@ def build_template(request, ajax,job_advertisement, filtered_results, is_favorit
             })
     elif is_job_applied:
         if ajax == '1':
-            html = render_to_string('jobs_view.html', {
+            html = render_to_string('jobs_applied_view.html', {
                 'data':job_advertisement,
                 'user_status': user_status,
                 'company_status': is_user_company,
@@ -76,11 +77,13 @@ def build_template(request, ajax,job_advertisement, filtered_results, is_favorit
             })
     else:
         if ajax == '1':
+            print list
             html = render_to_string('jobs_view.html', {
                 'data': job_advertisement,
                 'user_status': user_status,
                 'company_status': is_user_company,
-                'filtered_results': filtered_results
+                'filtered_results': filtered_results,
+                'data_attributes': list
                 })
             return HttpResponse(html)
         else:
@@ -91,6 +94,7 @@ def build_template(request, ajax,job_advertisement, filtered_results, is_favorit
                 'filtered_results': filtered_results,
                 'body_status': body_status # Taking the function from company views
             })
+
 
 class Default_Search(View):
     def get(self, request):
@@ -111,13 +115,19 @@ def filtered_results(request):
         experience=request.GET.get('experience'),
         education=request.GET.get('education'),
         employment=request.GET.get('employment'),
-
+        keyword=request.GET.get('search'),
     )
-    print list
+    data_list = {
+        'categories': request.GET.get('categories'),
+        'experience': request.GET.get('experience'),
+        'education': request.GET.get('education'),
+        'employment': request.GET.get('employment'),
+
+    }
     page = request.GET.get('page')
     ajax = request.GET.get('is_ajax')
     job_advertisement = obj.paginate_data(list, page)
-    return build_template(request,ajax,job_advertisement, filtered_results=1)
+    return build_template(request,ajax,job_advertisement, filtered_results=1, list=data_list)
 
 
 class Favorite_Job(View):
@@ -196,7 +206,8 @@ class Job_Details(View):
             'user_status':request.user.id,
             'is_applied': is_applied_status,
             'is_company': is_company,
-            'is_favorite': is_favorite_status
+            'is_favorite': is_favorite_status,
+            'body_status': company_views.is_body_status(request)
         })
 
     def post(self, request, job_id):
@@ -292,11 +303,14 @@ class Job_Details(View):
 
 def add_favorite_job(request):
     data_obj = SearchView()
-    company_models.AdvertisementFavorite(
-            user_id = request.user.id,
-            advertisement_id = request.POST['job_id'],
-            add_date = datetime.now()
-        ).save()
+    try:
+        company_models.AdvertisementFavorite(
+                user_id = request.user.id,
+                advertisement_id = request.POST['job_id'],
+                add_date = datetime.now()
+            ).save()
+    except:
+        return HttpResponse(json.dumps({'status': False, 'response': 'Job Already Exist in Favorites!'}))
     return HttpResponse(
             json.dumps({
                 'status': True,

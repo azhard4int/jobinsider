@@ -22,7 +22,7 @@
                                     </span>
                                 </h4>
                                 <h1>{{ job_detail.job_title }}</h1>
-                                <p>{{ job_detail.job_description|safe|truncatewords:15 }}</p>
+                                <p>{{ job_detail.job_description|striptags|safe|truncatewords:15 }}</p>
 
                             </div>
                             <div class="col-md-3">
@@ -63,9 +63,19 @@
                                             {% if data.has_previous %}
                                                 {% if filtered_results == 1 %}
 {#                                                    <a href="javascript:;" ng-click="getResults({{ data.previous_page_number }})">Previous</a>#}
-                                                    <a href="javascript:;" onclick="getResults({{ data.previous_page_number }})">Previous</a>
+                                                    {% if data_attributes %}
+                                                        <a data-categories="{{ data_attributes.categories }}"
+                                                           data-education="{{ data_attributes.education}}"
+                                                           data-experience="{{ data_attributes.experience}}"
+                                                           data-employment="{{ data_attributes.employment }}"
+                                                           href="javascript:;" class="data_attribute_get"
+                                                           data-pagevalue="{{ data.previous_page_number }}" onclick="getResults({{ data.previous_page_number }})">Previous</a>
+                                                        {% else %}
+                                                        <a class="data_attribute_get" data-pagevalue="{{ data.previous_page_number }}" href="javascript:;" onclick="getResults({{ data.previous_page_number }})">Previous</a>
+                                                    {% endif %}
+
                                                 {% else %}
-                                                    <a href="javascript:;" onclick="getResults({{ data.previous_page_number }})">Previous</a>
+                                                    <a class="data_attribute_get" data-pagevalue="{{ data.previous_page_number }}"  href="javascript:;" onclick="getResults({{ data.previous_page_number }})">Previous</a>
 {#                                                    <a href="javascript:;" ng-click="getResults({{ data.previous_page_number }})">Previous</a>#}
 
                                                 {% endif %}
@@ -77,10 +87,28 @@
 
                                             {% if data.has_next %}
                                                 {% if filtered_results == 1 %}
-                                                    <a href="javascript:;" onclick="getResults({{ data.next_page_number }})">Next</a>
+                                                    {% if data_attributes %}
+                                                                <!-- if there is a page number -->
+                                                            {% if data.data.next_page_number %}
+                                                                    <a data-pagevalue="{{ data.next_page_number }}" data-categories="{{ data_attributes.categories }}"
+                                                                    data-education="{{ data_attributes.education}}"
+                                                                    data-experience="{{ data_attributes.experience}}"
+                                                                    data-employment="{{ data_attributes.employment }}"
+                                                                    href="javascript:;" class="data_attribute_get" onclick="getResults({{ data.next_page_number }})">Next</a>
+                                                            {% else %}
+                                                                <!-- if there is no page number -->
+                                                                    <a data-categories="{{ data_attributes.categories }}"
+                                                                    data-education="{{ data_attributes.education}}"
+                                                                    data-experience="{{ data_attributes.experience}}"
+                                                                    data-employment="{{ data_attributes.employment }}"
+                                                                    href="javascript:;" class="data_attribute_get" onclick="getResults({{ data.next_page_number }})">Next</a>
+                                                            {% endif %}
+                                                        {% else %}
+                                                             <a class="data_attribute_get" data-pagevalue="{{ data.next_page_number }}" href="javascript:;" onclick="getResults({{ data.next_page_number }})">Next</a>
+                                                    {% endif %}
 {#                                                    <a href="javascript:;" ng-click="getResults({{ data.next_page_number }})">Next</a>#}
                                                 {% else %}
-                                                    <a href="javascript:;" onclick="getResults({{ data.next_page_number }})">Next</a>
+                                                    <a href="javascript:;" class="data_attribute_get" data-pagevalue="{{ data.next_page_number }}"  onclick="getResults({{ data.next_page_number }})">Next</a>
 {#                                                    <a href="javascript:;" ng-click="getResults({{ data.next_page_number }})">Next</a>#}
                                                 {% endif %}
                                             {% endif %}

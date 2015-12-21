@@ -18,6 +18,7 @@ urlpatterns = patterns(
     url(r'^settings-job/(?P<last_id>[0-9]+)$', CompanyAdSettings.as_view(), name='job_settings'),
     url(r'^finalize-job/$', CompanyJobAdFinalize.as_view(), name='job_finalize'),
     url(r'^delete-job/(?P<job_id>[0-9]+)/$', delete_job, name='job_delete'),
+    url(r'^pause-job/(?P<job_id>[0-9]+)/$', pause_job, name='job_pause'),
     url(r'^analytics/(?P<job_id>[0-9]+)/$', analytics, name='analytics_view'),
     url(r'^candidates/(?P<job_id>[0-9]+)/$', AppliedCandidates.as_view(), name='applied_candidates'),
     url(r'^candidates/applied/$',applied_country , name='applied_candidates'),
@@ -29,9 +30,12 @@ urlpatterns = patterns(
     url(r'^schedule_interview/(?P<candidate_id>[0-9]+)/(?P<job_id>[0-9]+)/$', ScheduleInterview.as_view(), name='schedule_interview'),
     url(r'^shortlist/(?P<candidate_id>[0-9]+)/(?P<job_id>[0-9]+)/$', Shortlisted.as_view(), name='shortlisted'),
     url(r'^shortlist_remove/(?P<candidate_id>[0-9]+)/(?P<job_id>[0-9]+)/$', shortlist_remove, name='shortlisted_remove'),
+    url(r'^candidate_remove/(?P<candidate_id>[0-9]+)/(?P<job_id>[0-9]+)/$', candidate_remove, name='candidate_remove'),
     url(r'^message/$', SendMessage.as_view(), name='send_message'),
     url(r'^composedmessage/$', ComposedSend.as_view(), name='composed_message'),
     url(r'^shortlisted_candidates_date/$', ShortlistedCandidatesDate.as_view(), name='composed_message'),
+    url(r'^candidates/all/$', CompanyAppliedAll.as_view(), name='applied_candidates_all'),
+    url(r'^shortlist/all/$', CompanyShortlistedAll.as_view(), name='shortlisted_candidates_all'),
 
     # url(r'^tinymce/', include('tinymce.urls')),
 

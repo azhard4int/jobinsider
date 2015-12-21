@@ -6,68 +6,86 @@
 {% block body_content %}
 
 
+<section id="company">
+    <div class="container">
+        <div class="col-md-12">
+            <div class="col-md-4">
+                <h3>
+                    Evaluation Questions
+                </h3>
+            </div>
+            <div class="col-md-8">
+                <div class="cp_nav">
+                    <ul>
+                        <li><a href="{% url 'job_advertisement' %}">Create Job Ad</a></li>
+                        <li><a href="{% url 'test_template' %}">Evaluation Test</a></li>
+                        <li><a href="{% url 'posted_jobs' %}">Posted Jobs</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <div class="container">
 
 
-<div class="wrapper">
+    <div class="wrapper">
 
-          <button type="submit" class = "btn btn-info" id="examplebutton" value="hello_omer_123" name="testing" onclick="window.location.href='/evaluation/'">
-              Back
-</button>
-</div>
-<center>
-<div class="wrapper1">
-    <div class="table-responsive" id="maintable">
-<table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Number</th>
-                <th>Question</th>
-                <th>Correct Answer</th>
+{#              <button type="submit" class = "btn btn-info" id="examplebutton" value="hello_omer_123" name="testing" onclick="window.location.href='/evaluation/'">#}
+{#                  Back#}
+{#                </button>#}
+                </div>
+                <center>
+        <div class="wrapper1">
+            <div class="table-responsive" id="maintable">
+        <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Number</th>
+                        <th>Question</th>
+                        <th>Correct Answer</th>
 
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
 
-                {% for o in query %}
-                    <td >{{forloop.counter0}}</td>
-                <td>{{ o.evaluation_question }}</td>
-                <td>{{ o.evaluation_question_answer }}</td>
-{#                    <td><button value="{{o.pk}}"  class="editbutton" class="btn btn-info btn-sm" data-toggle="modal" data-target="#editmodal" type="button">Edit</button></td>#}
-{#                    <td><button value="{{o.id}}"  class="add_button btn btn-info" data-toggle="modal" data-target="#question_modal" type="button">Add Questions</button></td>#}
-                    <td><button value="{{o.id}}"  class="uf_editquestion btn btn-info"  data-toggle="modal" data-target="#neweditmodal" type="button">Edit</button></td>
-                    <td><button value= "{{o.id}}"  type="button" class="delete btn btn-info" >Delete</button></td>
-
-
-            </tr>
-{% endfor %}
-        </tbody>
-    </table>
-
-</div>
-
-</div>
-  <div class="pagination">
-    <span class="step-links">
-        {% if query.has_previous %}
-            <a href="?page={{ query.previous_page_number }}">Previous</a>
-        {% endif %}
-
-        <span class="current">
-            Page {{ query.number }} of {{ query.paginator.num_pages }}.
-        </span>
-
-        {% if query.has_next %}
-            <a href="?page={{ query.next_page_number }}">Next</a>
-        {% endif %}
-    </span>
-</div>
+                        {% for o in query %}
+                            <td >{{forloop.counter0}}</td>
+                        <td>{{ o.evaluation_question }}</td>
+                        <td>{{ o.evaluation_question_answer }}</td>
+        {#                    <td><button value="{{o.pk}}"  class="editbutton" class="btn btn-info btn-sm" data-toggle="modal" data-target="#editmodal" type="button">Edit</button></td>#}
+        {#                    <td><button value="{{o.id}}"  class="add_button btn btn-info" data-toggle="modal" data-target="#question_modal" type="button">Add Questions</button></td>#}
+                            <td><button value="{{o.id}}"  class="uf_editquestion btn btn-info"  data-toggle="modal" data-target="#neweditmodal" type="button">Edit</button></td>
+                            <td><button value= "{{o.id}}"  type="button" class="delete btn btn-info" >Delete</button></td>
 
 
-</div>
-</div>
+                    </tr>
+        {% endfor %}
+                </tbody>
+            </table>
 
+        </div>
 
+        </div>
+          <div class="pagination">
+            <span class="step-links">
+                {% if query.has_previous %}
+                    <a href="?page={{ query.previous_page_number }}">Previous</a>
+                {% endif %}
+
+                <span class="current">
+                    Page {{ query.number }} of {{ query.paginator.num_pages }}.
+                </span>
+
+                {% if query.has_next %}
+                    <a href="?page={{ query.next_page_number }}">Next</a>
+                {% endif %}
+            </span>
+        </div>
+                </center>
+    </div>
 </center>
 
 {% include "evaluation_edit_question_modal.html" %}

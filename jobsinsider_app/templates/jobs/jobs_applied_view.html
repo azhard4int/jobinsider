@@ -1,37 +1,4 @@
-{% extends "base_dasboard.html" %}
-    <title>{% block title %}Dashboard{% endblock %}</title>
-        {% if user.is_authenticated %}
-            {% block authenticate_user %} {{ user.first_name|slice:":1" }}{{ user.last_name|slice:":1" }}{%  endblock %}
-        {% endif %}
-{% block header_company_nav %}
-    <a href="/user/u/">Account Settings</a>
-    <a href="{% url 'logout' %}">Logout</a>
-{% endblock %}
-{% block body_content %}
-    <section class="header_top_menu">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="col-xs-6 title_job">
-                        <h3>Applied Jobs</h3>
-                    </div>
-                    <div class="col-xs-6 title_links">
-                        <div class="nav_job">
-                            <ul>
-{#                                <li><a href="">Posted Jobs</a></li>#}
-{#                                <li><a href="">View Candidates</a></li>#}
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <div class="clearfix"></div>
-    <section id="job_advertisement" ng-app="filtersapp">
-        <div class="container jobs_search" ng-controller="rootCtrl">
-            <div id="jobs" class="col-md-12 job_view jobsearch_right_filter">
-                <div class="clearfix"></div>
+<div class="clearfix"></div>
                 {% csrf_token %}
                 {% if data %}
                     {% for job_detail in data %}
@@ -78,9 +45,9 @@
                         <span class="step-links">
                             {% if data.has_previous %}
                                 {% if filtered_results == 1 %}
-                                    <a href="javascript:;" ng-click="get_user_applied({{ data.previous_page_number }})">Previous</a>
+                                    <a href="javascript:;" onclick="get_user_applied({{ data.previous_page_number }})">Previous</a>
                                 {% else %}
-                                    <a href="javascript:;" ng-click="getFilteredPaginate({{ data.previous_page_number }})">Previous</a>
+                                    <a href="javascript:;" onclick="get_user_applied({{ data.previous_page_number }})">Previous</a>
                                 {% endif %}
                             {% endif %}
                             <span class="current">
@@ -96,14 +63,3 @@
                 {% endif %}
                         </div>
             </div>
-    </section>
-    {% include "evaluation_testmodal.html" %}
-    {% include "evaluation_pretest_modal.html" %}
-
-
-{% endblock %}
-{% block custom_scripts %}
-    <script src="/assets/js/app/angular.min.js"></script>
-    <script src="/assets/js/app/app.js"></script>
-
-{% endblock %}

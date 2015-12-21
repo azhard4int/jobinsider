@@ -7,15 +7,22 @@
     <section id="company">
         <div class="container">
             <div class="col-md-12">
-                <div class="col-md-2">
+                <div class="col-md-4">
 
                     <h3>
-                        Job > <span style="color:#8949aa;">Create</span>
+                        Job > <span style="color:#8949aa;">Search Jobs</span>
                     </h3>
-
+                
                 </div>
-                <div class="col-md-10">
-                    <div class="cp_nav">
+                <div class="col-md-8" style="padding-right:0px !important;">
+                    <div class="search_filters_header">
+                        <div class="col-md-8">
+                            <input type="text" placeholder="Search Job Title" name="search_keyword" class="search_keyword form-control" id="search_keyword">
+                        </div>
+                        <div class="col-md-4"  style="padding-right:0px !important;">
+                            <input type="submit" name="search_button" class="search_button form-control" id="search_button">
+                        </div>
+
                         <!-- <ul>
                             <li><a href="{% url 'job_advertisement' %}">Create Advertisement</a></li>
                             <li><a href="{% url 'test_template' %}">Evaluation Test</a></li>
@@ -119,7 +126,7 @@
                                     </span>
                                 </h4>
                                 <h1>{{ job_detail.job_title }}</h1>
-                                <p>{{ job_detail.job_description|safe|truncatewords:15 }}</p>
+                                <p>{{ job_detail.job_description|striptags|safe|truncatewords:15 }}</p>
 
                                 <div class="clearfix"></div>
                             </div>

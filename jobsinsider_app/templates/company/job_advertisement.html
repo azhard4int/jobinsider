@@ -1,7 +1,7 @@
 {% extends "base_dasboard.html" %}
     <title>{% block title %}Dashboard{% endblock %}</title>
         {% if user.is_authenticated %}
-            {% block authenticate_user %} {{ user.first_name|slice:":1" }} {{ user.last_name|slice:":1" }}{%  endblock %}
+            {% block authenticate_user %}{{ user.first_name|slice:":1" }}{{ user.last_name|slice:":1" }}{%  endblock %}
         {% endif %}
 {% block header_company_messages %}
         <a href="{% url 'messages' %}"><i class="fa fa-inbox fa-lg"></i></a>
@@ -28,7 +28,6 @@
                             <li><a href="{% url 'job_advertisement' %}">Create Job Ad</a></li>
                             <li><a href="{% url 'test_template' %}">Evaluation Test</a></li>
                             <li><a href="{% url 'posted_jobs' %}">Posted Jobs</a></li>
-                            <li><a href="{% url 'favorite' %}">Favorite CV</a></li>
                         </ul>
                     </div>
                 </div>

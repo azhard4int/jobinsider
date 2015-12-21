@@ -23,7 +23,7 @@
       <label for = "eva_title" class = "col-sm-3 control-label">Evaluation Title</label>
 
       <div class = "col-sm-9">
-         <input type = "text" class = "form-control" id = "eva_title" name = "evaluation_name" placeholder = "Evaluation Title">
+         <input data-validate="required,alphaNumeric" required="true" type = "text" class = "form-control" id = "eva_title" name = "evaluation_name" placeholder = "Evaluation Title">
       </div>
    </div>
 
@@ -47,7 +47,7 @@
       <label for = "eva_cat" class = "col-sm-3 control-label">Catagory</label>
 
       <div class = "col-sm-9">
-         <input type = "text" class = "form-control" id = "eva_cat" name = "evaluation_catagory" placeholder = "Type Catagory">
+         <input data-validate="required,alphaNumeric" required="true" type = "text" class = "form-control" id = "eva_cat" name = "evaluation_catagory" placeholder = "Type Catagory">
       </div>
    </div>
 
@@ -87,7 +87,7 @@
       <label for = "eva_number" class = "col-sm-3 control-label">Time</label>
 
       <div class = "col-sm-9">
-         <input type = "text" class = "form-control" id = "evaluation_time" name = "evaluation_time" placeholder = "Enter Time in minutes">
+         <input type = "number" class = "form-control" id = "evaluation_time" name = "evaluation_time" placeholder = "Enter Time in minutes">
       </div>
    </div>
 
@@ -96,7 +96,7 @@
       <label for = "eva_number" class = "col-sm-3 control-label">Total Questions</label>
 
       <div class = "col-sm-9">
-         <input type = "text" class = "form-control" id = "eva_number" name = "evaluation_questions" placeholder = "Total Number of Questions">
+         <input type = "number" class = "form-control" id = "eva_number" name = "evaluation_questions" placeholder = "Total Number of Questions">
       </div>
    </div>
 

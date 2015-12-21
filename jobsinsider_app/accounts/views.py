@@ -21,6 +21,7 @@ from users import models as usermodels
 BASE_URL = 'http://127.0.0.1:8000'
 STATUS_SUCCESS = 'Your account has been created successfully'
 STATUS_EXIST = 'Account with that email address already exists.'
+STATUS_EXIST_USERNAME = 'Account with that username already exists.'
 STATUS_WRONG = 'Invalid Username or Password'
 STATUS_SENT = 'Please check your email address to reset password and follow the instructions on it.'
 STATUS_NONE = 4 # 'There is no username exist with your entered username.'
@@ -47,48 +48,43 @@ def register(request):
         user_form = UserForm(data=request.POST)
         userprofile_form = UserProfileForm(data=request.POST)
 
-        if user_form.is_valid() and userprofile_form.is_valid():
-            result = User.objects.filter(email=request.POST['email']).exists()
+        result = User.objects.filter(email=request.POST['email']).exists()
+        if result is True:
+            error = {'status': False, 'response': STATUS_EXIST}
             print result
-            if result is True:
-                error = {'status': STATUS_EXIST}
-                print result
-                return HttpResponse(
-                    json.dumps(error)
-                )
+            return HttpResponse(json.dumps(error))
+        result_username = User.objects.filter(username=request.POST['username']).exists()
+        if result_username is True:
+            error = {'status': False, 'response': STATUS_EXIST_USERNAME}
+            print result
+            return HttpResponse(json.dumps(error))
+        if user_form.is_valid() and userprofile_form.is_valid():
 
-            else:
-                user = user_form.save(commit=False)
-                user.set_password(request.POST['password'])
-                user.is_active = 0
-                user.save()
-                profile = userprofile_form.save(commit=False)
-                profile.user = user
-                profile.save()
-                registered = True
 
-                listvalue = {
-                    'tosend': request.POST['email'],
-                    'username': request.POST['username'],
-                    'first_name': request.POST['first_name'],
-                    'token': token_gen()
-                }
-
-                user_activation = UserActivation(
-                    activation_key=listvalue['token'],
-                    timestamp=timezone.now(),
-                    user=user
-                )
-                user_activation.save()
-
-                sendemail_ = email.EmailFunc('activateaccount', **listvalue)
-                sendemail_.generic_email()
-                status = {'status': STATUS_SUCCESS}
-                return HttpResponse(json.dumps(
-                     {
-                        'status': True
-                     }
-                ))
+            user = user_form.save(commit=False)
+            user.set_password(request.POST['password'])
+            user.is_active = 0
+            user.save()
+            profile = userprofile_form.save(commit=False)
+            profile.user = user
+            profile.save()
+            registered = True
+            listvalue = {
+                'tosend': request.POST['email'],
+                'username': request.POST['username'],
+                'first_name': request.POST['first_name'],
+                'token': token_gen()
+            }
+            user_activation = UserActivation(
+                activation_key=listvalue['token'],
+                timestamp=timezone.now(),
+                user=user
+            )
+            user_activation.save()
+            sendemail_ = email.EmailFunc('activateaccount', **listvalue)
+            sendemail_.generic_email()
+            status = {'status': STATUS_SUCCESS}
+            return HttpResponse(json.dumps({'status': True}))
                 #return HttpResponseRedirect('/accounts/confirm-email/')
                 # return HttpResponse(
                 #     json.dumps(status),

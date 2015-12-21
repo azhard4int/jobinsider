@@ -1,14 +1,14 @@
 {% extends "base_dasboard.html" %}
     <title>{% block title %}Applied Candidates{% endblock %}</title>
         {% if user.is_authenticated %}
-            {% block authenticate_user %} {{ user.first_name|slice:":1" }} {{ user.last_name|slice:":1" }}{%  endblock %}
+            {% block authenticate_user %}{{ user.first_name|slice:":1" }}{{ user.last_name|slice:":1" }}{%  endblock %}
         {% endif %}
 {% block header_company_nav %}
     <a href="{% url 'company_profile' %}">Account Settings</a>
     <a href="{% url 'logout' %}">Logout</a>
 {% endblock %}
 {% block body_content %}
-
+    {% include 'notify_message.html' %}
     <!-- Modal -->
     <div class="modal fade modal-md" id="sendMessage" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
       <div class="modal-dialog modal-md" role="document">
@@ -48,9 +48,9 @@
                 <div class="col-md-8">
                     <div class="cp_nav">
                         <ul>
-                            <li><a href="{% url 'job_advertisement' %}">Create Advertisement</a></li>
+                            <li><a href="{% url 'job_advertisement' %}">Create Job</a></li>
+                            <li><a href="{% url 'test_template' %}">Evaluation Test</a></li>
                             <li><a href="{% url 'posted_jobs' %}">Posted Jobs</a></li>
-                            <li><a href="{% url 'favorite' %}">Favorite CV</a></li>
                         </ul>
                     </div>
                 </div>
@@ -116,15 +116,15 @@
 
                     </div>
 
-                    <div class="col-md-3 ">
-                        <div class="user__filters">
-                            <h3>
-                                Additional Options
-                            </h3>
+{#                    <div class="col-md-3 ">#}
+{#                        <div class="user__filters">#}
+{#                            <h3>#}
+{#                                Additional Options#}
+{#                            </h3>#}
     {#                        <input type="radio" name="" id="countries" ><label for="countries" >Pakistan</label>#}
-                        </div>
-
-                    </div>
+{#                        </div>#}
+{##}
+{#                    </div>#}
             {% else %}
                 <span class="empty_data favorite_empty">
                         No one applied to the job yet. You will be notified as soon as someone apply to it.

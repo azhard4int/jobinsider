@@ -13,7 +13,9 @@ class UserForm(forms.ModelForm):
         widget=forms.TextInput(
             attrs={
                 'placeholder': 'First Name',
-                'class': 'form-control'
+                'class': 'form-control',
+                'required': 'true',
+                'data-validate': 'required,alphaNumeric',
             }
         )
     )
@@ -23,7 +25,9 @@ class UserForm(forms.ModelForm):
         widget=forms.TextInput(
             attrs={
                 'placeholder': 'Last Name',
-                'class': 'form-control'
+                'class': 'form-control',
+                'required': 'true',
+                'data-validate': 'required,alphaNumeric',
             }
         )
     )
@@ -34,7 +38,10 @@ class UserForm(forms.ModelForm):
         widget=forms.TextInput(
             attrs={
                 'placeholder': 'Enter Username',
-                'class': 'form-control'
+                'class': 'form-control',
+                'required': 'true',
+                'data-validate': 'required,alphaNumeric',
+
 
             }
         ))
@@ -44,7 +51,9 @@ class UserForm(forms.ModelForm):
         widget=forms.EmailInput(
             attrs={
                 'placeholder': 'Enter Email',
-                'class': 'form-control'
+                'class': 'form-control',
+                'required': 'true',
+                'data-validate': 'required,alphaNumeric',
 
             }
         )
@@ -55,7 +64,9 @@ class UserForm(forms.ModelForm):
         widget=forms.PasswordInput(
             attrs={
                 'placeholder': 'Enter Password',
-                'class': 'form-control'
+                'class': 'form-control',
+                'required': 'true',
+                'data-validate': 'required,alphaNumeric',
 
             }
         )
@@ -94,7 +105,9 @@ class LoginForm(forms.ModelForm):
         widget=forms.TextInput(
             attrs={
                 'placeholder': 'Enter Username',
-                'class': 'form-control'
+                'class': 'form-control',
+                'required': 'true',
+                'data-validate': 'required,alphaNumeric',
 
             }
         ))
@@ -104,7 +117,9 @@ class LoginForm(forms.ModelForm):
         widget=forms.PasswordInput(
             attrs={
                 'placeholder': 'Enter Password',
-                'class': 'form-control'
+                'class': 'form-control',
+                'required': 'true',
+                'data-validate': 'required,alphaNumeric',
 
             }
         )
@@ -123,7 +138,9 @@ class ForgotPassword(forms.ModelForm):
         widget=forms.EmailInput(
             attrs={
                 'placeholder': 'Enter Your Email Address',
-                'class': 'form-control'
+                'class': 'form-control',
+                'required': 'true',
+                'data-validate': 'required,alphaNumeric',
 
             }
         ))
@@ -137,7 +154,9 @@ class SetNewPassword(forms.ModelForm):
         widget=forms.PasswordInput(
         attrs={
             'placeholder': 'Enter Your New Password',
-            'class': 'form-control'
+            'class': 'form-control',
+            'required': 'true',
+            'data-validate': 'required,alphaNumeric',
 
         })
     )
@@ -147,7 +166,9 @@ class SetNewPassword(forms.ModelForm):
         widget=forms.EmailInput(
         attrs={
             'placeholder': 'Enter Your Email',
-            'class': 'form-control'
+            'class': 'form-control',
+            'required': 'true',
+            'data-validate': 'required,alphaNumeric',
 
         }
     ))
@@ -162,7 +183,9 @@ class ChangeProfilePassword(forms.ModelForm):
         widget=forms.PasswordInput(
         attrs={
             'placeholder': 'Current Password',
-            'class': 'form-control'
+            'class': 'form-control',
+            'required': 'true',
+            'data-validate': 'required,alphaNumeric',
 
         })
     )
@@ -170,7 +193,9 @@ class ChangeProfilePassword(forms.ModelForm):
         widget=forms.PasswordInput(
         attrs={
             'placeholder': 'Enter Your New Password',
-            'class': 'form-control'
+            'class': 'form-control',
+            'required': 'true',
+            'data-validate': 'required,alphaNumeric',
 
         })
     )
@@ -178,7 +203,9 @@ class ChangeProfilePassword(forms.ModelForm):
         widget=forms.PasswordInput(
         attrs={
             'placeholder': 'Enter Your New Password',
-            'class': 'form-control'
+            'class': 'form-control',
+            'required': 'true',
+            'data-validate': 'required,alphaNumeric',
 
         })
     )

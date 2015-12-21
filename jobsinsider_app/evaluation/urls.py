@@ -18,6 +18,7 @@ urlpatterns = patterns(
     url(r'^edit-evaluation-test-template/$', Evaluation_Edit_Test.as_view(), name='edit-evaluation-test'),
     url(r'^delete-evaluation-test-template/$', Evaluation_Delete_Test.as_view(), name='delete-evaluation-test'),
     url(r'^get-evaluation-test-questions/$', Get_Evaluation_Test_Questions.as_view(), name='delete-evaluation-test'),
-    url(r'^info/$', Get_Evaluation_info.as_view(), name='get-evaluation-info')
+    url(r'^info/$', Get_Evaluation_info.as_view(), name='get-evaluation-info'),
+    url(r'^filtered/$', filtered_evaluation, name='filtered_evaluation')
 
 )

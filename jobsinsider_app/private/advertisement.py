@@ -92,6 +92,7 @@ class AdvertisementAdminView(object):
         company_models.Advertisement.admanager.filter(id=self.job_id).update(
             job_approval_status=0
         )
+
     def reject_job(self):
         company_models.Advertisement.admanager.filter(id=self.job_id).update(
             job_approval_status=2

@@ -1,7 +1,7 @@
 {% extends "base_dasboard.html" %}
     <title>{% block title %}Dashboard{% endblock %}</title>
         {% if user.is_authenticated %}
-            {% block authenticate_user %}{{ user.first_name|slice:":1" }} {{ user.last_name|slice:":1" }}{%  endblock %}
+            {% block authenticate_user %}{{ user.first_name|slice:":1" }}{{ user.last_name|slice:":1" }}{%  endblock %}
         {% endif %}
 {% block header_company_nav %}
     <a href="/company/profile/">Account Settings</a>
@@ -32,9 +32,7 @@
                         Company Settings
                     </h4>
                     <ul class="setting_main">
-                        <li><a href="{% url 'company_list' %}" class="active">List All Companies</a></li>
-                        <li><a href="/company/add_company/">Add Another Company</a></li>
-
+                        <li><a href="{% url 'company_list' %}" class="active">List Your Company</a></li>
                     </ul>
                 </div>
             <div class="col-md-9 list_companies nopad-lr">
@@ -64,9 +62,6 @@
                             <th>
                                 Status
                             </th>
-                            <th colspan="3">
-                                Actions
-                            </th>
                         </thead>
                         <tbody>
                         {% for data in companies %}
@@ -91,11 +86,7 @@
                                         Inactive
                                     {% endif %}
                                 </td>
-                                <td>
-                                    <a value="{{ data.id }}" href="javascript:;">Edit</a>
-                                    <a value="{{ data.id }}" href="javascript:;">Delete</a>
-                                    <a value="{{ data.id }}" href="javascript:;">Inactive</a>
-                                </td>
+
                             </tr>
                         {% endfor %}
                         </tbody>
@@ -106,8 +97,5 @@
             </div>
         </div>
     </section>
-
-
-<a href="/accounts/logout">Log out</a>
 {% endblock %}
 </div>

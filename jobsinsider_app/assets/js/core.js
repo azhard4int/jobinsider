@@ -12,7 +12,7 @@ function getcsrf()
 
 function login_account()
 {
-
+    wait_it('#login_user');
     $.ajax(
         {
 
@@ -21,6 +21,7 @@ function login_account()
             data: $('#login_user').serialize(),
             success: function(response)
             {
+                wait_it_hide('#login_user');
                 response = JSON.parse(response);
                 if (response.status==1){
                     window.location.href = '/private/members/';
@@ -44,6 +45,7 @@ function login_account()
             },
             error: function(response)
             {
+                wait_it_hide('#login_user');
                 //console.log(response);
             }
 
@@ -58,6 +60,7 @@ function login_account()
 
 function forgot_password()
 {
+    wait_it('body');
     $.ajax(
         {
             url : "/accounts/forgot/", // the endpoint
@@ -71,10 +74,12 @@ function forgot_password()
                 {
                      $('label.l0_form .error_message').html('There is no email exist which you have entered');
                     $('label.l0_form .error_message').show();
+                    wait_it_hide('body');
                 }
                 else if (json.status==1)
                 {
 
+                    wait_it_hide('body');
                     $('label.l0_form .error_message').hide();
                     $('label.l0_form .success').html('Please check your email address to reset password and follow the instructions on it');
                     $('label.l0_form .success').show();
@@ -82,6 +87,7 @@ function forgot_password()
             },
             error: function(json)
             {
+                wait_it_hide('body');
                 console.log(json);
             }
 
@@ -94,6 +100,7 @@ function forgot_password()
 
 function register_account()
 {
+    wait_it('#register_form');
     $.ajax(
         {
             url : "/accounts/register/", // the endpoint
@@ -102,15 +109,25 @@ function register_account()
             success: function(json)
             {
                 resp = JSON.parse(json);
+                wait_it_hide('#register_form');
+                if(resp.status==false)
+                {
+                    $('label.l0_form .error_message').html(resp.response);
+                    $('label.l0_form .error_message').show();
+                }
                 if(resp.status==true)
                 {
                     console.log('registered');
-                    message_display('Verification Link has been Emailed to You!', 1)
+                    message_display('Verification Link has been Emailed to You!', 1);
+                    setTimeout(function(){
+                       window.location.href = '/accounts/login/';
+                    }, 2000);
                 }
             },
             error: function(json)
             {
-                console.log(json);
+                wait_it_hide('#register_form');
+                message_display('Something Went Wrong, Notify Administrators!', 0)
             }
 
         }
@@ -165,6 +182,7 @@ $('.c0_email_btn').on('click', function(event)
 {
     event.preventDefault();
     csrf = getcsrf();
+    wait_it('body');
     $.ajax(
         {
             type: "POST",
@@ -175,9 +193,16 @@ $('.c0_email_btn').on('click', function(event)
                 resp = JSON.parse(data);
                 if(resp.status==1)
                 {
+
                     $('.status_msg').html('A resend confirmation email has been sent to your email address');
+                    wait_it_hide('body');
                     $('.status_msg').show();
                 }
+            },
+            error:function(m)
+            {
+                wait_it_hide('body');
+
             }
         }
     );
@@ -1258,6 +1283,34 @@ $('.delete_job_menu').on('click', function(e)
                 }
             }
         }
+    );
+    return false;
+});
+
+$('.pause_job_menu').on('click', function(e)
+{
+    e.preventDefault();
+    get_id = $(this).attr('value');
+    csrfmdi = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+    $.ajax(
+        {
+            type:'POST',
+            url:'/company/pause-job/' + get_id   + '/',
+            data: {
+                'csrfmiddlewaretoken': csrfmdi
+            },
+            success:function(m)
+            {
+                var resp = JSON.parse(m);
+                if(resp.status==true){
+                    //$('.message_details').html('Job has been deleted successfully!')
+                    message_display('Job has been Paused successfully!', 1);
+                    setTimeout(function(){
+                       window.location.reload(1);
+                    }, 1000);
+                }
+            }
+        }
     )
     return false;
 });
@@ -1390,13 +1443,17 @@ $('.add_favorite').on('click', function(event)
             success:function(data)
             {
                 resp = JSON.parse(data);
-                console.log(resp);
                 if(resp.status==true)
                 {
                     message_display(resp.response, 1);
                     console.log($(this).parent());
-                    $(this).removeClass('add_favorite');
-                    $(this).addClass('remove_favorite_job');
+                    $('.add_favorite').addClass('remove_favorite_job');
+                    $('.add_favorite').removeClass('add_favorite');
+                    $('.remove_favorite_job').html('Remove Favorite Job');
+                    $('.remove_favorite_job').val('Remove Favorite Job');
+                    setTimeout(function(){
+                       window.location.reload(1);
+                    }, 1000);
 
                 }
             },
@@ -1431,6 +1488,15 @@ $('.remove_favorite_job').on('click', function(event)
                     message_display(resp.response, 1)
                     $(this).removeClass('remove_favorite_job');
                     $(this).addClass('add_favorite');
+
+                    $('.remove_favorite_job').addClass('add_favorite');
+                    $('.add_favorite').removeClass('remove_favorite_job');
+                    $('.add_favorite').html('Add to Favorite');
+                    $('.add_favorite').val('Favorite');
+                    setTimeout(function(){
+                       window.location.reload(1);
+                    }, 1000);
+
 
                 }
             },
