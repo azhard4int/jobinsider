@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JobInsider</title>
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/fonts.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/home.css">
+</head>
+<body>
+<div class="top_border"></div>
+<section id="header">
+    <div class="container-fluid">
+        <header>
+            <div class="col-md-12">
+                <div class="col-md-6">
+                    <div class="logo">
+                    JobsInsider
+                    </div>
+                </div>
+                <div class="col-md-6 header_right">
+                    <ul>
+                        <li>
+                            <a href="{% url 'register_account' %}">Become a member</a>
+                        </li>
+                        <li>
+                            <a class="a_active" href="{% url 'login_account' %}">Login</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+        <div class="main_cover" class="col-md-12">
+            <h2>
+                Hiring Without Hassle
+            </h2>
+            <h3>
+                Recruitment is never easier as it seems. Hiring talented people is a must for your business. That's
+                Where Jobinsider will assist you.
+            </h3>
+            <div class="to_get_started">
+                <a href="{% url 'register_account' %}" >Get Started</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="intro">
+    <div class="container">
+        <div class="col-md-12">
+            <h2>
+                JobInsider is an innovative online recruiting platform. You can get up and start recruiting a potential
+                candidates in a few minutes.
+            </h2>
+        </div>
+    </div>
+</section>
+
+
+</body>
+</html>

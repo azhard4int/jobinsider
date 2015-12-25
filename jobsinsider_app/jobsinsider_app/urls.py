@@ -25,6 +25,7 @@ from views import *
 
 
 urlpatterns = [
+    url(r'^$', homepage),
     # url(r'', homepage),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/', include('accounts.urls')),

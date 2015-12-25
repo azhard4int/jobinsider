@@ -140,6 +140,10 @@ TEMP_DIRECTORY_ADVERTISEMENT_ADMIN = [
     'templates/private/advertisement_admin',
 ]
 
+TEMP_DIRECTORY_HOMEPAGE = [
+    'templates/homepage',
+]
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -159,7 +163,8 @@ TEMPLATES = [
             BASE_DIR.join(TEMP_DIRECTORY_CANDIDATES),
             BASE_DIR.join(TEMP_DIRECTORY_MESSAGES),
             BASE_DIR.join(TEMP_DIRECTORY_USERMESSAGES),
-            BASE_DIR.join(TEMP_DIRECTORY_ADVERTISEMENT_ADMIN)
+            BASE_DIR.join(TEMP_DIRECTORY_ADVERTISEMENT_ADMIN),
+            BASE_DIR.join(TEMP_DIRECTORY_HOMEPAGE),
         ),
         'APP_DIRS': True,
         'OPTIONS': {
