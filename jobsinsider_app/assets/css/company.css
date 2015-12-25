@@ -313,3 +313,131 @@
 .jobadvert_edit_right p {
   padding: 0 15px;
 }
+
+.badge-notify{
+
+   background:red;
+   position:relative;
+   top: -20px;
+   left: -35px;
+  }
+
+.dashboard_s0_nav_main li{
+
+/*padding-right: 5px;*/
+
+}
+
+
+.dashboard_s0_nav_main li i{
+
+padding-right: 15px;
+
+}
+
+.alert-nofication,.jobseeker-alert-nofication{
+  height: 250px;
+  width: 400px;
+  background:#FFFFFF;
+  position:absolute;
+  left: 800px;
+  top:60px;
+  z-index: 1;
+  box-shadow: 1px 1px 10px #585858;
+  border-radius: 5px;
+  overflow-y: auto;
+  overflow-x:hidden;
+
+
+
+}
+
+
+.alert{
+
+  margin-bottom: 5px;
+
+}
+
+
+.row{
+  padding: 5px;
+
+
+}
+
+
+#style-2::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	border-radius: 10px;
+	background-color: #F5F5F5;
+}
+
+#style-2::-webkit-scrollbar
+{
+	width: 12px;
+	background-color: #F5F5F5;
+}
+
+#style-2::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: #4D2E69;
+}
+
+
+
+
+.viewall{
+  width: 100%;
+  color: #b790e1;
+  text-align: center;
+  bottom: 0;
+
+}
+
+.viewall span{
+
+  color: #b790e1;
+  transition: color 0.3s ease;
+
+
+}
+
+
+
+
+.viewall span:hover{
+
+  color: #4D2E69;
+
+}
+
+.trash{
+
+   color: black;
+   position:relative;
+   top: -30px;
+   left: 210px;
+
+
+}
+
+.trashclass{
+
+  color: black;
+
+}
+
+
+.wrapper12{
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    background: #fff;
+    vertical-align : bottom;
+
+
+}

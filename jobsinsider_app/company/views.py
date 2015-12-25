@@ -64,7 +64,6 @@ class Company_dashboard(View):
             advertisement__company_user_id=request.user.id,
             is_interview=1
         ).prefetch_related('advertisement').count()
-        print total_shortlisted_interview
         return render(request, 'company_dashboard.html', {
             'body_status': status,
             'profile_form': company_profile,
@@ -476,6 +475,7 @@ class MessagesView(View):
     @method_decorator(login_required)
     @method_decorator(is_company)
     def get(self, request):
+        print "omer MessagesView"
         list_users = Messages.objects.raw(
             """
              SELECT * from company_messages join auth_user ON auth_user.id = company_messages.receiver_id
@@ -483,6 +483,10 @@ class MessagesView(View):
              group by auth_user.id order by company_messages.date_send
             """.format(request.user.id)
         )
+
+
+
+
         # print list_users[0].message_body
         try:
             print list_users[0] # To check if the user exists or not
@@ -490,6 +494,7 @@ class MessagesView(View):
             return render(request, 'company_message_none.html', {'user_is_company': True})
 
         data = get_messages(list_users[0].receiver_id,request.user.id)
+        print data
         return render(
             request,
             'company_message.html',
@@ -627,6 +632,7 @@ class AppliedCandidates(View):
 
         is_evaluation_test = Advertisement.admanager.filter(id=job_id)[0].is_evaluation_test
         list_total = int(len(list(data)))
+        print list_total
         return render(request, 'applied_candidates.html', {
             'data': data,
             'employment': user_employment,
@@ -858,6 +864,20 @@ class ScheduleInterview(View):
                 invitation_message=invitation_message,
                 is_interview=True
             )
+
+            # notify = str('You are invited for the interview '+ from_time +' to '+ to_time +' on '+ request.POST['from_date'] +'. Kindly be there on time.')
+            # print notify
+
+            Notification(
+                title=invitation_message,
+                type=0,
+                status=0,
+                status_read=0,
+                user_id=candidate_id
+
+            ).save()
+
+
         except Exception as e:
             exc_type, exc_obj, exc_tb = sys.exc_info()
             fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
@@ -1344,3 +1364,49 @@ class CompanyShortlistedAll(View):
         :param request:
         :return:
         """
+
+
+class Message_nofication(View):
+    def get(self,request):
+        # message_count = Messages.objects.raw(
+        #     """
+        #      SELECT * from company_messages join auth_user ON auth_user.id = company_messages.receiver_id
+        #      where receiver_id={0} and status_read=0
+        #      group by auth_user.id order by company_messages.date_send
+        #     """.format(request.user.id)
+        # )
+
+        message_count = Messages.objects.filter(receiver_id=request.user.id,status_read=0).count()
+        print message_count
+
+
+        return HttpResponse(json.dumps({'number_messages':int(message_count)}))
+
+
+
+    def post(self,request):
+        try:
+
+            query = Messages.objects.filter(receiver_id=request.user.id,status_read=0).update(status_read=1)
+
+            if query:
+                  return HttpResponse(json.dumps({'status':'True'}))
+        except Exception as e:
+           print e
+
+class Admin_notify(View):
+    def get(self,request):
+        query = Notification.objects.filter(user_id=request.user.id,status_read=0).count()
+        return HttpResponse(json.dumps({'notify':int(query)}))
+
+    def post(self,request):
+        return HttpResponse(json.dumps({'number_messages':'True'}))
+
+class Get_notify(View):
+    def get(self,request):
+        query = Notification.objects.filter(user_id=request.user.id)
+        query2=Notification.objects.filter(user_id=request.user.id,status_read=0).update(status_read=1)
+
+
+        wholedata = serializers.serialize('json', query)        # query2 = serializers(query)
+        return HttpResponse(json.dumps({'status':wholedata}))

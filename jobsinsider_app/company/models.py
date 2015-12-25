@@ -170,6 +170,21 @@ class ShortlistedCandidates(models.Model):
         return unicode(self.advertisement)
 
 
+
+
+class Notification(models.Model):
+    title = models.CharField(default=None,null=True,max_length=255)
+    type = models.IntegerField(max_length=255,default=None,null=True)
+    status = models.BooleanField(default=False)
+    status_read = models.BooleanField(default=False)
+    user = models.ForeignKey(User, default=None)
+
+    def __unicode__(self):
+        return unicode(self.title)
+
+
+
+
 class Messages(models.Model):
     message_type = models.IntegerField(default=0, null=True)
     sender= models.ForeignKey(User, related_name='%(class)s_sender_id')

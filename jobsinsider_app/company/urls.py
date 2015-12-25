@@ -36,6 +36,10 @@ urlpatterns = patterns(
     url(r'^shortlisted_candidates_date/$', ShortlistedCandidatesDate.as_view(), name='composed_message'),
     url(r'^candidates/all/$', CompanyAppliedAll.as_view(), name='applied_candidates_all'),
     url(r'^shortlist/all/$', CompanyShortlistedAll.as_view(), name='shortlisted_candidates_all'),
+    url(r'^message/notification/$', Message_nofication.as_view(), name='Get-message-notification'),
+    url(r'^message/notification/admin-notify/$', Admin_notify.as_view(), name='Get-admin-message-notification'),
+    url(r'^message/notification/get-admin-notify/$', Get_notify.as_view(), name='Get-admin-notification')
+
 
     # url(r'^tinymce/', include('tinymce.urls')),
 

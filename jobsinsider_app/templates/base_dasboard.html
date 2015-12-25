@@ -8,12 +8,13 @@
             <link rel="stylesheet" href="{% static "/assets/css/main.css" %}"/>
             <link rel="stylesheet" href="{% static "/assets/css/font-awesome.min.css" %}"/>
             <link rel="stylesheet" href="{% static "/assets/css/plugins/bootstrap/bootstrap_datepicker.css" %}"/>
-            <link rel="stylesheet"  href="{% static "/assets/css/company.css" %}"/>
+
             <link rel="stylesheet"  href="{% static "/assets/css/chosen/chosen.css" %}"/>
             <!--<link rel="stylesheet" href="{% static "/assets/plugins/dropzone/dropzone.css" %}"/>-->
             <link rel="stylesheet"  href="{% static "/assets/css/chosen/chosen.css" %}"/>
             <link rel="stylesheet"  href="{% static "/assets/css/plugins/bootstrap/bootstrap.min.css" %}"/>
             <link rel="stylesheet" href="{% static "/assets/css/evaluation.css" %}"/>
+            <link rel="stylesheet"  href="{% static "/assets/css/company.css" %}"/>
 {#            <link rel="stylesheet"  href="{% static "/assets/js/plugins/bootstrap_datepicker/css/bootstrap-material-datetimepicker.css" %}"/>#}
 {#            <link rel="stylesheet"  href="{% static "/assets/css/plugins/bootstrap-material-design/material.min.css" %}"/>#}
 {#            <link rel="stylesheet"  href="{% static "/assets/css/plugins/bootstrap-material-design/icon.css" %}"/>#}
@@ -75,10 +76,69 @@
                                         <li>
                                         {% block header_company_messages %}
                                             {% if user_is_company %}
-                                                <a href="{% url 'messages' %}"><i class="fa fa-inbox fa-lg"></i></a>
+                                                <a href="#"><i class="fa fa-inbox fa-lg comapny_notify-div"><span class="badge badge-notify admin-badge-notify"></span></i></a>
+                                                <div class="alert-nofication scrollbar" style="display:none;" id="style-2">
+                                                        <div class="row">
+                                                            <div class="col-lg-4 col-md-offset-4" >
+                                                                <h4>Notifications</h4>
+                                                                <a class="trashclass" href="#"><i><span class="trash fa fa-trash-o fa-lg"></span></i></a>
+                                                            </div>
+                                                        </div>
+
+                                                    <div class="row">
+                                                        <div class="col-lg-12 omer">
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="wrapper12">
+
+                                                     <div class="row">
+                                                            <div class="col-lg-4 col-md-offset-4">
+                                                                <div class="viewall notification_a">
+                                                                  <a href="#"><span>See All</span></a>
+                                                                </div>
+                                                            </div>
+                                                      </div>
+                                                  </div>
+                                                </div>
+
+
+                                                <a href="{% url 'messages' %}"><i class="fa fa-envelope fa-lg messageicon"><span class="badge badge-notify company-badge-notify"></span></i></a>
 
                                             {% else %}
-                                                <a href="/user/messages/"><i class="fa fa-inbox fa-lg"></i></a>
+
+
+
+                                                <a href="#"><i class="fa fa-inbox fa-lg jobseeker-notify-div"><span class="badge badge-notify job-admin-badge-notify"></span></i></a>
+                                                 <div class="jobseeker-alert-nofication scrollbar" style="display:none;" id="style-2">
+                                                        <div class="row">
+                                                            <div class="col-lg-4 col-md-offset-4" >
+                                                                <h4>Notifications</h4>
+                                                                <a class="trashclass" href="#"><i><span class="trash fa fa-trash-o fa-lg"></span></i></a>
+                                                            </div>
+                                                        </div>
+
+                                                    <div class="row">
+                                                        <div class="col-lg-12 omer">
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="wrapper12">
+
+                                                     <div class="row">
+                                                            <div class="col-lg-4 col-md-offset-4">
+                                                                <div class="viewall notification_a">
+                                                                  <a href="#"><span>See All</span></a>
+                                                                </div>
+                                                            </div>
+                                                      </div>
+                                                  </div>
+                                                </div>
+
+
+                                                <a href="/user/messages/"><i class="fa fa-envelope fa-lg jobseekermessages"><span class="badge badge-notify jobseeker-badge-notify"></span></i></a>
+
+
                                             {% endif %}
                                         {% endblock %}
                                         </li>
