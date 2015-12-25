@@ -799,11 +799,23 @@ class UserMessages(View):
              group by auth_user.id order by company_messages.date_send
             """.format(request.user.id)
         )
+
+
+        # totalnumber = company_models.Messages.objects.raw(
+        #     """
+        #      SELECT * from company_messages join auth_user ON auth_user.id = company_messages.sender_id
+        #      where receiver_id={0}
+        #      group by auth_user.id order by company_messages.date_send
+        #     """.format(request.user.id)
+        # )
+
+
         # print list_users[0].message_body
         try:
             print list_users[0] # To check if the user exists or not
             print list_users[0].receiver_id
         except IndexError:
+            print "omer"
             return render(request, 'user_message_none.html')
 
         if list_users[0].receiver_id == request.user.id:
@@ -870,6 +882,7 @@ class UserComposedSend(View):
 
 
 def get_user_messages(candidate_id, user_id):
+        print "omer omer"
         data_sender_side = company_models.Messages.objects.filter(
             sender_id=user_id,
             receiver_id=candidate_id
@@ -948,3 +961,6 @@ class JobAlertView(View):
                 return HttpResponse(json.dumps({'status':False}))
         except MultipleObjectsReturned:
             return HttpResponse(json.dumps({'status':False}))
+
+
+

@@ -1526,3 +1526,310 @@ $('.search__evaluation__btn').on('click', function(e){
     });
     return false;
 })
+
+
+
+
+$( document ).ready(function() {
+$(".company-badge-notify").append();
+    $.ajax({
+        url:'/company/message/notification/',
+        type: 'GET',
+        data: {
+            csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
+        },
+        success:function(m) {
+            var resp = JSON.parse(m);
+            if(resp.number_messages>0) {
+                $(".company-badge-notify").append(resp.number_messages);
+            } else $(".company-badge-notify").append();
+        },
+        error:function(m)
+        {
+        }
+    });
+    $( this ).off( event );
+});
+
+
+$('.messageicon').on('click', function(e){
+
+     $.ajax({
+        url:'/company/message/notification/',
+        type: 'POST',
+        data: {
+            csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
+        },
+        success:function(m) {
+            $(".company-badge-notify").append();
+        },
+        error:function(m)
+        {
+        }
+    });
+
+
+});
+
+
+
+//jobseeker
+$( document ).ready(function() {
+$(".jobseeker-badge-notify").append();
+    $.ajax({
+        url:'/company/message/notification/',
+        type: 'GET',
+        data: {
+            csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
+        },
+        success:function(m) {
+            var resp = JSON.parse(m);
+            if(resp.number_messages>0) {
+                $(".jobseeker-badge-notify").append(resp.number_messages);
+            } else $(".jobseeker-badge-notify").append();
+        },
+        error:function(m)
+        {
+        }
+    });
+    $( this ).off( event );
+});
+
+
+$('.jobseekermessages').on('click', function(e){
+
+     $.ajax({
+        url:'/company/message/notification/',
+        type: 'POST',
+        data: {
+            csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
+        },
+        success:function(m) {
+            $(".jobseeker-badge-notify").append();
+        },
+        error:function(m)
+        {
+        }
+    });
+
+
+});
+
+$(document).mouseup(function (e)
+{
+    var container = $(".jobseeker-alert-nofication");
+    var icon = $(".jobseeker-notify-div");
+
+    if (!container.is(e.target) // if the target of the click isn't the container...
+        && container.has(e.target).length === 0 && !icon.is(e.target)&& icon.has(e.target).length === 0) // ... nor a descendant of the container
+    {
+        container.hide();
+    }
+});
+
+
+
+
+
+
+
+$(document).mouseup(function (e)
+{
+    var container = $(".alert-nofication");
+    var icon = $(".comapny_notify-div");
+
+    if (!container.is(e.target) // if the target of the click isn't the container...
+        && container.has(e.target).length === 0 && !icon.is(e.target)&& icon.has(e.target).length === 0) // ... nor a descendant of the container
+    {
+        container.hide();
+    }
+});
+
+
+
+//jobseeker
+
+$( document ).ready(function() {
+
+    $.ajax({
+        url:'/company/message/notification/admin-notify/',
+        type: 'GET',
+        data: {
+            csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
+        },
+        success:function(m) {
+            var resp = JSON.parse(m);
+            if(resp.notify > 0) {
+                //$(".admin-badge-notify").append(resp.notify);
+                $(".job-admin-badge-notify").append(resp.notify);
+            } else $(".job-admin-badge-notify").append();
+        },
+        error:function(m)
+        {
+        }
+    });
+    $( this ).off( event );
+});
+
+
+//jobseeker
+$('.jobseeker-notify-div').on('click',function(e){
+
+$(".job-admin-badge-notify").hide();
+
+
+    $('.jobseeker-alert-nofication').toggle(0);
+
+
+
+    if ($('.jobseeker-alert-nofication').css('display') == 'none') {
+            $( ".alert" ).remove();
+    }
+
+if($('.jobseeker-alert-nofication').is(":visible")) {
+
+    $.ajax({
+        url: '/company/message/notification/get-admin-notify/',
+        type: 'GET',
+        data: {
+            csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
+        },
+        success: function (m) {
+
+
+            var resp = JSON.parse(m);
+            var x = JSON.parse(resp.status);
+
+
+            for(z=0;z< x.length;z++) {
+
+                messaqe123 = '<div class="alert alert-info">'+' '+ x[z]['fields']['title'] +'</div>';
+
+                $('.omer').append($(messaqe123));
+
+            }
+
+        },
+        error: function (m) {
+        }
+    });
+}
+});
+
+
+
+
+
+
+$( document ).ready(function() {
+
+    $.ajax({
+        url:'/company/message/notification/admin-notify/',
+        type: 'GET',
+        data: {
+            csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
+        },
+        success:function(m) {
+            var resp = JSON.parse(m);
+            if(resp.notify > 0) {
+                //$(".admin-badge-notify").append(resp.notify);
+                $(".admin-badge-notify").append(resp.notify);
+            } else $(".admin-badge-notify").append();
+        },
+        error:function(m)
+        {
+        }
+    });
+    $( this ).off( event );
+});
+
+$('.comapny_notify-div').on('click',function(e){
+
+$(".admin-badge-notify").hide();
+
+
+    $('.alert-nofication').toggle(0);
+
+
+
+    if ($('.alert-nofication').css('display') == 'none') {
+            $( ".alert" ).remove();
+    }
+
+if($('.alert-nofication').is(":visible")) {
+
+    $.ajax({
+        url: '/company/message/notification/get-admin-notify/',
+        type: 'GET',
+        data: {
+            csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
+        },
+        success: function (m) {
+
+
+            var resp = JSON.parse(m);
+            var x = JSON.parse(resp.status);
+
+            for (j = 0; j < x.length; j++) {
+
+
+                notify(x[j]['fields']['title'], x[j]['fields']['type'], x[j]['fields']['status']);
+
+
+                //}
+
+
+            }
+
+
+        },
+        error: function (m) {
+        }
+    });
+}
+});
+
+
+
+
+function notify(title,type,status){
+
+
+
+    var value;
+    if(type==1){
+
+        value = "Evaluation";
+    }else value = "Advertisment";
+
+    var messaqe;
+
+    if(status==1){
+
+         messaqe = '<div class="alert alert-info">' +
+            '<strong>' +
+            'Info! ' +
+            '</strong>' +
+            'Your ' + value +' ' + title + ' is approved by admin' +
+            '</div>';
+
+    }
+    if(status==2){
+
+         messaqe = '<div class="alert alert-danger">' +
+            '<strong>' +
+            'Sorry! ' +
+            '</strong>' +
+            'Your ' + value + ' ' + title + ' is Rejected by admin' +
+            '</div>';
+    }
+
+    $('.omer').append($(messaqe));
+
+}
+
+
+$( document ).ready(function() {
+
+    $('.alert-nofication').prop("scrollHeight")
+}, 250);

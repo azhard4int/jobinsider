@@ -23,7 +23,7 @@ from django.db import models
 from accounts import models as accounts_models
 from users import models as user_models
 from django.db.models.query import RawQuerySet
-
+from company.models import Notification
 import simplejson as json
 from datetime import *
 import time
@@ -864,6 +864,16 @@ def addtemplate(request):
 def approve_evaulation(request):
     try:
         query = evaluation_test_template.objects.filter(id=request.POST['id']).update(evaluation_status=1)
+        query2 = evaluation_test_template.objects.filter(id=request.POST['id'])
+        notify = Notification(
+            title = query2[0].evaluation_name,
+            type = 1,
+            status = 1,
+            status_read=0,
+            user_id = query2[0].user_id
+
+        ).save()
+
 
         if query:
              return HttpResponse(json.dumps({'status': 'True'}))
@@ -877,6 +887,15 @@ def approve_evaulation(request):
 def reject_evaulation(request):
     try:
         query = evaluation_test_template.objects.filter(id=request.POST['id']).update(evaluation_status=2)
+        query2 = evaluation_test_template.objects.filter(id=request.POST['id'])
+        notify = Notification(
+            title = query2[0].evaluation_name,
+            type = 1,
+            status = 2,
+            status_read=0,
+            user_id = query2[0].user_id
+
+        ).save()
 
         if query:
              return HttpResponse(json.dumps({'status': 'True'}))
