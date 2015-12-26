@@ -1683,7 +1683,7 @@ $(".job-admin-badge-notify").hide();
 
 
     if ($('.jobseeker-alert-nofication').css('display') == 'none') {
-            $( ".alert" ).remove();
+            $( ".alert123" ).remove();
     }
 
 if($('.jobseeker-alert-nofication').is(":visible")) {
@@ -1699,11 +1699,11 @@ if($('.jobseeker-alert-nofication').is(":visible")) {
 
             var resp = JSON.parse(m);
             var x = JSON.parse(resp.status);
-
+              $( ".alert123" ).remove();
 
             for(z=0;z< x.length;z++) {
 
-                messaqe123 = '<div class="alert alert-info">'+' '+ x[z]['fields']['title'] +'</div>';
+                messaqe123 = '<div class="alert123 alert alert-info" id="'+x[z]['pk']+'">'+' '+ x[z]['fields']['title'] +'</div>';
 
                 $('.omer').append($(messaqe123));
 
@@ -1753,7 +1753,7 @@ $(".admin-badge-notify").hide();
 
 
     if ($('.alert-nofication').css('display') == 'none') {
-            $( ".alert" ).remove();
+            $( ".alert123" ).remove();
     }
 
 if($('.alert-nofication').is(":visible")) {
@@ -1770,10 +1770,12 @@ if($('.alert-nofication').is(":visible")) {
             var resp = JSON.parse(m);
             var x = JSON.parse(resp.status);
 
+            $( "#alert123" ).remove();
+
             for (j = 0; j < x.length; j++) {
 
 
-                notify(x[j]['fields']['title'], x[j]['fields']['type'], x[j]['fields']['status']);
+                notify(x[j]['fields']['title'], x[j]['fields']['type'], x[j]['fields']['status'], x[j]['pk']);
 
 
                 //}
@@ -1792,8 +1794,7 @@ if($('.alert-nofication').is(":visible")) {
 
 
 
-function notify(title,type,status){
-
+function notify(title,type,status,id){
 
 
     var value;
@@ -1806,7 +1807,7 @@ function notify(title,type,status){
 
     if(status==1){
 
-         messaqe = '<div class="alert alert-info">' +
+         messaqe = '<div class="alert123 alert alert-info" id="'+id+'">' +
             '<strong>' +
             'Info! ' +
             '</strong>' +
@@ -1816,11 +1817,21 @@ function notify(title,type,status){
     }
     if(status==2){
 
-         messaqe = '<div class="alert alert-danger">' +
+         messaqe = '<div class="alert123 alert alert-danger" id="'+id+'">' +
             '<strong>' +
             'Sorry! ' +
             '</strong>' +
             'Your ' + value + ' ' + title + ' is Rejected by admin' +
+            '</div>';
+    }
+
+     if(status==0){
+
+         messaqe = '<div class="alert123 alert alert-danger" id="'+id+'">' +
+            '<strong>' +
+            'Sorry! ' +
+            '</strong>' +
+            'Your ' + value + ' ' + title + ' status is on Pending. Admin' +
             '</div>';
     }
 
@@ -1831,5 +1842,167 @@ function notify(title,type,status){
 
 $( document ).ready(function() {
 
-    $('.alert-nofication').prop("scrollHeight")
+    $('.alert-nofication').prop("scrollHeight");
 }, 250);
+
+
+
+
+$('.page_delete_button').on('click',function(e){
+
+    id=$(this).attr('id');
+    $("#"+id).hide();
+
+
+    $.ajax({
+        url: '/company/delete/notification/',
+        type: 'POST',
+        data: {
+            'id':id,
+             csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
+        },
+        success: function (m) {
+
+
+            var resp = JSON.parse(m);
+
+
+          if(resp.status == true){
+
+              message_display('Notification Message has been Deleted', 1);
+
+
+
+          }
+
+            if(resp.status == false){
+
+                message_display('Something went wrong!', 0);
+            }
+
+        },
+        error: function (m) {
+        }
+    });
+
+});
+$('.trashclass').on('click',function(e){
+
+//alert($('#omer123').children().first().attr('id'));
+   id=$('#omer123').children().first().attr('id');
+    $("#"+id).remove();
+
+
+    $.ajax({
+        url: '/company/delete/notification/',
+        type: 'POST',
+        data: {
+            'id':id,
+             csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
+        },
+        success: function (m) {
+
+
+            var resp = JSON.parse(m);
+
+
+          if(resp.status == true){
+
+              message_display('Notification Message has been Deleted', 1);
+
+
+
+          }
+
+            if(resp.status == false){
+
+                message_display('Something went wrong!', 0);
+            }
+
+        },
+        error: function (m) {
+        }
+    });
+
+});
+
+
+$('.jobseeker_page_delete_button').on('click',function(e){
+
+    id=$(this).attr('id');
+    $("#"+id).hide();
+
+
+    $.ajax({
+        url: '/company/delete/jobseeker/notification/',
+        type: 'POST',
+        data: {
+            'id':id,
+             csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
+        },
+        success: function (m) {
+
+
+            var resp = JSON.parse(m);
+
+
+          if(resp.status == true){
+
+              message_display('Notification Message has been Deleted', 1);
+
+
+
+          }
+
+            if(resp.status == false){
+
+                message_display('Something went wrong!', 0);
+            }
+
+        },
+        error: function (m) {
+        }
+    });
+
+});
+
+
+$('.jobseeker_trashclass').on('click',function(e){
+
+//alert($('#omer123').children().first().attr('id'));
+   id=$('#jobseeker123').children().first().attr('id');
+    $("#"+id).remove();
+
+
+    $.ajax({
+        url: '/company/delete/jobseeker/notification/',
+        type: 'POST',
+        data: {
+            'id':id,
+             csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
+        },
+        success: function (m) {
+
+
+            var resp = JSON.parse(m);
+
+
+          if(resp.status == true){
+
+              message_display('Notification Message has been Deleted', 1);
+
+
+
+          }
+
+            if(resp.status == false){
+
+                message_display('Something went wrong!', 0);
+            }
+
+        },
+        error: function (m) {
+        }
+    });
+
+});

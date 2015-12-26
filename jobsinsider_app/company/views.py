@@ -10,7 +10,7 @@ from django.core import serializers
 from django.core.serializers.json import DjangoJSONEncoder
 from django.template.loader import render_to_string
 from django.template import RequestContext
-
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from accounts import models as acc_mod
 from core.decoraters import is_company
@@ -932,7 +932,7 @@ class ComposedSend(View):
             date_send=datetime.now()
         ).save()
         obj = Messages.objects.latest('id')
-        print obj
+
         html = render_to_string('company_message_send.html', {'message': obj, 'user_is_company': True})
         return HttpResponse(
             html
@@ -1404,9 +1404,78 @@ class Admin_notify(View):
 
 class Get_notify(View):
     def get(self,request):
-        query = Notification.objects.filter(user_id=request.user.id)
+        query = Notification.objects.filter(user_id=request.user.id).order_by('-id')[:5]
         query2=Notification.objects.filter(user_id=request.user.id,status_read=0).update(status_read=1)
 
 
         wholedata = serializers.serialize('json', query)        # query2 = serializers(query)
         return HttpResponse(json.dumps({'status':wholedata}))
+
+
+
+class View_all_notification(View):
+
+    def get(self,request):
+        try:
+           query = Notification.objects.filter(user_id=request.user.id).order_by('-id')
+           page = request.GET.get('page')
+           query2 = pagination_page(page,query)
+           if query and query2:
+               return render(request,'company_notification.html',{'data':query2,'user_is_company': True})
+           else :
+               return render(request,'company_notification.html',{'user_is_company': True})
+        except Exception as e:
+           return render(request,'company_notification.html',{'user_is_company': True})
+
+class Delete_notification(View):
+
+    def post(self,request):
+        try:
+           query = Notification.objects.filter(id=int(request.POST['id'])).delete()
+
+           if not query:
+                return HttpResponse(json.dumps({'status':True}))
+           else:
+               return HttpResponse(json.dumps({'status':False}))
+        except Exception as e:
+           print e
+
+class JobSeeker_View_all_notification(View):
+    def get(self,request):
+        try:
+           query = Notification.objects.filter(user_id=request.user.id).order_by('-id')
+           page = request.GET.get('page')
+           query2 = pagination_page(page,query)
+           if query and query2:
+               return render(request,'jobseeker_notification.html',{'data':query2})
+           else :
+               return render(request,'jobseeker_notification.html')
+        except Exception as e:
+           return render(request,'jobseeker_notification.html')
+
+
+class Jobseeker_Delete_notification(View):
+     def post(self,request):
+        try:
+           query = Notification.objects.filter(id=int(request.POST['id'])).delete()
+
+           if not query:
+                return HttpResponse(json.dumps({'status':True}))
+           else:
+               return HttpResponse(json.dumps({'status':False}))
+        except Exception as e:
+           print e
+
+
+def pagination_page(page,data):
+        paginator = Paginator(data, 8) # Show 25 contacts per page
+
+        try:
+           data = paginator.page(page)
+        except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+           data = paginator.page(1)
+        except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+            data = paginator.page(paginator.num_pages)
+        return data

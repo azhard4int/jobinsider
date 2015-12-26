@@ -33,4 +33,5 @@ urlpatterns = patterns(
     url(r'^u/profile_settings/resume/$', ProfileSettingsResume.as_view(), name='profile_resume'),
     url(r'^messages/$', UserMessages.as_view(), name='user_messages'),
     url(r'^job_alert/$', JobAlertView.as_view(), name='job_alert')
+
 )

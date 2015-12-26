@@ -24,6 +24,7 @@ from accounts import models as accounts_models
 from users import models as user_models
 from django.db.models.query import RawQuerySet
 from company.models import Notification
+from company.models import Advertisement
 import simplejson as json
 from datetime import *
 import time
@@ -984,18 +985,46 @@ def edit_job_details(request):
     return HttpResponse(json.dumps({'status':True}))
 
 def enable_job(request):
+    # query = Advertisement.objects.filter(job_id=request.POST['job_id'])[0]
+    # print query
     obj = AdvertisementAdminView(job_id=request.POST['job_id'])
     obj.enable_job()
+    notify = Notification(
+            title = obj.get_title(),
+            type = 2,
+            status = 1,
+            status_read=0,
+            user_id = int(obj.who_created())
+
+        ).save()
+
     return HttpResponse(json.dumps({'status':True}))
 
 def disable_job(request):
     obj = AdvertisementAdminView(job_id=request.POST['job_id'])
     obj.disable_job()
+    notify = Notification(
+            title = obj.get_title(),
+            type = 2,
+            status = 0,
+            status_read=0,
+            user_id = int(obj.who_created())
+
+        ).save()
+
     return HttpResponse(json.dumps({'status':True}))
 
 def reject_job(request):
     obj = AdvertisementAdminView(job_id=request.POST['job_id'])
     obj.reject_job()
+    notify = Notification(
+            title = obj.get_title(),
+            type = 2,
+            status = 2,
+            status_read=0,
+            user_id = int(obj.who_created())
+
+        ).save()
     return HttpResponse(json.dumps({'status':True}))
 
 

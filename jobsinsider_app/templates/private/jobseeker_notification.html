@@ -1,0 +1,85 @@
+{% extends "base_dasboard.html" %}
+
+{#{% extends 'company_core.html' %}#}
+    <title>{% block title %}Dashboard{% endblock %}</title>
+{% if user.is_authenticated %}
+
+    {% block authenticate_user %} {{ user.first_name|slice:":1" }}{{ user.last_name|slice:":1" }}{%  endblock %}
+
+{% endif %}
+{% block header_company_nav %}
+    <a href="/company/profile/">Account Settings</a>
+    <a href="/accounts/logout/">Logout</a>
+{% endblock %}
+{% block body_content %}
+    <section id="company">
+        <div class="container">
+            <div class="col-md-12">
+                <div class="col-md-5">
+
+                    <h3>
+                        All Notifications
+                    </h3>
+
+                </div>
+                <div class="col-md-7">
+                    <div class="cp_nav">
+                        <ul>
+{#                            <li><a href="{% url 'posted_jobs' %}">Posted Jobs</a></li>#}
+{#                            <li><a href="{% url 'favorite' %}">Favorite CV</a></li>#}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="clearfix"></div>
+    <section id="job_advertisement" ng-app="filtersapp">
+        <div class="container jobs_search" ng-controller="rootCtrl">
+            <div id="jobs" class="col-md-12 job_view jobsearch_right_filter">
+
+                {% if data %}
+             {% csrf_token %}
+
+                    {% for x in data %}
+
+
+                                      <div id="{{ x.id }}">
+                                          <div class="col-md-10">
+                                           <div class="alert alert-info">
+                                              <strong>info!</strong> {{ x.title }}
+                                             </div>
+                                           </div>
+                                        <div class="col-md-2" style="padding:10px;">
+                                             <a href="#"><i class="fa fa-trash fa-2x jobseeker_page_delete_button" id="{{ x.id }}"></i></a>
+
+                                         </div>
+                                      </div>
+
+
+
+                     {% endfor %}
+
+            {% else %}
+            <center><h3>No Notifications</h3></center>
+{% endif %}
+        </div>
+        <div class="pagination">
+    <span class="step-links">
+        {% if data.has_previous %}
+            <a href="?page={{ data.previous_page_number }}">Previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ data.number }} of {{ data.paginator.num_pages }}.
+        </span>
+
+        {% if data.has_next %}
+            <a href="?page={{ data.next_page_number }}">Next</a>
+        {% endif %}
+    </span>
+</div>
+</div>
+
+    </section>
+{% endblock %}
