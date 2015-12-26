@@ -174,8 +174,8 @@ class ShortlistedCandidates(models.Model):
 
 class Notification(models.Model):
     title = models.CharField(default=None,null=True,max_length=255)
-    type = models.IntegerField(max_length=255,default=None,null=True)
-    status = models.BooleanField(default=False)
+    type = models.IntegerField(default=None,null=True)
+    status = models.IntegerField(default=None,null=True)
     status_read = models.BooleanField(default=False)
     user = models.ForeignKey(User, default=None)
 

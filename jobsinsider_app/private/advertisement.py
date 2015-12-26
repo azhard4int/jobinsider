@@ -17,7 +17,7 @@ from urlparse import urlparse, parse_qs
 from evaluation import models as evaluation_models
 from core import models as core_models
 from company import models as company_models
-
+from company.models import Notification
 from django.db import models
 from accounts import models as accounts_models
 from users import models as user_models
@@ -97,3 +97,11 @@ class AdvertisementAdminView(object):
         company_models.Advertisement.admanager.filter(id=self.job_id).update(
             job_approval_status=2
         )
+
+    def get_title(self):
+        query = company_models.Advertisement.admanager.filter(id=self.job_id)
+        return query[0].job_title
+
+    def who_created(self):
+        query = company_models.Advertisement.admanager.filter(id=self.job_id)
+        return query[0].company_user_id
