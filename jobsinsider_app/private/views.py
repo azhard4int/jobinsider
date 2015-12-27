@@ -451,11 +451,14 @@ def allusers(request):
 
 @login_required()
 def activeusers(request):
-        query = "SELECT * From auth_user JOIN accounts_userprofile on auth_user.id=accounts_userprofile.user_id Where auth_user.is_active=1"
-        table =  User.objects.raw(query)
-        table2 = pagination_table(request.GET.get('page'),table)
-        return render(request, 'users_view.html',{'table':table2})
 
+        try:
+            query = "SELECT * From auth_user JOIN accounts_userprofile on auth_user.id=accounts_userprofile.user_id Where auth_user.is_active=1"
+            table =  User.objects.raw(query)
+            table2 = pagination_table(request.GET.get('page'),table)
+            return render(request, 'users_view.html',{'table':table2})
+        except Exception as e:
+                 return render(request, 'users_view.html')
 @login_required()
 def nonactiveusers(request):
         try:
@@ -464,13 +467,14 @@ def nonactiveusers(request):
             table =  User.objects.raw(query)
 
             # data=User.objects.filter(is_active=0).order_by('date_joined')
+
             table2 = pagination_table(request.GET.get('page'),table)
 
-            if table and table2:
+            if query:
                 return render(request, 'users_view.html',{'table':table2})
 
         except Exception as e:
-               return render(request, 'users_view.html',{'status':'False'})
+               return render(request, 'users_view.html')
 
 
 
