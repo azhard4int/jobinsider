@@ -231,13 +231,81 @@
                         View Notifications
                     </h3>
                     <div class="notifications">
+                      {% if notification %}
+
+                        {% for x in notification %}
+
+                        {% if x.type == 1 %}
+                                  {% if x.status == 1 %}
+
+                                           <div class="alert alert-info changecolor">
+                                              Your Evaluation {{ x.title }} is Approved by Admin.
+                                             </div>
+
+                                      {% endif %}
+
+                                  {% if x.status == 2 %}
+
+                                      <div class="alert alert-danger changecolor">
+                                          Your Evaluation {{ x.title }} is Rejected by Admin.
+                                          </div>
+
+
+
+                                      {% endif %}
+
+
+
+                        {% endif %}
+
+
+                        {% if x.type == 2 %}
+                                  {% if x.status == 1 %}
+
+
+                                      <div class="alert alert-info changecolor">
+                                          Your Advertisement {{ x.title }} is Approved by Admin.
+                                          </div>
+
+                                      {% endif %}
+
+                                  {% if x.status == 2 %}
+
+
+
+                                        <div class="alert alert-danger changecolor">
+                                          Your Advertisement {{ x.title }} is Rejected by Admin.
+                                          </div>
+
+
+
+                                      {% endif %}
+
+                                   {% if x.status == 0 %}
+
+
+
+                                        <div class="alert alert-danger changecolor">
+                                          Your Advertisement {{ x.title }} Status is on Pending. Admin.
+                                          </div>
+
+
+                                      {% endif %}
+
+                        {% endif %}
+
+                     {% endfor %}
+
+
+                       {% else %}
                             <span class="empty_data">
                                 No Notifications For You!
                             </span>
+                      {% endif %}
                     </div>
                 </div>
             </div>
-        </div>
+
     </section>
 
 {% endblock %}

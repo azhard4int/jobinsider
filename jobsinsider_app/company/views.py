@@ -64,6 +64,9 @@ class Company_dashboard(View):
             advertisement__company_user_id=request.user.id,
             is_interview=1
         ).prefetch_related('advertisement').count()
+
+        notification = Notification.objects.filter(user_id=request.user.id).order_by('-id')[:3]
+
         return render(request, 'company_dashboard.html', {
             'body_status': status,
             'profile_form': company_profile,
@@ -73,7 +76,8 @@ class Company_dashboard(View):
             'total_schedule': schedule_interviews,
             'total_shortlisted': total_shortlisted,
             'total_shortlisted_interview': total_shortlisted_interview,
-            'user_is_company': True
+            'user_is_company': True,
+            'notification':notification
         })
     def post(self, request):
         CompanyProfile(

@@ -441,3 +441,12 @@ padding-right: 15px;
 
 
 }
+
+.changecolor{
+
+  /*background: #FFFFFF;*/
+  border: 1px solid white;
+  color: #333;
+  box-shadow: 1px 1px 3px #A0A0A0;
+
+}
