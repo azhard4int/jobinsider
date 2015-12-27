@@ -5,9 +5,10 @@
 
 {% block body_content %}
     {% include 'advertisement_edit_dialog.html' %}
-<div class="container" id="">
+<div class="container" id="dsdsd">
+<div class="clearfix"></div>
     <div class="col-md-12">
-        <table width="88%;">
+        <table width="88%">
         <thead class="categories_head">
         <tr>
             <td>Job Title</td>
@@ -40,6 +41,10 @@
                 <td>
                      {% if job.job_approval_status == 1 %}
                         <span class="approved_is">Active</span>
+                     {% elif job.job_approval_status == 2 %}
+                         <span class="not_approved">Rejected</span>
+                     {% elif job.job_approval_status == 3 %}
+                         <span class="is_paused" style="float:left !important;">Paused</span>
                         {% else %}
                          <span class="not_approved">Inactive</span>
                      {% endif %}

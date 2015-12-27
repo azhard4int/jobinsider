@@ -14,12 +14,14 @@ from users import models as user_models
 from accounts import models as acc_mod
 from core.decoraters import is_company
 from accounts import forms as accountsform
-import models as evaluation_models
 from datetime import datetime
 from urlparse import urlparse, parse_qs
 from django.db.models import Avg, Min, Max
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.template import RequestContext
+from django.template.loader import render_to_string
 
+import models as evaluation_models
 
 import models
 import simplejson as json
@@ -42,13 +44,7 @@ class EvaluationTestTemplate(View):
          else:
                  return render(request, 'evaluation_index.html')
 
-
-
-
     def post(self, request):
-
-
-
         try:
            query=models.evaluation_test_template(
                 evaluation_name=request.POST['evaluation_name'],
@@ -60,7 +56,6 @@ class EvaluationTestTemplate(View):
                 evaluation_time=int(request.POST['evaluation_time']),
                 evaluation_total_questions=int(request.POST['evaluation_questions']),
                 user_id=request.user.id
-
             )
            query.save()
            obj = models.evaluation_test_template.objects.latest('id')
@@ -706,3 +701,10 @@ def checkattempts(id,test_id):
         models.evaluation_result(result=0,attempts=1,evaluation_test_template_id=test_id,user_id=id).save()
    except Exception as e:
          print e
+
+
+def filtered_evaluation(request):
+    query = models.evaluation_test_template.objects.filter(user_id=request.user.id,
+                                                           evaluation_name__icontains=request.POST['search_keyword'])
+    html =  render_to_string('evaluation_index_view.html', {'evaluation': query}, context_instance=RequestContext(request))
+    return HttpResponse(html)

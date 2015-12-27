@@ -977,6 +977,12 @@ div.remove_favorite_btn a:hover {
 .applied__user .user__actions .shorlist__candidate__all:hover {
   background: #5aa264 !important;
 }
+.applied__user .user__actions .candidate__remove {
+  background: #ce2809 !important;
+}
+.applied__user .user__actions .candidate__remove:hover {
+  background: #f02c0b !important;
+}
 .user__filters {
   background: #fff;
   padding-bottom: 20px;
@@ -1318,7 +1324,8 @@ div.remove_favorite_btn a:hover {
   min-height: 120px;
 }
 .predefined_template,
-.clear_template {
+.clear_template,
+.cancel_interview_template {
   text-decoration: none;
   color: #fff;
   font-size: 14px;
@@ -1328,6 +1335,9 @@ div.remove_favorite_btn a:hover {
 }
 .clear_template {
   background: #fa5751 !important;
+}
+.cancel_interview_template {
+  background: #face72 !important;
 }
 .predefined_template:hover,
 .clear_template:hover {
@@ -1469,4 +1479,57 @@ div.remove_favorite_btn a:hover {
 .loader-content.hide2 {
   opacity: 0;
   display: none;
+}
+.is_paused {
+  padding: 7px 21px;
+  text-align: center;
+  border-radius: 4px;
+  float: right;
+  margin-right: 10px;
+  background: #ffd718;
+}
+.search_keyword {
+  margin-top: 15px;
+  border-radius: 0 !important;
+}
+.search_button {
+  margin-top: 15px;
+  line-height: 10px;
+  background: #F2EEFF !important;
+  border-radius: 0 !important;
+  border: none !important;
+  color: #878787 !important;
+}
+.search_box {
+  display: none;
+  position: absolute;
+  width: 350px;
+  float: right;
+  height: 50px;
+  right: 15px;
+  background: #f5f5f5;
+  border: 1px solid #f0f0f0;
+  z-index: 9999;
+  margin-top: 20px;
+  box-shadow: 1px 1px 1px #C5C5C5;
+}
+.search_btn_active {
+  background: #E2DEFF !important;
+}
+.search__evaluation__btn {
+  padding: 0 !important;
+  margin-top: 5px;
+  background: #6b74b4 !important;
+  border-radius: 0 !important;
+  color: #fff !important;
+  border: 0px !important;
+}
+.search__evaluation {
+  border-radius: 0 !important;
+  margin-left: -5px;
+  margin-top: 5px;
+}
+.times__icon {
+  padding-top: 10px;
+  float: right;
 }

@@ -10,7 +10,7 @@ from django.core import serializers
 from django.core.serializers.json import DjangoJSONEncoder
 from django.template.loader import render_to_string
 from django.template import RequestContext
-
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from accounts import models as acc_mod
 from core.decoraters import is_company
@@ -24,6 +24,8 @@ from core import email
 from models import AppliedCandidatesFilter
 
 import simplejson as json
+import sys
+import os
 
 
 # Create your views here.
@@ -62,7 +64,6 @@ class Company_dashboard(View):
             advertisement__company_user_id=request.user.id,
             is_interview=1
         ).prefetch_related('advertisement').count()
-        print total_shortlisted_interview
         return render(request, 'company_dashboard.html', {
             'body_status': status,
             'profile_form': company_profile,
@@ -443,6 +444,23 @@ def delete_job(request, job_id):
         return HttpResponse(json.dumps(resp))
 
 
+def pause_job(request, job_id):
+    """
+    Delete Job ID from the posted jobs
+    """
+    if request.method=='POST':
+        resp={}
+        try:
+            Advertisement.admanager.filter(id=job_id).update(
+                job_approval_status=3
+            )
+            resp['status']=True
+        except:
+            resp['status']= False
+        return HttpResponse(json.dumps(resp))
+
+
+
 class CompanyAdd(View):
     @method_decorator(login_required)
     @method_decorator(is_company)
@@ -457,6 +475,7 @@ class MessagesView(View):
     @method_decorator(login_required)
     @method_decorator(is_company)
     def get(self, request):
+        print "omer MessagesView"
         list_users = Messages.objects.raw(
             """
              SELECT * from company_messages join auth_user ON auth_user.id = company_messages.receiver_id
@@ -464,6 +483,10 @@ class MessagesView(View):
              group by auth_user.id order by company_messages.date_send
             """.format(request.user.id)
         )
+
+
+
+
         # print list_users[0].message_body
         try:
             print list_users[0] # To check if the user exists or not
@@ -471,6 +494,7 @@ class MessagesView(View):
             return render(request, 'company_message_none.html', {'user_is_company': True})
 
         data = get_messages(list_users[0].receiver_id,request.user.id)
+        print data
         return render(
             request,
             'company_message.html',
@@ -546,20 +570,20 @@ class AppliedCandidates(View):
             on auth_user.id = company_advertisementapplied.user_id join core_cities on users_userlocation.user_city_id = core_cities.id
             join core_countries on users_userlocation.user_country_id = core_countries.id left outer join
             evaluation_evaluation_result on evaluation_evaluation_result.user_id = company_advertisementapplied.user_id
-            where advertisement_id={0} group by auth_user.id
+            where advertisement_id={0} and company_advertisementapplied.candidate_status=TRUE group by auth_user.id
             """.format(job_id)
 
         )
         user_employment = AdvertisementApplied.objects.raw(
             """
             SELECT * FROM company_advertisementapplied join users_useremployment on users_useremployment.user_id = company_advertisementapplied.user_id
-            where advertisement_id={0}
+            where advertisement_id={0} and company_advertisementapplied.candidate_status=TRUE
 
             """.format(job_id)
         )
         user_education =  AdvertisementApplied.objects.raw("""
             SELECT * FROM company_advertisementapplied join users_usereducation on users_usereducation .user_id = company_advertisementapplied.user_id
-            where advertisement_id={0}""".format(job_id)
+            where advertisement_id={0} and company_advertisementapplied.candidate_status=TRUE""".format(job_id)
         )
         # Previous one
 
@@ -576,7 +600,7 @@ class AppliedCandidates(View):
         users_userlocation.user_country_id as country_value FROM company_advertisementapplied join users_userlocation
         on company_advertisementapplied.user_id=users_userlocation.user_id join core_countries on
         users_userlocation.user_country_id = core_countries.id where company_advertisementapplied.advertisement_id={0}
-        group by country_name""".format(job_id))
+        and company_advertisementapplied.candidate_status=TRUE group by country_name""".format(job_id))
 
         # Previous one
         """
@@ -594,20 +618,21 @@ class AppliedCandidates(View):
             as city_value, country_name FROM company_advertisementapplied join users_userlocation on
             company_advertisementapplied.user_id=users_userlocation.user_id join core_countries on
             users_userlocation.user_country_id = core_countries.id join core_cities on
-            users_userlocation.user_city_id = core_cities.id where company_advertisementapplied.advertisement_id={0}
-            group by city_name
+            users_userlocation.user_city_id = core_cities.id where company_advertisementapplied.advertisement_id={0} and
+            company_advertisementapplied.candidate_status=TRUE group by city_name
             """.format(job_id)
         )
         applied_gender_users = AdvertisementApplied.objects.raw(
             """
             SELECT count(*) as type, user_gender, company_advertisementapplied.id  FROM `company_advertisementapplied` join users_userbio on
             company_advertisementapplied.user_id = users_userbio.user_id where company_advertisementapplied.advertisement_id = {0}
-            group by user_gender
+            and company_advertisementapplied.candidate_status=TRUE group by user_gender
             """.format(job_id)
         )
 
         is_evaluation_test = Advertisement.admanager.filter(id=job_id)[0].is_evaluation_test
         list_total = int(len(list(data)))
+        print list_total
         return render(request, 'applied_candidates.html', {
             'data': data,
             'employment': user_employment,
@@ -691,6 +716,19 @@ def shortlist_remove(request, candidate_id, job_id):
     return HttpResponse(json.dumps({
         'status': True
     }))
+
+
+def candidate_remove(request, candidate_id, job_id):
+    AdvertisementApplied.objects.filter(
+            user_id=candidate_id,
+            advertisement_id=job_id
+        ).update(
+            candidate_status=False
+        )
+    return HttpResponse(json.dumps({
+        'status': True
+    }))
+
 
 class ListShortlisted(View):
     @method_decorator(login_required)
@@ -797,34 +835,56 @@ class ScheduleInterview(View):
         })
     def post(self, request, candidate_id, job_id):
 
-        date_str_from = request.POST['from_date'] + " " +  request.POST['from_time']
-        date_str_to = request.POST['to_date'] + " " +  request.POST['to_time']
-        from_full_date = datetime.strptime(date_str_from,'%Y-%m-%d %H:%M')
-        to_full_date = datetime.strptime(date_str_to,'%Y-%m-%d %H:%M')
-        from_time = datetime.strptime(request.POST['from_time'], '%H:%M')
-        to_time = datetime.strptime(request.POST['to_time'], '%H:%M')
+        try:
+            date_str_from = request.POST['from_date'] + " " +  request.POST['from_time']
+            date_str_to = request.POST['to_date'] + " " +  request.POST['to_time']
+            from_full_date = datetime.strptime(date_str_from,'%Y-%m-%d %H:%M')
+            to_full_date = datetime.strptime(date_str_to,'%Y-%m-%d %H:%M')
+            from_time = datetime.strptime(request.POST['from_time'], '%H:%M')
+            to_time = datetime.strptime(request.POST['to_time'], '%H:%M')
 
-        get_candidate_info = User.objects.filter(id=candidate_id)[0]
-        invitation_message = str(request.POST['invitation']).replace(
-            '{{first_name}}', get_candidate_info.first_name
-        ).replace(
-            '{{from_time}}', str(from_full_date.strftime("%d %b %Y %I:%M:%S %p")),
-        ).replace(
-            '{{to_time}}', str(to_full_date.strftime("%d %b %Y %I:%M:%S %p")),
-        )
+            get_candidate_info = User.objects.filter(id=candidate_id)[0]
+            invitation_message = str(request.POST['invitation']).replace(
+                '{{first_name}}', get_candidate_info.first_name
+            ).replace(
+                '{{from_time}}', str(from_full_date.strftime("%d %b %Y %I:%M:%S %p")),
+            ).replace(
+                '{{to_time}}', str(to_full_date.strftime("%d %b %Y %I:%M:%S %p")),
+            )
 
-        ShortlistedCandidates.objects.filter(
-            user_id=candidate_id
-        ).update(
-            from_date=from_full_date,
-            to_date=to_full_date,
-            from_only_date=request.POST['from_date'],
-            to_only_date=request.POST['to_date'],
-            from_time=from_time,
-            to_time=to_time,
-            invitation_message=invitation_message,
-            is_interview=True
-        )
+            ShortlistedCandidates.objects.filter(
+                user_id=candidate_id
+            ).update(
+                from_date=from_full_date,
+                to_date=to_full_date,
+                from_only_date=request.POST['from_date'],
+                to_only_date=request.POST['to_date'],
+                from_time=from_time,
+                to_time=to_time,
+                invitation_message=invitation_message,
+                is_interview=True
+            )
+
+            # notify = str('You are invited for the interview '+ from_time +' to '+ to_time +' on '+ request.POST['from_date'] +'. Kindly be there on time.')
+            # print notify
+
+            Notification(
+                title=invitation_message,
+                type=0,
+                status=0,
+                status_read=0,
+                user_id=candidate_id
+
+            ).save()
+
+
+        except Exception as e:
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            print(exc_type, fname, exc_tb.tb_lineno)
+            if exc_tb.tb_lineno == 822 or exc_tb.tb_lineno == 823 or exc_tb.tb_lineno == 824 or exc_tb.tb_lineno == 825:
+                return HttpResponse(json.dumps({'status': False, 'response':'Invalid Date Entered'}))
+
         #for email values
 
         listvalue = {
@@ -872,7 +932,7 @@ class ComposedSend(View):
             date_send=datetime.now()
         ).save()
         obj = Messages.objects.latest('id')
-        print obj
+
         html = render_to_string('company_message_send.html', {'message': obj, 'user_is_company': True})
         return HttpResponse(
             html
@@ -1207,7 +1267,8 @@ class CompanyAppliedAll(View):
             evaluation_evaluation_result on evaluation_evaluation_result.user_id =
             company_advertisementapplied.user_id join company_advertisement on
             company_advertisement.id = company_advertisementapplied.advertisement_id where
-            company_user_id = {0} group by company_advertisement.id
+            company_user_id = {0} and company_advertisementapplied.candidate_status=TRUE
+            group by company_advertisement.id
             """.format(request.user.id))
 
         data = AdvertisementApplied.objects.raw(
@@ -1222,18 +1283,19 @@ class CompanyAppliedAll(View):
             users_userlocation.user_country_id = core_countries.id left outer join
             evaluation_evaluation_result on evaluation_evaluation_result.user_id =
             company_advertisementapplied.user_id join company_advertisement on company_advertisement.id =
-            company_advertisementapplied.advertisement_id where company_advertisement.id = {0} group by auth_user.id
+            company_advertisementapplied.advertisement_id where company_advertisement.id = {0}
+            and company_advertisementapplied.candidate_status=TRUE group by auth_user.id
             """.format(group_jobs[0].id))
 
 
         user_employment = AdvertisementApplied.objects.raw(
             """
             SELECT * FROM company_advertisementapplied join users_useremployment on users_useremployment.user_id = company_advertisementapplied.user_id
-            where advertisement_id = {0} group by advertisement_id
+            where advertisement_id = {0} and company_advertisementapplied.candidate_status=TRUE group by advertisement_id
             """.format(group_jobs[0].id))
         user_education =  AdvertisementApplied.objects.raw("""
             SELECT * FROM company_advertisementapplied join users_usereducation on users_usereducation .user_id = company_advertisementapplied.user_id
-            where advertisement_id = {0} group by advertisement_id
+            where advertisement_id = {0} and company_advertisementapplied.candidate_status=TRUE group by advertisement_id
             """.format(group_jobs[0].id)
         )
 
@@ -1265,17 +1327,21 @@ class CompanyAppliedAll(View):
             users_userlocation.user_country_id = core_countries.id left outer join
             evaluation_evaluation_result on evaluation_evaluation_result.user_id =
             company_advertisementapplied.user_id join company_advertisement on company_advertisement.id =
-            company_advertisementapplied.advertisement_id where company_advertisement.id = {0} group by auth_user.id
+            company_advertisementapplied.advertisement_id where company_advertisement.id = {0} and
+            company_advertisementapplied.candidate_status=TRUE
+            group by auth_user.id
             """.format(request.POST['job_id']))
 
         user_employment = AdvertisementApplied.objects.raw(
             """
             SELECT * FROM company_advertisementapplied join users_useremployment on users_useremployment.user_id =
-             company_advertisementapplied.user_id where advertisement_id = {0} group by advertisement_id
+             company_advertisementapplied.user_id where advertisement_id = {0} and
+             company_advertisementapplied.candidate_status=TRUE group by advertisement_id
             """.format(request.POST['job_id']))
         user_education =  AdvertisementApplied.objects.raw("""
             SELECT * FROM company_advertisementapplied join users_usereducation on users_usereducation .user_id =
-            company_advertisementapplied.user_id where advertisement_id = {0} group by advertisement_id
+            company_advertisementapplied.user_id where advertisement_id = {0} and
+            company_advertisementapplied.candidate_status=TRUE group by advertisement_id
             """.format(request.POST['job_id']))
         html = render_to_string('applied_candidate_dynamic_all.html', {'data': data,'employment': user_employment,
                                                                    'education': user_education
@@ -1298,3 +1364,118 @@ class CompanyShortlistedAll(View):
         :param request:
         :return:
         """
+
+
+class Message_nofication(View):
+    def get(self,request):
+        # message_count = Messages.objects.raw(
+        #     """
+        #      SELECT * from company_messages join auth_user ON auth_user.id = company_messages.receiver_id
+        #      where receiver_id={0} and status_read=0
+        #      group by auth_user.id order by company_messages.date_send
+        #     """.format(request.user.id)
+        # )
+
+        message_count = Messages.objects.filter(receiver_id=request.user.id,status_read=0).count()
+        print message_count
+
+
+        return HttpResponse(json.dumps({'number_messages':int(message_count)}))
+
+
+
+    def post(self,request):
+        try:
+
+            query = Messages.objects.filter(receiver_id=request.user.id,status_read=0).update(status_read=1)
+
+            if query:
+                  return HttpResponse(json.dumps({'status':'True'}))
+        except Exception as e:
+           print e
+
+class Admin_notify(View):
+    def get(self,request):
+        query = Notification.objects.filter(user_id=request.user.id,status_read=0).count()
+        return HttpResponse(json.dumps({'notify':int(query)}))
+
+    def post(self,request):
+        return HttpResponse(json.dumps({'number_messages':'True'}))
+
+class Get_notify(View):
+    def get(self,request):
+        query = Notification.objects.filter(user_id=request.user.id).order_by('-id')[:5]
+        query2=Notification.objects.filter(user_id=request.user.id,status_read=0).update(status_read=1)
+
+
+        wholedata = serializers.serialize('json', query)        # query2 = serializers(query)
+        return HttpResponse(json.dumps({'status':wholedata}))
+
+
+
+class View_all_notification(View):
+
+    def get(self,request):
+        try:
+           query = Notification.objects.filter(user_id=request.user.id).order_by('-id')
+           page = request.GET.get('page')
+           query2 = pagination_page(page,query)
+           if query and query2:
+               return render(request,'company_notification.html',{'data':query2,'user_is_company': True})
+           else :
+               return render(request,'company_notification.html',{'user_is_company': True})
+        except Exception as e:
+           return render(request,'company_notification.html',{'user_is_company': True})
+
+class Delete_notification(View):
+
+    def post(self,request):
+        try:
+           query = Notification.objects.filter(id=int(request.POST['id'])).delete()
+
+           if not query:
+                return HttpResponse(json.dumps({'status':True}))
+           else:
+               return HttpResponse(json.dumps({'status':False}))
+        except Exception as e:
+           print e
+
+class JobSeeker_View_all_notification(View):
+    def get(self,request):
+        try:
+           query = Notification.objects.filter(user_id=request.user.id).order_by('-id')
+           page = request.GET.get('page')
+           query2 = pagination_page(page,query)
+           if query and query2:
+               return render(request,'jobseeker_notification.html',{'data':query2})
+           else :
+               return render(request,'jobseeker_notification.html')
+        except Exception as e:
+           return render(request,'jobseeker_notification.html')
+
+
+class Jobseeker_Delete_notification(View):
+     def post(self,request):
+        try:
+           query = Notification.objects.filter(id=int(request.POST['id'])).delete()
+
+           if not query:
+                return HttpResponse(json.dumps({'status':True}))
+           else:
+               return HttpResponse(json.dumps({'status':False}))
+        except Exception as e:
+           print e
+
+
+def pagination_page(page,data):
+        paginator = Paginator(data, 8) # Show 25 contacts per page
+
+        try:
+           data = paginator.page(page)
+        except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+           data = paginator.page(1)
+        except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+            data = paginator.page(paginator.num_pages)
+        return data

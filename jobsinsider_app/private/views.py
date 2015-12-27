@@ -23,7 +23,8 @@ from django.db import models
 from accounts import models as accounts_models
 from users import models as user_models
 from django.db.models.query import RawQuerySet
-
+from company.models import Notification
+from company.models import Advertisement
 import simplejson as json
 from datetime import *
 import time
@@ -316,7 +317,7 @@ def user_update(request):
             first_name=first_name,
             last_name=last_name,
             email=email,
-            is_active=[True if int(is_active) == 1 else False],
+            is_active=int(is_active),
             is_staff=int(staff),
             is_superuser=int(superuser))
 
@@ -864,6 +865,16 @@ def addtemplate(request):
 def approve_evaulation(request):
     try:
         query = evaluation_test_template.objects.filter(id=request.POST['id']).update(evaluation_status=1)
+        query2 = evaluation_test_template.objects.filter(id=request.POST['id'])
+        notify = Notification(
+            title = query2[0].evaluation_name,
+            type = 1,
+            status = 1,
+            status_read=0,
+            user_id = query2[0].user_id
+
+        ).save()
+
 
         if query:
              return HttpResponse(json.dumps({'status': 'True'}))
@@ -877,6 +888,15 @@ def approve_evaulation(request):
 def reject_evaulation(request):
     try:
         query = evaluation_test_template.objects.filter(id=request.POST['id']).update(evaluation_status=2)
+        query2 = evaluation_test_template.objects.filter(id=request.POST['id'])
+        notify = Notification(
+            title = query2[0].evaluation_name,
+            type = 1,
+            status = 2,
+            status_read=0,
+            user_id = query2[0].user_id
+
+        ).save()
 
         if query:
              return HttpResponse(json.dumps({'status': 'True'}))
@@ -965,18 +985,46 @@ def edit_job_details(request):
     return HttpResponse(json.dumps({'status':True}))
 
 def enable_job(request):
+    # query = Advertisement.objects.filter(job_id=request.POST['job_id'])[0]
+    # print query
     obj = AdvertisementAdminView(job_id=request.POST['job_id'])
     obj.enable_job()
+    notify = Notification(
+            title = obj.get_title(),
+            type = 2,
+            status = 1,
+            status_read=0,
+            user_id = int(obj.who_created())
+
+        ).save()
+
     return HttpResponse(json.dumps({'status':True}))
 
 def disable_job(request):
     obj = AdvertisementAdminView(job_id=request.POST['job_id'])
     obj.disable_job()
+    notify = Notification(
+            title = obj.get_title(),
+            type = 2,
+            status = 0,
+            status_read=0,
+            user_id = int(obj.who_created())
+
+        ).save()
+
     return HttpResponse(json.dumps({'status':True}))
 
 def reject_job(request):
     obj = AdvertisementAdminView(job_id=request.POST['job_id'])
     obj.reject_job()
+    notify = Notification(
+            title = obj.get_title(),
+            type = 2,
+            status = 2,
+            status_read=0,
+            user_id = int(obj.who_created())
+
+        ).save()
     return HttpResponse(json.dumps({'status':True}))
 
 

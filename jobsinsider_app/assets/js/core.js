@@ -60,6 +60,7 @@ function login_account()
 
 function forgot_password()
 {
+    wait_it('body');
     $.ajax(
         {
             url : "/accounts/forgot/", // the endpoint
@@ -73,10 +74,12 @@ function forgot_password()
                 {
                      $('label.l0_form .error_message').html('There is no email exist which you have entered');
                     $('label.l0_form .error_message').show();
+                    wait_it_hide('body');
                 }
                 else if (json.status==1)
                 {
 
+                    wait_it_hide('body');
                     $('label.l0_form .error_message').hide();
                     $('label.l0_form .success').html('Please check your email address to reset password and follow the instructions on it');
                     $('label.l0_form .success').show();
@@ -84,6 +87,7 @@ function forgot_password()
             },
             error: function(json)
             {
+                wait_it_hide('body');
                 console.log(json);
             }
 
@@ -1276,6 +1280,34 @@ $('.delete_job_menu').on('click', function(e)
                     console.log('here');
                     //$('.message_details').html('Job has been deleted successfully!')
                     message_display('Job has been deleted successfully!', 1);
+                }
+            }
+        }
+    );
+    return false;
+});
+
+$('.pause_job_menu').on('click', function(e)
+{
+    e.preventDefault();
+    get_id = $(this).attr('value');
+    csrfmdi = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+    $.ajax(
+        {
+            type:'POST',
+            url:'/company/pause-job/' + get_id   + '/',
+            data: {
+                'csrfmiddlewaretoken': csrfmdi
+            },
+            success:function(m)
+            {
+                var resp = JSON.parse(m);
+                if(resp.status==true){
+                    //$('.message_details').html('Job has been deleted successfully!')
+                    message_display('Job has been Paused successfully!', 1);
+                    setTimeout(function(){
+                       window.location.reload(1);
+                    }, 1000);
                 }
             }
         }

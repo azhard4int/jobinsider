@@ -540,6 +540,7 @@ success: function (data) {
      for (var j = 0; j <= lens; j++) {
          var mmore = jQuery.parseJSON(aap.user_info);
          value = mmore[j]['fields']['username'];
+
          newvalue = get_id(value);
          profile_status=profilestatus(newvalue);
          var usertype;
@@ -550,8 +551,8 @@ success: function (data) {
          profile_button = '<td><button value= "' + newvalue + '" type="button" class="profile btn btn-info btn-sm" >Profile</button></td>';
          delete_button = '<td><button value= "' + newvalue + '" type="button" class="delete btn btn-info btn-sm" >Delete</button></td>';
          //active = capitalise();
-         // newline = '<tr><td> ' + newvalue + ' </td> <td> ' + mmore[j]['fields']['username'] + '</td> <td> ' + mmore[j]['fields']['first_name'] + '</td> <td> ' + mmore[j]['fields']['last_name'] + '</td> <td> ' + mmore[j]['fields']['email'] + '</td> <td> ' + (mmore[j]['fields']['is_active']) +' </td><td> '+ usertype +' </td> ' + edit_button + ' ' + profile_button + ' ' + delete_button + '</tr>';
-         // $(newline).appendTo('.table > tbody:last');
+          newline = '<tr><td> ' + newvalue + ' </td> <td> ' + mmore[j]['fields']['username'] + '</td> <td> ' + mmore[j]['fields']['first_name'] + '</td> <td> ' + mmore[j]['fields']['last_name'] + '</td> <td> ' + mmore[j]['fields']['email'] + '</td> <td> ' + (mmore[j]['fields']['is_active']) +' </td><td> '+ usertype +' </td> ' + edit_button + ' ' + profile_button + ' ' + delete_button + '</tr>';
+          $(newline).appendTo('.table > tbody:last');
 }
 
  };

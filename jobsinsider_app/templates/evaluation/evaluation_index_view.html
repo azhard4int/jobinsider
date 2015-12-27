@@ -1,64 +1,5 @@
-{% extends "base_dasboard.html" %}
-    <title>{% block title %}Dashboard{% endblock %}</title>
-        {% if user.is_authenticated %}
-            {% block authenticate_user %} {{ user.first_name|slice:":1" }}{{ user.last_name|slice:":1" }}{%  endblock %}
-        {% endif %}
-{% block header_company_nav %}
-    <a href="{% url 'company_profile' %}">Account Settings</a>
-    <a href="{% url 'logout' %}">Logout</a>
-{% endblock %}
-{% block body_content %}
-    <div class="notify_message">
-        <h4>
-            <span>
-            </span>
-        </h4>
-    </div>
-    <div class="clearfix"></div>
-    <section id="company">
-        <div class="container">
-            <div class="col-md-12">
-                <div class="col-md-4">
-
-                    <h3>
-                        Evaluation Tests
-                    </h3>
-
-                </div>
-                <div class="col-md-8">
-                    <div class="cp_nav">
-
-                        <ul>
-                            <li><a href="{% url 'job_advertisement' %}">Create Job Ad</a></li>
-                            <li><a href="{% url 'test_template' %}">Evaluation Test</a></li>
-                            <li><a href="{% url 'posted_jobs' %}">Posted Jobs</a></li>
-                            <li><a href="javascript:;" class="search__field__evaluation"><i class="fa fa-search fa-lg"></i></a></li>
-                            <div class="search_box">
-                                <div class="col-md-12">
-                                    <div class="col-md-7 nopad-lr">
-                                        <input class="form-control search__evaluation" type="text" placeholder="Evaluation Test Title">
-                                    </div>
-                                    <div class="col-md-4 ">
-                                        <input class="form-control search__evaluation__btn" type="submit" name="" id="" value="Search">
-                                    </div>
-                                    <div class="col-md-1 nopad-lr ">
-                                        <a href="javascript:;" class="search__field__evaluation_close times__icon"><i class="fa fa-times fa-lg"></i></a>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </ul>
-                    </div>
-
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <div class="container evaluation_test_main">
+<div class="container evaluation_test_main">
         {% for evaluate in evaluation %}
-
              <div class="col-md-3 col-lg-3" id="evaluation_test_box_{{ evaluate.pk }}">
                     <div class="evaluation_test_box">
                         <h4>
@@ -124,10 +65,6 @@
                         </div>
                     </div>
              </div>
-
-
-
-
 {#                    <td><button value="{{o.pk}}"  class="editbutton" class="btn btn-info btn-sm" data-toggle="modal" data-target="#editmodal" type="button">Edit</button></td>#}
 
         {% endfor %}
@@ -144,14 +81,3 @@
 {#        </div>#}
 
     </div>
-{% include "evaluation_modal.html" %}
-{% include "evaluation_question_modal.html" %}
-{% include "evaluation_editmodal.html" %}
-{% include "evaluation_testmodal.html" %}
-    {% include "evaluation_pretest_modal.html" %}
-
-
-{% endblock %}
-
-{% block custom_scripts %}
-{% endblock %}
