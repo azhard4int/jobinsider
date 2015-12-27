@@ -1,0 +1,112 @@
+body {
+  margin: 0 auto;
+  font-family: 'proxima_nova_regular', arial, sans-serif !important;
+}
+.transition {
+  transition: all ease-in-out 0.2s;
+  -webkit-transition: all ease-in-out 0.2s;
+  -o-transition: all ease-in-out 0.2s;
+  -ms-transition: all ease-in-out 0.2s;
+}
+.top_border {
+  height: 2px;
+  background-color: #5584ff;
+  background-image: linear-gradient(to right, #7ea2ff, #a15beb, #e22fff, #ffd49b, #ffd49b);
+  background-image: -webkit-linear-gradient(to right, #7ea2ff, #a15beb, #e22fff, #ffd49b, #ffd49b);
+}
+.logo {
+  padding: 25px 0;
+  color: #fff;
+  font-size: 20px;
+}
+#header {
+  height: 70vh;
+  width: 100%;
+  background: linear-gradient(45deg, #7b6898, #584f84);
+}
+.header_right {
+  margin-top: 0px;
+  float: right !important;
+}
+.header_right ul {
+  padding: 28px 0;
+  margin-left: 0px;
+  margin-top: 0px;
+  float: right !important;
+}
+.header_right ul li {
+  list-style: none;
+  display: inline;
+}
+.header_right ul li a {
+  color: #fff;
+  text-decoration: none;
+  transition: all ease-in-out 0.2s;
+  -webkit-transition: all ease-in-out 0.2s;
+  -o-transition: all ease-in-out 0.2s;
+  -ms-transition: all ease-in-out 0.2s;
+  padding: 10px 20px;
+}
+.header_right ul li a:hover {
+  color: #e2e2e2;
+  text-decoration: none;
+}
+.header_right ul li .a_active {
+  border-radius: 2px;
+  border: 1px solid #e5e5e5 !important;
+}
+.header_right ul li .a_active:hover {
+  background: #fff;
+  color: #8951E3 !important;
+}
+.main_cover h2,
+.main_cover h3 {
+  text-align: center;
+}
+.main_cover h2 {
+  padding-top: 100px !important;
+  color: #fff;
+  font-size: 38px;
+  padding-bottom: 30px;
+}
+.main_cover h3 {
+  padding: 0 100px;
+  font-size: 20px;
+  color: #fff;
+}
+.main_cover a {
+  text-align: center;
+  display: block;
+  padding: 10px 30px;
+  border-radius: 2px;
+  width: 200px;
+  color: #fff;
+  background: #50c377;
+  margin: 0 auto;
+  transition: all ease-in-out 0.2s;
+  -webkit-transition: all ease-in-out 0.2s;
+  -o-transition: all ease-in-out 0.2s;
+  -ms-transition: all ease-in-out 0.2s;
+}
+.main_cover a:hover {
+  background: #48ac68;
+  text-decoration: none;
+  color: #fff;
+}
+.main_cover .to_get_started {
+  margin: 30px 0;
+}
+#intro {
+  padding: 15px 0;
+}
+#intro h2,
+#intro h3 {
+  color: #6c6c6c;
+  text-align: center;
+}
+#intro h2 {
+  font-size: 22px;
+}
+#intro h3 {
+  font-size: 18px;
+}

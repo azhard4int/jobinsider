@@ -3,11 +3,11 @@ Thank you for joining JobsInsider, {{first_name}}!
 Welcome to JobsInsider, the workplace for the world. Here are your account details for future reference:
 
 Your username is: azhar109
-Forgot your password? <a href="http://127.0.0.1:8000/accounts/forgot/">Find it here</a>
+Forgot your password? <a href="http://jobinsider.xyz:8000/accounts/forgot/">Find it here</a>
 
 You’ve joined a talented community of independent professionals and agencies doing amazing work. To take advantage of them, start by setting up a great profile that markets yourself to prospective clients.
 
-<a href="http://127.0.0.1:8000/dashboard">Set up your profile</a><Br><Br>
+<a href="http://jobinsider.xyz:8000/dashboard">Set up your profile</a><Br><Br>
 
 For tips on creating a polished, professional profile—and other useful information about freelancing on Upwork—check out A Freelancer’s Guide to Upwork.
 
