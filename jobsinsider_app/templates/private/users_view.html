@@ -4,37 +4,21 @@
 
 
 {% block body_content %}
-
-
-
-
      <form class='search form-inline'>
-
          {% csrf_token %}
          <input type="text" class="form-control" id="searchbox" placeholder="Search..." required>
          <input type="button" id="search" value="Search" class="btn btn-info btn-sm form-control">
           <button type="button" id="add_button" class="btn btn-info btn-sm form-control" data-toggle="modal" data-target="#addmodal" type="button">Add User</button>
-
-
     </form>
-
-
-
-
-      <form class='buttonset form-inline'>
-
+    <form class='buttonset form-inline'>
           {% csrf_token %}
           <button type="button" id="something123" class="btn btn-info btn-sm form-control" type="button" onclick="location.href='{{ BASE_URL }}/private/members/users/allusers/';">All Users</button>
           <button type="button" id="active123" class="btn btn-info btn-sm form-control" type="button" onclick="location.href='{{ BASE_URL }}/private/members/users/activeusers/';">Active users</button>
           <button type="button" id="disable" class="btn btn-info btn-sm form-control" type="button" onclick="location.href='{{ BASE_URL }}/private/members/users/edit_profile/nonactiveusers/';">Disable Users</button>
           <button type="button" id="companynew" class="btn btn-info btn-sm form-control" type="button" onclick="location.href='{{ BASE_URL }}/private/members/users/edit_profile/companyfilter/';">Company</button>
           <button type="button" id="job_seeker" class="btn btn-info btn-sm form-control" type="button" onclick="location.href='{{ BASE_URL }}/private/members/users/edit_profile/job_seekerfilter/';">Job Seeker</button>
-
     </form>
-
-
-
-     <div class="message_error">
+         <div class="message_error">
 
           <h5 class="err"></h5>
 
