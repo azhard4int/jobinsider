@@ -464,6 +464,24 @@ def pause_job(request, job_id):
         return HttpResponse(json.dumps(resp))
 
 
+def resume_job(request, job_id):
+    """
+    Delete Job ID from the posted jobs
+    """
+    if request.method=='POST':
+        resp={}
+        try:
+            Advertisement.admanager.filter(id=job_id).update(
+                job_approval_status=1
+            )
+            resp['status']=True
+        except:
+            resp['status']= False
+        return HttpResponse(json.dumps(resp))
+
+
+
+
 
 class CompanyAdd(View):
     @method_decorator(login_required)
