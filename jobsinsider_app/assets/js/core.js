@@ -1315,6 +1315,42 @@ $('.pause_job_menu').on('click', function(e)
     return false;
 });
 
+
+//Resume Job add
+$('.resume_job_menu').on('click', function(e)
+{
+    e.preventDefault();
+    get_id = $(this).attr('value');
+    csrfmdi = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+    $.ajax(
+        {
+            type:'POST',
+            url:'/company/resume-job/' + get_id   + '/',
+            data: {
+                'csrfmiddlewaretoken': csrfmdi
+            },
+            success:function(m)
+            {
+                var resp = JSON.parse(m);
+                if(resp.status==true){
+                    //$('.message_details').html('Job has been deleted successfully!')
+                    message_display('Job has been Resumed successfully!', 1);
+                    setTimeout(function(){
+                       window.location.reload(1);
+                    }, 1000);
+                }
+            }
+        }
+    )
+    return false;
+});
+
+
+
+
+
+
+
 //edit job details
 
 $('.job_advertisement_edit').on('click', function(event)

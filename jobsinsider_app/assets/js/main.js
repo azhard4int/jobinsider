@@ -2006,3 +2006,12 @@ $('.jobseeker_trashclass').on('click',function(e){
     });
 
 });
+
+
+
+
+$( document ).ready(function() {
+
+var div = $('.top_region_messages');
+div.scrollTop( div.get(0).scrollHeight );
+});
