@@ -2018,7 +2018,12 @@ $('.jobseeker_trashclass').on('click',function(e){
 
 
 $( document ).ready(function() {
+    try{
+    var div = $('.top_region_messages');
+    div.scrollTop( div.get(0).scrollHeight );
+    }
+    catch(e){
+        console.log(e);
+    }
 
-var div = $('.top_region_messages');
-div.scrollTop( div.get(0).scrollHeight );
 });
