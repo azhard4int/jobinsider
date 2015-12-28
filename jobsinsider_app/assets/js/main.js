@@ -1532,6 +1532,9 @@ $('.search__evaluation__btn').on('click', function(e){
 
 $( document ).ready(function() {
 $(".company-badge-notify").append();
+    try{
+
+
     $.ajax({
         url:'/company/message/notification/',
         type: 'GET',
@@ -1549,6 +1552,10 @@ $(".company-badge-notify").append();
         }
     });
     $( this ).off( event );
+    }
+    catch(e){
+        console.log(e);
+    }
 });
 
 
