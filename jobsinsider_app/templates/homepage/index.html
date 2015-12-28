@@ -49,13 +49,108 @@
     <div class="container">
         <div class="col-md-12">
             <h2>
-                JobInsider is an innovative online recruiting platform. You can get up and start recruiting a potential
-                candidates in a few minutes.
+                JobInsider is an innovative online recruiting platform. You can get started in three simple steps.
             </h2>
         </div>
     </div>
 </section>
+<section id="three_steps">
+    <div class="container">
+        <div class="col-md-4">
+            <h3>
+                Setup an account
+            </h3>
+            <div class="img_box">
+                <img src="{{ STATIC_URL }}img/setup_account.png" alt="Setup an account">
+            </div>
+            <p>
+                Get started by setting up your account within few seconds. Fill out your company information and you can
+                start hiring the people.
+            </p>
+        </div>
+        <div class="col-md-4">
+            <h3>
+                Post your job
+            </h3>
+            <div class="img_box">
+                <img src="{{ STATIC_URL }}img/job.png" alt="Setup an account">
+            </div>
 
+            <p>
+                Instantly access to thousands of potential candidates by submitting your job in your desired category.
+                You can filter candidates to match them with your criteria.
+            </p>
+        </div>
+        <div class="col-md-4">
+            <h3>
+                Interview Shortlisted Candidates
+            </h3>
+            <div class="img_box">
+                <img src="{{ STATIC_URL }}img/callcenter.png" alt="Setup an account">
+            </div>
+            <p>
+                Once you have shortlisted candidates, you can schedule them for the interview call right from your
+                dashboard.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section id="stats">
+    <div class="container">
+        <div class="col-md-12">
+            <h2>
+                JobsInsider Stats
+            </h2>
+            <div class="col-md-4 stat_counter">
+                <h3>
+                   Jobs Posted
+                </h3>
+                <h1>
+                    {{ jobs_posted }}
+                </h1>
+            </div>
+            <div class="col-md-4 stat_counter">
+                <h3>
+                    Total Companies
+                </h3>
+                <h1>
+                    {{ total_companies }}
+                </h1>
+            </div>
+            <div class="col-md-4 stat_counter">
+                <h3>
+                    Total Job Seekers
+                </h3>
+                <h1>
+                    {{ total_jobseekers }}
+                </h1>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="ending">
+    <div class="container">
+        <div class="col-md-12">
+            <h2>
+                Join JobsInsider Today and Get Started!
+            </h2>
+
+            <a href="{% url 'register_account' %}">Sign Up Now</a>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="container">
+        <div class="col-md-12">
+            <p>
+                &copy; All Rights Reserved 2015-2016  - JobsInsider
+            </p>
+        </div>
+    </div>
+
+</footer>
 
 </body>
 </html>

@@ -4,6 +4,7 @@
             {% block authenticate_user %} {{ user.first_name|slice:":1" }}{{ user.last_name|slice:":1" }}{%  endblock %}
         {% endif %}
 {% block body_content %}
+    {% csrf_token %}
     <section id="company">
         <div class="container">
             <div class="col-md-12">
