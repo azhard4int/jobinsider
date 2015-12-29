@@ -1114,7 +1114,7 @@ $('.job_advertisement').on('click', function(event)
         //, #id_job_position, #id_salary_from, #id_salary_to
             $('#id_job_title').focus();
             $('#id_job_title').css('border-color', 'red');
-            exit;
+
     }
     else if($('#id_job_position').val()=='')
     {
