@@ -4,7 +4,7 @@
             {% block authenticate_user %}{{ user.first_name|slice:":1" }}{{ user.last_name|slice:":1" }}{%  endblock %}
         {% endif %}
 {% block body_content %}
-    {% include 'base_dashboard_core.html' %}
+    {% include 'profile_settings_base.html' %}
     {% include 'notify_message.html' %}
 
 

@@ -570,7 +570,7 @@ class ProfileUser(View):
         }
         print main
         return render(request, 'profile.html', {
-            'user': main,
+            'user_profile': main,
             'user_employment': employment_data,
             'user_education': education,
             'body_status': 0

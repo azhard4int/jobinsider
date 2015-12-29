@@ -4,13 +4,15 @@
             {% block authenticate_user %}{{ user.first_name|slice:":1" }}{{ user.last_name|slice:":1" }}{%  endblock %}
         {% endif %}
 {% block body_content %}
-    {% include 'base_dashboard_core.html' %}
+
+    {% include 'profile_settings_base.html' %}
 
 
     <div class="container user_profile">
         <div class="row">
             <div class="col-md-12 nopad-lr">
                 <div class="col-md-3">
+
                     <h4>
                         Settings
                     </h4>
@@ -31,20 +33,20 @@
                     <div class="clearfix"></div>
                         <div class="col-md-3">
                             <div class="profile_picture">
-                                <img src="{{ user.portrait }}" alt="profile picture">
+                                <img src="{{ user_profile.portrait }}" alt="profile picture">
                             </div>
                          </div>
                          <div class="col-md-9">
                              <h3>
-                                 {{ user.first_name }} {{ user.last_name }}
+                                 {{ user_profile.first_name }} {{ user_profile.last_name }}
                              </h3>
-                             <p>{{ user.overview }}</p>
+                             <p>{{ user_profile.overview }}</p>
                             <div class="user_location_buttons">
                                 <span>
-                                    {{ user.country }}
+                                    {{ user_profile.country }}
                                 </span>
                                 <span>
-                                    {{ user.city }}
+                                    {{ user_profile.city }}
                                 </span>
                             </div>
                          </div>
