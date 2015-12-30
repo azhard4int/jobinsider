@@ -1443,11 +1443,14 @@ class View_all_notification(View):
            page = request.GET.get('page')
            query2 = pagination_page(page,query)
            if query and query2:
-               return render(request,'company_notification.html',{'data':query2,'user_is_company': True})
+               return render(request,'company_notification.html',{'data':query2,'user_is_company': True,
+                                                                  'body_status': is_body_status(request)})
            else :
-               return render(request,'company_notification.html',{'user_is_company': True})
+               return render(request,'company_notification.html',{'user_is_company': True,
+                                                                  'body_status': is_body_status(request)})
         except Exception as e:
-           return render(request,'company_notification.html',{'user_is_company': True})
+           return render(request,'company_notification.html',{'user_is_company': True,
+                                                              'body_status': is_body_status(request)})
 
 class Delete_notification(View):
 
@@ -1469,11 +1472,12 @@ class JobSeeker_View_all_notification(View):
            page = request.GET.get('page')
            query2 = pagination_page(page,query)
            if query and query2:
-               return render(request,'jobseeker_notification.html',{'data':query2})
+               return render(request,'jobseeker_notification.html',{'data':query2,
+                                                                    'body_status': is_body_status(request)})
            else :
-               return render(request,'jobseeker_notification.html')
+               return render(request,'jobseeker_notification.html', {'body_status': is_body_status(request)})
         except Exception as e:
-           return render(request,'jobseeker_notification.html')
+           return render(request,'jobseeker_notification.html', {'body_status': is_body_status(request)})
 
 
 class Jobseeker_Delete_notification(View):

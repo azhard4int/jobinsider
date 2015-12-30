@@ -289,7 +289,7 @@ def confirm_email(request):
             main_user = User.objects.get(id=user.user_id)
             main_user.is_active = 1
             main_user.save()
-            return HttpResponseRedirect('/dashboard/')
+            return HttpResponseRedirect('/user/dashboard/')
     else:
         return HttpResponseRedirect('/accounts/confirm-email/')
 
