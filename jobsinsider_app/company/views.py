@@ -132,6 +132,14 @@ class CompanyListing(View):
         :param request:
         :return:
         """
+        CompanyProfile.objects.filter(user_id=request.user.id).update(
+            company_name=request.POST['company_name'],
+            your_role=request.POST['your_role'],
+            company_url=request.POST['company_url'],
+            company_industry=request.POST['company_industry']
+
+        )
+        return HttpResponse(json.dumps({'status':True}))
 
 class CompanyPassword(View):
     @method_decorator(login_required)
@@ -1505,3 +1513,18 @@ def pagination_page(page,data):
         # If page is out of range (e.g. 9999), deliver last page of results.
             data = paginator.page(paginator.num_pages)
         return data
+
+def company_profile_edit(request):
+    company = CompanyProfile.objects.filter(user_id=request.user.id)[0]
+    companyForm = CompanyProfileForm(
+        initial=(
+            {
+                'company_name':company.company_name,
+                'your_role': company.your_role,
+                'company_url': company.company_url,
+                'company_industry': company.company_industry
+            }
+        )
+    )
+    html = render_to_string('company_profile_edit.html', {'company': companyForm}, context_instance=RequestContext(request))
+    return HttpResponse(html)

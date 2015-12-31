@@ -144,6 +144,10 @@ TEMP_DIRECTORY_HOMEPAGE = [
     'templates/homepage',
 ]
 
+TEMP_DIRECTORY_COMPANY_PROFILE = [
+    'templates/company/company_profile',
+]
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -165,6 +169,7 @@ TEMPLATES = [
             BASE_DIR.join(TEMP_DIRECTORY_USERMESSAGES),
             BASE_DIR.join(TEMP_DIRECTORY_ADVERTISEMENT_ADMIN),
             BASE_DIR.join(TEMP_DIRECTORY_HOMEPAGE),
+            BASE_DIR.join(TEMP_DIRECTORY_COMPANY_PROFILE),
         ),
         'APP_DIRS': True,
         'OPTIONS': {

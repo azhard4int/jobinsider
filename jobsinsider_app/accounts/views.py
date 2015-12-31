@@ -81,8 +81,11 @@ def register(request):
                 user=user
             )
             user_activation.save()
-            sendemail_ = email.EmailFunc('activateaccount', **listvalue)
-            sendemail_.generic_email()
+            try:
+                sendemail_ = email.EmailFunc('activateaccount', **listvalue)
+                sendemail_.generic_email()
+            except:
+                pass
             status = {'status': STATUS_SUCCESS}
             return HttpResponse(json.dumps({'status': True}))
                 #return HttpResponseRedirect('/accounts/confirm-email/')
