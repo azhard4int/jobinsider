@@ -81,8 +81,11 @@ def register(request):
                 user=user
             )
             user_activation.save()
-            sendemail_ = email.EmailFunc('activateaccount', **listvalue)
-            sendemail_.generic_email()
+            try:
+                sendemail_ = email.EmailFunc('activateaccount', **listvalue)
+                sendemail_.generic_email()
+            except:
+                pass
             status = {'status': STATUS_SUCCESS}
             return HttpResponse(json.dumps({'status': True}))
                 #return HttpResponseRedirect('/accounts/confirm-email/')
@@ -289,7 +292,7 @@ def confirm_email(request):
             main_user = User.objects.get(id=user.user_id)
             main_user.is_active = 1
             main_user.save()
-            return HttpResponseRedirect('/dashboard/')
+            return HttpResponseRedirect('/user/dashboard/')
     else:
         return HttpResponseRedirect('/accounts/confirm-email/')
 

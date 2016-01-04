@@ -132,6 +132,14 @@ class CompanyListing(View):
         :param request:
         :return:
         """
+        CompanyProfile.objects.filter(user_id=request.user.id).update(
+            company_name=request.POST['company_name'],
+            your_role=request.POST['your_role'],
+            company_url=request.POST['company_url'],
+            company_industry=request.POST['company_industry']
+
+        )
+        return HttpResponse(json.dumps({'status':True}))
 
 class CompanyPassword(View):
     @method_decorator(login_required)
@@ -1443,11 +1451,14 @@ class View_all_notification(View):
            page = request.GET.get('page')
            query2 = pagination_page(page,query)
            if query and query2:
-               return render(request,'company_notification.html',{'data':query2,'user_is_company': True})
+               return render(request,'company_notification.html',{'data':query2,'user_is_company': True,
+                                                                  'body_status': is_body_status(request)})
            else :
-               return render(request,'company_notification.html',{'user_is_company': True})
+               return render(request,'company_notification.html',{'user_is_company': True,
+                                                                  'body_status': is_body_status(request)})
         except Exception as e:
-           return render(request,'company_notification.html',{'user_is_company': True})
+           return render(request,'company_notification.html',{'user_is_company': True,
+                                                              'body_status': is_body_status(request)})
 
 class Delete_notification(View):
 
@@ -1469,11 +1480,12 @@ class JobSeeker_View_all_notification(View):
            page = request.GET.get('page')
            query2 = pagination_page(page,query)
            if query and query2:
-               return render(request,'jobseeker_notification.html',{'data':query2})
+               return render(request,'jobseeker_notification.html',{'data':query2,
+                                                                    'body_status': is_body_status(request)})
            else :
-               return render(request,'jobseeker_notification.html')
+               return render(request,'jobseeker_notification.html', {'body_status': is_body_status(request)})
         except Exception as e:
-           return render(request,'jobseeker_notification.html')
+           return render(request,'jobseeker_notification.html', {'body_status': is_body_status(request)})
 
 
 class Jobseeker_Delete_notification(View):
@@ -1501,3 +1513,18 @@ def pagination_page(page,data):
         # If page is out of range (e.g. 9999), deliver last page of results.
             data = paginator.page(paginator.num_pages)
         return data
+
+def company_profile_edit(request):
+    company = CompanyProfile.objects.filter(user_id=request.user.id)[0]
+    companyForm = CompanyProfileForm(
+        initial=(
+            {
+                'company_name':company.company_name,
+                'your_role': company.your_role,
+                'company_url': company.company_url,
+                'company_industry': company.company_industry
+            }
+        )
+    )
+    html = render_to_string('company_profile_edit.html', {'company': companyForm}, context_instance=RequestContext(request))
+    return HttpResponse(html)

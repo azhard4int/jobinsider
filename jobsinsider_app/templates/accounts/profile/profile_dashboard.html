@@ -6,7 +6,7 @@
 
 {% endif %}slice:":2"
 {% block body_content %}
-    {% include 'profile_settings_base.html' %}
+    {% include 'base_dashboard_core.html' %}
     {% include 'notify_message.html' %}
 
 
@@ -90,7 +90,7 @@
                         </span>
                         </h4>
                         <h1>{{ job.job_title }}</h1>
-                        <p>{{ job.job_description|striptags|safe|truncatewords:20 }}</p>
+                        <p>{{ job.job_description|safe|striptags|truncatewords:20 }}</p>
                         <div class="clearfix"></div>
 
                     </div>

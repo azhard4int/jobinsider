@@ -43,10 +43,8 @@ urlpatterns = patterns(
     url(r'^user/notification_page/$',View_all_notification.as_view(),name='All-notification'),
     url(r'^delete/notification/$',Delete_notification.as_view(),name='delete-notification'),
     url(r'^delete/jobseeker/notification/$',Jobseeker_Delete_notification.as_view(),name='delete-notification'),
-    url(r'^user/jobseeker_notification_page/$',JobSeeker_View_all_notification.as_view(),name='Jobseeker-All-notification')
-
-
-
+    url(r'^user/jobseeker_notification_page/$',JobSeeker_View_all_notification.as_view(),name='Jobseeker-All-notification'),
+    url(r'^company_profile_edit/$',company_profile_edit,name='company_profile_edit')
     # url(r'^tinymce/', include('tinymce.urls')),
 
     # url(r'^messages/$', Messages.as_view(), name='posted_jobs'),

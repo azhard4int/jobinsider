@@ -1,0 +1,58 @@
+<div class="edit_company_col">
+    <div class="user-info-box">
+                        <form  action="" id="edit_company_col">
+                        {% csrf_token %}
+
+                            <div class="close_icon">
+                                <a href=""><i class="edit_company_close_btn fa fa-times fa-lg"></i></a>
+                            </div>
+                            <div class="clearfix"></div>
+                        <div class="whl">
+                                <fieldset>
+                                    <div class="col-md-12">
+                                        <div class="col-md-6">
+                                            {{company.company_name}}
+                                        </div>
+                                        <div class="col-md-6">
+                                            {{company.your_role}}
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <fieldset>
+                                    <div class="col-md-12">
+                                         <div class="col-md-6">
+                                            {{company.company_url}}
+                                        </div>
+                                        <div class="col-md-6">
+                                            {{company.company_industry}}
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <fieldset>
+                                    <div class="col-md-12">
+                                        <div class="col-md-6">
+                                            {{cv_employ.company_from}}
+                                        </div>
+                                        <div class="col-md-6">
+                                            {{cv_employ.company_to}}
+                                        </div>
+                                    </div>
+                                </fieldset>
+                        </div>
+            {#                <!--{{cv_employ.company_description}}-->#}
+                            <fieldset>
+
+                                <div class="clearfix"></div>
+                                <div class="col-md-9">
+                                    <div class="col-md-4">
+                                        <div class="mt_10">
+                                            <a href="javascript:;" class="company_info_edit main_btn">Edit Profile</a>
+                                        </div>
+        {#                                <input type="submit" id="submit-bio" value="Enter Information"/>#}
+                                    </div>
+
+                                </div>
+                            </fieldset>
+                    </form>
+                </div>
+</div>

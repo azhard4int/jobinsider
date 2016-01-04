@@ -9,11 +9,13 @@
 {% endblock %}
 {% block body_content %}
     {% include 'base_dashboard_core.html' %}
+    {% include 'notify_message.html' %}
+
 
 {#    {% block company_dash %}#}
 
 {#    {% endblock %}#}
-
+{% csrf_token %}
     <section id="list_companies ">
         <div class="container user_profile" >
 
@@ -45,6 +47,9 @@
                 </div>
                 <div class="clearfix"></div>
                 <div class="col-md-12">
+                    <div class="company_profile_edit">
+
+                    </div>
                     <table width="100%">
                         <thead>
                             <th>
@@ -61,6 +66,9 @@
                             </th>
                             <th>
                                 Status
+                            </th>
+                            <th>
+                                Actions
                             </th>
                         </thead>
                         <tbody>
@@ -86,6 +94,9 @@
                                         Inactive
                                     {% endif %}
                                 </td>
+                            <td>
+                                <a href="javascript:;" value="{{ data.id }}" class="edit_company_dialog">Edit</a>
+                            </td>
 
                             </tr>
                         {% endfor %}

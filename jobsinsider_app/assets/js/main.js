@@ -1064,6 +1064,59 @@ $('.emp_close_btn ').on('click', function(e)
     return false;
 });
 
+$('.edit_company_dialog').on('click', function(e)
+{
+    e.preventDefault();
+    $.ajax(
+        {
+            'url': '/company/company_profile_edit/',
+            'type': 'POST',
+            'data': {
+                csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
+            },
+            success:function(m)
+            {
+                $('.company_profile_edit').html(m);
+                $('.edit_company_col').show();
+            },
+            error:function(m)
+            {
+
+            }
+        }
+    );
+
+    return false;
+});
+$(document).on('click', '.company_info_edit', function(e)
+{
+    e.preventDefault();
+    $.ajax(
+        {
+            url:'/company/list/',
+            type: 'POST',
+            data: $('#edit_company_col').serialize(),
+            success:function(m)
+            {
+                resp = JSON.parse(m);
+                if (resp.status==true) {
+                    message_display('Your new details saved successfully!', 1);
+                    setTimeout(function () {
+                        window.location.reload(1);
+                    }, 1000);
+                }
+            }
+        }
+    )
+    return false;
+})
+$('.edit_company_close_btn ').on('click', function(e)
+{
+    e.preventDefault();
+    $('.edit_company_col').hide();
+    return false;
+});
+
 //resume show box
 $('.update_resume_user').on('click', function(e)
 {
@@ -2016,14 +2069,9 @@ $('.jobseeker_trashclass').on('click',function(e){
 
 
 
-
-$( document ).ready(function() {
-    try{
-    var div = $('.top_region_messages');
-    div.scrollTop( div.get(0).scrollHeight );
-    }
-    catch(e){
-        console.log(e);
-    }
-
-});
+//
+//$( document ).ready(function() {
+//
+//var div = $('.top_region_messages');
+//div.scrollTop( div.get(0).scrollHeight );
+//});

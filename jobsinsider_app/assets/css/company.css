@@ -316,7 +316,7 @@
 .badge-notify {
   background: red;
   position: relative;
-  top: -20px;
+  top: -16px;
   left: -35px;
 }
 .dashboard_s0_nav_main li {
@@ -388,4 +388,24 @@
   /*background: #FFFFFF;*/
   border: 1px solid white;
   color: #333;
+}
+.edit_company_col {
+  display: none;
+}
+.user_company_delete,
+.user_education_delete {
+  padding: 6px 15px;
+  background: #f02c0b;
+  color: #fff;
+  border-radius: 4px;
+}
+.user_company_delete:hover,
+.user_education_delete:hover {
+  text-decoration: none;
+  color: #fff;
+  background: #c12409;
+}
+.list_education_head {
+  padding-bottom: 30px;
+  clear: both;
 }
