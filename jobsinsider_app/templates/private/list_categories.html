@@ -46,7 +46,7 @@
 
     {% if count_category < 20 %}
 
-        <form method="post" action="" enctype="multipart/form-data" class="form-horizontal">
+        <form method="post" action="" id="add_category_admin" enctype="multipart/form-data" class="form-horizontal">
             {%csrf_token%}
 
 
@@ -94,7 +94,6 @@
             <td>Enable/Disable</td>
             <td>Delete</td>
 {#            <td>Add Skill</td>#}
-            <td>Details</td>
 
         </tr>
         </thead>
@@ -135,9 +134,9 @@
 {#                <td>#}
 {#                    <a class="add_category_skill" data-toggle="modal" data-target="#myModal" href="javascript:;" value="{{catvalue.id}}">Add Skill</a>#}
 {#                </td>#}
-                <td>
-                    <a class="details_cat_btn" href="javascript:;" value="{{catvalue.id}}">Details</a>
-                </td>
+{#                <td>#}
+{#                    <a class="details_cat_btn" href="javascript:;" value="{{catvalue.id}}">Details</a>#}
+{#                </td>#}
             </tr>
         {% endfor %}
         </tbody>

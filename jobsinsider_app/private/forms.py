@@ -17,15 +17,24 @@ class CategoryAdd(forms.ModelForm):
         widget=forms.TextInput(attrs={
             'placeholder':'Category Name',
             'class':'form-control',
+            'required': True
         })
     )
     category_status = forms.IntegerField(
-        widget=forms.TextInput(attrs={
+        widget=forms.NumberInput(attrs={
             'placeholder':'Category Status',
             'class':'form-control',
+            'required': True
+
         })
     )
-    category_image = forms.ImageField
+    category_image = forms.ImageField(
+        widget=forms.FileInput(attrs=
+        {
+            'accept': '.png, .jpg',
+            'required': 'true'
+        })
+    )
 
     class Meta:
         model = modelf.Categories
@@ -63,7 +72,8 @@ class EducationForm(forms.ModelForm):
         widget=forms.TextInput(attrs={
             'placeholder':'Education Type Name',
             'class':'form-control edu_text',
-            'width': '500px'
+            'width': '500px',
+            'required': True
         })
     )
 
@@ -79,7 +89,8 @@ class ExperienceForm(forms.ModelForm):
         widget=forms.TextInput(attrs={
             'placeholder':'Experience Type Name',
             'class':'form-control edu_text',
-            'width': '500px'
+            'width': '500px',
+            'required': 'true'
         })
     )
 
@@ -95,7 +106,8 @@ class EmploymentForm(forms.ModelForm):
         widget=forms.TextInput(attrs={
             'placeholder':'Employment Type Name',
             'class':'form-control edu_text',
-            'width': '500px'
+            'width': '500px',
+            'required': True
         })
     )
 

@@ -167,8 +167,6 @@ def process_cat_details(request):
 
 @login_required()
 def process_edit_form(request, editid):
-
-
     data = modeinsert.Categories.objects.getinfo(editid)
     if data:
         # print data
@@ -178,9 +176,9 @@ def process_edit_form(request, editid):
                 'id': data[0].id
             })
 
-        data_still = modeinsert.Skills.objects.listall(data[0].id)
-        print data_still
-        return render(request, 'edit_category.html', {'editform': cat_form, 'list_skills': data_still})
+        # data_still = modeinsert.Skills.objects.listall(data[0].id)
+        # print data_still
+        return render(request, 'edit_category.html', {'editform': cat_form, })
 
 @login_required()
 def process_category_edit(request):
@@ -636,6 +634,7 @@ def education_disable(request):
 def education_edit(request):
     if request.method=='POST':
         print request.POST['status']
+        print request.POST
         if request.POST['status']=='0':
             edu_id = modelf.Education.objects.filter(id=request.POST['education_id'])[0]
             return HttpResponse(json.dumps({'edu_id':edu_id.education_name}))
@@ -722,9 +721,9 @@ def employment_edit(request):
         print request.POST['status']
         if request.POST['status']=='0':
             emp_id = company_model.Employment.objects.filter(id=request.POST['employment_id'])[0]
-            return HttpResponse(json.dumps({'emp_id':emp_id.experience_name}))
+            return HttpResponse(json.dumps({'emp_id':emp_id.employment_name}))
         else:
-            modelf.Employment.objects.filter(id=request.POST['employment_id']).update(
+            company_model.Employment.objects.filter(id=request.POST['employment_id']).update(
                 employment_name=request.POST['edit_employment_name']
             )
             return HttpResponse(json.dumps({'emp_id':True}))

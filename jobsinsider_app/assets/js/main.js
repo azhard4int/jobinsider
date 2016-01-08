@@ -235,21 +235,28 @@ $('.addskill').on('click', function(event)
 $('.add_edu_type').on('click', function(event)
 {
     event.preventDefault();
-    $.ajax(
+    if($('#id_education_name').val=='')
+    {
+        alert('Please enter education type name');
+    }
+    else{
+        $.ajax(
         {
-            type:'post',
-            url:'/private/members/education/',
-            data: $('#add_edu_type_form').serialize(),
-            success:function(data)
-            {
-                resp = JSON.parse(data);
-                if(resp.status==true)
+                type:'post',
+                url:'/private/members/education/',
+                data: $('#add_edu_type_form').serialize(),
+                success:function(data)
                 {
-                    $('.info').html('Education Type Successfully Added');
+                    resp = JSON.parse(data);
+                    if(resp.status==true)
+                    {
+                        $('.info').html('Education Type Successfully Added');
+                    }
                 }
             }
-        }
-    );
+        );
+    }
+
 });
 
 
@@ -414,36 +421,112 @@ $('.edit_edu_type_btn').on('click', function(event)
 });
 
 
+//employment form new
+
+$('.edit_employment_btn_admin').on('click', function(event)
+{
+    valuedata = ($(this).attr('value'));
+
+    $.ajax({
+        url: '/private/members/employment/edit/',
+        type: 'POST',
+        data: {
+            'employment_id': valuedata,
+            'status': 0,
+             csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value
+        },
+        success:function(data)
+        {
+            response = JSON.parse(data);
+            if(response.emp_id==true)
+            {
+                window.location.reload();
+            }
+            $('.employment_id_value').attr('value', valuedata)
+            $('.e_e_name').attr('value', response.emp_id)
+
+        },
+        error: function(response)
+        {
+
+        }
+    });
+});
+
+
+$('.edit_employment_type_btn').on('click', function(event)
+{
+    event.preventDefault();
+    if($('.e_e_name').val()=='')
+    {
+        alert('Please enter employment type');
+    }
+    else{
+        $.ajax(
+            {
+                type:'post',
+                url:'/private/members/employment/edit/',
+                data: $('#edit_exp_type_form').serialize(),
+                success:function(data)
+                {
+                    resp = JSON.parse(data);
+                    if(resp.exp_id==true)
+                    {
+                        $('.info').html('Experience Type Successfully Added');
+                    }
+                }
+            }
+        );
+    }
+});
+
 //experience button
 
 $('.add_exp_type').on('click', function(event)
 {
 
-    var type_value = $(this).attr('id');
-    if(type_value=='experience_type')
+    if($('#id_experience_name').val()=='')
     {
-        data_url = '/private/members/experience/';
-    }
-    else{
-        data_url = '/private/members/employment/';
-    }
+        alert('Please enter experience');
 
-    event.preventDefault();
-    $.ajax(
-        {
-            type:'post',
-            url:data_url,
-            data: $('#add_exp_type_form').serialize(),
-            success:function(data)
+    }
+    else if($('#id_employment_name').val()=='')
+    {
+        alert('Please enter employment type');
+    }
+    else {
+
+
+        var type_value = $(this).attr('id');
+        if (type_value == 'experience_type') {
+            data_url = '/private/members/experience/';
+        }
+        else {
+            data_url = '/private/members/employment/';
+        }
+
+
+        event.preventDefault();
+        $.ajax(
             {
-                resp = JSON.parse(data);
-                if(resp.status==true)
-                {
-                    $('.info').html('Experience Type Successfully Added');
+                type: 'post',
+                url: data_url,
+                data: $('#add_exp_type_form').serialize(),
+                success: function (data) {
+                    resp = JSON.parse(data);
+                    if (resp.status == true) {
+                        if (type_value == 'experience_type') {
+                            $('.info').html('Experience Type Successfully Added');
+                        }
+                        else{
+                            $('.info').html('Education Type Successfully Added');
+                        }
+
+                    }
                 }
             }
-        }
-    );
+        );
+    }
 });
 
 $('.experience_manage').on('click', function(event) {
@@ -489,21 +572,28 @@ $('.experience_manage').on('click', function(event) {
 $('.edit_exp_type_btn').on('click', function(event)
 {
     event.preventDefault();
-    $.ajax(
-        {
-            type:'post',
-            url:'/private/members/experience/edit/',
-            data: $('#edit_exp_type_form').serialize(),
-            success:function(data)
+    if($('.e_e_name').val=='')
+    {
+        alert('Please enter experience type');
+    }
+    else{
+        $.ajax(
             {
-                resp = JSON.parse(data);
-                if(resp.exp_id==true)
+                type:'post',
+                url:'/private/members/experience/edit/',
+                data: $('#edit_exp_type_form').serialize(),
+                success:function(data)
                 {
-                    $('.info').html('Experience Type Successfully Added');
+                    resp = JSON.parse(data);
+                    if(resp.exp_id==true)
+                    {
+                        $('.info').html('Experience Type Successfully Added');
+                    }
                 }
             }
-        }
-    );
+        );
+    }
+
 });
 
 
@@ -1532,21 +1622,12 @@ $('.shorlist__candidate__remove__all').on('click', function(e){
     });
     return false;
 });
-$('id_company_from').datepicker(
-    {
-        //autoclose: True
-    }
-);
-    $("#id_company_from").datepicker({
-        onSelect: function(selected) {
-          $("#id_company_to").datepicker("option","minDate", selected)
-        }
-    });
-    $("#id_company_to").datepicker({
-        onSelect: function(selected) {
-           $("#id_company_from").datepicker("option","maxDate", selected)
-        }
-    });
+//$('id_company_from').datepicker(
+//    {
+//        //autoclose: True
+//    }
+//);
+
 
 $('.search__field__evaluation').on('click', function(e){
     e.preventDefault();
@@ -2059,7 +2140,16 @@ $('.jobseeker_trashclass').on('click',function(e){
     });
 
 });
-
+$("#id_company_from").datepicker({
+        onSelect: function(selected) {
+          $("#id_company_to").datepicker("option","minDate", selected)
+        }
+    });
+    $("#id_company_to").datepicker({
+        onSelect: function(selected) {
+           $("#id_company_from").datepicker("option","maxDate", selected)
+        }
+    });
 
 
 //

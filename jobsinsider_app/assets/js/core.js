@@ -258,7 +258,8 @@ $('.disable_cat_btn').on('click', function(event)
             response = JSON.parse(response);
             if (response.status=='True')
             {
-                $('.display_message').html('Campaign Status Enabled');
+                //$('.display_message').html('Campaign Status Enabled');
+                window.location.reload();
 
             }
         },
@@ -286,7 +287,8 @@ $('.enable_cat_btn').on('click', function(event)
             response = JSON.parse(response);
             if (response.status=='True')
             {
-                $('.display_message').html('Campaign Status Enabled');
+                window.location.reload();
+                //$('.display_message').html('Campaign Status Enabled');
 
             }
         },
@@ -315,7 +317,8 @@ $('.delete_cat_btn').on('click', function(event)
             response = JSON.parse(response);
             if (response.status=='True')
             {
-                $('.display_message').html('Category Deleted Successfully!');
+                window.location.reload();
+                //$('.display_message').html('Category Deleted Successfully!');
 
             }
         },

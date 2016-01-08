@@ -11,7 +11,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">New Experience Ty</h4>
+        <h4 class="modal-title" id="myModalLabel">New Experience </h4>
       </div>
         <form action="" id="add_exp_type_form">
               <div class="modal-body">
@@ -51,7 +51,7 @@
                                 {% csrf_token %}
                                 <input type="hidden" name="status" value="1">
                                 <input type="hidden" name="experience_id" class="education_id_value">
-                                <input type="text" style="width:500px;" name="edit_experience_name" class="form-control e_e_name">
+                                <input type="text" required="true" style="width:500px;" name="edit_experience_name" class="form-control e_e_name">
                             </div>
                         </div>
                       </div>
