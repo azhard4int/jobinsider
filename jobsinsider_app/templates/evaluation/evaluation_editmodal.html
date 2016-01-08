@@ -25,14 +25,14 @@
        <input type="hidden" value="" name="evaluation_test_template_id" id="evaluation_test_template_id">
 
       <div class = "col-sm-9">
-         <input type = "text" class = "form-control" id = "edit_eva_title" name = "edit_eva_title" placeholder = "Evaluation Title" value = "">
+         <input type = "text" data-validate="required,alphaNumeric"  required="true" class = "form-control" id = "edit_eva_title" name = "edit_eva_title" placeholder = "Evaluation Title" value = "">
       </div>
    </div>
 
    <div class="form-group">
         <label class="col-sm-3 control-label">Description</label>
         <div class="col-sm-9">
-            <textarea class="form-control" id="edit_eva_description" name="edit_eva_description" rows="5" style="resize: vertical;"></textarea>
+            <textarea data-validate="required,alphaNumeric"  class="form-control" required="true" id="edit_eva_description" name="edit_eva_description" rows="5" style="resize: vertical;"></textarea>
         </div>
         <div class="col-xs-5 messageContainer"></div>
     </div>
@@ -40,7 +40,7 @@
     <div class="form-group">
         <label class="col-sm-3 control-label">Rules</label>
         <div class="col-sm-9">
-            <textarea class="form-control" id="edit_eva_rules" name="edit_eva_rules" rows="5" style="resize: vertical;"></textarea>
+            <textarea class="form-control" required="true" id="edit_eva_rules" name="edit_eva_rules" rows="5" style="resize: vertical;"></textarea>
         </div>
         <div class="col-xs-5 messageContainer"></div>
     </div>
@@ -49,7 +49,7 @@
       <label for = "eva_cat" class = "col-sm-3 control-label">Catagory</label>
 
       <div class = "col-sm-9">
-         <input type = "text" class = "form-control" id = "edit_eva_cat" name = "edit_eva_cat" placeholder = "Type Catagory">
+         <input type = "text" class = "form-control" required="true" id = "edit_eva_cat" name = "edit_eva_cat" placeholder = "Type Category">
       </div>
    </div>
 
@@ -88,7 +88,7 @@
       <label for = "eva_number" class = "col-sm-3 control-label">Time</label>
 
       <div class = "col-sm-9">
-         <input type = "text" class = "form-control" id = "edit_eva_time" name = "edit_eva_time" placeholder = "Enter Time in minutes">
+         <input type = "number" required="true" class = "form-control" id = "edit_eva_time" name = "edit_eva_time" placeholder = "Enter Time in minutes">
       </div>
    </div>
 
@@ -97,7 +97,7 @@
       <label for = "eva_number" class = "col-sm-3 control-label">Total Questions</label>
 
       <div class = "col-sm-9">
-         <input type = "text" class = "form-control" id = "edit_eva_number" name = "edit_eva_number" placeholder = "Total Number of Questions">
+         <input type = "number" required="true" class = "form-control" id = "edit_eva_number" name = "edit_eva_number" placeholder = "Total Number of Questions">
       </div>
    </div>
          <div class = "modal-footer">

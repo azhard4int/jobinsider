@@ -105,6 +105,8 @@ var numberofquestion;
 $('#add_question_button').on('click', function(event)
 
      {
+
+
          var selected=$("input[name='radio']:checked").val();
           alert(selected);
          if(selected == 1){
@@ -133,6 +135,11 @@ $('#add_question_button').on('click', function(event)
          console.log(count);
          $("#headingtop1").text("You have added: "+ count);
     event.preventDefault();
+
+         if($('#question').val=='')
+         {
+             alert('Please enter the question');
+         }
     $.ajax(
         {
             url: '/evaluation/addquestions/',

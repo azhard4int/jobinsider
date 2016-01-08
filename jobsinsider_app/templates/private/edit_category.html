@@ -25,28 +25,28 @@
 
 
             <table width="100%">
-                <thead>
-                <td>Name</td>
-                <td>Edit</td>
-                <td>Status</td>
-                <td>Action</td>
-                </thead>
-            {%  if list_skills %}
-                {% for skill in list_skills %}
-                    <tr>
-                        <td>{{skill.skill_name}}</td>
-                        <td ><a href="javascript:;" class="edit_skill_btn" value="{{skill.id}}">Edit</a></td>
-                        {% if skill.skill_status == 0 %}
-                        <td><a href="javascript:;" class="enable_skill_btn" value="{{skill.id}}">Enable</a></td>
-
-                        {% else %}
-                        <td ><a href="javascript:;" class="disable_skill_btn" value="{{skill.id}}">disable</a></td>
-
-                        {% endif %}
-                        <td><a href="javascript:;" class="delete_skill_btn" value="{{skill.id}}">Delete</a></td>
-                </tr>
-                {% endfor %}
-            {% endif %}
+{#                <thead>#}
+{#                <td>Name</td>#}
+{#                <td>Edit</td>#}
+{#                <td>Status</td>#}
+{#                <td>Action</td>#}
+{#                </thead>#}
+{#            {%  if list_skills %}#}
+{#                {% for skill in list_skills %}#}
+{#                    <tr>#}
+{#                        <td>{{skill.skill_name}}</td>#}
+{#                        <td ><a href="javascript:;" class="edit_skill_btn" value="{{skill.id}}">Edit</a></td>#}
+{#                        {% if skill.skill_status == 0 %}#}
+{#                        <td><a href="javascript:;" class="enable_skill_btn" value="{{skill.id}}">Enable</a></td>#}
+{##}
+{#                        {% else %}#}
+{#                        <td ><a href="javascript:;" class="disable_skill_btn" value="{{skill.id}}">disable</a></td>#}
+{##}
+{#                        {% endif %}#}
+{#                        <td><a href="javascript:;" class="delete_skill_btn" value="{{skill.id}}">Delete</a></td>#}
+{#                </tr>#}
+{#                {% endfor %}#}
+{#            {% endif %}#}
             </table>
 
 
