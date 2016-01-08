@@ -1148,6 +1148,11 @@ $('.job_advertisement').on('click', function(event)
         else{
             evaluation_id = $('.evaluation_template').val();
         }
+        if($('#id_salary_from').val()>$('#id_salary_to').val())
+    {
+        alert('Salary from can not be greater than salary to!');
+    }
+        else{
         $.ajax(
             {
                 url:'/company/create-job/',
@@ -1173,6 +1178,8 @@ $('.job_advertisement').on('click', function(event)
                 }
             }
         );
+        }
+
     }
     return false;
 });

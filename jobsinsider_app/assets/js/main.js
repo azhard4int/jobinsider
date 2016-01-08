@@ -403,21 +403,33 @@ $('.e_edit_btn').on('click', function(event)
 $('.edit_edu_type_btn').on('click', function(event)
 {
     event.preventDefault();
-    $.ajax(
-        {
-            type:'post',
-            url:'/private/members/education/edit/',
-            data: $('#edit_edu_type_form').serialize(),
-            success:function(data)
+    if($('.e_e_name').val=='')
+    {
+        alert('Please enter education type');
+    }
+    else if($('.e_e_name').attr('value')=='')
+    {
+        alert('Please enter education type');
+    }
+    else
+    {
+        $.ajax(
             {
-                resp = JSON.parse(data);
-                if(resp.status==true)
+                type:'post',
+                url:'/private/members/education/edit/',
+                data: $('#edit_edu_type_form').serialize(),
+                success:function(data)
                 {
-                    $('.info').html('Education Type Successfully Added');
+                    resp = JSON.parse(data);
+                    if(resp.status==true)
+                    {
+                        $('.info').html('Education Type Successfully Added');
+                    }
                 }
             }
-        }
-    );
+        );
+    }
+
 });
 
 
